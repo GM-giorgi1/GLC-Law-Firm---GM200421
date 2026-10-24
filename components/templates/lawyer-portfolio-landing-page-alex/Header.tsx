@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -99,54 +99,69 @@ const brandLogos = [
 
 const duplicatedLogos = [...brandLogos, ...brandLogos, ...brandLogos, ...brandLogos];
 
-// Letter-by-letter blurry wave reveal without breaking words
+// Fluid cinematic slow scroll-triggered or mount-triggered blurry wave reveal
 function BlurWaveText({
   text,
   className = '',
-  delay = 0.2,
+  delay = 0.05,
+  highlightWord = '',
+  highlightClass = 'text-[#D3AF37]',
+  triggerMode = 'scroll',
 }: {
   text: string;
   className?: string;
   delay?: number;
+  highlightWord?: string;
+  highlightClass?: string;
+  triggerMode?: 'scroll' | 'mount';
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
+  const isMount = triggerMode === 'mount';
+
   return (
     <motion.span
+      key={text}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
+      animate={isMount ? 'visible' : undefined}
+      whileInView={!isMount ? 'visible' : undefined}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.03,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
       }}
       className={`inline-block ${className}`}
     >
-      {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
-          {Array.from(word).map((char, charIndex) => (
-            <motion.span
-              key={charIndex}
-              variants={{
-                hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                visible: {
-                  opacity: 1,
-                  filter: 'blur(0px)',
-                  y: 0,
-                  transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
+      {words.map((word, wordIndex) => {
+        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
+        return (
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
                 },
-              }}
-              className="inline-block pb-[0.14em]"
-            >
-              {char}
-            </motion.span>
-          ))}
-        </span>
-      ))}
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.24em] will-change-[transform,opacity,filter] ${
+              isHighlighted ? highlightClass : ''
+            }`}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
     </motion.span>
   );
 }
@@ -203,11 +218,25 @@ export default function Header() {
   // Exact horizontal padding matching selected div container (px-6=48px, md:px-12=96px, lg:px-[90px]=180px)
   const containerPadding = isMobile ? 48 : (isTablet ? 96 : 180);
   const heroWidth = Math.max(280, windowWidth - containerPadding);
-  const heroHeight = heroWidth / 5.188; // 1406x271 native aspect ratio
+  // Refined proportional height for the brand watermark to prevent taking up excessive vertical screen space
+  const heroHeight = Math.min(isMobile ? 54 : (isTablet ? 78 : 110), Math.max(42, heroWidth / 7.6));
 
-  // Starting coordinate (at bottom of header)
-  const bottomPadding = isMobile ? 12 : 20;
-  const initialTop = Math.max(140, windowHeight - heroHeight - bottomPadding);
+  // Dynamic content measurement to guarantee the watermark NEVER collides or overlaps with the button in any language
+  const middleContentRef = useRef<HTMLDivElement>(null);
+  const [contentBottom, setContentBottom] = useState(480);
+
+  useEffect(() => {
+    if (middleContentRef.current) {
+      const calculatedBottom = middleContentRef.current.offsetTop + middleContentRef.current.offsetHeight;
+      setContentBottom(Math.max(420, calculatedBottom));
+    }
+  }, [language, windowWidth, windowHeight]);
+
+  // Starting coordinate (at bottom of header, with guaranteed safe spacing below the button)
+  const bottomPadding = isMobile ? 12 : 24;
+  const safeTopFromContent = contentBottom + (isMobile ? 20 : 32);
+  const naturalBottomTop = windowHeight - heroHeight - bottomPadding;
+  const initialTop = Math.max(safeTopFromContent, naturalBottomTop);
 
   // Target coordinate (middle alignment of fixed top navbar, with smaller height as requested)
   const navBarHeight = isMobile ? 56 : 64;
@@ -286,7 +315,7 @@ export default function Header() {
         .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
       `}</style>
 
-      <header className="relative w-full min-h-screen lg:h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col justify-between overflow-hidden select-none">
+      <header className="relative w-full min-h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col justify-between overflow-hidden select-none pb-6 sm:pb-8 lg:pb-12">
       {/* Background Image Layer with Cinematic Dark Moody Lighting */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -308,7 +337,7 @@ export default function Header() {
       {/* Outer Viewport Container - Full Width with specific padding */}
       <div 
         className="relative z-10 w-full max-w-full h-full min-h-screen flex flex-col justify-between px-6 md:px-12 lg:px-[90px] box-border"
-        style={{ paddingTop: '8px', paddingBottom: '12px' }}
+        style={{ paddingTop: '8px', paddingBottom: '16px' }}
       >
         
         {/* ================= TOP NAVIGATION ROW ================= */}
@@ -328,13 +357,13 @@ export default function Header() {
           <div 
             className="cursor-pointer flex items-center group shrink-0 transition-transform duration-300 hover:scale-105 active:scale-95 gap-2.5 sm:gap-3"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            title="GLC Law Firm - Back to Top"
+            title="GLC Law Company - Back to Top"
             aria-label="Back to Top"
           >
             <div className="w-8 h-8 md:w-9 md:h-9 relative flex items-center justify-center shrink-0">
               <Image 
                 src="https://cdn.jiro.build/Alex/All%20SVG/nav%20left%20top%20icon.svg"
-                alt="GLC Law Firm"
+                alt="GLC Law Company"
                 width={36}
                 height={36}
                 priority
@@ -343,9 +372,9 @@ export default function Header() {
               />
             </div>
             {/* Tablet & Mobile: Name placed directly to the right of the icon */}
-            <div className="flex lg:hidden items-center h-5 sm:h-6 md:h-7 w-auto max-w-[130px] sm:max-w-[180px] md:max-w-[220px]">
+            <div className="flex lg:hidden items-center h-5 sm:h-6 md:h-7 w-auto max-w-[140px] sm:max-w-[200px] md:max-w-[240px]">
               <span className="font-antonio font-bold tracking-tight text-[#D3AF37] uppercase text-lg sm:text-xl md:text-2xl whitespace-nowrap">
-                GLC Law Firm
+                GLC Law Company
               </span>
             </div>
           </div>
@@ -441,7 +470,8 @@ export default function Header() {
 
         {/* ================= MIDDLE CONTENT ROW ================= */}
         <div 
-          className="w-full mt-16 sm:mt-20 md:mt-24 lg:mt-24 mb-auto pt-2 pb-6 md:pb-8 lg:py-0 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 lg:gap-12"
+          ref={middleContentRef}
+          className="w-full mt-16 sm:mt-20 md:mt-22 lg:mt-24 mb-auto pt-2 pb-6 md:pb-8 lg:pb-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 lg:gap-12"
           style={{
             opacity: Math.max(0, 1 - scrollY / 350),
             transform: scrollY > 0 ? `translateY(-${Math.min(80, scrollY * 0.2)}px)` : 'none',
@@ -450,20 +480,21 @@ export default function Header() {
           
           {/* Left Text Block */}
           <motion.div 
+            layout="position"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-start gap-8 md:gap-10 max-w-full lg:max-w-[660px]"
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-start gap-5 sm:gap-6 md:gap-7 max-w-full lg:max-w-[620px]"
           >
             {/* Main Title */}
-            <h1 className="font-inter-tight font-medium text-4xl sm:text-5xl lg:text-[60px] leading-[1.22] lg:leading-[1.28] pb-1 tracking-[-0.02em] text-[#FFFEFE]">
-              <BlurWaveText text={tr.hero.mainTitle} delay={0.2} />
+            <h1 className="font-inter-tight font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[44px] xl:text-[50px] leading-[1.22] pb-1 tracking-tight text-[#FFFEFE]">
+              <BlurWaveText text={tr.hero.mainTitle} delay={0.15} triggerMode="mount" />
             </h1>
 
             {/* Subheading Row */}
-            <div className="flex flex-row items-start gap-4">
+            <div className="flex flex-row items-start gap-3.5 sm:gap-4 max-w-[560px]">
               {/* Pillar Icon Frame */}
-              <div className="w-6 h-6 shrink-0 mt-1 relative flex items-center justify-center">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 mt-0.5 relative flex items-center justify-center">
                 <svg 
                   viewBox="0 0 24 24" 
                   fill="none" 
@@ -479,9 +510,37 @@ export default function Header() {
               </div>
 
               {/* Subheading Text */}
-              <p className="font-inter-tight font-medium text-xl sm:text-2xl lg:text-[28px] leading-[1.2] tracking-[-0.03em] text-[#FFFEFE]/90 max-w-[340px] sm:max-w-[420px]">
+              <p className="font-inter-tight font-normal text-xs sm:text-sm lg:text-[15px] leading-[1.6] text-[#FFFEFE]/85">
                 {tr.hero.subheading}
               </p>
+            </div>
+
+            {/* Primary Consultation Booking CTA Button - Structured with Flexbox with safe gap & relative positioning */}
+            <div className="w-full sm:w-auto pt-2 pb-1 relative z-20">
+              <motion.div 
+                layout="position"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: 0.3, 
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setIsBookingOpen(true)}
+                className="inline-flex items-center py-2.5 px-4 sm:py-3 sm:px-6 gap-3 bg-[#030405]/90 hover:bg-[#030405] border border-[#D3AF37]/60 hover:border-[#D3AF37] shadow-[0px_8px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(211,175,55,0.15)] rounded-xl sm:rounded-2xl cursor-pointer pointer-events-auto transition-all duration-300 group select-none"
+              >
+                {/* White Square Icon Box */}
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#D3AF37] transition-colors duration-300">
+                  <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#030405] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                </div>
+
+                {/* Button Label in Antonio Google Font */}
+                <span className="font-antonio font-bold text-base sm:text-xl md:text-2xl leading-tight tracking-[-0.02em] text-[#D3AF37] group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+                  {tr.hero.bookConsultation}
+                </span>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -509,11 +568,13 @@ export default function Header() {
                 </svg>
               </div>
 
-              <div className="flex flex-col">
-                <span className="text-[12px] uppercase tracking-[0.2em] font-semibold text-[#FAFAFB]/60 font-inter-tight">
-                  {tr.hero.memberBadge}
-                </span>
-                <span className="font-antonio font-bold text-[18px] tracking-wider text-[#D3AF37] uppercase">
+              <div className="flex flex-col items-center text-center">
+                {tr.hero.memberBadge ? (
+                  <span className="text-[12px] uppercase tracking-[0.2em] font-semibold text-[#FAFAFB]/60 font-inter-tight">
+                    {tr.hero.memberBadge}
+                  </span>
+                ) : null}
+                <span className="font-antonio font-bold text-[16px] sm:text-[18px] tracking-wider text-[#D3AF37] uppercase leading-snug">
                   {tr.hero.barAssociation}
                 </span>
               </div>
@@ -543,8 +604,8 @@ export default function Header() {
 
 
         {/* ================= TABLET & MOBILE BOTTOM ROW (STAYS AT BOTTOM, NEVER TRAVELS TO TOP ON SCROLL) ================= */}
-        <div className="block lg:hidden w-full relative z-20 pb-4 sm:pb-6 md:pb-8 pt-4 select-none">
-          <div className="relative w-full flex items-center justify-center">
+        <div className="block lg:hidden w-full relative z-20 pb-4 sm:pb-6 md:pb-8 pt-2 select-none">
+          <div className="relative w-full flex flex-col items-center justify-center">
             {/* Giant Typography / Name Vector */}
             <div 
               className="w-full flex items-center justify-center"
@@ -557,43 +618,12 @@ export default function Header() {
               <span 
                 className="font-antonio font-bold tracking-tighter text-[#D3AF37] uppercase leading-none block select-none whitespace-nowrap text-center"
                 style={{
-                  fontSize: `${Math.max(32, heroHeight * 0.72)}px`,
+                  fontSize: `${Math.max(26, heroHeight * 0.72)}px`,
                 }}
               >
-                GLC Law Firm
+                GLC Law Company
               </span>
             </div>
-
-            {/* Rotated Consultation Button Floating Over the Name Banner */}
-            <motion.div 
-              initial={{ opacity: 0, y: -140, rotate: -18, scale: 0.9 }}
-              animate={{ 
-                opacity: scrollY > 180 ? 0 : 1,
-                y: scrollY > 180 ? -140 : 0,
-                rotate: -18,
-                scale: scrollY > 180 ? 0.9 : 1,
-              }}
-              transition={{ 
-                duration: 1.0, 
-                delay: scrollY > 180 ? 0 : 0.3, 
-                ease: [0.16, 1, 0.3, 1] 
-              }}
-              whileHover={{ rotate: -12, scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsBookingOpen(true)}
-              className="absolute top-1/2 -translate-y-1/2 z-20 flex flex-row items-center p-1.5 sm:p-2 pr-3.5 sm:pr-5 gap-2 sm:gap-3 bg-[#030405] border border-white/10 shadow-[0px_10px_40px_rgba(0,0,0,0.85)] rounded-xl sm:rounded-2xl cursor-pointer pointer-events-auto"
-              style={{ transformOrigin: 'center center' }}
-            >
-              {/* White Square Icon Box */}
-              <div className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-white rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-[#030405]" />
-              </div>
-
-              {/* Button Label in Antonio Google Font */}
-              <span className="font-antonio font-bold text-lg sm:text-2xl md:text-3xl leading-tight tracking-[-0.03em] text-[#D3AF37] whitespace-nowrap">
-                {tr.hero.bookConsultation}
-              </span>
-            </motion.div>
           </div>
         </div>
 
@@ -630,48 +660,9 @@ export default function Header() {
                 fontSize: `${Math.max(18, currentHeight * 0.7)}px`,
               }}
             >
-              GLC Law Firm
+              GLC Law Company
             </span>
           </div>
-
-          {/* Rotated CTA Button Floating Over the Name Banner */}
-          <motion.div 
-            initial={{ opacity: 0, y: -160, rotate: -20, scale: 0.9 }}
-            animate={{ 
-              opacity: t > 0.12 ? 0 : 1,
-              y: t > 0.12 ? -160 : 0,
-              rotate: -20,
-              scale: t > 0.12 ? 0.9 : 1,
-            }}
-            transition={{ 
-              duration: 1.0, 
-              delay: t > 0.12 ? 0 : 0.3, 
-              ease: [0.16, 1, 0.3, 1] 
-            }}
-            whileHover={t < 0.12 ? { rotate: -15, scale: 1.05, y: -4 } : {}}
-            whileTap={t < 0.12 ? { scale: 0.96 } : {}}
-            drag={t < 0.12}
-            dragConstraints={{ left: -100, right: 100, top: -50, bottom: 50 }}
-            onClick={() => t < 0.12 && setIsBookingOpen(true)}
-            className={`absolute top-1/2 -translate-y-1/2 z-20 flex flex-row items-center p-2 pr-5 gap-3 bg-[#030405] border border-white/10 shadow-[0px_10px_50px_rgba(0,0,0,0.8)] rounded-2xl group ${
-              t < 0.12 ? 'pointer-events-auto cursor-pointer' : 'pointer-events-none'
-            }`}
-            style={{ 
-              transformOrigin: 'center center',
-              display: t > 0.25 ? 'none' : 'flex',
-            }}
-          >
-            {/* White Square Icon Box */}
-            <div className="w-12 h-12 sm:w-[62px] sm:h-[62px] bg-white rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#D3AF37] transition-colors duration-300">
-              <ArrowUpRight className="w-6 h-6 sm:w-8 sm:h-8 text-[#030405] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-            </div>
-
-            {/* Button Label in Antonio Google Font */}
-            <span className="font-antonio font-bold text-xl sm:text-3xl md:text-[36px] leading-tight tracking-[-0.04em] text-[#D3AF37] group-hover:text-white transition-colors duration-300 whitespace-nowrap">
-              {tr.hero.bookConsultation}
-            </span>
-          </motion.div>
-
         </div>
 
       </div>
@@ -692,7 +683,7 @@ export default function Header() {
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-8 h-8 text-[#D3AF37]" />
                 <span className="font-antonio font-bold text-2xl tracking-wider text-[#D3AF37]">
-                  GLC LAW FIRM
+                  GLC LAW COMPANY
                 </span>
               </div>
 
@@ -763,7 +754,7 @@ export default function Header() {
                     {tr.nav.officeHeadquarters}
                   </span>
                   <h3 className="font-antonio text-2xl font-bold text-white mb-4">
-                    GLC LAW FIRM
+                    GLC LAW COMPANY
                   </h3>
                   <div className="space-y-4 text-sm text-gray-300 font-inter-tight">
                     <a
@@ -995,13 +986,13 @@ export default function Header() {
 
       </header>
 
-      {/* Second Section: Brand Logos Marquee + Trusted Experienced Strategic */}
-      <section className="relative w-full bg-[#0C0D0D] text-[#FAFAFB] pt-[64px] pb-[80px] overflow-hidden">
+      {/* Second Section: Brand Logos Marquee + Refined Legal Authority Hierarchy */}
+      <section className="relative w-full bg-[#0C0D0D] text-[#FAFAFB] py-12 sm:py-16 md:py-20 overflow-hidden">
         {/* Subtle Ambient Gold Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#D3AF37]/[0.03] rounded-full blur-[140px] pointer-events-none" />
 
         {/* Top Running Brand Logos (Right to Left Marquee) */}
-        <div className="relative w-full overflow-hidden mb-16 sm:mb-24">
+        <div className="relative w-full overflow-hidden mb-10 sm:mb-14">
           {/* Soft edge fade masks for high-end cinematic feel */}
           <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-r from-[#0C0D0D] to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-l from-[#0C0D0D] to-transparent z-10 pointer-events-none" />
@@ -1034,29 +1025,47 @@ export default function Header() {
           </motion.div>
         </div>
 
-        {/* Content Container */}
-        <div className="relative z-10 max-w-[1240px] mx-auto px-6 sm:px-8 md:px-12 flex flex-col items-center text-center">
-          {/* Main Heading Text */}
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="font-antonio font-bold text-3xl sm:text-5xl md:text-6xl lg:text-[72px] tracking-[-0.01em] uppercase text-[#FFFEFE] leading-[1.15] mb-6 sm:mb-8 md:mb-10"
+        {/* Content Container - Compact and Well-Proportioned Typography Hierarchy */}
+        <div className="relative z-10 max-w-[1080px] mx-auto px-6 sm:px-8 md:px-12 flex flex-col items-center text-center">
+          
+          {/* 1. Sub-line / Area Callout: Relatively smaller and refined */}
+          <motion.div
+            initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 1.1, ease: [0.25, 1, 0.5, 1] }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D3AF37]/10 border border-[#D3AF37]/30 text-[#D3AF37] text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase font-inter-tight mb-4 sm:mb-5 shadow-xs select-none will-change-[transform,opacity,filter]"
           >
-            {tr.hero.trustHeadline}
-          </motion.h2>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37]" />
+            <span>{tr.hero.section2Subline || 'სამოქალაქო და ადმინისტრაციული დავები'}</span>
+          </motion.div>
 
-          {/* Body Text */}
-          <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="font-inter-tight font-normal text-base sm:text-lg md:text-xl text-[#FAFAFB]/75 max-w-[880px] leading-[1.7] sm:leading-[1.8] tracking-[-0.01em]"
-          >
-            {tr.hero.trustParagraph}
-          </motion.p>
+          {/* 2. Lead Header: Prominent, elegant and scroll-triggered blur/fade text reveal */}
+          <h2 className="font-antonio font-bold text-2xl sm:text-4xl md:text-5xl lg:text-[54px] tracking-tight uppercase text-white leading-[1.2] max-w-[880px] mb-4 sm:mb-5">
+            <BlurWaveText
+              text={tr.hero.section2Badge || 'სისხლის სამართალში 2005 წლიდან'}
+              delay={0.08}
+              triggerMode="scroll"
+            />
+          </h2>
+
+          {/* Decorative Gold Accent Bar */}
+          <motion.div 
+            initial={{ scaleX: 0, opacity: 0 }}
+            whileInView={{ scaleX: 1, opacity: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="w-14 sm:w-16 h-[2px] bg-gradient-to-r from-transparent via-[#D3AF37] to-transparent mb-4 sm:mb-5"
+          />
+
+          {/* 3. Narrative Tagline: Fluid scroll-triggered text reveal */}
+          <p className="font-inter-tight font-normal text-sm sm:text-base md:text-lg text-white/75 max-w-[740px] leading-[1.65] sm:leading-[1.75] tracking-normal">
+            <BlurWaveText
+              text={tr.hero.section2Tagline || tr.hero.trustParagraph}
+              delay={0.15}
+              triggerMode="scroll"
+            />
+          </p>
         </div>
       </section>
     </>

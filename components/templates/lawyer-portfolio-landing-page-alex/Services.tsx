@@ -22,66 +22,18 @@ interface ServiceItem {
 
 const servicesData: ServiceItem[] = [
   {
-    id: 'business-law',
-    categoryNumber: '01.',
-    categoryName: 'Business Law',
-    title: 'Business Formation & Corporate Counsel',
-    bullets: [
-      'Start and structure your business with confidence',
-      'Ongoing legal support as your company grows',
-      'Contracts, compliance and risk management',
-    ],
-    tags: ['Business Formation', 'Contracts', 'Compliance', 'Intellectual Property'],
-    detailedOverview:
-      'From LLC and corporation formations to drafting high-stakes commercial agreements, we act as outside general counsel protecting entrepreneurs, founders, and established enterprises from liability and disputes.',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop',
-        caption: 'Corporate Strategy & Governance',
-      },
-      {
-        url: '/.tempmediaStorage/LAW_PICTURE.jpg',
-        caption: 'Contract Execution & Regulatory Advisory',
-      },
-    ],
-  },
-  {
-    id: 'family-law',
-    categoryNumber: '02.',
-    categoryName: 'Family Law',
-    title: 'Divorce & Family Matters',
-    bullets: [
-      'Compassionate guidance during difficult times',
-      'Protecting your family and children’s best interests',
-      'Clear, practical solutions for a brighter future',
-    ],
-    tags: ['Divorce', 'Child Custody', 'Spousal Support', 'Mediation'],
-    detailedOverview:
-      'We bring empathy and courtroom rigor to family legal disputes, focusing on equitable asset division, tailored parenting plans, and private mediation to protect your family’s well-being and privacy.',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
-        caption: 'Private Client Consultation & Mediation',
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
-        caption: 'Protective Child & Spousal Agreements',
-      },
-    ],
-  },
-  {
     id: 'criminal-defense',
-    categoryNumber: '03.',
+    categoryNumber: '01.',
     categoryName: 'Criminal Defense',
-    title: 'Felony & Misdemeanor Defense',
+    title: 'Felony & Misdemeanor Defense Advocacy',
     bullets: [
-      'Strong defense for your rights and freedom',
-      'Thorough case analysis and strategic planning',
-      'Dedicated representation at every stage',
+      'Uncompromising defense across investigation and trial stages',
+      'In-depth forensic case analysis and trial strategy',
+      'Penitentiary facility visits & immediate detainee support',
     ],
-    tags: ['Felony Defense', 'Misdemeanors', 'DUI / DWI'],
+    tags: ['Criminal Defense', 'Trial Advocacy', 'Detention Visits'],
     detailedOverview:
-      'When your freedom and future are on the line, we deploy aggressive investigative strategies, challenge unlawful evidence, and fight tirelessly in courtrooms across state and federal jurisdictions.',
+      'With 21+ years of dedicated criminal trial experience, we provide fearless courtroom advocacy, suppress unlawful evidence, and conduct prompt visits to detention facilities to protect our clients.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
@@ -94,42 +46,42 @@ const servicesData: ServiceItem[] = [
     ],
   },
   {
-    id: 'civil-litigation',
-    categoryNumber: '04.',
-    categoryName: 'Civil Litigation',
-    title: 'Commercial Litigation & Dispute Resolution',
+    id: 'family-law',
+    categoryNumber: '02.',
+    categoryName: 'Civil & Family Law',
+    title: 'Family Matters & Civil Dispute Resolution',
     bullets: [
-      'Relentless courtroom representation in high-stakes disputes',
-      'Tailored arbitration and settlement negotiation strategies',
-      'Protecting commercial assets, reputation, and rights',
+      'Family disputes, divorce proceedings & equitable asset division',
+      'Child custody arrangements, spousal support & family protection',
+      'Resolution of core civil obligations and contractual disputes',
     ],
-    tags: ['Commercial Litigation', 'Breach of Contract', 'Arbitration', 'Appeals'],
+    tags: ['Family Law', 'Civil Disputes', 'Mediation'],
     detailedOverview:
-      'Handling intricate commercial claims, fiduciary disputes, and breach of fiduciary duties. We combine rigorous legal research with tenacious trial advocacy to secure favorable judgments and settlements.',
+      'Combining deep empathy with rigorous trial advocacy, we handle sensitive family matters, divorce negotiations, custody arrangements, and core civil litigation.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1000&auto=format&fit=crop',
-        caption: 'Federal & State Appellate Litigation',
+        url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+        caption: 'Private Client Consultation & Mediation',
       },
       {
-        url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
-        caption: 'Financial Audit & Deposition Prep',
+        url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+        caption: 'Protective Child & Spousal Agreements',
       },
     ],
   },
   {
     id: 'real-estate-law',
-    categoryNumber: '05.',
+    categoryNumber: '03.',
     categoryName: 'Real Estate Law',
-    title: 'Property Transactions & Land Development',
+    title: 'Property Transactions & Real Estate Counsel',
     bullets: [
-      'Comprehensive support for commercial and residential closings',
-      'Title examinations, zoning, and municipal permit clearance',
-      'Decisive resolution of boundary, lease, and land disputes',
+      'Property transaction documentation and contract verification',
+      'Title examination, legal due diligence & ownership registration',
+      'Decisive resolution of boundary, ownership and lease disputes',
     ],
-    tags: ['Commercial Closings', 'Zoning & Land Use', 'Title Insurance'],
+    tags: ['Property Transactions', 'Due Diligence', 'Title Verification'],
     detailedOverview:
-      'Guiding developers, investors, and property owners through acquisitions, title clearances, environmental covenants, and complex municipal approvals to guarantee clean ownership and risk-free deals.',
+      'Guiding developers, investors, and property owners through acquisitions, property transfers, title clearances, and complex municipal agreements to guarantee clean ownership and risk-free deals.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
@@ -143,7 +95,7 @@ const servicesData: ServiceItem[] = [
   },
 ];
 
-// Letter-by-letter blurry wave reveal without breaking words
+// Word-level smooth wave reveal for reliable initial load rendering
 function BlurWaveText({
   text,
   className = '',
@@ -157,17 +109,19 @@ function BlurWaveText({
   highlightWord?: string;
   highlightClass?: string;
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
   return (
     <motion.span
+      key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.025,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
@@ -177,30 +131,26 @@ function BlurWaveText({
       {words.map((word, wordIndex) => {
         const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
         return (
-          <span
-            key={wordIndex}
-            className={`inline-block whitespace-nowrap mr-[0.25em] ${
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
+                },
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
-            {Array.from(word).map((char, charIndex) => (
-              <motion.span
-                key={charIndex}
-                variants={{
-                  hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                  visible: {
-                    opacity: 1,
-                    filter: 'blur(0px)',
-                    y: 0,
-                    transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
-                  },
-                }}
-                className="inline-block pb-[0.14em]"
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
+            {word}
+          </motion.span>
         );
       })}
     </motion.span>
@@ -212,7 +162,7 @@ export default function Services() {
   const currentServices = t.servicesSection.items && t.servicesSection.items.length > 0 
     ? t.servicesSection.items 
     : servicesData;
-  const [expandedId, setExpandedId] = useState<string | null>(servicesData[0].id);
+  const [expandedId, setExpandedId] = useState<string | null>(() => currentServices[0]?.id || 'criminal-defense');
   const listContainerRef = useRef<HTMLDivElement>(null);
   const isManualClickRef = useRef<boolean>(false);
   const lastScrollYRef = useRef<number>(0);
@@ -315,7 +265,7 @@ export default function Services() {
             {/* Headline with fluid desktop scaling and CSS width: 700px */}
             <h2 
               style={{ maxWidth: '700px' }}
-              className="w-full font-antonio font-bold text-3xl sm:text-5xl md:text-6xl lg:text-[clamp(44px,3.6vw,72px)] leading-[1.24] sm:leading-[1.26] pb-1 tracking-normal uppercase text-white"
+              className="w-full font-antonio font-bold text-2xl sm:text-4xl md:text-5xl lg:text-[clamp(34px,2.9vw,56px)] leading-[1.22] pb-1 tracking-normal uppercase text-white"
             >
               <BlurWaveText
                 text={t.servicesSection.headline}
@@ -328,15 +278,15 @@ export default function Services() {
 
           {/* Right Column: Explanatory Subtitle with fluid scaling */}
           <div className="lg:col-span-4 lg:pl-6 pb-2">
-            <p className="font-inter-tight text-base sm:text-lg lg:text-[clamp(17px,1.3vw,24px)] text-white/60 leading-[1.6]">
-              {t.servicesSection.subtitle}
+            <p className="font-inter-tight text-base sm:text-lg lg:text-[clamp(16px,1.2vw,22px)] text-white/60 leading-[1.6]">
+              <BlurWaveText text={t.servicesSection.subtitle} delay={0.15} />
             </p>
           </div>
 
         </div>
 
 
-        {/* ================= SERVICES LIST (5 CARDS) ================= */}
+        {/* ================= SERVICES LIST (3 CARDS) ================= */}
         <div ref={listContainerRef} className="w-full flex flex-col border-t border-white/[0.08]">
           {currentServices.map((service) => {
             const isExpanded = expandedId === service.id;
@@ -376,7 +326,7 @@ export default function Services() {
                     {/* Column 2 (Selected 2nd div): Service Title & Checkmark Bullets */}
                     <div className="lg:col-span-6 xl:col-span-6 flex flex-col">
                       {/* h3 Title - scales fluidly */}
-                      <h3 className="font-antonio font-bold text-2xl sm:text-3xl lg:text-[clamp(34px,2.75vw,54px)] uppercase text-white tracking-tight leading-[1.12] mb-4 lg:mb-[clamp(16px,1.8vh,26px)]">
+                      <h3 className="font-antonio font-bold text-xl sm:text-2xl lg:text-[clamp(24px,1.9vw,38px)] uppercase text-white tracking-tight leading-[1.22] mb-3 lg:mb-4">
                         <BlurWaveText text={service.title} delay={0.05} />
                       </h3>
 

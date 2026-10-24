@@ -19,6 +19,68 @@ interface TestimonialItem {
   isBook?: boolean;
 }
 
+// Word-level smooth wave reveal with blur and fade
+function BlurWaveText({
+  text,
+  className = '',
+  delay = 0,
+  highlightWord = '',
+  highlightClass = 'text-[#D2AF37]',
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+  highlightWord?: string;
+  highlightClass?: string;
+}) {
+  const words = text ? text.split(' ') : [];
+  return (
+    <motion.span
+      key={text}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.09,
+            delayChildren: delay,
+          },
+        },
+      }}
+      className={`inline-block ${className}`}
+    >
+      {words.map((word, wordIndex) => {
+        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
+        return (
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
+                },
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
+              isHighlighted ? highlightClass : ''
+            }`}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
+    </motion.span>
+  );
+}
+
 const TESTIMONIALS: TestimonialItem[] = [
   {
     id: 0,
@@ -387,21 +449,16 @@ export default function Testimonials() {
         </motion.div>
 
         {/* ================= 2. TITLE: REAL CLIENTS. REAL RESULTS. ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
-          transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
-        >
-          <h2 className="font-['Antonio'] uppercase tracking-tight text-[44px] sm:text-[60px] md:text-[76px] lg:text-[88px] leading-[0.92]">
-            <span className="text-white block">
-              {t.testimonialsSection.headline.split('.')[0] ? `${t.testimonialsSection.headline.split('.')[0]}.` : t.testimonialsSection.headline}
-            </span>
-            <span className="bg-gradient-to-r from-[#FFF4CC] via-[#D3AF37] to-[#A38029] bg-clip-text text-transparent block">
-              {t.testimonialsSection.headline.split('.')[1] ? t.testimonialsSection.headline.split('.')[1].trim() : (t.testimonialsSection.headlineHighlight || '')}
-            </span>
+        <div className="text-center mb-10 sm:mb-14 md:mb-16">
+          <h2 className="font-['Antonio'] uppercase tracking-tight text-[28px] sm:text-[40px] md:text-[52px] lg:text-[64px] leading-[1.12] text-white max-w-[900px] mx-auto">
+            <BlurWaveText
+              text={t.testimonialsSection.headline}
+              highlightWord={t.testimonialsSection.headlineHighlight}
+              highlightClass="bg-gradient-to-r from-[#FFF4CC] via-[#D3AF37] to-[#A38029] bg-clip-text text-transparent"
+              delay={0.1}
+            />
           </h2>
-        </motion.div>
+        </div>
 
         {/* ================= 3. COMPLETELY FIXED TESTIMONIAL ROW CONTAINER ================= */}
         {/* The overall carousel container position remains 100% fixed. No horizontal translation on the row. */}

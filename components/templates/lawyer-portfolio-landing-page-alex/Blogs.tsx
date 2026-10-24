@@ -38,7 +38,7 @@ const BLOG_POSTS: BlogPost[] = [
   },
 ];
 
-// Letter-by-letter blurry wave reveal without breaking words
+// Word-level smooth wave reveal with blur-fade effect
 function BlurWaveText({
   text,
   className = '',
@@ -52,17 +52,19 @@ function BlurWaveText({
   highlightWord?: string;
   highlightClass?: string;
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
   return (
     <motion.span
+      key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.02,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
@@ -72,30 +74,26 @@ function BlurWaveText({
       {words.map((word, wordIndex) => {
         const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
         return (
-          <span
-            key={wordIndex}
-            className={`inline-block whitespace-nowrap mr-[0.25em] ${
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
+                },
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
-            {Array.from(word).map((char, charIndex) => (
-              <motion.span
-                key={charIndex}
-                variants={{
-                  hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                  visible: {
-                    opacity: 1,
-                    filter: 'blur(0px)',
-                    y: 0,
-                    transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
-                  },
-                }}
-                className="inline-block pb-[0.14em]"
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
+            {word}
+          </motion.span>
         );
       })}
     </motion.span>
@@ -154,14 +152,14 @@ export default function Blogs() {
             
             {/* Middle Description */}
             <motion.p
-              initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+              initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
               animate={
                 isInView
                   ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-                  : { opacity: 0, y: 24, filter: 'blur(8px)' }
+                  : { opacity: 0, y: 24, filter: 'blur(14px)' }
               }
-              transition={{ duration: 0.85, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="text-white/70 text-sm sm:text-base font-inter-tight leading-relaxed max-w-sm"
+              transition={{ duration: 1.05, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
+              className="text-white/70 text-sm sm:text-base font-inter-tight leading-relaxed max-w-sm will-change-[transform,opacity,filter]"
             >
               {t.blogsSection.subtitle}
             </motion.p>

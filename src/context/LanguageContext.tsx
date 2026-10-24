@@ -71,6 +71,9 @@ export interface TranslationSchema {
     subheading: string;
     trustHeadline: string;
     trustParagraph: string;
+    section2Badge?: string;
+    section2Subline?: string;
+    section2Tagline?: string;
     memberBadge: string;
     barAssociation: string;
     badgePillars: [string, string, string];
@@ -215,7 +218,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'Close Menu',
       scheduleConsultation: 'SCHEDULE CONSULTATION',
       home: 'HOME',
-      about: 'ABOUT GLC LAW FIRM',
+      about: 'ABOUT GLC LAW COMPANY',
       services: 'PRACTICE AREAS',
       cases: 'NOTABLE CASE RESULTS',
       testimonials: 'TESTIMONIALS',
@@ -224,16 +227,20 @@ export const translations: Record<Language, TranslationSchema> = {
       contact: 'CONTACT & LOCATION',
       officeHeadquarters: 'OFFICE HEADQUARTERS',
       address: 'Georgia, Batumi, Kutaisi str, office #31, Batumi, Georgia, 6000',
-      rightsReserved: '© 2026 GLC Law Firm. All rights reserved.',
+      rightsReserved: '© 2026 GLC Law Company. All rights reserved.',
       attorneyNotice: 'Attorney Advertising. Prior results do not guarantee a similar outcome.',
     },
     hero: {
       mainTitle: 'Trusted Legal Counsel For Growing Business',
       mainTitleHighlight: 'Business',
-      subheading: 'Focused Representation With Purpose',
+      subheading: 'With extensive courtroom trial practice and strategic counsel, our practice is founded on trust, transparency, and results.',
       trustHeadline: 'TRUSTED. EXPERIENCED. STRATEGIC.',
       trustParagraph:
         'With over 21 years of distinguished expertise in criminal, administrative, and civil litigation, Giorgi Gubeladze is a licensed advocate and recognized member of the Georgian Bar Association (GBA), delivering elite, results-driven legal strategy and uncompromised protection across Georgia and internationally.',
+      section2Badge: 'CRIMINAL LAW PRACTICE SINCE 2005',
+      section2Subline: 'Civil & Administrative Disputes',
+      section2Tagline:
+        'The right legal strategy and uncompromising defense are the foundation of your victory.',
       memberBadge: 'MEMBER OF THE',
       barAssociation: 'BAR ASSOCIATION',
       badgePillars: ['Legal Expertise', 'Client-Focused', 'Ethical Representation'],
@@ -261,13 +268,13 @@ export const translations: Record<Language, TranslationSchema> = {
     aboutMe: {
       badgeNumber: '(01)',
       badgeText: 'ABOUT US',
-      headingText: 'WE STAND FOR PEOPLE WHO REFUSE TO BACK DOWN. FEWER OBSTACLES, MORE CLARITY, AND A LAWYER WHO TREATS YOUR CASE LIKE IT TRULY MATTERS.',
-      headingHighlight: 'REFUSE',
+      headingText: 'A LAWYER FOR WHOM YOUR CASE IS A GENUINE PRIORITY',
+      headingHighlight: 'PRIORITY',
       quoteTitle: 'STRATEGIC ADVOCACY ROOTED IN REAL IMPACT',
       quoteParagraph:
-        'True legal representation isn’t just about knowing the law — it’s about understanding the stakes. When your business, your family, or your freedom is on the line, you don’t need generic advice. You need an advocate who listens, strategizes, and executes with precision.',
+        'Legal representation is not merely knowing the law — true defense means securing pivotal evidence, realizing what is at stake, and presenting an unwavering strategy in court — a clear path toward victory!',
       quoteParagraph2:
-        'With decades of combined courtroom trial experience and strategic corporate counsel, our practice is built on trust, transparency, and results.',
+        'When it comes to your family member or your freedom, specialized knowledge and courtroom experience are of paramount importance!',
       founderTitle: 'GIORGI GUBELADZE',
       founderSubtitle: 'FOUNDER & MANAGING PARTNER',
       exploreBtn: 'EXPLORE PRACTICE AREAS',
@@ -281,66 +288,18 @@ export const translations: Record<Language, TranslationSchema> = {
       seeDetails: 'See Details',
       items: [
         {
-          id: 'business-law',
-          categoryNumber: '01.',
-          categoryName: 'Business Law',
-          title: 'Business Formation & Corporate Counsel',
-          bullets: [
-            'Start and structure your business with confidence',
-            'Ongoing legal support as your company grows',
-            'Contracts, compliance and risk management',
-          ],
-          tags: ['Business Formation', 'Contracts', 'Compliance', 'Intellectual Property'],
-          detailedOverview:
-            'From LLC and corporation formations to drafting high-stakes commercial agreements, we act as outside general counsel protecting entrepreneurs, founders, and established enterprises from liability and disputes.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Corporate Strategy & Governance',
-            },
-            {
-              url: '/.tempmediaStorage/LAW_PICTURE.jpg',
-              caption: 'Contract Execution & Regulatory Advisory',
-            },
-          ],
-        },
-        {
-          id: 'family-law',
-          categoryNumber: '02.',
-          categoryName: 'Family Law',
-          title: 'Divorce & Family Matters',
-          bullets: [
-            'Compassionate guidance during difficult times',
-            'Protecting your family and children’s best interests',
-            'Clear, practical solutions for a brighter future',
-          ],
-          tags: ['Divorce', 'Child Custody', 'Spousal Support', 'Mediation'],
-          detailedOverview:
-            'We bring empathy and courtroom rigor to family legal disputes, focusing on equitable asset division, tailored parenting plans, and private mediation to protect your family’s well-being and privacy.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Private Client Consultation & Mediation',
-            },
-            {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Protective Child & Spousal Agreements',
-            },
-          ],
-        },
-        {
           id: 'criminal-defense',
-          categoryNumber: '03.',
+          categoryNumber: '01.',
           categoryName: 'Criminal Defense',
-          title: 'Felony & Misdemeanor Defense',
+          title: 'Felony & Misdemeanor Defense Advocacy',
           bullets: [
-            'Strong defense for your rights and freedom',
-            'Thorough case analysis and strategic planning',
-            'Dedicated representation at every stage',
+            'Uncompromising defense across investigation and trial stages',
+            'In-depth forensic case analysis and trial strategy',
+            'Penitentiary facility visits & immediate detainee support',
           ],
-          tags: ['Felony Defense', 'Misdemeanors', 'DUI / DWI'],
+          tags: ['Criminal Defense', 'Trial Advocacy', 'Detention Visits'],
           detailedOverview:
-            'When your freedom and future are on the line, we deploy aggressive investigative strategies, challenge unlawful evidence, and fight tirelessly in courtrooms across state and federal jurisdictions.',
+            'With 21+ years of dedicated criminal trial experience, we provide fearless courtroom advocacy, suppress unlawful evidence, and conduct prompt visits to detention facilities to protect our clients.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
@@ -353,42 +312,42 @@ export const translations: Record<Language, TranslationSchema> = {
           ],
         },
         {
-          id: 'civil-litigation',
-          categoryNumber: '04.',
-          categoryName: 'Civil Litigation',
-          title: 'Commercial Litigation & Dispute Resolution',
+          id: 'family-law',
+          categoryNumber: '02.',
+          categoryName: 'Civil & Family Law',
+          title: 'Family Matters & Civil Dispute Resolution',
           bullets: [
-            'Relentless courtroom representation in high-stakes disputes',
-            'Tailored arbitration and settlement negotiation strategies',
-            'Protecting commercial assets, reputation, and rights',
+            'Family disputes, divorce proceedings & equitable asset division',
+            'Child custody arrangements, spousal support & family protection',
+            'Resolution of core civil obligations and contractual disputes',
           ],
-          tags: ['Commercial Litigation', 'Breach of Contract', 'Arbitration', 'Appeals'],
+          tags: ['Family Law', 'Civil Disputes', 'Mediation'],
           detailedOverview:
-            'Handling intricate commercial claims, fiduciary disputes, and breach of fiduciary duties. We combine rigorous legal research with tenacious trial advocacy to secure favorable judgments and settlements.',
+            'Combining deep empathy with rigorous trial advocacy, we handle sensitive family matters, divorce negotiations, custody arrangements, and core civil litigation.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Federal & State Appellate Litigation',
+              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Private Client Consultation & Mediation',
             },
             {
-              url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Financial Audit & Deposition Prep',
+              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Protective Child & Spousal Agreements',
             },
           ],
         },
         {
           id: 'real-estate-law',
-          categoryNumber: '05.',
+          categoryNumber: '03.',
           categoryName: 'Real Estate Law',
-          title: 'Property Transactions & Land Development',
+          title: 'Property Transactions & Real Estate Counsel',
           bullets: [
-            'Comprehensive support for commercial and residential closings',
-            'Title examinations, zoning, and municipal permit clearance',
-            'Decisive resolution of boundary, lease, and land disputes',
+            'Property transaction documentation and contract verification',
+            'Title examination, legal due diligence & ownership registration',
+            'Decisive resolution of boundary, ownership and lease disputes',
           ],
-          tags: ['Commercial Closings', 'Zoning & Land Use', 'Title Insurance'],
+          tags: ['Property Transactions', 'Due Diligence', 'Title Verification'],
           detailedOverview:
-            'Guiding developers, investors, and property owners through acquisitions, title clearances, environmental covenants, and complex municipal approvals to guarantee clean ownership and risk-free deals.',
+            'Guiding developers, investors, and property owners through acquisitions, property transfers, title clearances, and complex municipal agreements to guarantee clean ownership and risk-free deals.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
@@ -416,7 +375,7 @@ export const translations: Record<Language, TranslationSchema> = {
           subtitle: 'Business Formation & Corporate Counsel',
           description:
             'Guided a growing tech company through incorporation, contract negotiation, and long-term legal strategy.',
-          tags: ['Business Law', 'Corporate Counsel'],
+          tags: ['Corporate Counsel', 'Contract Negotiation'],
           imageUrl: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
@@ -428,16 +387,6 @@ export const translations: Record<Language, TranslationSchema> = {
             'Successfully defended a client against felony charges, securing a full dismissal and expungement.',
           tags: ['Criminal Defense', 'Case Dismissal'],
           imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
-        {
-          id: 'case-3',
-          title: 'High-Asset Estate Preservation',
-          subtitle: 'Family Enterprise & Private Mediation',
-          description:
-            'Protected multi-million family enterprise assets and negotiated amicable marital dissolution with total discretion.',
-          tags: ['Family Law', 'Asset Protection'],
-          imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
         {
@@ -470,16 +419,6 @@ export const translations: Record<Language, TranslationSchema> = {
           imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
-        {
-          id: 'case-7',
-          title: 'Cross-Border Arbitration',
-          subtitle: 'International Trade & Contract Enforcement',
-          description:
-            'საარბიტრაჟო დავაში მოპოვებული გამარჯვება და ეფექტური აღსრულება.',
-          tags: ['International Law', 'Arbitration'],
-          imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
       ],
     },
     metricsSection: {
@@ -487,7 +426,7 @@ export const translations: Record<Language, TranslationSchema> = {
       watermark: 'JUSTICE',
       headline: 'You deserve counsel that fights for you',
       headlineHighlight: 'fights',
-      subtitle: 'We believe every client, whether an individual or a business, deserves the same level of commitment, clear communication, and a results-driven approach.',
+      subtitle: 'Every client deserves uncompromising dedication and results-oriented legal defense.',
       stat1Label: 'Years of Experience',
       stat2Label: 'Client Success Rate',
       stat3Label: 'In Client Recoveries',
@@ -644,7 +583,7 @@ export const translations: Record<Language, TranslationSchema> = {
       marqueeWord2: 'LAW',
       bookBtn: 'Book a Consultation',
       justiceSlogan: 'Justice In Action',
-      copyright: '© 2026 GLC Law Firm. All rights reserved.',
+      copyright: '© 2026 GLC Law Company. All rights reserved.',
     },
   },
 
@@ -655,7 +594,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'მენიუს დახურვა',
       scheduleConsultation: 'კონსულტაციის დაჯავშნა',
       home: 'მთავარი',
-      about: 'GLC LAW FIRM-ის შესახებ',
+      about: 'GLC LAW COMPANY-ის შესახებ',
       services: 'სამართლის სფეროები',
       cases: 'წარმატებული საქმეები',
       testimonials: 'შეფასებები',
@@ -664,19 +603,23 @@ export const translations: Record<Language, TranslationSchema> = {
       contact: 'კონტაქტი და ლოკაცია',
       officeHeadquarters: 'ცენტრალური ოფისი',
       address: 'საქართველო, ბათუმი, ქუთაისის ქ. #31, ბათუმი, 6000',
-      rightsReserved: '© 2026 GLC Law Firm. ყველა უფლება დაცულია.',
+      rightsReserved: '© 2026 GLC Law Company. ყველა უფლება დაცულია.',
       attorneyNotice: 'ადვოკატის რეკლამა. წარსული შედეგები არ იძლევა მსგავსი შედეგის გარანტიას.',
     },
     hero: {
       mainTitle: 'სანდო იურიდიული პარტნიორი',
       mainTitleHighlight: 'პარტნიორი',
-      subheading: 'მიზანმიმართული და შედეგზე ორიენტირებული წარმომადგენლობა',
-      trustHeadline: 'ნდობა. გამოცდილება. სტრატეგია.',
+      subheading: 'მრავალწლიანი სასამართლო პრაქტიკითა და სტრატეგიული კონსულტაციით, ჩვენი საქმიანობა ეფუძნება ნდობას, გამჭვირვალობასა და შედეგს.',
+      trustHeadline: 'სამოქალაქო და ადმინისტრაციული დავები',
       trustParagraph:
-        'სისხლის, ადმინისტრაციულ და სამოქალაქო სფეროებში 21+ წლის გამოცდილება უზრუნველყოფს შედეგზე ორიენტირებულ იურიდიულ სტრატეგიასა და უკომპრომისო დაცვას.',
-      memberBadge: 'წევრი',
-      barAssociation: 'ადვოკატთა ასოციაციის',
-      badgePillars: ['პროფესიონალიზმი', 'სიზუსტე', 'შედეგი'],
+        'სწორი იურიდიული სტრატეგია და უკომპრომისო დაცვა თქვენი გამარჯვების საწინდარია.',
+      section2Badge: 'სისხლის სამართალში 2005 წლიდან',
+      section2Subline: 'სამოქალაქო და ადმინისტრაციული დავები',
+      section2Tagline:
+        'სწორი იურიდიული სტრატეგია და უკომპრომისო დაცვა თქვენი გამარჯვების საწინდარია.',
+      memberBadge: '',
+      barAssociation: 'ადვოკატთა ასოციაციის წევრი',
+      badgePillars: ['პროფესიონალიზმი', 'გამოცდილება', 'შედეგი'],
       bookConsultation: 'კონსულტაციის დაჯავშნა',
       confidentialSession: 'კონფიდენციალური იურიდიული სესია',
       modalSubtitle: 'დაგეგმეთ სტრატეგიული კონსულტაცია გიორგი გუბელაძესთან.',
@@ -701,13 +644,13 @@ export const translations: Record<Language, TranslationSchema> = {
     aboutMe: {
       badgeNumber: '(01)',
       badgeText: 'ჩვენს შესახებ',
-      headingText: 'ჩვენ ვიცავთ მათ, ვინც უკან არ იხევს. ნაკლები დაბრკოლება, მეტი სიცხადე და ადვოკატი, რომლისთვისაც თქვენი საქმე ნამდვილად მნიშვნელოვანია.',
-      headingHighlight: 'ვიცავთ',
+      headingText: 'ადვოკატი, რომლისთვისაც თქვენი საქმე ნამდვილად პრიორიტეტულია',
+      headingHighlight: 'პრიორიტეტულია',
       quoteTitle: 'სტრატეგიული დაცვა რეალური შედეგისთვის',
       quoteParagraph:
-        'ნამდვილი იურიდიული წარმომადგენლობა მხოლოდ კანონების ცოდნა არ არის — ეს არის სასწორზე დადებული ინტერესების გაცნობიერება. როდესაც საქმე ეხება თქვენს ბიზნესს, ოჯახს ან თავისუფლებას, ზოგადი რჩევები საკმარისი არ არის. თქვენ გჭირდებათ ადვოკატი, რომელიც გისმენთ, აგებს სტრატეგიას და მოქმედებს მაქსიმალური სიზუსტით.',
+        'იურიდიული წარმომადგენლობა მხოლოდ კანონების ცოდნა არ არის - დაცვა არის მტკიცებულებების მოპოვება, სასწორზე დადებული ინტერესების გაცნობიერება და სასამართლოში სწორი სტრატეგიის პრეზენტაცია - სვლა გამარჯვებისაკენ!',
       quoteParagraph2:
-        'მრავალწლიანი სასამართლო პრაქტიკითა და სტრატეგიული კონსულტაციით, ჩვენი საქმიანობა ეფუძნება ნდობას, გამჭვირვალობასა და შედეგს.',
+        'როდესაც საქმე ეხება ოჯახის წევრს ან თავისუფლებას, ცოდნა და გამოცდილება პრინციპულად მნიშვნელოვანია!',
       founderTitle: 'გიორგი გუბელაძე',
       founderSubtitle: 'დამფუძნებელი და მმართველი პარტნიორი',
       exploreBtn: 'სამართლის სფეროები',
@@ -717,70 +660,22 @@ export const translations: Record<Language, TranslationSchema> = {
       badgeText: 'ჩვენი იურიდიული მომსახურება',
       headline: 'სანდო გამოცდილება სამართლის ყველა სფეროში',
       headlineHighlight: 'ყველა',
-      subtitle: 'ჩვენ გთავაზობთ საუკეთესო იურიდიულ მხარდაჭერას, სიღრმისეულ ცოდნასა და ინდივიდუალურ მიდგომას სამართლის ყველა სპექტრში.',
+      subtitle: 'ჩვენ გთავაზობთ იურიდიულ მხარდაჭერას, სიღრმისეულ ცოდნასა და ინდივიდუალურ მიდგომას სამართლის ყველა სპექტრში.',
       seeDetails: 'დეტალურად',
       items: [
         {
-          id: 'business-law',
-          categoryNumber: '01.',
-          categoryName: 'ბიზნეს სამართალი',
-          title: 'კომპანიის დაფუძნება და კორპორაციული იურისტი',
-          bullets: [
-            'ბიზნესის დაწყება და სტრუქტურირება სანდო პარტნიორთან ერთად',
-            'მუდმივი იურიდიული მხარდაჭერა კომპანიის ზრდის პროცესში',
-            'კონტრაქტები, რეგულაციებთან შესაბამისობა და რისკების მართვა',
-          ],
-          tags: ['ბიზნესის რეგისტრაცია', 'კონტრაქტები', 'შესაბამისობა', 'ინტელექტუალური საკუთრება'],
-          detailedOverview:
-            'შპს-სა და სააქციო საზოგადოებების რეგისტრაციიდან დაწყებული, მსხვილი კომერციული ხელშეკრულებების მომზადებით დამთავრებული — ჩვენ ვიცავთ დამფუძნებლებსა და ბიზნესს შესაძლო დავებისგან.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop',
-              caption: 'კორპორაციული სტრატეგია და მართვა',
-            },
-            {
-              url: '/.tempmediaStorage/LAW_PICTURE.jpg',
-              caption: 'კონტრაქტების აღსრულება და კონსულტაცია',
-            },
-          ],
-        },
-        {
-          id: 'family-law',
-          categoryNumber: '02.',
-          categoryName: 'საოჯახო სამართალი',
-          title: 'განქორწინება და საოჯახო დავები',
-          bullets: [
-            'მხარდაჭერა და გულისხმიერება რთულ პერიოდში',
-            'ოჯახისა და შვილების საუკეთესო ინტერესების დაცვა',
-            'მკაფიო, პრაქტიკული გადაწყვეტილებები მშვიდი მომავლისთვის',
-          ],
-          tags: ['განქორწინება', 'შვილების მეურვეობა', 'ალიმენტი', 'მედიაცია'],
-          detailedOverview:
-            'საოჯახო დავებში ჩვენ ვაერთიანებთ ემპათიასა და სასამართლო სიმტკიცეს: ქონების სამართლიანი გაყოფა, ბავშვზე ზრუნვის გეგმები და კონფიდენციალური მედიაცია.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
-              caption: 'პირადი კონსულტაცია და მედიაცია',
-            },
-            {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
-              caption: 'ბავშვთა და მეუღლეთა უფლებების დაცვა',
-            },
-          ],
-        },
-        {
           id: 'criminal-defense',
-          categoryNumber: '03.',
+          categoryNumber: '01.',
           categoryName: 'სისხლის სამართალი',
-          title: 'სისხლისსამართლებრივი დაცვა ყველა ინსტანციაში',
+          title: 'სისხლისსამართლებრივი დაცვა და წარმომადგენლობა',
           bullets: [
-            'სისხლის სამართლის დაცვა და წარმომადგენლობა ყველა ინსტანციაში',
-            'საქმის მასალების დეტალური ანალიზი და დაცვის სტრატეგია',
-            'უკომპრომისო დაცვა და წარმომადგენლობა საქმის ნებისმიერ ეტაპზე.',
+            'კვალიფიციური დაცვა გამოძიებასა და სასამართლოში',
+            'საქმის სიღრმისეული ანალიზი და სტრატეგიული გეგმა',
+            'ვიზიტი სასჯელაღსრულების დაწესებულებაში.',
           ],
-          tags: ['მძიმე დანაშაულები', 'გამოძიება', 'აღკვეთის ღონისძიება'],
+          tags: ['სისხლის სამართალი', 'დაცვა სასამართლოში', 'ადვოკატი'],
           detailedOverview:
-            'როდესაც საფრთხე ემუქრება თქვენს თავისუფლებას, ჩვენ ვიყენებთ აქტიურ საგამოძიებო მეთოდებს, ვაპროტესტებთ უკანონო მტკიცებულებებს და ვიბრძვით გამამართლებელი განაჩენისთვის.',
+            'სისხლის სამართალში 21+ წლიანი გამოცდილებით, ჩვენ უზრუნველვყოფთ უკომპრომისო დაცვას გამოძიების დაწყებიდან განაჩენის გამოტანამდე, მტკიცებულებების შეგროვებას და სასჯელაღსრულების დაწესებულებებში დაუყოვნებლივ ვიზიტს.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
@@ -793,42 +688,42 @@ export const translations: Record<Language, TranslationSchema> = {
           ],
         },
         {
-          id: 'civil-litigation',
-          categoryNumber: '04.',
-          categoryName: 'სამოქალაქო სამართალი',
-          title: 'კომერციული დავები და არბიტრაჟი',
+          id: 'family-law',
+          categoryNumber: '02.',
+          categoryName: 'სამოქალაქო და საოჯახო სამართალი',
+          title: 'საოჯახო და მემკვიდრეობითი სამართალი',
           bullets: [
-            'უმაღლესი დონის სასამართლო წარმომადგენლობა მსხვილ დავებში',
-            'მორგებული საარბიტრაჟო და მორიგების სტრატეგიები',
-            'კომერციული აქტივების, რეპუტაციისა და უფლებების დაცვა',
+            'საოჯახო დავები, განქორწინება და ქონების გაყოფა',
+            'შვილების მეურვეობა, ალიმენტი და ინტერესების დაცვა',
+            'სამოქალაქო და სახელშეკრულებო დავების მოგვარება',
           ],
-          tags: ['კომერციული დავები', 'ვალდებულების დარღვევა', 'არბიტრაჟი', 'სააპელაციო საჩივარი'],
+          tags: ['საოჯახო სამართალი', 'სამოქალაქო დავები', 'მედიაცია'],
           detailedOverview:
-            'რთული კომერციული მოთხოვნები, პარტნიორთა შორის დავები და ხელშეკრულებების დარღვევა. ჩვენ ვაერთიანებთ სიღრმისეულ იურიდიულ კვლევასა და მტკიცე სასამართლო პოზიციონირებას.',
+            'საოჯახო და სამოქალაქო დავებში ჩვენ ვიცავთ კლიენტის ფუნდამენტურ ინტერესებს: ქონების სამართლიანი გაყოფა, ბავშვზე ზრუნვის გეგმები, ალიმენტი და სახელშეკრულებო ვალდებულებების აღსრულება.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1000&auto=format&fit=crop',
-              caption: 'სააპელაციო და საკასაციო სასამართლო დავები',
+              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              caption: 'პირადი კონსულტაცია და მედიაცია',
             },
             {
-              url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
-              caption: 'ფინანსური აუდიტი და დეპოზიცია',
+              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              caption: 'ბავშვთა და მეუღლეთა უფლებების დაცვა',
             },
           ],
         },
         {
           id: 'real-estate-law',
-          categoryNumber: '05.',
+          categoryNumber: '03.',
           categoryName: 'უძრავი ქონების სამართალი',
-          title: 'ქონებრივი გარიგებები და მიწის განაშენიანება',
+          title: 'სახელშეკრულებო სამართალი და უძრავი ქონება',
           bullets: [
-            'უძრავი ქონების სრული იურიდიული მომსახურება, ნებართვები და გარიგებები',
-            'უძრავი ქონების სამართლებრივი შემოწმება, აზომვა და ნებართვები.',
-            'მიწის, იჯარისა და სამშენებლო დავების ეფექტური გადაწყვეტა',
+            'ქონებრივი გარიგებები და ხელშეკრულებების მომზადება/ექსპერტიზა',
+            'საკუთრების უფლების რეგისტრაცია და სამართლებრივი აუდიტი (Due Diligence)',
+            'უძრავ ქონებასთან დაკავშირებული დავების წარმატებული გადაწყვეტა',
           ],
-          tags: ['უძრავი ქონების შესყიდვა', 'ზონირება', 'საკუთრების უფლება'],
+          tags: ['ქონებრივი გარიგებები', 'Due Diligence', 'საკუთრების უფლება'],
           detailedOverview:
-            'დეველოპერებისა და მესაკუთრეების სრული იურიდიული უზრუნველყოფა: ქონების შეძენა, საჯარო რეესტრის სისუფთავე და მუნიციპალური ნებართვების მოპოვება რისკების გარეშე.',
+            'უძრავი ქონების შეძენის, გასხვისების და ქონებრივი გარიგებების სრული სამართლებრივი უზრუნველყოფა, ხელშეკრულებების მომზადება და კლიენტის საკუთრების უფლების უსაფრთხოება.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
@@ -856,7 +751,7 @@ export const translations: Record<Language, TranslationSchema> = {
           subtitle: 'ბიზნესის დაფუძნება და კორპორაციული მომსახურება',
           description:
             'ტექნოლოგიური კომპანიის სრული იურიდიული მხარდაჭერა დაფუძნებიდან მსხვილ კონტრაქტებამდე.',
-          tags: ['ბიზნეს სამართალი', 'კორპორაციული მომსახურება'],
+          tags: ['კორპორაციული მომსახურება', 'კონტრაქტები'],
           imageUrl: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
@@ -871,16 +766,6 @@ export const translations: Record<Language, TranslationSchema> = {
           aspectClass: 'aspect-[16/10]',
         },
         {
-          id: 'case-3',
-          title: 'მსხვილი აქტივების შენარჩუნება',
-          subtitle: 'საოჯახო ბიზნესი და მედიაცია',
-          description:
-            'მრავალმილიონიანი საოჯახო ბიზნესის აქტივების დაცვა და კონფიდენციალური მორიგების მიღწევა.',
-          tags: ['საოჯახო სამართალი', 'აქტივების დაცვა'],
-          imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
-        {
           id: 'case-4',
           title: 'გამარჯვება კომერციულ დავაში',
           subtitle: 'სამოქალაქო დავა და ზიანის ანაზღაურება',
@@ -892,7 +777,7 @@ export const translations: Record<Language, TranslationSchema> = {
         },
         {
           id: 'case-5',
-          title: 'უძრავი ქონების შეყიდვა',
+          title: 'უძრავი ქონების შესყიდვა',
           subtitle: 'უძრავი ქონება და დეველოპმენტი',
           description:
             'Due Diligence, ნებართვები, ლიცენზიები და კონტრაქტები',
@@ -910,16 +795,6 @@ export const translations: Record<Language, TranslationSchema> = {
           imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
-        {
-          id: 'case-7',
-          title: 'საერთაშორისო არბიტრაჟი',
-          subtitle: 'საგარეო ვაჭრობა და ხელშეკრულებების აღსრულება',
-          description:
-            'საარბიტრაჟო დავაში მოპოვებული გამარჯვება და ეფექტური აღსრულება.',
-          tags: ['საერთაშორისო სამართალი', 'არბიტრაჟი'],
-          imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
       ],
     },
     metricsSection: {
@@ -927,7 +802,7 @@ export const translations: Record<Language, TranslationSchema> = {
       watermark: 'სამართალი',
       headline: 'თქვენ იმსახურებთ ადვოკატს, რომელიც იბრძვის თქვენთვის',
       headlineHighlight: 'იბრძვის',
-      subtitle: 'ჩვენ გვჯერა, რომ თითოეული კლიენტი — ინდივიდი თუ კორპორაცია — იმსახურებს მაქსიმალურ ერთგულებას, ღია კომუნიკაციასა და შედეგზე ორიენტირებულ მიდგომას.',
+      subtitle: 'თითოეული კლიენტი იმსახურებს მაქსიმალურ ერთგულებასა და შედეგზე ორიენტირებულ დაცვას.',
       stat1Label: 'წლიანი გამოცდილება',
       stat2Label: 'წარმატებული საქმეები',
       stat3Label: 'დაბრუნებული აქტივები',
@@ -935,8 +810,8 @@ export const translations: Record<Language, TranslationSchema> = {
     testimonialsSection: {
       badgeNumber: '(06)',
       badgeText: 'კლიენტთა შეფასებები',
-      headline: 'რას ამბობენ ჩვენზე კლიენტები',
-      headlineHighlight: 'ამბობენ',
+      headline: 'კლიენტების შეფასება',
+      headlineHighlight: 'შეფასება',
       subtitle: 'გულწრფელი უკუკავშირი მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც თავიანთი საქმე ჩვენ გვანდეს.',
       items: [
         {
@@ -1084,7 +959,7 @@ export const translations: Record<Language, TranslationSchema> = {
       marqueeWord2: 'სამართალზე',
       bookBtn: 'კონსულტაციის დაჯავშნა',
       justiceSlogan: 'სამართალი მოქმედებაში',
-      copyright: '© 2026 GLC Law Firm. ყველა უფლება დაცულია.',
+      copyright: '© 2026 GLC Law Company. ყველა უფლება დაცულია.',
     },
   },
 
@@ -1095,7 +970,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'Закрыть меню',
       scheduleConsultation: 'ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ',
       home: 'ГЛАВНАЯ',
-      about: 'О КОМПАНИИ GLC LAW FIRM',
+      about: 'О КОМПАНИИ GLC LAW COMPANY',
       services: 'ПРАКТИКИ И УСЛУГИ',
       cases: 'УСПЕШНЫЕ ДЕЛА',
       testimonials: 'ОТЗЫВЫ',
@@ -1104,16 +979,20 @@ export const translations: Record<Language, TranslationSchema> = {
       contact: 'КОНТАКТЫ И АДРЕС',
       officeHeadquarters: 'ГЛАВНЫЙ ОФИС',
       address: 'Грузия, Батуми, ул. Кутаиси #31, офис 6000',
-      rightsReserved: '© 2026 GLC Law Firm. Все права защищены.',
+      rightsReserved: '© 2026 GLC Law Company. Все права защищены.',
       attorneyNotice: 'Реклама адвокатских услуг. Предыдущие результаты не гарантируют аналогичный исход.',
     },
     hero: {
       mainTitle: 'Надежная правовая защита для растущего бизнеса',
       mainTitleHighlight: 'бизнеса',
-      subheading: 'Целеустремленная защита ваших интересов',
+      subheading: 'Благодаря многолетней судебной практике и стратегическому консультированию наша деятельность основана на доверии, прозрачности и результатах.',
       trustHeadline: 'ДОВЕРИЕ. ОПЫТ. СТРАТЕГИЯ.',
       trustParagraph:
         'Более 21 года успешной практики в уголовном, административном и гражданском судопроизводстве. Адвокат Георгий Губеладзе — член Палаты адвокатов Грузии, обеспечивающий бескомпромиссную правовую защиту.',
+      section2Badge: 'УГОЛОВНОЕ ПРАВО С 2005 ГОДА',
+      section2Subline: 'Гражданские и административные споры',
+      section2Tagline:
+        'Правильная юридическая стратегия и бескомпромиссная защита — залог вашей победы.',
       memberBadge: 'ЧЛЕН',
       barAssociation: 'АССОЦИАЦИИ АДВОКАТОВ',
       badgePillars: ['Правовая экспертиза', 'Клиентоориентированность', 'Профессиональная этика'],
@@ -1141,13 +1020,13 @@ export const translations: Record<Language, TranslationSchema> = {
     aboutMe: {
       badgeNumber: '(01)',
       badgeText: 'О НАС',
-      headingText: 'МЫ ЗАЩИЩАЕМ ТЕХ, КТО НЕ ОТСТУПАЕТ. МЕНЬШЕ ПРЕПЯТСТВИЙ, БОЛЬШЕ ЯСНОСТИ И АДВОКАТ, ДЛЯ КОТОРОГО ВАШЕ ДЕЛО ДЕЙСТВИТЕЛЬНО ВАЖНО.',
-      headingHighlight: 'НЕ ОТСТУПАЕТ',
+      headingText: 'АДВОКАТ, ДЛЯ КОТОРОГО ВАШЕ ДЕЛО ДЕЙСТВИТЕЛЬНО ЯВЛЯЕТСЯ ПРИОРИТЕТОМ',
+      headingHighlight: 'ПРИОРИТЕТОМ',
       quoteTitle: 'СТРАТЕГИЧЕСКАЯ ЗАЩИТА С РЕАЛЬНЫМ РЕЗУЛЬТАТОМ',
       quoteParagraph:
-        'Истинное юридическое представительство — это не просто знание закона, это понимание ценности поставленного на карту. Когда на кону ваш бизнес, семья или свобода, вам нужны не шаблонные советы, а сильный защитник, который слушает, строит стратегию и действует безупречно.',
+        'Юридическое представительство — это не просто знание законов: защита заключается в получении доказательств, осознании поставленных на карту интересов и представлении верной стратегии в суде — путь к победе!',
       quoteParagraph2:
-        'Благодаря многолетней судебной практике и глубокому корпоративному консалтингу, наша деятельность основана на доверии, честности и победах.',
+        'Когда речь идет о члене семьи или свободе, глубокие знания и реальный опыт имеют принципиальное значение!',
       founderTitle: 'ГЕОРГИЙ ГУБЕЛАДЗЕ',
       founderSubtitle: 'ОСНОВАТЕЛЬ И УПРАВЛЯЮЩИЙ ПАРТНЕР',
       exploreBtn: 'ПРАКТИКИ И УСЛУГИ',
@@ -1161,66 +1040,18 @@ export const translations: Record<Language, TranslationSchema> = {
       seeDetails: 'Подробнее',
       items: [
         {
-          id: 'business-law',
-          categoryNumber: '01.',
-          categoryName: 'Бизнес-право',
-          title: 'Регистрация бизнеса и корпоративное сопровождение',
-          bullets: [
-            'Уверенный старт и правильное структурирование компании',
-            'Постоянная юридическая поддержка растущего бизнеса',
-            'Договоры, комплаенс и минимизация рисков',
-          ],
-          tags: ['Регистрация', 'Контракты', 'Комплаенс', 'Интеллектуальная собственность'],
-          detailedOverview:
-            'От учреждения ООО и корпораций до подготовки сложных международных коммерческих соглашений — мы защищаем предпринимателей от любых правовых споров.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Корпоративная стратегия и управление',
-            },
-            {
-              url: '/.tempmediaStorage/LAW_PICTURE.jpg',
-              caption: 'Исполнение контрактов и консалтинг',
-            },
-          ],
-        },
-        {
-          id: 'family-law',
-          categoryNumber: '02.',
-          categoryName: 'Семейное право',
-          title: 'Расторжение брака и семейные споры',
-          bullets: [
-            'Чуткая поддержка и защита в сложные периоды',
-            'Защита наилучших интересов детей и семьи',
-            'Четкие, практичные решения для спокойного будущего',
-          ],
-          tags: ['Развод', 'Опека над детьми', 'Алименты', 'Медиация'],
-          detailedOverview:
-            'Мы сочетаем эмпатию и бескомпромиссную защиту в суде: справедливый раздел имущества, алиментные соглашения и конфиденциальная медиация.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Конфиденциальные консультации и медиация',
-            },
-            {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Защита прав детей и супругов',
-            },
-          ],
-        },
-        {
           id: 'criminal-defense',
-          categoryNumber: '03.',
+          categoryNumber: '01.',
           categoryName: 'Уголовное право',
           title: 'Уголовная защита на всех стадиях процесса',
           bullets: [
-            'Бескомпромиссная защита ваших прав и свободы',
+            'Бескомпромиссная защита на стадиях следствия и суда',
             'Глубокий анализ дела и построение линии защиты',
-            'Участие в следственных действиях и всех инстанциях',
+            'Визиты в пенитенциарные учреждения и оперативная помощь',
           ],
-          tags: ['Тяжкие статьи', 'Следствие', 'Меры пресечения'],
+          tags: ['Уголовная защита', 'Следствие', 'Суд'],
           detailedOverview:
-            'Когда свобода под угрозой, мы проводим независимые адвокатские расследования, исключаем недопустимые доказательства и добиваемся оправдания.',
+            'С более чем 21 годом опыта в уголовных делах мы проводим независимые адвокатские расследования, исключаем недопустимые доказательства и оперативно посещаем пенитенциарные учреждения для защиты доверителей.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
@@ -1233,42 +1064,42 @@ export const translations: Record<Language, TranslationSchema> = {
           ],
         },
         {
-          id: 'civil-litigation',
-          categoryNumber: '04.',
-          categoryName: 'Гражданский процесс',
-          title: 'Коммерческие споры и арбитраж',
+          id: 'family-law',
+          categoryNumber: '02.',
+          categoryName: 'Гражданское и семейное право',
+          title: 'Семейные споры и гражданские дела',
           bullets: [
-            'Эффективное судебное представительство в сложных спорах',
-            'Стратегии арбитражного урегулирования и мировых соглашений',
-            'Защита активов, деловой репутации и коммерческих интересов',
+            'Семейные споры, бракоразводные процессы и раздел имущества',
+            'Опека над детьми, алименты и защита интересов семьи',
+            'Урегулирование ключевых гражданских и договорных споров',
           ],
-          tags: ['Арбитраж', 'Нарушение договоров', 'Взыскание убытков', 'Апелляция'],
+          tags: ['Семейное право', 'Гражданские споры', 'Медиация'],
           detailedOverview:
-            'Взыскание задолженностей, партнерские корпоративные конфликты и защита договоров. Мы объединяем глубокую юридическую науку и победную тактику в суде.',
+            'Мы сочетаем эмпатию и бескомпромиссную защиту в суде: справедливый раздел имущества, алиментные соглашения, защита прав детей и ведение гражданских споров.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Апелляционные и кассационные споры',
+              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Конфиденциальные консультации и медиация',
             },
             {
-              url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Финансовый аудит и допросы',
+              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Защита прав детей и супругов',
             },
           ],
         },
         {
           id: 'real-estate-law',
-          categoryNumber: '05.',
-          categoryName: 'Недвижимость',
-          title: 'Сделки с недвижимостью и девелопмент',
+          categoryNumber: '03.',
+          categoryName: 'Недвижимость и сделки',
+          title: 'Сделки с недвижимостью и оформление прав',
           bullets: [
-            'Полное юридическое сопровождение купли-продажи и аренды',
-            'Проверка чистоты титула, зонирование и разрешения',
-            'Разрешение земельных и строительных споров',
+            'Полное сопровождение сделок с недвижимостью и договоров',
+            'Проверка чистоты титула, Due Diligence и регистрация прав',
+            'Эффективное разрешение споров по праву собственности и аренде',
           ],
-          tags: ['Сопровождение сделок', 'Зонирование', 'Проверка титула'],
+          tags: ['Сделки с недвижимостью', 'Due Diligence', 'Право собственности'],
           detailedOverview:
-            'Сопровождение инвесторов и девелоперов: приобретение земельных участков, проверка чистоты реестра и оформление градостроительных согласований без рисков.',
+            'Сопровождение инвесторов и частных владельцев: купля-продажа, проверка юридической чистоты объекта, договоры и безопасное закрытие сделок.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
@@ -1296,7 +1127,7 @@ export const translations: Record<Language, TranslationSchema> = {
           subtitle: 'Регистрация бизнеса и корпоративное право',
           description:
             'Юридическое сопровождение IT-компании: от учреждения до крупных контрактов.',
-          tags: ['Бизнес-право', 'Корпоративный юрист'],
+          tags: ['Корпоративный юрист', 'Контракты'],
           imageUrl: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
@@ -1308,16 +1139,6 @@ export const translations: Record<Language, TranslationSchema> = {
             'Успешная защита клиента от тяжких обвинений с полным прекращением дела и реабилитацией.',
           tags: ['Уголовная защита', 'Прекращение дела'],
           imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
-        {
-          id: 'case-3',
-          title: 'Сохранение крупных активов',
-          subtitle: 'Семейный бизнес и медиация',
-          description:
-            'Защита многомиллионных семейных активов и мирное конфиденциальное урегулирование спора.',
-          tags: ['Семейное право', 'Защита активов'],
-          imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
         {
@@ -1350,16 +1171,6 @@ export const translations: Record<Language, TranslationSchema> = {
           imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
-        {
-          id: 'case-7',
-          title: 'Международный арбитраж',
-          subtitle: 'Внешнеэкономическая деятельность',
-          description:
-            'საარბიტრაჟო დავაში მოპოვებული გამარჯვება და ეფექტური აღსრულება.',
-          tags: ['Международное право', 'Арбитраж'],
-          imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
       ],
     },
     metricsSection: {
@@ -1367,7 +1178,7 @@ export const translations: Record<Language, TranslationSchema> = {
       watermark: 'ПРАВО',
       headline: 'Вы заслуживаете адвоката, который борется за вас',
       headlineHighlight: 'борется',
-      subtitle: 'Мы убеждены, что каждый доверитель заслуживает максимальной отдачи, честной коммуникации и работы на безусловный результат.',
+      subtitle: 'Каждый клиент заслуживает максимальной преданности делу и защиты, ориентированной на результат.',
       stat1Label: 'Лет юридической практики',
       stat2Label: 'Успешных дел',
       stat3Label: 'Возмещенных активов',
@@ -1524,7 +1335,7 @@ export const translations: Record<Language, TranslationSchema> = {
       marqueeWord2: 'ПРАВЕ',
       bookBtn: 'Записаться на консультацию',
       justiceSlogan: 'Правосудие в действии',
-      copyright: '© 2026 GLC Law Firm. Все права защищены.',
+      copyright: '© 2026 GLC Law Company. Все права защищены.',
     },
   },
 
@@ -1535,7 +1346,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'Menüyü Kapat',
       scheduleConsultation: 'RANDEVU ALIN',
       home: 'ANA SAYFA',
-      about: 'GLC LAW FIRM HAKKINDA',
+      about: 'GLC LAW COMPANY HAKKINDA',
       services: 'UZMANLIK ALANLARI',
       cases: 'BAŞARILI DAVALAR',
       testimonials: 'MÜVEKKİL YORUMLARI',
@@ -1544,16 +1355,20 @@ export const translations: Record<Language, TranslationSchema> = {
       contact: 'İLETİŞİM VE KONUM',
       officeHeadquarters: 'GENEL MERKEZ',
       address: 'Gürcistan, Batum, Kutaisi Cad. #31, Ofis 6000',
-      rightsReserved: '© 2026 GLC Law Firm. Tüm hakları saklıdır.',
+      rightsReserved: '© 2026 GLC Law Company. Tüm hakları saklıdır.',
       attorneyNotice: 'Avukatlık tanıtımıdır. Geçmiş sonuçlar benzer sonucu garanti etmez.',
     },
     hero: {
       mainTitle: 'Büyüyen İşletmeler İçin Güvenilir Hukuki Danışmanlık',
       mainTitleHighlight: 'İşletmeler',
-      subheading: 'Kararlılık ve Hedefe Odaklı Hukuki Temsil',
+      subheading: 'Yılların mahkeme deneyimi ve stratejik danışmanlığıyla faaliyetlerimiz güven, şeffaflık ve sonuç odaklılık üzerine kuruludur.',
       trustHeadline: 'GÜVEN. DENEYİM. STRATEJİ.',
       trustParagraph:
         'Ceza, idare ve medeni hukuk alanlarında 21 yılı aşkın tecrübesiyle Giorgi Gubeladze, Gürcistan Barolar Birliği üyesi olarak sonuç odaklı hukuki strateji ve tavizsiz koruma sağlar.',
+      section2Badge: "2005'TEN BERİ CEZA HUKUKU",
+      section2Subline: 'Hukuk ve İdare Davaları',
+      section2Tagline:
+        'Doğru hukuki strateji ve tavizsiz savunma, zaferinizin teminatıdır.',
       memberBadge: 'BARO BİRLİĞİ',
       barAssociation: 'RESMİ ÜYESİ',
       badgePillars: ['Hukuki Uzmanlık', 'Müvekkil Odaklı', 'Etik Temsil'],
@@ -1581,13 +1396,13 @@ export const translations: Record<Language, TranslationSchema> = {
     aboutMe: {
       badgeNumber: '(01)',
       badgeText: 'HAKKIMIZDA',
-      headingText: 'GERİ ADIM ATMAYANLARIN YANINDAYIZ. DAHA AZ ENGEL, DAHA FAZLA NETLİK VE DAVANIZI GERÇEKTEN ÖNEMSEYEN BİR AVUKAT.',
-      headingHighlight: 'GERİ ADIM',
+      headingText: 'DAVANIZIN GERÇEKTEN BİR ÖNCELİK OLDUĞU BİR AVUKAT',
+      headingHighlight: 'ÖNCELİK',
       quoteTitle: 'GERÇEK ETKİYE DAYANAN STRATEJİK SAVUNMA',
       quoteParagraph:
-        'Gerçek hukuki temsil sadece kanunları bilmekten ibaret değildir — riskin büyüklüğünü anlamaktır. İşiniz, aileniz veya özgürlüğünüz söz konusu olduğunda sıradan tavsiyelere değil; dinleyen, strateji geliştiren ve kusursuz uygulayan bir savunucuya ihtiyacınız vardır.',
+        'Hukuki temsil sadece kanunları bilmekten ibaret değildir; gerçek savunma, delilleri toplamak, söz konusu menfaatleri kavramak ve mahkemede doğru stratejiyi sunarak zafere ilerlemektir!',
       quoteParagraph2:
-        'Yıllara dayanan mahkeme tecrübemiz ve kurumsal danışmanlığımızla pratiğimiz güven, şeffaflık ve sonuç odaklılık üzerine kuruludur.',
+        'Söz konusu bir aile ferdi veya özgürlük olduğunda, bilgi ve tecrübe ilkesel olarak hayati öneme sahiptir!',
       founderTitle: 'GIORGI GUBELADZE',
       founderSubtitle: 'KURUCU VE YÖNETİCİ ORTAK',
       exploreBtn: 'UZMANLIK ALANLARINI İNCELE',
@@ -1601,66 +1416,18 @@ export const translations: Record<Language, TranslationSchema> = {
       seeDetails: 'Detayları Gör',
       items: [
         {
-          id: 'business-law',
-          categoryNumber: '01.',
-          categoryName: 'Ticaret Hukuku',
-          title: 'Şirket Kuruluşu ve Kurumsal Hukuk Müşavirliği',
-          bullets: [
-            'Şirketinizi güvenle kurun ve yapılandırın',
-            'Şirketiniz büyürken kesintisiz hukuki koruma',
-            'Sözleşmeler, mevzuata uyum ve risk yönetimi',
-          ],
-          tags: ['Şirket Kuruluşu', 'Sözleşmeler', 'Uyum', 'Fikri Mülkiyet'],
-          detailedOverview:
-            'Limited ve anonim şirket kuruluşlarından yüksek hacimli ticari sözleşmelere kadar, girişimcileri ve köklü işletmeleri olası uyuşmazlıklardan koruyoruz.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Kurumsal Strateji ve Yönetişim',
-            },
-            {
-              url: '/.tempmediaStorage/LAW_PICTURE.jpg',
-              caption: 'Sözleşme İcrası ve Düzenleyici Danışmanlık',
-            },
-          ],
-        },
-        {
-          id: 'family-law',
-          categoryNumber: '02.',
-          categoryName: 'Aile Hukuku',
-          title: 'Boşanma ve Aile Hukuku Uyuşmazlıkları',
-          bullets: [
-            'Zorlu süreçlerde şefkatli ve kararlı rehberlik',
-            'Ailenizin ve çocuklarınızın menfaatlerinin korunması',
-            'Geleceğiniz için net ve pratik hukuki çözümler',
-          ],
-          tags: ['Boşanma', 'Velayet', 'Nafaka', 'Arabuluculuk'],
-          detailedOverview:
-            'Aile hukuku davalarında empati ile mahkeme kararlılığını bir araya getiriyoruz: adil mal paylaşımı, velayet planlaması ve gizli arabuluculuk.',
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Özel Danışmanlık ve Arabuluculuk',
-            },
-            {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Çocuk ve Eş Haklarının Korunması',
-            },
-          ],
-        },
-        {
           id: 'criminal-defense',
-          categoryNumber: '03.',
+          categoryNumber: '01.',
           categoryName: 'Ceza Hukuku',
           title: 'Ceza Davalarında Etkin Savunma',
           bullets: [
-            'Haklarınız ve özgürlüğünüz için güçlü savunma',
-            'Kapsamlı dosya analizi ve stratejik planlama',
-            'Soruşturma ve kovuşturmanın her aşamasında temsil',
+            'Soruşturma ve mahkeme aşamalarında tavizsiz savunma',
+            'Derinlemesine dava analizi ve stratejik savunma planı',
+            'Ceza infaz kurumlarına ziyaret ve acil hukuki destek',
           ],
-          tags: ['Ağır Ceza', 'Soruşturma', 'Tutukluluğa İtiraz'],
+          tags: ['Ağır Ceza', 'Soruşturma', 'Cezaevi Ziyareti'],
           detailedOverview:
-            'Özgürlüğünüz tehlikedeyken bağımsız soruşturma taktikleri uyguluyor, hukuka aykırı delillere itiraz ediyor ve beraat için mücadele ediyoruz.',
+            'Ceza hukuku alanında 21 yılı aşkın tecrübemizle soruşturmanın başından hüküm aşamasına kadar tavizsiz savunma sağlıyor, hukuka aykırı delillere itiraz ediyor ve tutukluları ceza infaz kurumlarında ivedilikle ziyaret ediyoruz.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
@@ -1673,42 +1440,42 @@ export const translations: Record<Language, TranslationSchema> = {
           ],
         },
         {
-          id: 'civil-litigation',
-          categoryNumber: '04.',
-          categoryName: 'Medeni ve Ticari Dava',
-          title: 'Ticari Davalar ve Uyuşmazlık Çözümü',
+          id: 'family-law',
+          categoryNumber: '02.',
+          categoryName: 'Medeni ve Aile Hukuku',
+          title: 'Aile Davaları ve Medeni Uyuşmazlıklar',
           bullets: [
-            'Yüksek riskli ticari davalarda tavizsiz temsil',
-            'Tahkim ve uzlaşma müzakerelerinde güçlü stratejiler',
-            'Ticari varlıkların, itibarın ve hakların güvenceye alınması',
+            'Aile uyuşmazlıkları, boşanma davaları ve mal paylaşımı',
+            'Çocuk velayeti, nafaka ve aile haklarının korunması',
+            'Temel medeni ve sözleşme uyuşmazlıklarının çözümü',
           ],
-          tags: ['Ticari Dava', 'Sözleşme İhlali', 'Tahkim', 'Temyiz'],
+          tags: ['Aile Hukuku', 'Medeni Dava', 'Arabuluculuk'],
           detailedOverview:
-            'Karmaşık ticari alacaklar, ortaklık ihtilafları ve sadakat yükümlülüğü ihlalleri. Titiz hukuki araştırmayı güçlü duruşma savunmasıyla birleştiriyoruz.',
+            'Aile hukuku davalarında empati ile mahkeme kararlılığını bir araya getiriyoruz: adil mal paylaşımı, velayet planlaması, nafaka ve medeni hukuk uyuşmazlıklarında etkin temsil.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1000&auto=format&fit=crop',
-              caption: 'İstinaf ve Yargıtay Dava Temsili',
+              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Özel Danışmanlık ve Arabuluculuk',
             },
             {
-              url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
-              caption: 'Mali Denetim ve İfadeye Hazırlık',
+              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Çocuk ve Eş Haklarının Korunması',
             },
           ],
         },
         {
           id: 'real-estate-law',
-          categoryNumber: '05.',
+          categoryNumber: '03.',
           categoryName: 'Gayrimenkul Hukuku',
-          title: 'Gayrimenkul İşlemleri ve İmar Hukuku',
+          title: 'Gayrimenkul İşlemleri ve Mülk Devri',
           bullets: [
-            'Ticari ve konut gayrimenkul alım-satımında tam destek',
-            'Tapu incelemeleri, imar durumu ve belediye ruhsat onayları',
-            'Kira, tahliye ve sınır uyuşmazlıklarının çözümü',
+            'Gayrimenkul alım-satım ve sözleşme süreçlerinde tam destek',
+            'Tapu incelemeleri, hukuki durum tespiti (Due Diligence) ve tescil',
+            'Mülkiyet ve kira uyuşmazlıklarının kararlı çözümü',
           ],
-          tags: ['Mülk Devri', 'İmar ve Ruhsat', 'Tapu Güvencesi'],
+          tags: ['Mülk Devri', 'Due Diligence', 'Tapu Güvencesi'],
           detailedOverview:
-            'Yatırımcıları ve mülk sahiplerini gayrimenkul alımlarında, tapu tescillerinde ve imar süreçlerinde sıfır riskle yönlendiriyoruz.',
+            'Yatırımcıları ve mülk sahiplerini gayrimenkul alımlarında, tapu devirlerinde ve sözleşme denetiminde tam hukuki güvenceyle yönlendiriyoruz.',
           images: [
             {
               url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
@@ -1736,7 +1503,7 @@ export const translations: Record<Language, TranslationSchema> = {
           subtitle: 'Şirket Kuruluşu ve Kurumsal Danışmanlık',
           description:
             'Büyüyen bir teknoloji şirketine kuruluş, sözleşme müzakereleri ve uzun vadeli stratejide tam danışmanlık.',
-          tags: ['Ticaret Hukuku', 'Kurumsal Hukuk'],
+          tags: ['Kurumsal Danışmanlık', 'Sözleşmeler'],
           imageUrl: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
@@ -1748,16 +1515,6 @@ export const translations: Record<Language, TranslationSchema> = {
             'Ağır ceza davasında müvekkilin başarıyla savunulması ve tüm suçlamaların düşürülmesi.',
           tags: ['Ceza Hukuku', 'Davanın Düşmesi'],
           imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
-        {
-          id: 'case-3',
-          title: 'Büyük Aile Varlıklarının Korunması',
-          subtitle: 'Aile Şirketi ve Gizli Arabuluculuk',
-          description:
-            'Milyonlarca dolarlık aile şirket varlıklarının korunması ve tam gizlilikle sulh sağlanması.',
-          tags: ['Aile Hukuku', 'Varlık Koruma'],
-          imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
         {
@@ -1790,16 +1547,6 @@ export const translations: Record<Language, TranslationSchema> = {
           imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
         },
-        {
-          id: 'case-7',
-          title: 'Sınır Ötesi Tahkim',
-          subtitle: 'Uluslararası Ticaret ve Sözleşmeler',
-          description:
-            'საარბიტრაჟო დავაში მოპოვებული გამარჯვება და ეფექტური აღსრულება.',
-          tags: ['Uluslararası Hukuk', 'Tahkim'],
-          imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-          aspectClass: 'aspect-[16/10]',
-        },
       ],
     },
     metricsSection: {
@@ -1807,7 +1554,7 @@ export const translations: Record<Language, TranslationSchema> = {
       watermark: 'ADALET',
       headline: 'Sizin için mücadele eden bir avukatı hak ediyorsunuz',
       headlineHighlight: 'mücadele',
-      subtitle: 'İster birey ister kurumsal bir işletme olsun, her müvekkilin aynı adanmışlığı, şeffaf iletişimi ve sonuç odaklı yaklaşımı hak ettiğine inanıyoruz.',
+      subtitle: 'Her müvekkil tavizsiz bir bağlılığı ve sonuç odaklı hukuki savunmayı hak eder.',
       stat1Label: 'Yıllık Deneyim',
       stat2Label: 'Başarı Oranı',
       stat3Label: 'Müvekkil Kazanımı',
@@ -1964,7 +1711,7 @@ export const translations: Record<Language, TranslationSchema> = {
       marqueeWord2: 'KONUŞALIM',
       bookBtn: 'Danışmanlık Randevusu Al',
       justiceSlogan: 'Adalet Eylemde',
-      copyright: '© 2026 GLC Law Firm. Tüm hakları saklıdır.',
+      copyright: '© 2026 GLC Law Company. Tüm hakları saklıdır.',
     },
   },
 };
@@ -1980,7 +1727,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
     try {
-      const saved = localStorage.getItem('glc_law_firm_lang');
+      const saved = localStorage.getItem('glc_law_company_lang') || localStorage.getItem('glc_law_firm_lang');
       if (saved && (saved === 'ENG' || saved === 'GEO' || saved === 'RUS' || saved === 'TUR')) {
         return saved as Language;
       }
@@ -1993,7 +1740,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     try {
-      localStorage.setItem('glc_law_firm_lang', lang);
+      localStorage.setItem('glc_law_company_lang', lang);
     } catch (e) {
       // ignore
     }

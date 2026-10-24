@@ -38,16 +38,6 @@ const caseStudies: CaseStudyItem[] = [
     aspectClass: 'aspect-[16/10]',
   },
   {
-    id: 'case-3',
-    title: 'High-Asset Estate Preservation',
-    subtitle: 'Family Enterprise & Private Mediation',
-    description:
-      'Protected multi-million family enterprise assets and negotiated amicable marital dissolution with total discretion.',
-    tags: ['Family Law', 'Asset Protection'],
-    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
-    aspectClass: 'aspect-[16/10]',
-  },
-  {
     id: 'case-4',
     title: 'Commercial Trial Victory',
     subtitle: 'Civil Litigation & Partner Resolution',
@@ -77,19 +67,9 @@ const caseStudies: CaseStudyItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
     aspectClass: 'aspect-[16/10]',
   },
-  {
-    id: 'case-7',
-    title: 'Cross-Border Arbitration',
-    subtitle: 'International Trade & Contract Enforcement',
-    description:
-      'საარბიტრაჟო დავაში მოპოვებული გამარჯვება და ეფექტური აღსრულება.',
-    tags: ['International Law', 'Arbitration'],
-    imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-    aspectClass: 'aspect-[16/10]',
-  },
 ];
 
-// Letter-by-letter blurry wave reveal without breaking words
+// Word-level smooth wave reveal for reliable initial load rendering
 function BlurWaveText({
   text,
   className = '',
@@ -99,17 +79,19 @@ function BlurWaveText({
   className?: string;
   delay?: number;
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
   return (
     <motion.span
+      key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.02,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
@@ -117,25 +99,24 @@ function BlurWaveText({
       className={`inline-block ${className}`}
     >
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
-          {Array.from(word).map((char, charIndex) => (
-            <motion.span
-              key={charIndex}
-              variants={{
-                hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                visible: {
-                  opacity: 1,
-                  filter: 'blur(0px)',
-                  y: 0,
-                  transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
-                },
-              }}
-              className="inline-block pb-[0.14em]"
-            >
-              {char}
-            </motion.span>
-          ))}
-        </span>
+        <motion.span
+          key={`${word}-${wordIndex}`}
+          variants={{
+            hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+            visible: {
+              opacity: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              transition: {
+                duration: 1.05,
+                ease: [0.25, 1, 0.5, 1],
+              },
+            },
+          }}
+          className="inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter]"
+        >
+          {word}
+        </motion.span>
       ))}
     </motion.span>
   );
@@ -265,10 +246,10 @@ export default function CaseStudy() {
         // Mobile / Tablet: Cards travel horizontally Right -> Left
         if (horizontalTrackRef.current) {
           const trackWidth = horizontalTrackRef.current.scrollWidth;
-          const maxScrollX = Math.max(0, trackWidth - vw + 48);
+          const maxScrollX = Math.max(0, trackWidth - vw + 140);
           setHorizontalTravel({ start: 0, end: -maxScrollX });
 
-          const scrollDistance = Math.round(maxScrollX * 1.1);
+          const scrollDistance = Math.round(maxScrollX * 1.2);
           setTrackHeight(vh + scrollDistance);
         } else {
           setTrackHeight(vh + 2600);
@@ -279,15 +260,16 @@ export default function CaseStudy() {
           const lastRow = lastRowRef.current;
           const lastRowOffsetTop = lastRow.offsetTop;
           const lastRowHeight = lastRow.offsetHeight;
-          const lastRowCenterInComp = lastRowOffsetTop + lastRowHeight / 2;
+          const lastRowBottom = lastRowOffsetTop + lastRowHeight;
 
           const startY = Math.max(340, Math.round(vh * 0.44));
-          const endY = Math.round(vh * 0.5 - lastRowCenterInComp);
+          // Landing position: bottom of the last row (including the CTA button) sits safely 70px above the viewport bottom
+          const endY = Math.round(vh - lastRowBottom - 70);
 
           const totalTravel = Math.abs(endY - startY);
           setVerticalTravel({ start: startY, end: endY });
 
-          const scrollDistance = Math.round(totalTravel * 1.25);
+          const scrollDistance = Math.round(totalTravel * 1.3);
           setTrackHeight(vh + scrollDistance);
         }
       }
@@ -328,32 +310,24 @@ export default function CaseStudy() {
   // ================= 1 BY 1 BOTTOM-TO-TOP SOFT FOLDING MOTION ANIMATION =================
   // Each card gently folds and glides up from bottom to top sequentially. Reverse scrolling smoothly folds back down.
   // Card 1
-  const card1RotateX = useTransform(scrollYProgress, [0.0, 0.14], [12, 0]);
-  const card1Y = useTransform(scrollYProgress, [0.0, 0.14], [36, 0]);
+  const card1RotateX = useTransform(scrollYProgress, [0.0, 0.18], [12, 0]);
+  const card1Y = useTransform(scrollYProgress, [0.0, 0.18], [36, 0]);
 
   // Card 2
-  const card2RotateX = useTransform(scrollYProgress, [0.10, 0.24], [12, 0]);
-  const card2Y = useTransform(scrollYProgress, [0.10, 0.24], [36, 0]);
+  const card2RotateX = useTransform(scrollYProgress, [0.12, 0.30], [12, 0]);
+  const card2Y = useTransform(scrollYProgress, [0.12, 0.30], [36, 0]);
 
   // Card 3
-  const card3RotateX = useTransform(scrollYProgress, [0.22, 0.36], [12, 0]);
-  const card3Y = useTransform(scrollYProgress, [0.22, 0.36], [36, 0]);
+  const card3RotateX = useTransform(scrollYProgress, [0.26, 0.44], [12, 0]);
+  const card3Y = useTransform(scrollYProgress, [0.26, 0.44], [36, 0]);
 
   // Card 4
-  const card4RotateX = useTransform(scrollYProgress, [0.34, 0.48], [12, 0]);
-  const card4Y = useTransform(scrollYProgress, [0.34, 0.48], [36, 0]);
+  const card4RotateX = useTransform(scrollYProgress, [0.40, 0.58], [12, 0]);
+  const card4Y = useTransform(scrollYProgress, [0.40, 0.58], [36, 0]);
 
   // Card 5
-  const card5RotateX = useTransform(scrollYProgress, [0.46, 0.60], [12, 0]);
-  const card5Y = useTransform(scrollYProgress, [0.46, 0.60], [36, 0]);
-
-  // Card 6
-  const card6RotateX = useTransform(scrollYProgress, [0.58, 0.72], [12, 0]);
-  const card6Y = useTransform(scrollYProgress, [0.58, 0.72], [36, 0]);
-
-  // Card 7
-  const card7RotateX = useTransform(scrollYProgress, [0.70, 0.84], [12, 0]);
-  const card7Y = useTransform(scrollYProgress, [0.70, 0.84], [36, 0]);
+  const card5RotateX = useTransform(scrollYProgress, [0.54, 0.72], [12, 0]);
+  const card5Y = useTransform(scrollYProgress, [0.54, 0.72], [36, 0]);
 
   return (
     <section className="relative w-full bg-[#0D0D0D] text-[#FBFAFA]">
@@ -373,7 +347,7 @@ export default function CaseStudy() {
         ref={scrollDriverRef}
         className="relative w-full"
         style={{
-          height: trackHeight ? `${trackHeight}px` : '360vh',
+          height: trackHeight ? `${trackHeight}px` : '320vh',
           backgroundColor: '#0D0D0D',
         }}
       >
@@ -406,7 +380,7 @@ export default function CaseStudy() {
             </div>
 
             {/* Main Headline with balanced scaling and generous line height */}
-            <h2 className="text-[28px] sm:text-[38px] md:text-[46px] lg:text-[54px] font-['Antonio'] uppercase tracking-tight leading-[1.22] text-white max-w-[1050px] px-3 pb-1">
+            <h2 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-['Antonio'] uppercase tracking-tight leading-[1.22] text-white max-w-[1050px] px-3 pb-1">
               <BlurWaveText
                 text={t.caseStudiesSection.headline}
                 delay={0.1}
@@ -416,7 +390,7 @@ export default function CaseStudy() {
             {/* Sub-headline with proper vertical gap */}
             {t.caseStudiesSection.subtitle && (
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-400 max-w-2xl px-4 text-center leading-relaxed font-normal">
-                {t.caseStudiesSection.subtitle}
+                <BlurWaveText text={t.caseStudiesSection.subtitle} delay={0.15} />
               </p>
             )}
 
@@ -474,70 +448,44 @@ export default function CaseStudy() {
                 />
               </div>
 
-              {/* ====== ROW 3: CARDS 4 & 5 (Card 4 top to Card 5 top gap is 64px / mt-16) ====== */}
-              <div className="flex items-start justify-between gap-8 lg:gap-10 pointer-events-auto [perspective:1200px]">
-                <CaseCard
-                  item={currentCaseStudies[3] || caseStudies[3]}
-                  variant="wide"
-                  style={{
-                    rotateX: card4RotateX,
-                    y: card4Y,
-                    transformOrigin: 'bottom center',
-                  }}
-                />
-                <CaseCard
-                  item={currentCaseStudies[4] || caseStudies[4]}
-                  variant="narrow"
-                  className="mt-16"
-                  style={{
-                    rotateX: card5RotateX,
-                    y: card5Y,
-                    transformOrigin: 'bottom center',
-                  }}
-                />
-              </div>
-
-              {/* ====== ROW 4: CARDS 6 & 7 (Card 6 top to Card 7 top gap is 64px / mt-16) + CTA ====== */}
+              {/* ====== ROW 3: CARDS 4 & 5 (Card 4 top to Card 5 top gap is 64px / mt-16) + CTA ====== */}
               <div
                 ref={lastRowRef}
                 className="flex flex-col pointer-events-auto [perspective:1200px]"
               >
                 <div className="flex items-start justify-between gap-8 lg:gap-10 [perspective:1200px]">
                   <CaseCard
-                    item={currentCaseStudies[5] || caseStudies[5]}
+                    item={currentCaseStudies[3] || caseStudies[3]}
                     variant="wide"
                     style={{
-                      rotateX: card6RotateX,
-                      y: card6Y,
+                      rotateX: card4RotateX,
+                      y: card4Y,
                       transformOrigin: 'bottom center',
                     }}
                   />
                   <CaseCard
-                    item={currentCaseStudies[6] || caseStudies[6]}
+                    item={currentCaseStudies[4] || caseStudies[4]}
                     variant="narrow"
                     className="mt-16"
                     style={{
-                      rotateX: card7RotateX,
-                      y: card7Y,
+                      rotateX: card5RotateX,
+                      y: card5Y,
                       transformOrigin: 'bottom center',
                     }}
                   />
                 </div>
 
-                {/* Bottom Right CTA Link ("All cases (17)") */}
-                <div className="w-full flex justify-end items-center mt-5 md:mt-6 pointer-events-auto">
+                {/* Bottom Right CTA Link ("All cases") */}
+                <div className="w-full flex justify-end items-center mt-8 md:mt-12 pb-6 pointer-events-auto relative z-30">
                   <a
                     href="#contact"
-                    className="group inline-flex items-center gap-3 text-white hover:text-[#D2AE37] transition-colors duration-300"
+                    className="group inline-flex items-center gap-3.5 px-6 py-3.5 rounded-full bg-[#171616]/90 hover:bg-[#171616] border border-[#D2AE37]/40 hover:border-[#D2AE37] text-white hover:text-[#D2AE37] transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.6)] cursor-pointer select-none"
                   >
-                    <span className="w-9 h-9 rounded-full border border-white/20 group-hover:border-[#D2AE37] group-hover:bg-[#D2AE37]/10 flex items-center justify-center transition-all duration-300">
-                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    <span className="w-8 h-8 rounded-full border border-white/20 group-hover:border-[#D2AE37] group-hover:bg-[#D2AE37]/20 flex items-center justify-center transition-all duration-300">
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-[#D2AE37]" />
                     </span>
-                    <span className="text-[24px] sm:text-[30px] md:text-[36px] font-['Antonio'] uppercase tracking-tight">
+                    <span className="text-[18px] sm:text-[22px] md:text-[26px] font-['Antonio'] uppercase tracking-tight">
                       {t.caseStudiesSection.viewSummary || 'All cases'}
-                    </span>
-                    <span className="text-[#D2AE37] text-[15px] sm:text-[17px] font-semibold -mt-2">
-                      (17)
                     </span>
                   </a>
                 </div>

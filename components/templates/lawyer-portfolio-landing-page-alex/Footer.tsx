@@ -313,7 +313,7 @@ export default function Footer() {
             {/* Email */}
             <a
               href="mailto:lawyergiorgigubeladze@gmail.com"
-              aria-label="Email GLC Law Firm"
+              aria-label="Email GLC Law Company"
               className="text-[#D3AF37] hover:text-[#FFF3B2] transition-transform duration-200 hover:scale-110 flex items-center justify-center w-8 h-8"
             >
               <Mail className="w-5 h-5" />
@@ -326,7 +326,7 @@ export default function Footer() {
           {/* Brand Name & Title */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm">
             <span className="font-['Antonio'] text-[#D3AF37] font-bold tracking-wider uppercase text-sm sm:text-base">
-              GLC Law Firm
+              GLC Law Company
             </span>
             <span className="text-gray-500">—</span>
             <span className="text-gray-400 font-normal">

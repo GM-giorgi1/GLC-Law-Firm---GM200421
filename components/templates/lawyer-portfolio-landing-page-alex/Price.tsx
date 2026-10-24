@@ -6,7 +6,7 @@ import { motion, useInView } from 'framer-motion';
 import { Scale, ArrowRight, ShieldCheck, Award, Globe2, Briefcase } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 
-// Letter-by-letter blurry wave reveal without breaking words
+// Word-level smooth wave reveal with blur-fade effect
 function BlurWaveText({
   text,
   className = '',
@@ -20,17 +20,19 @@ function BlurWaveText({
   highlightWord?: string;
   highlightClass?: string;
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
   return (
     <motion.span
+      key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.025,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
@@ -40,30 +42,26 @@ function BlurWaveText({
       {words.map((word, wordIndex) => {
         const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
         return (
-          <span
-            key={wordIndex}
-            className={`inline-block whitespace-nowrap mr-[0.25em] ${
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
+                },
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
-            {Array.from(word).map((char, charIndex) => (
-              <motion.span
-                key={charIndex}
-                variants={{
-                  hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                  visible: {
-                    opacity: 1,
-                    filter: 'blur(0px)',
-                    y: 0,
-                    transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
-                  },
-                }}
-                className="inline-block pb-[0.14em]"
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
+            {word}
+          </motion.span>
         );
       })}
     </motion.span>
@@ -117,7 +115,7 @@ export default function Price() {
 
         {/* ================= 2. SECTION HEADER ================= */}
         <div className="text-center max-w-[820px] mx-auto">
-          <h2 className="font-['Antonio'] uppercase tracking-tight text-[36px] sm:text-[50px] md:text-[62px] lg:text-[70px] leading-[1.18] pb-1 text-white">
+          <h2 className="font-['Antonio'] uppercase tracking-tight text-[28px] sm:text-[40px] md:text-[48px] lg:text-[54px] leading-[1.2] pb-1 text-white">
             <BlurWaveText
               text={t.teamSection.headline}
               highlightWord={t.teamSection.headlineHighlight}
@@ -127,11 +125,10 @@ export default function Price() {
           </h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-            transition={{ duration: 0.85, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 text-sm sm:text-base md:text-[17px] text-white/70 font-inter-tight leading-relaxed max-w-[640px] mx-auto"
-          >
+            initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
+            animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 24, filter: 'blur(14px)' }}
+            transition={{ duration: 1.05, delay: 0.18, ease: [0.25, 1, 0.5, 1] }}
+            className="mt-5 text-sm sm:text-base md:text-[16px] text-white/70 font-inter-tight leading-relaxed max-w-[640px] mx-auto will-change-[transform,opacity,filter]">
             {t.teamSection.subtitle}
           </motion.p>
         </div>
@@ -172,7 +169,7 @@ export default function Price() {
                     <div className="flex items-center gap-2 text-[#D2AF37]">
                       <Award className="w-4 h-4 shrink-0" />
                       <span className="text-xs font-semibold tracking-wider font-inter-tight uppercase text-white/90">
-                        GBA Advocate #6156
+                        GBA ADVOCATE #10044
                       </span>
                     </div>
                     <span className="text-[11px] font-medium text-[#D2AF37] font-inter-tight">
@@ -193,7 +190,7 @@ export default function Price() {
                 </div>
 
                 {/* Name */}
-                <h3 className="font-['Antonio'] uppercase tracking-tight text-4xl sm:text-5xl md:text-6xl text-white font-bold leading-tight mb-2">
+                <h3 className="font-['Antonio'] uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl text-white font-bold leading-tight mb-2">
                   {t.teamSection.leadName}
                 </h3>
 

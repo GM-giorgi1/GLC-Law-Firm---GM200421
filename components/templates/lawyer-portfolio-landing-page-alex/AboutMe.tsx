@@ -6,54 +6,63 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 
-// Letter-by-letter blurry wave reveal without breaking words
 function BlurWaveText({
   text,
   className = '',
   delay = 0,
+  highlightWord = '',
+  highlightClass = 'text-[#D3AF37]',
 }: {
   text: string;
   className?: string;
   delay?: number;
+  highlightWord?: string;
+  highlightClass?: string;
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
   return (
     <motion.span
+      key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.025,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
       }}
       className={`inline-block ${className}`}
     >
-      {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.24em]">
-          {Array.from(word).map((char, charIndex) => (
-            <motion.span
-              key={charIndex}
-              variants={{
-                hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                visible: {
-                  opacity: 1,
-                  filter: 'blur(0px)',
-                  y: 0,
-                  transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
+      {words.map((word, wordIndex) => {
+        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
+        return (
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
                 },
-              }}
-              className="inline-block"
-            >
-              {char}
-            </motion.span>
-          ))}
-        </span>
-      ))}
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.24em] will-change-[transform,opacity,filter] ${
+              isHighlighted ? highlightClass : ''
+            }`}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
     </motion.span>
   );
 }
@@ -118,44 +127,42 @@ export default function AboutMe() {
           {/* Right: Giant Headline with Reversible Letter-by-Letter Blurry Wave */}
           <div className="lg:col-span-9">
             <motion.h2 
+              key={t.aboutMe.headingText}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.15 }}
               variants={{
-                hidden: {},
+                hidden: { opacity: 0 },
                 visible: {
+                  opacity: 1,
                   transition: {
-                    staggerChildren: 0.015,
+                    staggerChildren: 0.09,
                   },
                 },
               }}
-              className="font-antonio font-bold text-3xl sm:text-5xl md:text-6xl lg:text-[64px] leading-[1.24] sm:leading-[1.28] pb-1 tracking-normal uppercase"
+              className="font-antonio font-bold text-2xl sm:text-4xl md:text-5xl lg:text-[50px] leading-[1.22] sm:leading-[1.26] pb-1 tracking-normal uppercase"
             >
               {headingWords.map((item, index) => (
-                <span
+                <motion.span
                   key={`${item.text}-${index}`}
-                  className={`inline-block whitespace-nowrap mr-[0.24em] select-none pb-0.5 ${
+                  variants={{
+                    hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      filter: 'blur(0px)',
+                      transition: {
+                        duration: 1.05,
+                        ease: [0.25, 1, 0.5, 1],
+                      },
+                    },
+                  }}
+                  className={`inline-block whitespace-nowrap mr-[0.24em] select-none pb-0.5 will-change-[transform,opacity,filter] ${
                     item.highlight ? 'text-[#D3AF37]' : 'text-white'
                   }`}
                 >
-                  {Array.from(item.text).map((char, charIndex) => (
-                    <motion.span
-                      key={charIndex}
-                      variants={{
-                        hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                        visible: {
-                          opacity: 1,
-                          filter: 'blur(0px)',
-                          y: 0,
-                          transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
-                        },
-                      }}
-                      className="inline-block pb-0.5"
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                </span>
+                  {item.text}
+                </motion.span>
               ))}
             </motion.h2>
           </div>
@@ -245,31 +252,30 @@ export default function AboutMe() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-white/60 font-inter-tight mb-8"
+                className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-white/60 font-inter-tight mb-6 sm:mb-8"
               >
                 ({t.aboutMe.quoteTitle})
               </motion.div>
 
-              {/* Large Quote */}
-              <blockquote className="font-antonio font-bold text-2xl sm:text-4xl lg:text-[42px] leading-[1.2] uppercase text-white mb-8 sm:mb-10 tracking-tight">
-                <span className="text-[#D3AF37] mr-2">“</span>
-                <BlurWaveText
-                  text={t.aboutMe.quoteParagraph}
-                  delay={0.1}
-                />
-                <span className="text-[#D3AF37] ml-2">”</span>
-              </blockquote>
+              {/* Structured Bio Quote Paragraph 1 */}
+              <div className="relative pl-5 sm:pl-6 border-l-2 border-[#D3AF37]/50 mb-6 sm:mb-8">
+                <p className="font-inter-tight font-medium text-base sm:text-lg lg:text-[21px] leading-[1.5] text-white/95 tracking-normal">
+                  “<BlurWaveText text={t.aboutMe.quoteParagraph} delay={0.08} />”
+                </p>
+              </div>
 
-              {/* Explanatory Body Paragraph */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="font-inter-tight font-normal text-base sm:text-lg text-white/65 max-w-[620px] leading-[1.7] mb-12 sm:mb-16"
+              {/* Structured Bio Quote Paragraph 2 */}
+              <motion.div
+                initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 1.1, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
+                className="p-4 sm:p-5 rounded-xl bg-[#141415]/80 border border-[#D3AF37]/25 mb-10 sm:mb-14 will-change-[transform,opacity,filter]"
               >
-                {t.aboutMe.quoteParagraph2}
-              </motion.p>
+                <p className="font-inter-tight font-semibold text-sm sm:text-base text-[#D3AF37] leading-relaxed">
+                  <BlurWaveText text={t.aboutMe.quoteParagraph2} delay={0.12} highlightClass="text-[#FDE99A]" />
+                </p>
+              </motion.div>
             </div>
 
             {/* Bottom-Right CTA: EXPLORE PRACTICE AREAS */}

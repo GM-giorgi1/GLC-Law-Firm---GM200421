@@ -81,13 +81,13 @@ function RollingDigit({
   );
 }
 
-// Letter-by-letter blurry wave reveal without breaking words
+// Word-level smooth wave reveal for reliable initial load rendering
 function BlurWaveText({
   text,
   className = '',
   delay = 0,
   highlightWord = '',
-  highlightClass = 'text-[#D2AE37]',
+  highlightClass = 'text-[#D2AF37]',
 }: {
   text: string;
   className?: string;
@@ -95,17 +95,19 @@ function BlurWaveText({
   highlightWord?: string;
   highlightClass?: string;
 }) {
-  const words = text.split(' ');
+  const words = text ? text.split(' ') : [];
   return (
     <motion.span
+      key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
-        hidden: {},
+        hidden: { opacity: 0 },
         visible: {
+          opacity: 1,
           transition: {
-            staggerChildren: 0.025,
+            staggerChildren: 0.09,
             delayChildren: delay,
           },
         },
@@ -115,30 +117,26 @@ function BlurWaveText({
       {words.map((word, wordIndex) => {
         const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
         return (
-          <span
-            key={wordIndex}
-            className={`inline-block whitespace-nowrap mr-[0.25em] ${
+          <motion.span
+            key={`${word}-${wordIndex}`}
+            variants={{
+              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 1.05,
+                  ease: [0.25, 1, 0.5, 1],
+                },
+              },
+            }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
-            {Array.from(word).map((char, charIndex) => (
-              <motion.span
-                key={charIndex}
-                variants={{
-                  hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
-                  visible: {
-                    opacity: 1,
-                    filter: 'blur(0px)',
-                    y: 0,
-                    transition: { duration: 0.45, ease: [0.2, 0.65, 0.3, 0.9] },
-                  },
-                }}
-                className="inline-block pb-[0.14em]"
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
+            {word}
+          </motion.span>
         );
       })}
     </motion.span>
@@ -238,7 +236,7 @@ export default function Metrics() {
           transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="mt-6 sm:mt-8 md:mt-10 text-center max-w-[820px]"
         >
-          <h2 className="font-['Antonio'] uppercase tracking-tight font-normal text-[36px] sm:text-[48px] md:text-[60px] lg:text-[70px] leading-[1.2] pb-1 text-white">
+          <h2 className="font-['Antonio'] uppercase tracking-tight font-normal text-[26px] sm:text-[36px] md:text-[44px] lg:text-[50px] leading-[1.22] pb-1 text-white">
             <BlurWaveText
               text={t.metricsSection.headline}
               highlightWord={t.metricsSection.headlineHighlight}
@@ -248,8 +246,8 @@ export default function Metrics() {
           </h2>
 
           {/* Subheading / Description Paragraph */}
-          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-[17px] text-white/65 font-inter-tight leading-relaxed max-w-[620px] mx-auto">
-            {t.metricsSection.subtitle}
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-[16px] text-white/70 font-inter-tight leading-relaxed max-w-[620px] mx-auto">
+            <BlurWaveText text={t.metricsSection.subtitle} delay={0.25} />
           </p>
         </motion.div>
 

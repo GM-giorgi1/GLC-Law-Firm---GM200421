@@ -34,65 +34,30 @@ html {
   animation-duration: 420s;
 }
 
-/* ================= GEORGIAN (GEO) SYSTEMIC TYPOGRAPHY & DESCENDER FIXES ================= */
+/* ================= GEORGIAN (GEO) TYPOGRAPHY & DESCENDER FIXES ================= */
 [data-lang="GEO"],
 html[lang="ka"],
 html[lang="geo"] {
-  /* High-fidelity Georgian font rendering */
-  font-family: 'Noto Sans Georgian', 'Inter Tight', system-ui, sans-serif !important;
-  line-height: 1.55;
-
-  /* Global line-height and descender clearance to prevent cut-off letter tails (გ, წ, ჭ, შ, ყ, ძ, ჰ, etc.) */
-  p, li, span, a, label {
-    line-height: 1.55 !important;
-  }
-
-  /* Display headings line-height and clearance */
-  h1, h2, h3, h4, h5, h6 {
-    line-height: 1.35 !important;
-    padding-bottom: 0.18em !important;
-    overflow: visible !important;
-  }
-
-  /* Prevent character clipping inside inline-block animation wrappers */
-  .inline-block {
-    padding-bottom: 0.15em !important;
-    vertical-align: baseline !important;
-  }
-
-  h1 .inline-block,
-  h2 .inline-block,
-  h3 .inline-block {
-    padding-bottom: 0.18em !important;
-    vertical-align: baseline !important;
-  }
-
-  /* Scaling display headlines in Georgian to prevent overcrowding while keeping vertical rhythm */
-  h1 {
-    font-size: clamp(2rem, 4.4vw, 3.25rem) !important;
-    letter-spacing: 0.005em !important;
-  }
-
-  h2 {
-    font-size: clamp(1.75rem, 3.6vw, 2.85rem) !important;
-    letter-spacing: 0.005em !important;
-  }
-
-  .font-antonio,
-  [class*="font-['Antonio']"],
-  [class*='font-["Antonio"]'] {
-    font-family: 'Noto Sans Georgian', 'Antonio', sans-serif !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.008em !important;
-    line-height: 1.32 !important;
-    padding-bottom: 0.15em !important;
-  }
-
-  /* Generous breathing room between headlines and sub-headlines/content */
-  h1 + div,
-  h1 + p,
-  h2 + div,
-  h2 + p {
-    margin-top: 1.35rem !important;
-  }
+  /* High-fidelity Georgian typography: clean, compact, refined matching English */
+  font-family: 'Noto Sans Georgian', 'Inter Tight', system-ui, sans-serif;
+  letter-spacing: 0.005em;
 }
+
+/* Ensure Georgian headers and motion containers never clip descenders (ქ, წ, ჭ, შ, ყ, ძ, ჰ, etc.) */
+[data-lang="GEO"] h1,
+[data-lang="GEO"] h2,
+[data-lang="GEO"] h3,
+[data-lang="GEO"] h4,
+[data-lang="GEO"] h5,
+[data-lang="GEO"] h6 {
+  overflow: visible;
+}
+
+/* Ensure Antonio font gracefully falls back to Noto Sans Georgian with natural line-height */
+[data-lang="GEO"] .font-antonio,
+[data-lang="GEO"] [class*="font-['Antonio']"],
+[data-lang="GEO"] [class*='font-["Antonio"]'] {
+  font-family: 'Antonio', 'Noto Sans Georgian', sans-serif !important;
+  line-height: 1.25;
+}
+
