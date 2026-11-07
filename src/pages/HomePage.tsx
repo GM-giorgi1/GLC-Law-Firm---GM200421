@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import SEOHead from '@/src/components/common/SEOHead';
 import Header from '@/components/templates/lawyer-portfolio-landing-page-alex/Header';
 import Aboutme from '@/components/templates/lawyer-portfolio-landing-page-alex/AboutMe';
 import Services from '@/components/templates/lawyer-portfolio-landing-page-alex/Services';
@@ -33,6 +34,9 @@ export default function HomePage() {
 
   return (
     <>
+      <SEOHead
+        canonicalPath="/"
+      />
       <Header />
       <Aboutme />
       <Services />

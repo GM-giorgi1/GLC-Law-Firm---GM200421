@@ -1,6 +1,5 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
 .font-antonio { font-family: 'Antonio', 'Noto Sans Georgian', sans-serif !important; }
 .font-inter-tight { font-family: 'Inter Tight', 'Noto Sans Georgian', sans-serif !important; }
@@ -34,24 +33,79 @@ html {
   animation-duration: 420s;
 }
 
-/* ================= GEORGIAN (GEO) TYPOGRAPHY & DESCENDER FIXES ================= */
+/* ================= GEORGIAN (GEO) TYPOGRAPHY SCALING & PROPORTIONAL HARMONY ================= */
 [data-lang="GEO"],
 html[lang="ka"],
 html[lang="geo"] {
   /* High-fidelity Georgian typography: clean, compact, refined matching English */
   font-family: 'Noto Sans Georgian', 'Inter Tight', system-ui, sans-serif;
-  letter-spacing: 0.005em;
+  letter-spacing: -0.01em;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
-/* Ensure Georgian headers and motion containers never clip descenders (ქ, წ, ჭ, შ, ყ, ძ, ჰ, გ, პ, etc.) */
+/* Headings font scaling to counter Georgian bulkiness and match English typographic density */
 [data-lang="GEO"] h1,
+html[lang="ka"] h1 {
+  font-size: 0.90em !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.015em;
+  overflow: visible !important;
+}
+
 [data-lang="GEO"] h2,
+html[lang="ka"] h2 {
+  font-size: 0.91em !important;
+  line-height: 1.20 !important;
+  letter-spacing: -0.012em;
+  overflow: visible !important;
+}
+
 [data-lang="GEO"] h3,
+html[lang="ka"] h3 {
+  font-size: 0.92em !important;
+  line-height: 1.22 !important;
+  letter-spacing: -0.01em;
+  overflow: visible !important;
+}
+
 [data-lang="GEO"] h4,
 [data-lang="GEO"] h5,
-[data-lang="GEO"] h6 {
+[data-lang="GEO"] h6,
+html[lang="ka"] h4,
+html[lang="ka"] h5,
+html[lang="ka"] h6 {
+  font-size: 0.94em !important;
+  line-height: 1.25 !important;
   overflow: visible !important;
-  line-height: 1.3 !important;
+}
+
+/* Prevent Georgian text from expanding display fonts (Big Shoulders & Antonio) */
+[data-lang="GEO"] .font-big-shoulders,
+html[lang="ka"] .font-big-shoulders {
+  font-size: 0.92em;
+  letter-spacing: -0.015em;
+  line-height: 1.16;
+  overflow: visible !important;
+}
+
+[data-lang="GEO"] .font-antonio,
+html[lang="ka"] .font-antonio,
+[data-lang="GEO"] [class*="font-['Antonio']"],
+[data-lang="GEO"] [class*='font-["Antonio"]'] {
+  font-family: 'Antonio', 'Noto Sans Georgian', sans-serif !important;
+  font-size: 0.93em;
+  letter-spacing: -0.012em;
+  line-height: 1.20;
+  overflow: visible !important;
+}
+
+/* Ensure Georgian body text and paragraphs maintain sleek proportional rhythm */
+[data-lang="GEO"] p,
+html[lang="ka"] p {
+  font-size: 0.96em;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
 }
 
 /* Ensure gradient-clipped Georgian text does not truncate deep descenders */
@@ -60,14 +114,6 @@ html[lang="ka"] .bg-clip-text {
   padding-bottom: 0.16em !important;
   margin-bottom: -0.16em !important;
   overflow: visible !important;
-}
-
-/* Ensure Antonio font gracefully falls back to Noto Sans Georgian with natural line-height */
-[data-lang="GEO"] .font-antonio,
-[data-lang="GEO"] [class*="font-['Antonio']"],
-[data-lang="GEO"] [class*='font-["Antonio"]'] {
-  font-family: 'Antonio', 'Noto Sans Georgian', sans-serif !important;
-  line-height: 1.28;
 }
 
 /* ================= ELITE MULTI-LAYERED SAAS BUTTON LIGHTING SYSTEM ================= */

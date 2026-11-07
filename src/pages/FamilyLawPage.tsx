@@ -20,6 +20,8 @@ import CurtainIntro from '@/src/components/common/CurtainIntro';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
+import SEOHead from '@/src/components/common/SEOHead';
+import { BlurWaveText } from '@/src/components/common/MotionReveal';
 
 // Family Law Assets
 import familyHeroImg from '@/src/assets/family.png';
@@ -192,21 +194,14 @@ export default function FamilyLawPage() {
   ];
 
   // 4 Stages Protocol Data with family5 to family8 assets
-  const protocolBadge = isGeo
-    ? 'საპროცესო პროტოკოლი'
-    : isEng
-    ? 'PROCEDURAL PROTOCOL'
-    : isRus
-    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ'
-    : 'USUL PROTOKOLÜ';
 
   const protocolHeading = isGeo
-    ? 'საპროცესო პროტოკოლი, დაცვის 4 ეტაპი'
+    ? 'დაცვის 4 ეტაპი'
     : isEng
-    ? 'PROCEDURAL PROTOCOL. 4 STAGES OF PROTECTION'
+    ? '4 stages of defence'
     : isRus
-    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ. 4 ЭТАПА ЗАЩИТЫ'
-    : 'USUL PROTOKOLÜ. 4 KORUMA AŞAMASI';
+    ? '4 этапа защиты'
+    : '4 Savunma Aşaması';
 
   // Strictly: "საოჯახო და მემკვიდრეობით საკითხებთან დაკავშირებულ საკითხებზე სრული იურიდიული მომსახურეობა."
   const protocolSub = isGeo
@@ -294,8 +289,26 @@ export default function FamilyLawPage() {
     },
   ];
 
+  const familyTitle = isGeo
+    ? 'საოჯახო & მემკვიდრეობითი სამართალი — GLC Law Company | გიორგი გუბელაძე'
+    : isEng
+    ? 'Family & Inheritance Law — GLC Law Company | Giorgi Gubeladze'
+    : 'Семейное и наследственное право — GLC Law Company | Георгий Губеладзе';
+
+  const familyDesc = isGeo
+    ? 'ქორწინება, ქონების გაყოფა, არასრულწლოვნის უფლებები, ალიმენტი და მემკვიდრეობითი დავები. 21+ წლიანი გამოცდილება. დარეკეთ: +995 599 27 77 94.'
+    : isEng
+    ? 'Divorce settlements, division of marital assets, minor custody, and inheritance succession in Georgia. Call: +995 599 27 77 94.'
+    : 'Развод, раздел имущества, опека над детьми и наследственные споры в Грузии. Тел: +995 599 27 77 94.';
+
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
+      <SEOHead
+        title={familyTitle}
+        description={familyDesc}
+        canonicalPath="/practice-areas/family-law"
+        practiceAreaName={isGeo ? 'საოჯახო სამართალი' : 'Family Law'}
+      />
       {/* Universal Curtain Opening Transition */}
       <CurtainIntro
         title="FAMILY & INHERITANCE LAW"
@@ -439,17 +452,23 @@ export default function FamilyLawPage() {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+          >
             <span className="font-geist text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#D3AF37] uppercase mb-3">
               {pillarsBadge}
             </span>
-            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
-              {pillarsHeading}
+            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 text-center">
+              <BlurWaveText text={pillarsHeading} />
             </h2>
             <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
               {pillarsSub}
             </p>
-          </div>
+          </motion.div>
 
           {/* 4 Pillars Grid with family1 to family4 assets and subtle blur glassmorphism */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
@@ -518,18 +537,21 @@ export default function FamilyLawPage() {
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Section Header */}
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-            <span className="font-geist text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#D3AF37] uppercase mb-3">
-              {protocolBadge}
-            </span>
-            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
-              {protocolHeading}
+          {/* Section Header: Symmetrically centered without protocol prefix badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+          >
+            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 text-center">
+              <BlurWaveText text={protocolHeading} />
             </h2>
-            <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
+            <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl text-center">
               {protocolSub}
             </p>
-          </div>
+          </motion.div>
 
           {/* 4 Protocol Cards Grid with family5 to family8 assets */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">

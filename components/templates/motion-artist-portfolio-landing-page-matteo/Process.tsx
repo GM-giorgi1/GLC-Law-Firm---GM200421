@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/MotionReveal';
 
 // Background Assets for 4 Procedural Protocol Cards
 import card1Img from '@/src/assets/CARD1.png';
@@ -19,21 +20,13 @@ export default function Process() {
   const isEng = language === 'ENG';
   const isRus = language === 'RUS';
 
-  const badgeText = isGeo
-    ? 'საპროცესო პროტოკოლი'
-    : isEng
-    ? 'PROCEDURAL PROTOCOL'
-    : isRus
-    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ'
-    : 'USUL PROTOKOLÜ';
-
   const headingText = isGeo
-    ? 'საპროცესო პროტოკოლი. დაცვის 4 ეტაპი'
+    ? 'დაცვის 4 ეტაპი'
     : isEng
-    ? 'PROCEDURAL PROTOCOL. 4 STAGES OF DEFENSE'
+    ? '4 stages of defence'
     : isRus
-    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ. 4 ЭТАПА ЗАЩИТЫ'
-    : 'USUL PROTOKOLÜ. 4 SAVUNMA AŞAMASI';
+    ? '4 этапа защиты'
+    : '4 Savunma Aşaması';
 
   const subText = isGeo
     ? 'სისხლისსამართლებრივი დაცვის მკაცრი მექანიზმი დაკავების პირველივე წუთიდან სასამართლოში წარმომადგენლობამდე.'
@@ -144,7 +137,7 @@ export default function Process() {
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         
-        {/* Top Header: Perfectly Center-Aligned & Symmetrical */}
+        {/* Top Header: Perfectly Center-Aligned & Symmetrical without protocol prefix badge */}
         <motion.div
           variants={topHeaderVariants}
           initial="hidden"
@@ -152,14 +145,8 @@ export default function Process() {
           viewport={{ once: true, amount: 0.2 }}
           className="w-full max-w-4xl flex flex-col items-center justify-center text-center mx-auto mb-14 sm:mb-16 px-4"
         >
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#D3AF37]/40 bg-[#0E1322]/90 backdrop-blur-md shadow-sm mb-4">
-            <span className="font-geist font-bold text-xs uppercase tracking-[0.2em] text-[#D3AF37]">
-              {badgeText}
-            </span>
-          </div>
-
           <h2 className="font-big-shoulders font-[900] uppercase text-white tracking-tight leading-tight text-3xl sm:text-5xl lg:text-6xl text-center">
-            {headingText}
+            <BlurWaveText text={headingText} />
           </h2>
 
           <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/90 mt-4 max-w-2xl text-center leading-relaxed">

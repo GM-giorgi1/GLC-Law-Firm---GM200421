@@ -20,6 +20,8 @@ import ConsultationModal from '@/src/components/common/ConsultationModal';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
+import SEOHead from '@/src/components/common/SEOHead';
+import { BlurWaveText } from '@/src/components/common/MotionReveal';
 
 // Real Estate Assets
 import realEstateHeroImg from '@/src/assets/realestate.png';
@@ -190,21 +192,14 @@ export default function RealEstatePage() {
   ];
 
   // 4 Stages Protocol Data
-  const protocolBadge = isGeo
-    ? 'საპროცესო პროტოკოლი'
-    : isEng
-    ? 'PROCEDURAL PROTOCOL'
-    : isRus
-    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ'
-    : 'USUL PROTOKOLÜ';
 
   const protocolHeading = isGeo
-    ? 'საპროცესო პროტოკოლი. უსაფრთხოების 4 ეტაპი'
+    ? 'დაცვის 4 ეტაპი'
     : isEng
-    ? 'PROCEDURAL PROTOCOL. 4 STAGES OF SECURITY'
+    ? '4 stages of defence'
     : isRus
-    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ. 4 ЭТАПА БЕЗОПАСНОСТИ'
-    : 'USUL PROTOKOLÜ. 4 GÜVENLİK AŞAMASI';
+    ? '4 этапа защиты'
+    : '4 Savunma Aşaması';
 
   const protocolSub = isGeo
     ? 'ქონებრივი გარიგებისა და ინვესტიციების სრული იურიდიული მექანიზმი პირველადი შემოწმებიდან საკუთრების დაცვამდე.'
@@ -289,8 +284,26 @@ export default function RealEstatePage() {
     },
   ];
 
+  const realEstateTitle = isGeo
+    ? 'უძრავი ქონება & სახელშეკრულებო სამართალი — GLC Law Company | გიორგი გუბელაძე'
+    : isEng
+    ? 'Real Estate & Contract Law — GLC Law Company | Giorgi Gubeladze'
+    : 'Недвижимость и договорное право — GLC Law Company | Георгий Губеладзе';
+
+  const realEstateDesc = isGeo
+    ? 'უძრავი ქონების სრული იურიდიული აუდიტი, ინვესტიციების დაცვა, ხელშეკრულებები და ქონებრივი დავები. 21+ წლიანი გამოცდილება. დარეკეთ: +995 599 27 77 94.'
+    : isEng
+    ? 'Comprehensive real estate due diligence, contract drafting, zoning permits, and property dispute litigation in Georgia. Call: +995 599 27 77 94.'
+    : 'Полный аудит недвижимости, инвестиционная безопасность, договоры и судебная защита в Грузии. Тел: +995 599 27 77 94.';
+
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
+      <SEOHead
+        title={realEstateTitle}
+        description={realEstateDesc}
+        canonicalPath="/practice-areas/real-estate-law"
+        practiceAreaName={isGeo ? 'უძრავი ქონების სამართალი' : 'Real Estate Law'}
+      />
       {/* Universal Curtain Opening Transition */}
       <CurtainIntro title="REAL ESTATE LAW" subtitle="GLC LAW COMPANY" backdropImage={realEstateHeroImg} />
 
@@ -444,7 +457,7 @@ export default function RealEstatePage() {
             </div>
 
             <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              {pillarsHeading}
+              <BlurWaveText text={pillarsHeading} />
             </h2>
 
             <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/85 mt-4 max-w-2xl leading-relaxed">
@@ -454,11 +467,15 @@ export default function RealEstatePage() {
 
           {/* Bento Grid: 4 Cards with Temple Assets */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 w-full">
-            {realEstatePillars.map((pillar) => {
+            {realEstatePillars.map((pillar, pIdx) => {
               const Icon = pillar.icon;
               return (
                 <motion.div
                   key={pillar.number}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.65, delay: pIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -6, transition: { duration: 0.28, ease: 'easeOut' } }}
                   className="group relative flex flex-col justify-between p-7 sm:p-9 lg:p-10 rounded-2xl overflow-hidden border border-[#D3AF37]/25 hover:border-[#D3AF37]/50 shadow-[0_4px_16px_rgba(0,0,0,0.6)] hover:shadow-[0_8px_28px_rgba(211,175,55,0.22)] transition-all duration-300 min-h-[380px]"
                 >
@@ -534,6 +551,7 @@ export default function RealEstatePage() {
       >
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           {/* Centered Symmetrical Header */}
+          {/* Centered Symmetrical Header without protocol prefix badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -541,14 +559,8 @@ export default function RealEstatePage() {
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="w-full max-w-4xl flex flex-col items-center justify-center text-center mx-auto mb-14 sm:mb-16 px-4"
           >
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#D3AF37]/40 bg-[#0E1322]/90 backdrop-blur-md shadow-sm mb-4">
-              <span className="font-geist font-bold text-xs uppercase tracking-[0.2em] text-[#D3AF37]">
-                {protocolBadge}
-              </span>
-            </div>
-
             <h2 className="font-big-shoulders font-[900] uppercase text-white tracking-tight leading-tight text-3xl sm:text-5xl lg:text-6xl text-center">
-              {protocolHeading}
+              <BlurWaveText text={protocolHeading} />
             </h2>
 
             <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/90 mt-4 max-w-2xl text-center leading-relaxed">

@@ -10,8 +10,15 @@ import RealEstatePage from '@/src/pages/RealEstatePage';
 import FamilyLawPage from '@/src/pages/FamilyLawPage';
 import CorporateLawPage from '@/src/pages/CorporateLawPage';
 
+import SEOHead from '@/src/components/common/SEOHead';
+import { useLanguage } from '@/src/context/LanguageContext';
+
 export const PracticeAreaPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { language } = useLanguage();
+
+  const isGeo = language === 'GEO';
+  const isEng = language === 'ENG';
 
   // Ensure page scrolls to top on route navigation
   useEffect(() => {
@@ -30,8 +37,26 @@ export const PracticeAreaPage: React.FC = () => {
     return <CorporateLawPage />;
   }
 
+  const criminalTitle = isGeo
+    ? 'სისხლის სამართლის დაცვა — GLC Law Company | გიორგი გუბელაძე'
+    : isEng
+    ? 'Criminal Defense Advocacy — GLC Law Company | Giorgi Gubeladze'
+    : 'Защита по уголовным делам — GLC Law Company | Георгий Губеладзе';
+
+  const criminalDesc = isGeo
+    ? 'სისხლისსამართლებრივი დაცვის 4 ფუნდამენტური საყრდენი. დაცვა გამოძიების ეტაპზე, აღკვეთის ღონისძიება, მტკიცებულებები და სასამართლო წარმომადგენლობა. დარეკეთ: +995 599 27 77 94.'
+    : isEng
+    ? 'Elite criminal defense counsel in Georgia: investigation advocacy, pre-trial detention mitigation, evidentiary review, and court trials. Call: +995 599 27 77 94.'
+    : 'Элитная защита по уголовным делам в Грузии: стадия следствия, меры пресечения, доказательства и суд. Тел: +995 599 27 77 94.';
+
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
+      <SEOHead
+        title={criminalTitle}
+        description={criminalDesc}
+        canonicalPath="/practice-areas/criminal-defense"
+        practiceAreaName={isGeo ? 'სისხლის სამართალი' : 'Criminal Defense'}
+      />
       {/* 1. Global Navbar with rich backdrop-blur-xl and subtle gold border glow */}
       <GlobalNavbar />
 

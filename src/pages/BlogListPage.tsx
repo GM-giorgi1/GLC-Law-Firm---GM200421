@@ -7,11 +7,22 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CornerDownRight, BookOpen, Clock, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
+import SEOHead from '@/src/components/common/SEOHead';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 
 export default function BlogListPage() {
   const { language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  const blogTitle = language === 'GEO'
+    ? 'იურიდიული ბლოგი & პუბლიკაციები — GLC Law Company'
+    : language === 'ENG'
+    ? 'Legal Insights & Statutory Publications — GLC Law Company'
+    : 'Юридические публикации — GLC Law Company';
+
+  const blogDesc = language === 'GEO'
+    ? 'პრაქტიკული იურიდიული რჩევები, საკანონმდებლო ანალიზი და სასამართლო პრაქტიკა GLC Law Company-ს ადვოკატებისგან.'
+    : 'Practical legal guidance, case analysis, and statutory insights by GLC Law Company trial attorneys.';
 
   const categories = [
     { id: 'all', label: language === 'GEO' ? 'ყველა პუბლიკაცია' : language === 'ENG' ? 'All Publications' : language === 'RUS' ? 'Все публикации' : 'Tüm Yazılar' },
@@ -26,6 +37,11 @@ export default function BlogListPage() {
 
   return (
     <div className="min-h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col selection:bg-[#D3AF37]/30 selection:text-white">
+      <SEOHead
+        title={blogTitle}
+        description={blogDesc}
+        canonicalPath="/blogs"
+      />
       {/* Top Floating Mini Navbar */}
       <nav className="sticky top-0 z-50 w-full bg-[#0C0D0D]/90 backdrop-blur-md border-b border-white/[0.08] px-6 sm:px-12 py-3.5 flex items-center justify-between">
         <Link
