@@ -39,13 +39,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -58,18 +58,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -799,7 +800,7 @@ export default function Testimonials() {
             type="button"
             onClick={handlePrev}
             aria-label="Previous Testimonial"
-            className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 hover:border-[#D3AF37]/50 hover:bg-[#D3AF37]/10 text-white/70 hover:text-[#D3AF37] flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer"
+            className="saas-btn-dark w-10 h-10 rounded-full text-white/80 hover:text-[#D3AF37] flex items-center justify-center cursor-pointer overflow-hidden"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -831,7 +832,7 @@ export default function Testimonials() {
             type="button"
             onClick={handleNext}
             aria-label="Next Testimonial"
-            className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 hover:border-[#D3AF37]/50 hover:bg-[#D3AF37]/10 text-white/70 hover:text-[#D3AF37] flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer"
+            className="saas-btn-dark w-10 h-10 rounded-full text-white/80 hover:text-[#D3AF37] flex items-center justify-center cursor-pointer overflow-hidden"
           >
             <ChevronRight className="w-4 h-4" />
           </button>

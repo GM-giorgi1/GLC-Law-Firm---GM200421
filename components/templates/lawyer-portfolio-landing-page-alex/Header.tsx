@@ -124,13 +124,13 @@ function BlurWaveText({
       initial="hidden"
       animate={isMount ? 'visible' : undefined}
       whileInView={!isMount ? 'visible' : undefined}
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -143,18 +143,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.24em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.24em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -241,13 +242,20 @@ export default function Header() {
   // Target coordinate (middle alignment of fixed top navbar, with smaller height as requested)
   const navBarHeight = isMobile ? 56 : 64;
   const targetHeight = isMobile ? 18 : 22; // Sleek and compact in the navbar
-  const targetWidth = targetHeight * 5.188;
+  const targetWidth = isMobile ? 108 : targetHeight * 5.188;
   const targetTop = (navBarHeight - targetHeight) / 2;
 
   // Continuous travel from bottom to top with continuous reduction in size
   const currentTop = initialTop + (targetTop - initialTop) * t;
   const currentHeight = heroHeight + (targetHeight - heroHeight) * t;
   const currentWidth = heroWidth + (targetWidth - heroWidth) * t;
+
+  // Continuous font size interpolation:
+  // In the hero watermark: large and bold
+  // In the docked navbar: compact and sleek (15px on mobile, 18px on desktop)
+  const initialFontSize = Math.max(26, heroHeight * 0.72);
+  const targetFontSize = isMobile ? 15 : 18;
+  const currentFontSize = initialFontSize + (targetFontSize - initialFontSize) * t;
   
   // Form State
   const [bookingData, setBookingData] = useState({
@@ -342,9 +350,9 @@ export default function Header() {
         
         {/* ================= TOP NAVIGATION ROW ================= */}
         <div 
-          className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 lg:px-[90px] h-14 md:h-16 flex flex-row justify-between items-center transition-all duration-300 ${
+          className={`fixed top-0 left-0 right-0 z-[60] px-4 sm:px-6 md:px-12 lg:px-[90px] h-14 md:h-16 flex flex-row justify-between items-center transition-all duration-300 ${
             isOtherSection 
-              ? 'bg-[#0C0D0D]/40 backdrop-blur-md border-b border-white/[0.04] shadow-[0_4px_24px_rgba(0,0,0,0.25)]' 
+              ? 'bg-[#0C0D0D]/65 backdrop-blur-md border-b border-white/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.35)]' 
               : 'bg-transparent border-0 border-none shadow-none'
           }`}
           style={{ 
@@ -353,7 +361,7 @@ export default function Header() {
             pointerEvents: isNavHidden && isOtherSection ? 'none' : 'auto',
           }}
         >
-          {/* Left: Icon on Desktop, Icon + Name SVG on Tablet & Mobile */}
+          {/* Left: Icon on All Viewports */}
           <div 
             className="cursor-pointer flex items-center group shrink-0 transition-transform duration-300 hover:scale-105 active:scale-95 gap-2.5 sm:gap-3"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -370,12 +378,6 @@ export default function Header() {
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-contain"
               />
-            </div>
-            {/* Tablet & Mobile: Name placed directly to the right of the icon */}
-            <div className="flex lg:hidden items-center h-5 sm:h-6 md:h-7 w-auto max-w-[140px] sm:max-w-[200px] md:max-w-[240px]">
-              <span className="font-antonio font-bold tracking-tight text-[#D3AF37] uppercase text-lg sm:text-xl md:text-2xl whitespace-nowrap">
-                GLC Law Company
-              </span>
             </div>
           </div>
 
@@ -422,7 +424,7 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 6, scale: 0.95 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-2 w-28 rounded-xl bg-[#121213]/95 backdrop-blur-xl border border-[#D3AF37]/30 shadow-2xl py-1 z-50 flex flex-col"
+                      className="absolute right-0 top-full mt-2 w-28 rounded-xl bg-[#121213]/95 backdrop-blur-xl border border-[#D3AF37]/30 shadow-2xl py-1 z-[70] flex flex-col"
                     >
                       {(['ENG', 'GEO', 'RUS', 'TUR'] as const).map((lang) => (
                         <button
@@ -529,7 +531,7 @@ export default function Header() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setIsBookingOpen(true)}
-                className="inline-flex items-center py-2.5 px-4 sm:py-3 sm:px-6 gap-3 bg-[#030405]/90 hover:bg-[#030405] border border-[#D3AF37]/60 hover:border-[#D3AF37] shadow-[0px_8px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(211,175,55,0.15)] rounded-xl sm:rounded-2xl cursor-pointer pointer-events-auto transition-all duration-300 group select-none"
+                className="saas-btn-dark inline-flex items-center py-2.5 px-4 sm:py-3 sm:px-6 gap-3 rounded-xl sm:rounded-2xl cursor-pointer pointer-events-auto group select-none overflow-hidden"
               >
                 {/* White Square Icon Box */}
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#D3AF37] transition-colors duration-300">
@@ -603,33 +605,35 @@ export default function Header() {
         </div>
 
 
-        {/* ================= TABLET & MOBILE BOTTOM ROW (STAYS AT BOTTOM, NEVER TRAVELS TO TOP ON SCROLL) ================= */}
-        <div className="block lg:hidden w-full relative z-20 pb-4 sm:pb-6 md:pb-8 pt-2 select-none">
-          <div className="relative w-full flex flex-col items-center justify-center">
-            {/* Giant Typography / Name Vector */}
-            <div 
-              className="w-full flex items-center justify-center"
+        {/* ================= IN-FLOW BOTTOM SPACER (RESERVES PRECISE SPACE AT HERO BOTTOM WITHOUT COLLAPSE) ================= */}
+        <div 
+          className="w-full relative z-10 select-none pointer-events-none opacity-0"
+          style={{
+            height: `${heroHeight}px`,
+            marginBottom: `${bottomPadding}px`,
+          }}
+          aria-hidden="true"
+        >
+          <div 
+            className="w-full flex items-center justify-center"
+            style={{
+              height: `${heroHeight}px`,
+            }}
+          >
+            <span 
+              className="font-antonio font-bold uppercase leading-none block text-center"
               style={{
-                width: '100%',
-                maxWidth: `${heroWidth}px`,
-                height: `${heroHeight}px`,
+                fontSize: `${initialFontSize}px`,
               }}
             >
-              <span 
-                className="font-antonio font-bold tracking-tighter text-[#D3AF37] uppercase leading-none block select-none whitespace-nowrap text-center"
-                style={{
-                  fontSize: `${Math.max(26, heroHeight * 0.72)}px`,
-                }}
-              >
-                GLC Law Company
-              </span>
-            </div>
+              GLC Law Company
+            </span>
           </div>
         </div>
 
-        {/* ================= DESKTOP BOTTOM ROW (CONTINUOUS TRAVEL TO NAVBAR ON SCROLL) ================= */}
+        {/* ================= UNIVERSAL CONTINUOUS TRAVEL TO NAVBAR ON SCROLL (MOBILE, TABLET & DESKTOP) ================= */}
         <div 
-          className="hidden lg:flex fixed left-0 right-0 z-50 items-center justify-center pointer-events-none"
+          className="flex fixed left-0 right-0 z-[45] items-center justify-center pointer-events-none"
           style={{
             top: `${currentTop}px`,
             height: `${currentHeight}px`,
@@ -645,19 +649,19 @@ export default function Header() {
             }}
             className={`flex items-center justify-center transition-transform ${
               t > 0.8 
-                ? 'pointer-events-auto cursor-pointer hover:scale-105' 
+                ? 'pointer-events-auto cursor-pointer hover:scale-105 active:scale-95' 
                 : 'pointer-events-none'
             }`}
             style={{
               width: `${currentWidth}px`,
               height: `${currentHeight}px`,
-              maxWidth: '100%',
+              maxWidth: t > 0.8 ? (isMobile ? '130px' : '220px') : '100%',
             }}
           >
             <span 
-              className="font-antonio font-bold tracking-tighter text-[#D3AF37] uppercase leading-none block select-none whitespace-nowrap text-center"
+              className="font-antonio font-bold tracking-tighter text-[#D3AF37] uppercase leading-none block select-none whitespace-nowrap text-center transition-colors"
               style={{
-                fontSize: `${Math.max(18, currentHeight * 0.7)}px`,
+                fontSize: `${currentFontSize}px`,
               }}
             >
               GLC Law Company
@@ -789,7 +793,7 @@ export default function Header() {
                       setIsMenuOpen(false);
                       setIsBookingOpen(true);
                     }}
-                    className="w-full py-4 bg-[#D3AF37] hover:bg-[#b9962e] text-black font-antonio font-bold text-xl uppercase tracking-wider rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    className="saas-btn-gold w-full py-4 text-[#0C0D0D] font-antonio font-bold text-xl uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 cursor-pointer overflow-hidden"
                   >
                     <span>{tr.nav.scheduleConsultation}</span>
                     <ArrowUpRight className="w-5 h-5" />
@@ -973,7 +977,7 @@ export default function Header() {
 
                   <button
                     type="submit"
-                    className="w-full mt-2 py-4 bg-[#D3AF37] hover:bg-[#c3a130] text-[#0C0D0D] font-antonio font-bold text-xl uppercase tracking-wider rounded-xl transition-all duration-300 shadow-[0_5px_20px_rgba(211,175,55,0.3)] hover:shadow-[0_8px_30px_rgba(211,175,55,0.5)] cursor-pointer"
+                    className="saas-btn-gold w-full mt-2 py-4 text-[#0C0D0D] font-antonio font-bold text-xl uppercase tracking-wider rounded-xl cursor-pointer overflow-hidden"
                   >
                     {tr.hero.confirmScheduleBtn}
                   </button>

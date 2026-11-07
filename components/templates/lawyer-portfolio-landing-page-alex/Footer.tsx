@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { Mail, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import ConsultationModal from '@/src/components/common/ConsultationModal';
 
 // Custom Facebook and TikTok icons matching brand aesthetic
 function FacebookIcon({ className = 'w-4 h-4' }: { className?: string }) {
@@ -42,6 +43,8 @@ export default function Footer() {
   const heroContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.15, once: false });
 
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
   // Hover & mouse tracking states for cursor-following button
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -59,11 +62,11 @@ export default function Footer() {
   };
 
   const navLinks = [
-    { name: t.nav.home, href: '#' },
-    { name: t.nav.about, href: '#aboutme' },
-    { name: t.nav.services, href: '#services' },
-    { name: t.nav.blogs, href: '#blogs' },
-    { name: t.nav.contact, href: '#contact' },
+    { name: t.nav.home, href: '#/' },
+    { name: t.nav.about, href: '#/about' },
+    { name: t.nav.services, href: '#/practice-areas/criminal-defense' },
+    { name: t.nav.blogs, href: '#/blogs' },
+    { name: t.nav.contact, href: '#/contact' },
   ];
 
   return (
@@ -115,8 +118,7 @@ export default function Footer() {
         transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onMouseMove={handleMouseMove}
-        className="relative w-full min-h-[290px] sm:min-h-[340px] md:min-h-[380px] lg:min-h-[420px] flex items-center justify-center overflow-hidden select-none mb-12 sm:mb-16 md:mb-20 cursor-pointer"
+        className="relative w-full min-h-[360px] sm:min-h-[430px] md:min-h-[490px] lg:min-h-[540px] flex items-center justify-center overflow-hidden select-none mb-12 sm:mb-16 md:mb-20 cursor-default"
       >
         {/* ================= 2ND DIV: RUNNING MARQUEE TEXT (STRICTLY 1 LINE WITH LETTER WAVE) ================= */}
         {/* Centered vertically across the image in 1 single continuous line. Cropping allowed as requested. */}
@@ -196,76 +198,51 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ================= 1ST DIV: GENTLY ROTATED IMAGE (SOFTS REVEAL FROM BOTTOM TO POSITION & RETREATS ON EXIT - SLOWER & SMOOTHER) ================= */}
+        {/* ================= 1ST DIV: CENTERED UPRIGHT FOUNDER PHOTO & PROMINENT SYMMETRICAL CTA BUTTON ================= */}
         <motion.div 
-          initial={{ y: 220, opacity: 0, scale: 0.92 }}
+          initial={{ y: 140, opacity: 0, scale: 0.95 }}
           animate={
             isInView
               ? { y: 0, opacity: 1, scale: 1 }
-              : { y: 220, opacity: 0, scale: 0.92 }
+              : { y: 140, opacity: 0, scale: 0.95 }
           }
-          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 flex flex-col items-center justify-center pointer-events-none"
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-20 flex flex-col items-center justify-center mx-auto my-6"
         >
-          <div className="relative w-[185px] h-[245px] sm:w-[230px] sm:h-[300px] md:w-[265px] md:h-[345px] lg:w-[295px] lg:h-[385px] rounded-2xl overflow-hidden bg-[#080909] rotate-[3.5deg] border-0 outline-none transition-all duration-500 hover:rotate-[2deg]">
+          {/* Symmetrical Upright Founder Photo without tilt */}
+          <div className="relative w-[190px] h-[250px] sm:w-[240px] sm:h-[310px] md:w-[280px] md:h-[360px] lg:w-[310px] lg:h-[400px] rounded-2xl overflow-hidden bg-[#080909] shadow-[0px_20px_50px_rgba(0,0,0,0.6)] border border-white/[0.06]">
             <Image
               src="/.tempmediaStorage/GUBE1.jpeg"
               alt="Giorgi Gubeladze Legal Counsel"
               fill
-              sizes="(max-width: 768px) 230px, 300px"
-              className="object-cover object-center border-0 outline-none transition-transform duration-700 ease-out"
+              sizes="(max-width: 768px) 240px, 320px"
+              className="object-cover object-top border-0 outline-none transition-transform duration-700 ease-out hover:scale-105"
               priority
               referrerPolicy="no-referrer"
             />
             {/* Top subtle shade */}
-            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/35 to-transparent pointer-events-none" />
 
-            {/* Bottom blurred gradient blend seamlessly matching the #080909 background */}
-            <div className="absolute inset-x-0 bottom-0 h-28 sm:h-36 bg-gradient-to-t from-[#080909] via-[#080909]/90 to-transparent backdrop-blur-[2px] pointer-events-none" />
+            {/* Bottom minimal gradient blend preserving full portrait visibility */}
+            <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#080909]/80 to-transparent pointer-events-none" />
+          </div>
+
+          {/* Symmetrical, fully visible, prominent booking CTA right beneath photo */}
+          <div className="mt-6 sm:mt-8 flex items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setIsBookingOpen(true)}
+              className="saas-btn-gold inline-flex items-center p-2.5 sm:p-3 pr-6 sm:pr-8 gap-3 sm:gap-4 rounded-2xl group cursor-pointer shadow-[0px_10px_35px_rgba(211,175,55,0.35)] overflow-hidden transition-all duration-300 hover:scale-[1.02]"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#080909] rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+                <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 text-[#D3AF37] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+              </div>
+              <span className="font-['Antonio'] font-bold text-lg sm:text-2xl md:text-[26px] leading-tight tracking-[-0.02em] text-[#080909] uppercase whitespace-nowrap">
+                {t.footer.bookBtn || "Book a Consultation"}
+              </span>
+            </button>
           </div>
         </motion.div>
-
-        {/* ================= FLOATING BUTTON (BRAND COLOR BG, DARK TEXT, DARK ICON BG, BRAND ICON) ================= */}
-        <motion.a
-          href="#contact"
-          initial={false}
-          animate={
-            isHovered
-              ? {
-                  opacity: 1,
-                  scale: 1,
-                  x: mousePos.x,
-                  y: mousePos.y,
-                }
-              : {
-                  opacity: 0,
-                  scale: 0.7,
-                  x: mousePos.x,
-                  y: mousePos.y,
-                }
-          }
-          transition={{
-            type: 'spring',
-            damping: 22,
-            stiffness: 240,
-            mass: 0.5,
-            opacity: { duration: 0.2 },
-          }}
-          className={`absolute top-0 left-0 z-30 flex flex-row items-center p-2 pr-5 sm:pr-6 gap-3 bg-[#D3AF37] border border-[#F5E08E]/50 shadow-[0px_14px_45px_rgba(211,175,55,0.35)] rounded-2xl transition-all duration-300 group cursor-pointer -rotate-12 ${
-            isHovered ? 'pointer-events-auto' : 'pointer-events-none'
-          }`}
-        >
-          {/* Left Icon Box: Dark background */}
-          <div className="w-10 h-10 sm:w-[48px] sm:h-[48px] bg-[#080909] rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
-            {/* Icon: Brand Primary Golden Color */}
-            <ArrowUpRight className="w-5 h-5 sm:w-7 sm:h-7 text-[#D3AF37] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-          </div>
-
-          {/* Button Text: Dark Color in Antonio Google Font */}
-          <span className="font-['Antonio'] font-bold text-lg sm:text-xl md:text-[26px] leading-tight tracking-[-0.03em] text-[#080909] whitespace-nowrap">
-            {t.footer.bookBtn || "Book a Consultation"}
-          </span>
-        </motion.a>
       </motion.div>
 
       {/* ================= 2. MIDDLE NAVIGATION & SOCIALS BAR ================= */}
@@ -340,6 +317,12 @@ export default function Footer() {
           </p>
         </div>
       </div>
+
+      {/* Consultation Booking Modal */}
+      <ConsultationModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </footer>
   );
 }

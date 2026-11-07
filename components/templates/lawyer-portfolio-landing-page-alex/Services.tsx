@@ -25,7 +25,7 @@ const servicesData: ServiceItem[] = [
     id: 'criminal-defense',
     categoryNumber: '01.',
     categoryName: 'Criminal Defense',
-    title: 'Felony & Misdemeanor Defense Advocacy',
+    title: 'CRIMINAL LAW & DEFENCE ADVOCACY',
     bullets: [
       'Uncompromising defense across investigation and trial stages',
       'In-depth forensic case analysis and trial strategy',
@@ -115,13 +115,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -134,18 +134,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -232,7 +233,7 @@ export default function Services() {
   }, [currentServices]);
 
   return (
-    <section className="relative w-full bg-[#0C0C0D] text-[#FBFBFB] py-16 sm:py-24 md:py-28 lg:py-[clamp(90px,8.5vh,170px)] overflow-hidden">
+    <section id="services" className="relative w-full bg-[#0C0C0D] text-[#FBFBFB] py-16 sm:py-24 md:py-28 lg:py-[clamp(90px,8.5vh,170px)] overflow-hidden">
       {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
@@ -344,12 +345,12 @@ export default function Services() {
                     {/* Column 3 (Selected 1st div): Action Button & Tags - Width increased on desktop & height constrained */}
                     <div className="lg:col-span-4 xl:col-span-4 lg:pl-6 xl:pl-8 flex flex-col justify-start space-y-4 lg:space-y-[clamp(14px,1.6vh,22px)]">
                       
-                      {/* Top Action Row: See Details Button - scales fluidly */}
-                      <div>
+                      {/* Top Action Row: See Details Toggle + Dedicated Sub-Page Link */}
+                      <div className="flex flex-wrap items-center gap-3">
                         <button
                           type="button"
                           onClick={(e) => handleCardToggle(service.id, e)}
-                          className={`outline-none focus:outline-none focus:ring-0 group inline-flex items-center gap-3 px-[clamp(18px,1.35vw,26px)] py-[clamp(8px,0.85vh,14px)] rounded-md border text-sm sm:text-base lg:text-[clamp(15px,1.18vw,22px)] font-inter-tight font-semibold tracking-wider uppercase transition-all duration-400 cursor-pointer ${
+                          className={`outline-none focus:outline-none focus:ring-0 group inline-flex items-center gap-2.5 px-[clamp(14px,1.1vw,20px)] py-[clamp(7px,0.75vh,11px)] rounded-md border text-xs sm:text-sm font-inter-tight font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                             isExpanded
                               ? 'bg-[#D2AF37] border-[#D2AF37] text-[#0C0C0D] font-bold shadow-[0_4px_20px_rgba(211,175,55,0.25)]'
                               : 'bg-transparent border-white/20 hover:border-[#D2AF37] text-white hover:bg-white/[0.03]'
@@ -359,11 +360,20 @@ export default function Services() {
                             {t.servicesSection.seeDetails}
                           </span>
                           <ArrowRight
-                            className={`w-[clamp(16px,1.15vw,22px)] h-[clamp(16px,1.15vw,22px)] transition-transform duration-300 group-hover:translate-x-1 ${
+                            className={`w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1 ${
                               isExpanded ? 'text-[#0C0C0D]' : 'text-[#D2AF37]'
                             }`}
                           />
                         </button>
+
+                        <a
+                          href={`#/practice-areas/${service.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="saas-btn-gold px-[clamp(14px,1.1vw,20px)] py-[clamp(7px,0.75vh,11px)] rounded-md text-xs sm:text-sm font-['Antonio'] font-bold text-[#0C0C0D] tracking-wider uppercase inline-flex items-center gap-1.5 cursor-pointer shadow-[0_2px_12px_rgba(211,175,55,0.2)]"
+                        >
+                          <span>{t.aboutMe?.exploreBtn || 'ვრცლად'}</span>
+                          <ExternalLink className="w-3.5 h-3.5 text-[#0C0C0D]" />
+                        </a>
                       </div>
 
                       {/* Bottom Row: Tags Pills (3-4 tags per card) - scales fluidly */}

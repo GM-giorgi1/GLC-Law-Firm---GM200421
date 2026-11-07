@@ -139,6 +139,7 @@ export interface TranslationSchema {
     headlineHighlight: string;
     subtitle: string;
     stat1Label: string;
+    stat1Sub: string;
     stat2Label: string;
     stat3Label: string;
   };
@@ -218,7 +219,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'Close Menu',
       scheduleConsultation: 'SCHEDULE CONSULTATION',
       home: 'HOME',
-      about: 'ABOUT GLC LAW COMPANY',
+      about: 'ABOUT US',
       services: 'PRACTICE AREAS',
       cases: 'NOTABLE CASE RESULTS',
       testimonials: 'TESTIMONIALS',
@@ -291,7 +292,7 @@ export const translations: Record<Language, TranslationSchema> = {
           id: 'criminal-defense',
           categoryNumber: '01.',
           categoryName: 'Criminal Defense',
-          title: 'Felony & Misdemeanor Defense Advocacy',
+          title: 'CRIMINAL LAW & DEFENCE ADVOCACY',
           bullets: [
             'Uncompromising defense across investigation and trial stages',
             'In-depth forensic case analysis and trial strategy',
@@ -356,6 +357,30 @@ export const translations: Record<Language, TranslationSchema> = {
             {
               url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1000&auto=format&fit=crop',
               caption: 'Title Examination & Closing Verification',
+            },
+          ],
+        },
+        {
+          id: 'corporate-law',
+          categoryNumber: '04.',
+          categoryName: 'Corporate & Business Law',
+          title: 'Business & Corporate Law Practice',
+          bullets: [
+            'Company incorporation, restructuring, and M&A transactions',
+            'Corporate governance, bylaws, and shareholder agreements',
+            'Commercial contract structuring and shareholder dispute resolution',
+          ],
+          tags: ['Corporate Law', 'M&A', 'Commercial Disputes'],
+          detailedOverview:
+            'Comprehensive corporate legal counsel: from entity incorporation to high-stakes M&A transactions, corporate governance audits, and decisive resolution of shareholder disputes.',
+          images: [
+            {
+              url: '/corporate.png',
+              caption: 'Corporate Governance & Entity Formation',
+            },
+            {
+              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Commercial M&A & Shareholder Advocacy',
             },
           ],
         },
@@ -428,6 +453,7 @@ export const translations: Record<Language, TranslationSchema> = {
       headlineHighlight: 'fights',
       subtitle: 'Every client deserves uncompromising dedication and results-oriented legal defense.',
       stat1Label: 'Years of Experience',
+      stat1Sub: 'Dedicated to Fighting for Your Success',
       stat2Label: 'Client Success Rate',
       stat3Label: 'In Client Recoveries',
     },
@@ -594,7 +620,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'მენიუს დახურვა',
       scheduleConsultation: 'კონსულტაციის დაჯავშნა',
       home: 'მთავარი',
-      about: 'GLC LAW COMPANY-ის შესახებ',
+      about: 'ჩვენ შესახებ',
       services: 'სამართლის სფეროები',
       cases: 'წარმატებული საქმეები',
       testimonials: 'შეფასებები',
@@ -735,6 +761,30 @@ export const translations: Record<Language, TranslationSchema> = {
             },
           ],
         },
+        {
+          id: 'corporate-law',
+          categoryNumber: '04.',
+          categoryName: 'ბიზნესი და კორპორაციული',
+          title: 'ბიზნესი & კორპორაციული სამართალი',
+          bullets: [
+            'კომპანიების რეგისტრაცია, რეორგანიზაცია და M&A გარიგებები',
+            'კორპორაციული მართვა, წესდებები და პარტნიორთა შეთანხმებები',
+            'კომერციული კონტრაქტები და პარტნიორთა შორის დავების მოგვარება',
+          ],
+          tags: ['კორპორაციული სამართალი', 'M&A', 'კომერციული დავები'],
+          detailedOverview:
+            'კომპანიების სრული სამართლებრივი მხარდაჭერა: დაფუძნებიდან მსხვილ კომერციულ გარიგებებამდე, შიდა კორპორაციული აუდიტი, საგადასახადო ოპტიმიზაციის სამართლებრივი უზრუნველყოფა და პარტნიორთა ინტერესების ურყევი დაცვა.',
+          images: [
+            {
+              url: '/corporate.png',
+              caption: 'კორპორაციული მართვა და კომპანიების რეგისტრაცია',
+            },
+            {
+              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              caption: 'M&A გარიგებები და პარტნიორთა წარმომადგენლობა',
+            },
+          ],
+        },
       ],
     },
     caseStudiesSection: {
@@ -757,10 +807,10 @@ export const translations: Record<Language, TranslationSchema> = {
         },
         {
           id: 'case-2',
-          title: 'ბრალდების შეწყვეტა',
-          subtitle: 'სისხლისსამართლებრივი დაცვა',
+          title: 'სისხლისსამართლებრივი დევნის შეწყვეტა',
+          subtitle: 'თავდაუზოგავი და სტრატეგიული ბრძოლა გამამართლებელი განაჩენისთვის.',
           description:
-            'კლიენტის წარმატებული დაცვა მძიმე ბრალდებისგან და საქმის სრული შეწყვეტა ზიანის ანაზღაურებით.',
+            'თავდაუზოგავი და სტრატეგიული ბრძოლა გამამართლებელი განაჩენისთვის.',
           tags: ['სისხლის სამართალი', 'საქმის შეწყვეტა'],
           imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
           aspectClass: 'aspect-[16/10]',
@@ -804,6 +854,7 @@ export const translations: Record<Language, TranslationSchema> = {
       headlineHighlight: 'იბრძვის',
       subtitle: 'თითოეული კლიენტი იმსახურებს მაქსიმალურ ერთგულებასა და შედეგზე ორიენტირებულ დაცვას.',
       stat1Label: 'წლიანი გამოცდილება',
+      stat1Sub: 'თქვენი წარმატებისათვის ბრძოლაში',
       stat2Label: 'წარმატებული საქმეები',
       stat3Label: 'დაბრუნებული აქტივები',
     },
@@ -879,9 +930,9 @@ export const translations: Record<Language, TranslationSchema> = {
     teamSection: {
       badgeNumber: '(08)',
       badgeText: 'ჩვენი გუნდი',
-      headline: 'გაიცანით მართლმსაჯულების არქიტექტორები',
-      headlineHighlight: 'არქიტექტორები',
-      subtitle: 'გიორგი გუბელაძის ხელმძღვანელობით, ჩვენი გუნდი აერთიანებს რეგიონის სიღრმისეულ ცოდნასა და საერთაშორისო სტანდარტებს.',
+      headline: 'გაიცანით სამართლის ექსპერტები',
+      headlineHighlight: 'ექსპერტები',
+      subtitle: 'გიორგი გუბელაძის ხელმძღვანელობით, ჩვენი გუნდი აერთიანებს რეგიონის სიღრმისეულ სამართლებრივ ცოდნასა და საერთაშორისო სტანდარტებს.',
       leadName: 'გიორგი გუბელაძე',
       leadRole: 'დამფუძნებელი და წამყვანი ადვოკატი',
       bioParagraph:
@@ -970,7 +1021,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'Закрыть меню',
       scheduleConsultation: 'ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ',
       home: 'ГЛАВНАЯ',
-      about: 'О КОМПАНИИ GLC LAW COMPANY',
+      about: 'О НАС',
       services: 'ПРАКТИКИ И УСЛУГИ',
       cases: 'УСПЕШНЫЕ ДЕЛА',
       testimonials: 'ОТЗЫВЫ',
@@ -1111,6 +1162,30 @@ export const translations: Record<Language, TranslationSchema> = {
             },
           ],
         },
+        {
+          id: 'corporate-law',
+          categoryNumber: '04.',
+          categoryName: 'Корпоративное право',
+          title: 'Бизнес и корпоративное право',
+          bullets: [
+            'Регистрация компаний, реорганизация и сделки M&A',
+            'Корпоративное управление, уставы и соглашения акционеров',
+            'Коммерческие контракты и разрешение корпоративных споров',
+          ],
+          tags: ['Корпоративное право', 'M&A', 'Корпоративные споры'],
+          detailedOverview:
+            'Комплексное правовое сопровождение бизнеса: от создания компаний до сделок M&A, корпоративного аудита и защиты прав участников в суде.',
+          images: [
+            {
+              url: '/corporate.png',
+              caption: 'Корпоративное управление и регистрация бизнеса',
+            },
+            {
+              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              caption: 'Сделки M&A и судебное представительство',
+            },
+          ],
+        },
       ],
     },
     caseStudiesSection: {
@@ -1179,7 +1254,8 @@ export const translations: Record<Language, TranslationSchema> = {
       headline: 'Вы заслуживаете адвоката, который борется за вас',
       headlineHighlight: 'борется',
       subtitle: 'Каждый клиент заслуживает максимальной преданности делу и защиты, ориентированной на результат.',
-      stat1Label: 'Лет юридической практики',
+      stat1Label: 'Лет Опыта',
+      stat1Sub: 'В бескомпромиссной борьбе за ваш успех',
       stat2Label: 'Успешных дел',
       stat3Label: 'Возмещенных активов',
     },
@@ -1346,7 +1422,7 @@ export const translations: Record<Language, TranslationSchema> = {
       closeMenu: 'Menüyü Kapat',
       scheduleConsultation: 'RANDEVU ALIN',
       home: 'ANA SAYFA',
-      about: 'GLC LAW COMPANY HAKKINDA',
+      about: 'HAKKIMIZDA',
       services: 'UZMANLIK ALANLARI',
       cases: 'BAŞARILI DAVALAR',
       testimonials: 'MÜVEKKİL YORUMLARI',
@@ -1487,6 +1563,30 @@ export const translations: Record<Language, TranslationSchema> = {
             },
           ],
         },
+        {
+          id: 'corporate-law',
+          categoryNumber: '04.',
+          categoryName: 'Şirketler Hukuku',
+          title: 'İş ve Şirketler Hukuku',
+          bullets: [
+            'Şirket kuruluşu, yeniden yapılandırma ve M&A işlemleri',
+            'Kurumsal yönetim, ana sözleşmeler ve ortaklık anlaşmaları',
+            'Ticari sözleşmeler ve ortaklar arası uyuşmazlık çözümü',
+          ],
+          tags: ['Şirketler Hukuku', 'M&A', 'Ticari Uyuşmazlıklar'],
+          detailedOverview:
+            'Şirketler için kapsamlı hukuki danışmanlık: kuruluş aşamasından M&A işlemlerine, kurumsal denetimden ortaklar arası uyuşmazlıkların çözümüne kadar tam destek.',
+          images: [
+            {
+              url: '/corporate.png',
+              caption: 'Kurumsal Yönetim ve Şirket Kuruluşu',
+            },
+            {
+              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              caption: 'M&A İşlemleri ve Ticari Dava Temsili',
+            },
+          ],
+        },
       ],
     },
     caseStudiesSection: {
@@ -1556,6 +1656,7 @@ export const translations: Record<Language, TranslationSchema> = {
       headlineHighlight: 'mücadele',
       subtitle: 'Her müvekkil tavizsiz bir bağlılığı ve sonuç odaklı hukuki savunmayı hak eder.',
       stat1Label: 'Yıllık Deneyim',
+      stat1Sub: 'Başarınız için kararlı mücadele',
       stat2Label: 'Başarı Oranı',
       stat3Label: 'Müvekkil Kazanımı',
     },

@@ -26,13 +26,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -45,18 +45,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -109,17 +110,17 @@ export default function Price() {
         >
           <Scale className="w-3.5 h-3.5 text-[#D2AF37]" />
           <span className="text-xs sm:text-sm font-medium tracking-wide text-white/90 font-inter-tight uppercase">
-            {t.teamSection.badgeNumber ? `(${t.teamSection.badgeNumber}) ` : ''}{t.teamSection.badgeText}
+            {t.teamSection.badgeNumber ? `${t.teamSection.badgeNumber.startsWith('(') ? t.teamSection.badgeNumber : `(${t.teamSection.badgeNumber})`} ` : '(08) '}{t.teamSection.badgeText}
           </span>
         </motion.div>
 
         {/* ================= 2. SECTION HEADER ================= */}
-        <div className="text-center max-w-[820px] mx-auto">
-          <h2 className="font-['Antonio'] uppercase tracking-tight text-[28px] sm:text-[40px] md:text-[48px] lg:text-[54px] leading-[1.2] pb-1 text-white">
+        <div className="text-center max-w-[820px] mx-auto overflow-visible">
+          <h2 className="font-['Antonio'] uppercase tracking-tight text-[28px] sm:text-[40px] md:text-[48px] lg:text-[54px] leading-[1.28] pb-2 overflow-visible text-white">
             <BlurWaveText
               text={t.teamSection.headline}
               highlightWord={t.teamSection.headlineHighlight}
-              highlightClass="bg-gradient-to-r from-[#FFF4CD] via-[#D2AF37] to-[#A38029] bg-clip-text text-transparent"
+              highlightClass="inline-block pb-1 bg-gradient-to-r from-[#FFF4CD] via-[#D2AF37] to-[#A38029] bg-clip-text text-transparent overflow-visible"
               delay={0.1}
             />
           </h2>
@@ -231,7 +232,7 @@ export default function Price() {
               <div className="mt-8 pt-4">
                 <a
                   href="#contact"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300 bg-gradient-to-r from-[#FDE99A] via-[#E2C359] to-[#CDA12B] text-black shadow-[0_4px_24px_rgba(211,175,55,0.35)] hover:scale-[1.02] hover:shadow-[0_6px_32px_rgba(211,175,55,0.5)] active:scale-95 group"
+                  className="saas-btn-gold w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-xl text-sm font-semibold tracking-wider uppercase text-[#0C0D0D] cursor-pointer group select-none overflow-hidden"
                 >
                   <span>{t.teamSection.directBtn || 'Schedule Consultation'}</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

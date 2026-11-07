@@ -43,14 +43,23 @@ html[lang="geo"] {
   letter-spacing: 0.005em;
 }
 
-/* Ensure Georgian headers and motion containers never clip descenders (ქ, წ, ჭ, შ, ყ, ძ, ჰ, etc.) */
+/* Ensure Georgian headers and motion containers never clip descenders (ქ, წ, ჭ, შ, ყ, ძ, ჰ, გ, პ, etc.) */
 [data-lang="GEO"] h1,
 [data-lang="GEO"] h2,
 [data-lang="GEO"] h3,
 [data-lang="GEO"] h4,
 [data-lang="GEO"] h5,
 [data-lang="GEO"] h6 {
-  overflow: visible;
+  overflow: visible !important;
+  line-height: 1.3 !important;
+}
+
+/* Ensure gradient-clipped Georgian text does not truncate deep descenders */
+[data-lang="GEO"] .bg-clip-text,
+html[lang="ka"] .bg-clip-text {
+  padding-bottom: 0.16em !important;
+  margin-bottom: -0.16em !important;
+  overflow: visible !important;
 }
 
 /* Ensure Antonio font gracefully falls back to Noto Sans Georgian with natural line-height */
@@ -58,6 +67,105 @@ html[lang="geo"] {
 [data-lang="GEO"] [class*="font-['Antonio']"],
 [data-lang="GEO"] [class*='font-["Antonio"]'] {
   font-family: 'Antonio', 'Noto Sans Georgian', sans-serif !important;
-  line-height: 1.25;
+  line-height: 1.28;
+}
+
+/* ================= ELITE MULTI-LAYERED SAAS BUTTON LIGHTING SYSTEM ================= */
+.saas-btn-gold,
+.premium-saas-btn {
+  --btn-glow-rgb: 211, 175, 55;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  position: relative;
+  background: linear-gradient(180deg, #E8C965 0%, #D3AF37 55%, #BA9524 100%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5),
+    0 2px 4px -1px rgba(0, 0, 0, 0.4),
+    0 8px 24px -4px rgba(var(--btn-glow-rgb), 0.35);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  user-select: none;
+}
+
+.saas-btn-gold:hover,
+.premium-saas-btn:hover {
+  border-color: rgba(255, 255, 255, 0.42);
+  background:
+    radial-gradient(circle 90px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.45), rgba(255, 248, 220, 0.15) 50%, transparent 80%),
+    linear-gradient(180deg, #E8C965 0%, #D3AF37 55%, #BA9524 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5),
+    0 2px 4px -1px rgba(0, 0, 0, 0.4),
+    0 8px 24px -4px rgba(var(--btn-glow-rgb), 0.35);
+}
+
+.saas-btn-gold:active,
+.saas-btn-gold[data-pressed="true"],
+.premium-saas-btn:active,
+.premium-saas-btn[data-pressed="true"] {
+  transform: translateY(1px);
+  background:
+    radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.3), rgba(255, 248, 220, 0.1) 50%, transparent 75%),
+    linear-gradient(180deg, #C7A128 0%, #D3AF37 60%, #DFC05E 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.45),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.15),
+    0 1px 2px 0 rgba(0, 0, 0, 0.4),
+    0 4px 14px -2px rgba(var(--btn-glow-rgb), 0.25);
+}
+
+.saas-btn-gold:focus-visible,
+.premium-saas-btn:focus-visible {
+  outline: 2px solid #F0D782;
+  outline-offset: 3px;
+}
+
+/* Secondary Obsidian / Dark Buttons with 4-Layer Depth & Spotlight */
+.saas-btn-dark {
+  --btn-glow-rgb: 211, 175, 55;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  position: relative;
+  background: linear-gradient(180deg, #1C1C1E 0%, #111112 55%, #0B0B0C 100%);
+  border: 1px solid rgba(211, 175, 55, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.6),
+    0 2px 4px -1px rgba(0, 0, 0, 0.5),
+    0 8px 24px -4px rgba(var(--btn-glow-rgb), 0.2);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  user-select: none;
+}
+
+.saas-btn-dark:hover {
+  border-color: rgba(211, 175, 55, 0.65);
+  background:
+    radial-gradient(circle 90px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.22), rgba(211, 175, 55, 0.12) 50%, transparent 80%),
+    linear-gradient(180deg, #1F1F22 0%, #141416 55%, #0D0D0E 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.6),
+    0 2px 4px -1px rgba(0, 0, 0, 0.5),
+    0 8px 24px -4px rgba(var(--btn-glow-rgb), 0.32);
+}
+
+.saas-btn-dark:active,
+.saas-btn-dark[data-pressed="true"] {
+  transform: translateY(1px);
+  background:
+    radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.15), rgba(211, 175, 55, 0.08) 50%, transparent 75%),
+    linear-gradient(180deg, #0E0E10 0%, #151518 60%, #1D1D20 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.5),
+    0 4px 14px -2px rgba(var(--btn-glow-rgb), 0.15);
+}
+
+.saas-btn-dark:focus-visible {
+  outline: 2px solid #D3AF37;
+  outline-offset: 3px;
 }
 

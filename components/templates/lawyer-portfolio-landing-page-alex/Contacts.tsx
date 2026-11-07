@@ -37,13 +37,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -56,18 +56,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -79,10 +80,16 @@ function BlurWaveText({
   );
 }
 
-export default function Contacts() {
+export default function Contacts({
+  className = '',
+  bgTheme = 'default',
+}: {
+  className?: string;
+  bgTheme?: 'default' | 'slate-navy';
+} = {}) {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.2, once: false });
+  const isInView = useInView(sectionRef, { amount: 0.1, once: false });
 
   // Form state
   const [formData, setFormData] = useState({
@@ -155,11 +162,15 @@ export default function Contacts() {
     });
   };
 
+  const isSlateNavy = bgTheme === 'slate-navy';
+  const sectionBg = isSlateNavy ? 'bg-[#090D16] border-b border-[#D3AF37]/15' : 'bg-[#0A0A0B]';
+  const leftColBg = isSlateNavy ? 'bg-[#0D1322]' : 'bg-[#0A0A0B]';
+
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative w-full bg-[#0A0A0B] text-[#FBFBFB] py-[90px] overflow-hidden"
+      className={`relative w-full text-[#FBFBFB] py-[90px] overflow-hidden ${sectionBg} ${className}`}
     >
       {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
       <style>{`
@@ -185,25 +196,25 @@ export default function Contacts() {
           className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch"
         >
           {/* ================= LEFT COLUMN: CONSULTATION PHOTO & CONTACT INFO ================= */}
-          <div className="lg:col-span-6 flex flex-col rounded-3xl overflow-hidden bg-[#0A0A0B]">
-            {/* Top Photo Area: Smooth bottom blend matching section bg */}
-            <div className="relative w-full h-[360px] sm:h-[430px] lg:h-[460px] overflow-hidden bg-[#0A0A0B]">
+          <div className={`lg:col-span-6 flex flex-col justify-between rounded-3xl overflow-hidden ${leftColBg} border border-white/10 shadow-2xl`}>
+            {/* Top Photo Area: Full-fidelity portrait container without bottom cropping */}
+            <div className={`relative w-full aspect-[4/3] sm:aspect-[16/11] lg:h-[480px] overflow-hidden ${leftColBg} rounded-t-3xl`}>
               <Image
                 src="/.tempmediaStorage/GUBE.jpeg"
-                alt="Giorgi Gubeladze in a private consultation with a client"
+                alt="Advocate Giorgi Gubeladze in consultation"
                 fill
                 sizes="(max-width: 1024px) 100vw, 540px"
-                className="object-cover object-center"
+                className="object-cover object-top filter brightness-[0.98] contrast-[1.05]"
                 priority
                 referrerPolicy="no-referrer"
               />
               
-              {/* Smooth Gradient Shade blending directly into the dark section background */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent pointer-events-none" />
+              {/* Subtle Delicate Bottom Edge Shade (Never obscures or crops the portrait) */}
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
             </div>
 
-            {/* Bottom Contact Details Bar: Cleanly matching section bg without borders */}
-            <div className="pt-3 pb-4 sm:pt-4 sm:pb-6 px-2 sm:px-4 bg-[#0A0A0B] mt-auto">
+            {/* Bottom Contact Details Bar: Cleanly matching section bg */}
+            <div className={`pt-3 pb-4 sm:pt-4 sm:pb-6 px-2 sm:px-4 ${leftColBg} mt-auto`}>
               <div className="flex items-center justify-between gap-4">
                 {/* Call Us */}
                 <a
@@ -435,7 +446,7 @@ export default function Contacts() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full group mt-2 bg-gradient-to-r from-[#F1CB56] via-[#E5BE4A] to-[#D2AF37] hover:from-[#FAD972] hover:via-[#F1CB56] hover:to-[#DFC14E] text-[#0A0A0B] font-semibold text-sm sm:text-base py-3.5 sm:py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_4px_24px_rgba(211,175,55,0.25)] hover:shadow-[0_6px_30px_rgba(211,175,55,0.4)] active:scale-[0.99] cursor-pointer"
+                  className="saas-btn-gold w-full group mt-2 text-[#0A0A0B] font-semibold text-sm sm:text-base py-3.5 sm:py-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer overflow-hidden disabled:opacity-50"
                 >
                   <span>{isSubmitting ? t.contactsSection.sendingBtn : t.contactsSection.sendMessageBtn}</span>
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />

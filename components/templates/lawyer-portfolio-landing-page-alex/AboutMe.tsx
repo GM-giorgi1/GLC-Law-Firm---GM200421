@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -25,13 +25,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -44,18 +44,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.24em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.24em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -69,6 +70,7 @@ function BlurWaveText({
 
 export default function AboutMe() {
   const { t } = useLanguage();
+  const [isPressed, setIsPressed] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   // Scroll-driven flat top-to-bottom soft reveal (0% -> 100% on scroll down, 100% -> 0% on scroll up)
@@ -92,7 +94,7 @@ export default function AboutMe() {
   }));
 
   return (
-    <section className="relative w-full bg-[#0C0D0D] text-[#FAFAFB] py-[90px] overflow-hidden">
+    <section id="about" className="relative w-full bg-[#0C0D0D] text-[#FAFAFB] py-[90px] overflow-hidden">
       {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
@@ -177,7 +179,7 @@ export default function AboutMe() {
           <div className="lg:col-span-5 flex flex-col max-w-[430px]" ref={imageContainerRef}>
             
             {/* Image Card Container: No background color, no shadow, no border during reveal */}
-            <div className="w-full relative aspect-[4/4.2] max-h-[430px] rounded-[14px] overflow-hidden bg-transparent shadow-none border-0">
+            <div className="w-full relative aspect-[4/5] sm:aspect-[4/4.5] max-h-[480px] rounded-[14px] overflow-hidden bg-transparent shadow-none border-0">
               <motion.div
                 style={{
                   clipPath,
@@ -194,38 +196,6 @@ export default function AboutMe() {
                   referrerPolicy="no-referrer"
                   className="object-cover object-top brightness-[0.95] contrast-[1.05] w-full h-full rounded-[14px]"
                 />
-
-                {/* Overlaid Gold Handwritten Calligraphy Signature without drop-shadow */}
-                <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 pointer-events-none z-10">
-                  <svg 
-                    viewBox="0 0 260 90" 
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-36 sm:w-48 h-auto text-[#D3AF37]"
-                  >
-                    {/* Artistic Alex Carter Calligraphy Curves */}
-                    <path 
-                      d="M18 65C32 20 48 10 58 45C64 65 52 75 42 70C30 65 32 40 45 35C62 28 80 55 90 40C98 28 108 55 116 42C122 32 135 60 148 40" 
-                      stroke="#D3AF37" 
-                      strokeWidth="2.8" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                    />
-                    <path 
-                      d="M165 48C152 40 145 58 158 64C172 70 188 35 195 25C202 15 192 48 200 45C208 42 215 58 225 45C232 35 240 50 250 42" 
-                      stroke="#D3AF37" 
-                      strokeWidth="2.8" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                    />
-                    <path 
-                      d="M175 45H220" 
-                      stroke="#D3AF37" 
-                      strokeWidth="2.2" 
-                      strokeLinecap="round" 
-                    />
-                  </svg>
-                </div>
               </motion.div>
             </div>
 
@@ -278,7 +248,7 @@ export default function AboutMe() {
               </motion.div>
             </div>
 
-            {/* Bottom-Right CTA: EXPLORE PRACTICE AREAS */}
+            {/* Bottom-Right CTA: EXPLORE PRACTICE AREAS (SaaS Multi-Layered Lighting Test) */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -287,21 +257,61 @@ export default function AboutMe() {
               className="flex justify-start sm:justify-end items-center"
             >
               <button
-                onClick={() => {
-                  const element = document.getElementById('services');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                onClick={(e) => {
+                  e.preventDefault();
+                  const servicesEl = document.getElementById('services');
+                  if (servicesEl) {
+                    servicesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const fallback = document.querySelector('section[id="services"]');
+                    if (fallback) {
+                      fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                   }
                 }}
-                className="group flex items-center gap-3 cursor-pointer py-2 focus:outline-none"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  e.currentTarget.style.setProperty('--mouse-x', `${Math.round(x)}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${Math.round(y)}px`);
+                }}
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  e.currentTarget.style.setProperty('--mouse-x', `${Math.round(x)}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${Math.round(y)}px`);
+                }}
+                onMouseDown={() => setIsPressed(true)}
+                onMouseUp={() => setIsPressed(false)}
+                onMouseLeave={() => setIsPressed(false)}
+                onTouchStart={(e) => {
+                  setIsPressed(true);
+                  if (e.touches[0]) {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.touches[0].clientX - rect.left;
+                    const y = e.touches[0].clientY - rect.top;
+                    e.currentTarget.style.setProperty('--mouse-x', `${Math.round(x)}px`);
+                    e.currentTarget.style.setProperty('--mouse-y', `${Math.round(y)}px`);
+                  }
+                }}
+                onTouchMove={(e) => {
+                  if (e.touches[0]) {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.touches[0].clientX - rect.left;
+                    const y = e.touches[0].clientY - rect.top;
+                    e.currentTarget.style.setProperty('--mouse-x', `${Math.round(x)}px`);
+                    e.currentTarget.style.setProperty('--mouse-y', `${Math.round(y)}px`);
+                  }
+                }}
+                onTouchEnd={() => setIsPressed(false)}
+                data-pressed={isPressed}
+                className="saas-btn-gold group relative inline-flex items-center gap-3.5 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl sm:rounded-2xl cursor-pointer select-none text-[#0C0D0D] font-antonio font-bold text-sm sm:text-base tracking-widest uppercase focus:outline-none overflow-hidden"
               >
-                <span className="font-antonio font-bold text-sm sm:text-base tracking-widest uppercase text-white group-hover:text-[#D3AF37] transition-colors">
-                  {t.aboutMe.exploreBtn}
-                </span>
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-[#D3AF37] group-hover:bg-[#b9962e] flex items-center justify-center text-[#0C0D0D] transition-transform duration-300 group-hover:translate-x-1 shadow-[0_4px_15px_rgba(211,175,55,0.4)]">
-                  <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+                <span className="relative z-10">{t.aboutMe.exploreBtn}</span>
+                <div className="relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0C0D0D]/12 flex items-center justify-center text-[#0C0D0D] transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
                 </div>
               </button>
             </motion.div>

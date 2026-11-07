@@ -85,13 +85,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -102,18 +102,19 @@ function BlurWaveText({
         <motion.span
           key={`${word}-${wordIndex}`}
           variants={{
-            hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+            hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
             visible: {
               opacity: 1,
               y: 0,
               filter: 'blur(0px)',
               transition: {
-                duration: 1.05,
+                duration: 0.75,
                 ease: [0.25, 1, 0.5, 1],
               },
             },
           }}
-          className="inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter]"
+          style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+          className="inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity]"
         >
           {word}
         </motion.span>
@@ -185,14 +186,14 @@ function CaseCard({ item, variant = 'wide', className = '', style }: CardProps) 
       </div>
 
       {/* Card Content */}
-      <div className="mt-3.5 md:mt-4 flex flex-col pb-1">
+      <div className="mt-3.5 md:mt-4 flex flex-col pb-2 overflow-visible">
         <h3
-          className={`${titleSize} font-['Antonio'] uppercase tracking-tight text-white group-hover:text-[#D2AE37] transition-colors leading-snug md:leading-normal pb-0.5`}
+          className={`${titleSize} font-['Antonio'] uppercase tracking-tight text-white group-hover:text-[#D2AE37] transition-colors leading-[1.3] pb-1 break-words overflow-visible`}
         >
           <BlurWaveText text={item.title} delay={0.05} />
         </h3>
         <p
-          className={`mt-1 text-[13px] sm:text-[14px] md:text-[15px] text-white/65 font-['Inter_Tight'] leading-relaxed ${maxDescWidth} line-clamp-2 pb-0.5`}
+          className={`mt-1 text-[13px] sm:text-[14px] md:text-[15px] text-white/75 font-['Inter_Tight'] leading-relaxed ${maxDescWidth} line-clamp-2 pb-1 overflow-visible`}
         >
           {item.description}
         </p>
@@ -479,7 +480,7 @@ export default function CaseStudy() {
                 <div className="w-full flex justify-end items-center mt-8 md:mt-12 pb-6 pointer-events-auto relative z-30">
                   <a
                     href="#contact"
-                    className="group inline-flex items-center gap-3.5 px-6 py-3.5 rounded-full bg-[#171616]/90 hover:bg-[#171616] border border-[#D2AE37]/40 hover:border-[#D2AE37] text-white hover:text-[#D2AE37] transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.6)] cursor-pointer select-none"
+                    className="saas-btn-dark group inline-flex items-center gap-3.5 px-6 py-3.5 rounded-full text-white hover:text-[#D2AE37] cursor-pointer select-none overflow-hidden"
                   >
                     <span className="w-8 h-8 rounded-full border border-white/20 group-hover:border-[#D2AE37] group-hover:bg-[#D2AE37]/20 flex items-center justify-center transition-all duration-300">
                       <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-[#D2AE37]" />

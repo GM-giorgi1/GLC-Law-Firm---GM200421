@@ -39,13 +39,21 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(function Image(
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
       onError={(e) => {
-        if (typeof currentSrc === 'string' && currentSrc.startsWith('/.tempmediaStorage/')) {
-          setCurrentSrc(currentSrc.replace('/.tempmediaStorage/', '/'));
-        } else if (
-          typeof currentSrc === 'string' &&
-          currentSrc !== 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop'
-        ) {
-          setCurrentSrc('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop');
+        if (typeof currentSrc === 'string') {
+          if (currentSrc.startsWith('/.tempmediaStorage/')) {
+            setCurrentSrc(currentSrc.replace('/.tempmediaStorage/', '/'));
+            return;
+          }
+          if (currentSrc.includes('assets/')) {
+            const fileName = currentSrc.split('/').pop()?.split('?')[0];
+            if (fileName && currentSrc !== `/${fileName}`) {
+              setCurrentSrc(`/${fileName}`);
+              return;
+            }
+          }
+          if (currentSrc !== 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop') {
+            setCurrentSrc('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop');
+          }
         }
         onError?.(e);
       }}

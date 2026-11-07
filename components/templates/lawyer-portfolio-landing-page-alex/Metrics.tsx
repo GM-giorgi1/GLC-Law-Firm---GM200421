@@ -101,7 +101,7 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
@@ -131,6 +131,7 @@ function BlurWaveText({
                 },
               },
             }}
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
             className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
               isHighlighted ? highlightClass : ''
             }`}
@@ -149,7 +150,7 @@ export default function Metrics() {
 
   // Triggers whenever user scrolls into or out of the section
   const isInView = useInView(sectionRef, {
-    amount: 0.25,
+    amount: 0.15,
     once: false,
   });
 
@@ -251,156 +252,59 @@ export default function Metrics() {
           </p>
         </motion.div>
 
-        {/* ================= 4. METRICS ROW: SPLIT MOTION STARTING AT 0 (NO CROPPING) ================= */}
-        <div className="w-full mt-14 sm:mt-18 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-14 text-center">
+        {/* ================= 4. METRICS ROW: PERFECT VERTICAL STACK & CENTERING ================= */}
+        <div className="w-full mt-12 sm:mt-16 md:mt-20 flex flex-col items-center justify-center text-center max-w-[840px] mx-auto px-4 select-none">
           
-          {/* Item 1: 21+ (Years of Experience) */}
-          <div className="flex flex-col items-center justify-center">
-            <div className="relative inline-flex items-center justify-center font-['Antonio'] uppercase font-normal text-6xl sm:text-7xl lg:text-[88px] leading-[1.22em] tracking-tight select-none py-1">
-              
-              {/* Left Digit: 2 (Rolls Top to Bottom from 0) */}
-              <RollingDigit
-                target={2}
-                direction="top-to-bottom"
-                isInView={isInView}
-                delay={0.25}
-              />
+          {/* Top Element: Centered Rolling 21+ Metric */}
+          <div className="relative inline-flex items-center justify-center font-['Antonio'] uppercase font-normal text-7xl sm:text-8xl md:text-9xl lg:text-[116px] leading-[1.12em] tracking-tight py-1">
+            {/* Left Digit: 2 (Rolls Top to Bottom from 0) */}
+            <RollingDigit
+              target={2}
+              direction="top-to-bottom"
+              isInView={isInView}
+              delay={0.25}
+            />
 
-              {/* Right Digit: 1 (Rolls Bottom to Top from 0) */}
-              <RollingDigit
-                target={1}
-                direction="bottom-to-top"
-                isInView={isInView}
-                delay={0.25}
-              />
+            {/* Right Digit: 1 (Rolls Bottom to Top from 0) */}
+            <RollingDigit
+              target={1}
+              direction="bottom-to-top"
+              isInView={isInView}
+              delay={0.25}
+            />
 
-              {/* Suffix: + (Slides up from bottom) */}
-              <div className="relative inline-block h-[1.22em] overflow-hidden align-middle px-0.5">
-                <motion.span
-                  initial={{ y: '100%', opacity: 0 }}
-                  animate={isInView ? { y: '0%', opacity: 1 } : { y: '100%', opacity: 0 }}
-                  transition={{ duration: 1.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-[1.22em] flex items-center justify-center leading-[1.22em] bg-gradient-to-b from-[#FEF5CD] via-[#D2AE37] to-[#997723] bg-clip-text text-transparent"
-                >
-                  +
-                </motion.span>
-              </div>
-
+            {/* Suffix: + (Slides up from bottom) */}
+            <div className="relative inline-block h-[1.12em] overflow-hidden align-middle px-0.5">
+              <motion.span
+                initial={{ y: '100%', opacity: 0 }}
+                animate={isInView ? { y: '0%', opacity: 1 } : { y: '100%', opacity: 0 }}
+                transition={{ duration: 1.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="h-[1.12em] flex items-center justify-center leading-[1.12em] bg-gradient-to-b from-[#FEF5CD] via-[#D2AE37] to-[#997723] bg-clip-text text-transparent"
+              >
+                +
+              </motion.span>
             </div>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-3.5 text-sm sm:text-base text-white/70 font-inter-tight font-normal"
-            >
-              {t.metricsSection.stat1Label}
-            </motion.p>
           </div>
 
-          {/* Item 2: 98% (Client Success Rate) */}
-          <div className="flex flex-col items-center justify-center">
-            <div className="relative inline-flex items-center justify-center font-['Antonio'] uppercase font-normal text-6xl sm:text-7xl lg:text-[88px] leading-[1.22em] tracking-tight select-none py-1">
-              
-              {/* Left Digit: 9 (Rolls Top to Bottom from 0) */}
-              <RollingDigit
-                target={9}
-                direction="top-to-bottom"
-                isInView={isInView}
-                delay={0.35}
-              />
+          {/* Middle Element: "წლიანი გამოცდილება" directly beneath 21+ with the exact same luxury golden gradient & typography */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-2 sm:mt-3 font-['Antonio'] uppercase font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.25] tracking-tight bg-gradient-to-b from-[#FEF5CD] via-[#D2AE37] to-[#997723] bg-clip-text text-transparent overflow-visible pb-1.5"
+          >
+            {t.metricsSection.stat1Label}
+          </motion.div>
 
-              {/* Right Digit: 8 (Rolls Bottom to Top from 0) */}
-              <RollingDigit
-                target={8}
-                direction="bottom-to-top"
-                isInView={isInView}
-                delay={0.35}
-              />
-
-              {/* Suffix: % (Slides up from bottom) */}
-              <div className="relative inline-block h-[1.22em] overflow-hidden align-middle px-0.5">
-                <motion.span
-                  initial={{ y: '100%', opacity: 0 }}
-                  animate={isInView ? { y: '0%', opacity: 1 } : { y: '100%', opacity: 0 }}
-                  transition={{ duration: 1.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-[1.22em] flex items-center justify-center leading-[1.22em] bg-gradient-to-b from-[#FEF5CD] via-[#D2AE37] to-[#997723] bg-clip-text text-transparent text-[0.8em]"
-                >
-                  %
-                </motion.span>
-              </div>
-
-            </div>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-3.5 text-sm sm:text-base text-white/70 font-inter-tight font-normal"
-            >
-              {t.metricsSection.stat2Label}
-            </motion.p>
-          </div>
-
-          {/* Item 3: $12M+ (In Client Recoveries) */}
-          <div className="flex flex-col items-center justify-center">
-            <div className="relative inline-flex items-center justify-center font-['Antonio'] uppercase font-normal text-6xl sm:text-7xl lg:text-[88px] leading-[1.22em] tracking-tight select-none py-1">
-              
-              {/* Prefix: $ (Slides down from top) */}
-              <div className="relative inline-block h-[1.22em] overflow-hidden align-middle px-0.5">
-                <motion.span
-                  initial={{ y: '-100%', opacity: 0 }}
-                  animate={isInView ? { y: '0%', opacity: 1 } : { y: '-100%', opacity: 0 }}
-                  transition={{ duration: 1.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-[1.22em] flex items-center justify-center leading-[1.22em] bg-gradient-to-b from-[#FEF5CD] via-[#D2AE37] to-[#997723] bg-clip-text text-transparent text-[0.85em]"
-                >
-                  $
-                </motion.span>
-              </div>
-
-              {/* Left Digit: 1 (Rolls Top to Bottom from 0) */}
-              <RollingDigit
-                target={1}
-                direction="top-to-bottom"
-                isInView={isInView}
-                delay={0.45}
-              />
-
-              {/* Right Digit: 2 (Rolls Bottom to Top from 0) */}
-              <RollingDigit
-                target={2}
-                direction="bottom-to-top"
-                isInView={isInView}
-                delay={0.45}
-              />
-
-              {/* Suffix: M+ (Slides up from bottom) */}
-              <div className="relative inline-block h-[1.22em] overflow-hidden align-middle px-0.5">
-                <motion.span
-                  initial={{ y: '100%', opacity: 0 }}
-                  animate={isInView ? { y: '0%', opacity: 1 } : { y: '100%', opacity: 0 }}
-                  transition={{ duration: 1.6, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-[1.22em] flex items-center justify-center leading-[1.22em] bg-gradient-to-b from-[#FEF5CD] via-[#D2AE37] to-[#997723] bg-clip-text text-transparent text-[0.8em]"
-                >
-                  M+
-                </motion.span>
-              </div>
-
-            </div>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-3.5 text-sm sm:text-base text-white/70 font-inter-tight font-normal"
-            >
-              {t.metricsSection.stat3Label}
-            </motion.p>
-          </div>
-
+          {/* Bottom Element: "თქვენი წარმატებისათვის ბრძოლაში" directly beneath "წლიანი გამოცდილება" */}
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+            transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl lg:text-2xl text-white/85 font-inter-tight font-medium tracking-wide max-w-xl mx-auto leading-relaxed overflow-visible pb-1"
+          >
+            {t.metricsSection.stat1Sub}
+          </motion.p>
         </div>
 
       </div>

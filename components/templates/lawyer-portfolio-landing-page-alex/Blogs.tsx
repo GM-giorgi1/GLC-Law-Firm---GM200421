@@ -58,13 +58,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.09,
+            staggerChildren: 0.05,
             delayChildren: delay,
           },
         },
@@ -77,18 +77,19 @@ function BlurWaveText({
           <motion.span
             key={`${word}-${wordIndex}`}
             variants={{
-              hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
               visible: {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
                 transition: {
-                  duration: 1.05,
+                  duration: 0.75,
                   ease: [0.25, 1, 0.5, 1],
                 },
               },
             }}
-            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity,filter] ${
+            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity] ${
               isHighlighted ? highlightClass : ''
             }`}
           >
@@ -132,12 +133,12 @@ export default function Blogs() {
 
       <div className="relative z-10 w-full max-w-full px-6 md:px-12 lg:px-[90px]">
         
-        {/* ================= 1. TOP ROW: HEADING, DESCRIPTION & CHECK OUT MORE BUTTON ================= */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 lg:gap-12 mb-12 sm:mb-16 md:mb-20">
+        {/* ================= 1. TOP ROW: RESTRUCTURED CLEAN FLEXBOX HEADER & RIGHT-ALIGNED ACTION BUTTON ================= */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12 sm:mb-16 md:mb-20">
           
           {/* Left: Heading "Blog & Publication" */}
           <div className="flex-shrink-0">
-            <h2 className="font-['Antonio'] uppercase tracking-tight text-[40px] sm:text-[54px] md:text-[68px] lg:text-[78px] leading-[1.18] pb-1 text-white">
+            <h2 className="font-['Antonio'] uppercase tracking-tight text-[38px] sm:text-[50px] md:text-[64px] lg:text-[76px] leading-[1.18] pb-1 text-white">
               <BlurWaveText
                 text={t.blogsSection.headline}
                 highlightWord={t.blogsSection.headlineHighlight}
@@ -147,40 +148,21 @@ export default function Blogs() {
             </h2>
           </div>
 
-          {/* Center & Right container */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 w-full lg:w-auto lg:flex-1 lg:pl-8">
-            
-            {/* Middle Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
-              animate={
-                isInView
-                  ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-                  : { opacity: 0, y: 24, filter: 'blur(14px)' }
-              }
-              transition={{ duration: 1.05, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
-              className="text-white/70 text-sm sm:text-base font-inter-tight leading-relaxed max-w-sm will-change-[transform,opacity,filter]"
-            >
-              {t.blogsSection.subtitle}
-            </motion.p>
-
-            {/* Right: Check out more Button / Link */}
-            <motion.a
-              href="#blogs"
-              initial={{ opacity: 0, x: 20, filter: 'blur(8px)' }}
-              animate={
-                isInView
-                  ? { opacity: 1, x: 0, filter: 'blur(0px)' }
-                  : { opacity: 0, x: 20, filter: 'blur(8px)' }
-              }
-              transition={{ duration: 0.85, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="group inline-flex items-center gap-2.5 text-white/90 hover:text-[#D2AF37] transition-all duration-300 text-sm sm:text-[15px] font-medium font-inter-tight cursor-pointer py-1"
-            >
-              <CornerDownRight className="w-4 h-4 text-[#D2AF37] transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-0.5" />
-              <span className="tracking-wide">{t.blogsSection.viewAllBtn}</span>
-            </motion.a>
-
-          </div>
+          {/* Right: Realigned Action Button "ყველა პუბლიკაციის ნახვა" */}
+          <motion.a
+            href="#/blogs"
+            initial={{ opacity: 0, x: 20, filter: 'blur(8px)' }}
+            animate={
+              isInView
+                ? { opacity: 1, x: 0, filter: 'blur(0px)' }
+                : { opacity: 0, x: 20, filter: 'blur(8px)' }
+            }
+            transition={{ duration: 0.85, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="group inline-flex items-center gap-2.5 text-white/90 hover:text-[#D2AF37] transition-all duration-300 text-sm sm:text-base md:text-[17px] font-medium font-inter-tight cursor-pointer py-2 px-1 shrink-0"
+          >
+            <CornerDownRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#D2AF37] transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-0.5" />
+            <span className="tracking-wide">{t.blogsSection.viewAllBtn}</span>
+          </motion.a>
 
         </div>
 
@@ -201,6 +183,9 @@ export default function Blogs() {
             }
             transition={{ duration: 0.9, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="group flex flex-col cursor-pointer"
+            onClick={() => {
+              window.location.hash = '#/blogs/what-to-do-when-served-lawsuit';
+            }}
           >
             {/* Image Box */}
             <div className="relative w-full aspect-[16/10.5] rounded-[20px] sm:rounded-[24px] overflow-hidden bg-[#151415] border border-white/[0.08] shadow-[0_12px_36px_rgba(0,0,0,0.6)] group-hover:border-[#D2AF37]/40 group-hover:shadow-[0_16px_44px_rgba(211,175,55,0.12)] transition-all duration-500">
@@ -239,13 +224,13 @@ export default function Blogs() {
               </div>
 
               {/* Pill Button: Read More */}
-              <button
-                type="button"
-                className="mt-4 sm:mt-5 px-5 py-1.5 rounded-full border border-white/20 group-hover:border-[#D2AF37] bg-transparent group-hover:bg-[#D2AF37]/10 text-white/90 group-hover:text-[#D2AF37] text-xs sm:text-sm font-medium font-inter-tight transition-all duration-300 active:scale-95 cursor-pointer inline-flex items-center gap-1.5 shadow-[0_2px_10px_rgba(0,0,0,0.4)]"
+              <a
+                href="#/blogs/what-to-do-when-served-lawsuit"
+                className="saas-btn-dark mt-4 sm:mt-5 px-5 py-2 rounded-full text-white/90 hover:text-[#D2AF37] text-xs sm:text-sm font-medium font-inter-tight cursor-pointer inline-flex items-center gap-1.5 overflow-hidden"
               >
                 <span>{t.blogsSection.readAnalysis || 'Read More'}</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </a>
             </div>
           </motion.article>
 
@@ -259,6 +244,9 @@ export default function Blogs() {
             }
             transition={{ duration: 0.9, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
             className="group flex flex-col cursor-pointer"
+            onClick={() => {
+              window.location.hash = '#/blogs/5-legal-steps-every-small-business-should-take';
+            }}
           >
             {/* Image Box */}
             <div className="relative w-full aspect-[16/10.5] rounded-[20px] sm:rounded-[24px] overflow-hidden bg-[#151415] border border-white/[0.08] shadow-[0_12px_36px_rgba(0,0,0,0.6)] group-hover:border-[#D2AF37]/40 group-hover:shadow-[0_16px_44px_rgba(211,175,55,0.12)] transition-all duration-500">
@@ -296,13 +284,13 @@ export default function Blogs() {
               </div>
 
               {/* Pill Button: Read More */}
-              <button
-                type="button"
-                className="mt-4 sm:mt-5 px-5 py-1.5 rounded-full border border-white/20 group-hover:border-[#D2AF37] bg-transparent group-hover:bg-[#D2AF37]/10 text-white/90 group-hover:text-[#D2AF37] text-xs sm:text-sm font-medium font-inter-tight transition-all duration-300 active:scale-95 cursor-pointer inline-flex items-center gap-1.5 shadow-[0_2px_10px_rgba(0,0,0,0.4)]"
+              <a
+                href="#/blogs/5-legal-steps-every-small-business-should-take"
+                className="saas-btn-dark mt-4 sm:mt-5 px-5 py-2 rounded-full text-white/90 hover:text-[#D2AF37] text-xs sm:text-sm font-medium font-inter-tight cursor-pointer inline-flex items-center gap-1.5 overflow-hidden"
               >
                 <span>{t.blogsSection.readAnalysis || 'Read More'}</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </a>
             </div>
           </motion.article>
 
@@ -316,6 +304,9 @@ export default function Blogs() {
             }
             transition={{ duration: 0.9, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
             className="group flex flex-col cursor-pointer"
+            onClick={() => {
+              window.location.hash = '#/blogs/understanding-rights-criminal-investigation';
+            }}
           >
             {/* Image Box */}
             <div className="relative w-full aspect-[16/10.5] rounded-[20px] sm:rounded-[24px] overflow-hidden bg-[#151415] border border-white/[0.08] shadow-[0_12px_36px_rgba(0,0,0,0.6)] group-hover:border-[#D2AF37]/40 group-hover:shadow-[0_16px_44px_rgba(211,175,55,0.12)] transition-all duration-500">
@@ -351,13 +342,13 @@ export default function Blogs() {
               </h3>
 
               {/* Pill Button: Read More */}
-              <button
-                type="button"
-                className="mt-4 sm:mt-5 px-5 py-1.5 rounded-full border border-white/20 group-hover:border-[#D2AF37] bg-transparent group-hover:bg-[#D2AF37]/10 text-white/90 group-hover:text-[#D2AF37] text-xs sm:text-sm font-medium font-inter-tight transition-all duration-300 active:scale-95 cursor-pointer inline-flex items-center gap-1.5 shadow-[0_2px_10px_rgba(0,0,0,0.4)]"
+              <a
+                href="#/blogs/understanding-rights-criminal-investigation"
+                className="saas-btn-dark mt-4 sm:mt-5 px-5 py-2 rounded-full text-white/90 hover:text-[#D2AF37] text-xs sm:text-sm font-medium font-inter-tight cursor-pointer inline-flex items-center gap-1.5 overflow-hidden"
               >
                 <span>{t.blogsSection.readAnalysis || 'Read More'}</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </a>
             </div>
           </motion.article>
 
