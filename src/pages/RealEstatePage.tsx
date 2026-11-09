@@ -20,11 +20,9 @@ import ConsultationModal from '@/src/components/common/ConsultationModal';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
-import SEOHead from '@/src/components/common/SEOHead';
-import { BlurWaveText } from '@/src/components/common/MotionReveal';
 
 // Real Estate Assets
-import realEstateHeroImg from '@/src/assets/realestate.png';
+import realEstateHeroImg from '@/src/assets/realestate0.png';
 import temple1Img from '@/src/assets/TEMPLE1.png';
 import temple2Img from '@/src/assets/TEMPLE2.png';
 import temple3Img from '@/src/assets/TEMPLE3.png';
@@ -192,6 +190,13 @@ export default function RealEstatePage() {
   ];
 
   // 4 Stages Protocol Data
+  const protocolBadge = isGeo
+    ? 'საპროცესო პროტოკოლი'
+    : isEng
+    ? 'PROCEDURAL PROTOCOL'
+    : isRus
+    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ'
+    : 'USUL PROTOKOLÜ';
 
   const protocolHeading = isGeo
     ? 'დაცვის 4 ეტაპი'
@@ -199,7 +204,7 @@ export default function RealEstatePage() {
     ? '4 stages of defence'
     : isRus
     ? '4 этапа защиты'
-    : '4 Savunma Aşaması';
+    : '4 savunma aşaması';
 
   const protocolSub = isGeo
     ? 'ქონებრივი გარიგებისა და ინვესტიციების სრული იურიდიული მექანიზმი პირველადი შემოწმებიდან საკუთრების დაცვამდე.'
@@ -284,26 +289,8 @@ export default function RealEstatePage() {
     },
   ];
 
-  const realEstateTitle = isGeo
-    ? 'უძრავი ქონება & სახელშეკრულებო სამართალი — GLC Law Company | გიორგი გუბელაძე'
-    : isEng
-    ? 'Real Estate & Contract Law — GLC Law Company | Giorgi Gubeladze'
-    : 'Недвижимость и договорное право — GLC Law Company | Георгий Губеладзе';
-
-  const realEstateDesc = isGeo
-    ? 'უძრავი ქონების სრული იურიდიული აუდიტი, ინვესტიციების დაცვა, ხელშეკრულებები და ქონებრივი დავები. 21+ წლიანი გამოცდილება. დარეკეთ: +995 599 27 77 94.'
-    : isEng
-    ? 'Comprehensive real estate due diligence, contract drafting, zoning permits, and property dispute litigation in Georgia. Call: +995 599 27 77 94.'
-    : 'Полный аудит недвижимости, инвестиционная безопасность, договоры и судебная защита в Грузии. Тел: +995 599 27 77 94.';
-
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
-      <SEOHead
-        title={realEstateTitle}
-        description={realEstateDesc}
-        canonicalPath="/practice-areas/real-estate-law"
-        practiceAreaName={isGeo ? 'უძრავი ქონების სამართალი' : 'Real Estate Law'}
-      />
       {/* Universal Curtain Opening Transition */}
       <CurtainIntro title="REAL ESTATE LAW" subtitle="GLC LAW COMPANY" backdropImage={realEstateHeroImg} />
 
@@ -340,23 +327,23 @@ export default function RealEstatePage() {
             alt="GLC Real Estate & Contract Law"
             fill
             priority
-            className="object-cover object-center filter brightness-[0.92] contrast-[1.08] scale-100"
+            className="object-cover object-center filter brightness-[0.96] contrast-[1.08] scale-100"
             unoptimized
           />
-          {/* Multi-stop Dark Obsidian Luxury Gradient (~90% opacity for pristine text legibility) */}
+          {/* Refined Balanced Obsidian Luxury Gradient (40% - 65% opacity range for vivid background visibility) */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(180deg, rgba(3, 5, 8, 0.88) 0%, rgba(3, 5, 8, 0.82) 40%, rgba(3, 5, 8, 0.94) 100%)',
+                'linear-gradient(180deg, rgba(3, 5, 8, 0.42) 0%, rgba(3, 5, 8, 0.35) 40%, rgba(3, 5, 8, 0.65) 100%)',
             }}
           />
-          {/* Subtle Radial Vignette for Centered Typography Hierarchy */}
+          {/* Delicate Centered Radial Vignette for Editorial Elegance and Pristine Text Contrast */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at center, rgba(3, 5, 8, 0.55) 0%, rgba(3, 5, 8, 0.85) 65%, rgba(3, 5, 8, 0.98) 100%)',
+                'radial-gradient(ellipse at center, rgba(3, 5, 8, 0.20) 0%, rgba(3, 5, 8, 0.45) 65%, rgba(3, 5, 8, 0.72) 100%)',
             }}
           />
         </div>
@@ -457,7 +444,7 @@ export default function RealEstatePage() {
             </div>
 
             <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              <BlurWaveText text={pillarsHeading} />
+              {pillarsHeading}
             </h2>
 
             <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/85 mt-4 max-w-2xl leading-relaxed">
@@ -467,15 +454,11 @@ export default function RealEstatePage() {
 
           {/* Bento Grid: 4 Cards with Temple Assets */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 w-full">
-            {realEstatePillars.map((pillar, pIdx) => {
+            {realEstatePillars.map((pillar) => {
               const Icon = pillar.icon;
               return (
                 <motion.div
                   key={pillar.number}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ duration: 0.65, delay: pIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -6, transition: { duration: 0.28, ease: 'easeOut' } }}
                   className="group relative flex flex-col justify-between p-7 sm:p-9 lg:p-10 rounded-2xl overflow-hidden border border-[#D3AF37]/25 hover:border-[#D3AF37]/50 shadow-[0_4px_16px_rgba(0,0,0,0.6)] hover:shadow-[0_8px_28px_rgba(211,175,55,0.22)] transition-all duration-300 min-h-[380px]"
                 >
@@ -486,19 +469,19 @@ export default function RealEstatePage() {
                       alt={pillar.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 640px"
-                      className="object-cover object-center filter brightness-[0.78] contrast-[1.08] blur-[1.5px] transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="object-cover object-center filter brightness-[0.92] contrast-[1.08] blur-[0.5px] transition-transform duration-700 ease-out group-hover:scale-105"
                       unoptimized
                     />
-                    {/* Delicate Dark Glassmorphism Gradient Overlay (rgba(3, 5, 8, 0.75)) */}
+                    {/* Delicate Dark Glassmorphism Gradient Overlay (40% - 68% balanced range) */}
                     <div
                       className="absolute inset-0 transition-opacity duration-300"
                       style={{
                         background:
-                          'linear-gradient(180deg, rgba(3, 5, 8, 0.62) 0%, rgba(3, 5, 8, 0.75) 50%, rgba(3, 5, 8, 0.88) 100%)',
+                          'linear-gradient(180deg, rgba(3, 5, 8, 0.38) 0%, rgba(3, 5, 8, 0.48) 50%, rgba(3, 5, 8, 0.68) 100%)',
                       }}
                     />
-                    {/* Directional Vignette protecting typography */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030508]/85 via-transparent to-[#030508]/30 pointer-events-none" />
+                    {/* Subtle Directional Vignette protecting typography */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030508]/65 via-transparent to-[#030508]/15 pointer-events-none" />
                     <div className="absolute top-0 right-0 w-48 h-48 bg-[#D3AF37]/[0.03] group-hover:bg-[#D3AF37]/[0.10] rounded-bl-full pointer-events-none transition-colors duration-500" />
                   </div>
 
@@ -551,7 +534,6 @@ export default function RealEstatePage() {
       >
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           {/* Centered Symmetrical Header */}
-          {/* Centered Symmetrical Header without protocol prefix badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -560,7 +542,7 @@ export default function RealEstatePage() {
             className="w-full max-w-4xl flex flex-col items-center justify-center text-center mx-auto mb-14 sm:mb-16 px-4"
           >
             <h2 className="font-big-shoulders font-[900] uppercase text-white tracking-tight leading-tight text-3xl sm:text-5xl lg:text-6xl text-center">
-              <BlurWaveText text={protocolHeading} />
+              {protocolHeading}
             </h2>
 
             <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/90 mt-4 max-w-2xl text-center leading-relaxed">
@@ -591,18 +573,18 @@ export default function RealEstatePage() {
                       alt={step.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 360px"
-                      className="object-cover object-center filter brightness-[0.78] contrast-[1.08] blur-[1.5px] transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="object-cover object-center filter brightness-[0.92] contrast-[1.08] blur-[0.5px] transition-transform duration-700 ease-out group-hover:scale-105"
                       unoptimized
                     />
                     <div
                       className="absolute inset-0 transition-opacity duration-300"
                       style={{
                         background: isHovered
-                          ? 'linear-gradient(180deg, rgba(3, 5, 8, 0.55) 0%, rgba(3, 5, 8, 0.70) 50%, rgba(3, 5, 8, 0.85) 100%)'
-                          : 'linear-gradient(180deg, rgba(3, 5, 8, 0.65) 0%, rgba(3, 5, 8, 0.75) 50%, rgba(3, 5, 8, 0.90) 100%)',
+                          ? 'linear-gradient(180deg, rgba(3, 5, 8, 0.32) 0%, rgba(3, 5, 8, 0.42) 50%, rgba(3, 5, 8, 0.60) 100%)'
+                          : 'linear-gradient(180deg, rgba(3, 5, 8, 0.38) 0%, rgba(3, 5, 8, 0.48) 50%, rgba(3, 5, 8, 0.68) 100%)',
                       }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030508]/85 via-transparent to-[#030508]/30 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030508]/65 via-transparent to-[#030508]/15 pointer-events-none" />
                   </div>
 
                   {/* Step Number */}

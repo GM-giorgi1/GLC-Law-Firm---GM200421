@@ -86,9 +86,9 @@ export function LoadingScreen() {
               priority
               unoptimized
               sizes="100vw"
-              className="object-cover object-center filter brightness-[0.25] contrast-[1.2]"
+              className="object-cover object-center filter brightness-[0.48] contrast-[1.15]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#030508] via-[#030508]/85 to-[#030508]/90 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#030508] via-[#030508]/65 to-[#030508]/75 pointer-events-none" />
           </div>
 
           {/* TOP CURTAIN */}
@@ -225,21 +225,21 @@ export default function Header() {
             alt="GLC Criminal Law Defense Advocacy"
             fill
             priority
-            className="object-cover object-center filter brightness-[0.92] contrast-[1.08] scale-100"
+            className="object-cover object-center filter brightness-[0.96] contrast-[1.08] scale-100"
             unoptimized
           />
           {/* Subtle Balanced Obsidian Tint - Clearly reveals the photo details across all devices */}
           <div 
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(180deg, rgba(3, 5, 8, 0.42) 0%, rgba(3, 5, 8, 0.28) 40%, rgba(3, 5, 8, 0.65) 100%)'
+              background: 'linear-gradient(180deg, rgba(3, 5, 8, 0.35) 0%, rgba(3, 5, 8, 0.24) 40%, rgba(3, 5, 8, 0.58) 100%)'
             }}
           />
           {/* Soft Centered Radial Vignette for Editorial Elegance and Text Separation */}
           <div 
             className="absolute inset-0"
             style={{
-              background: 'radial-gradient(ellipse at center, rgba(3, 5, 8, 0.18) 0%, rgba(3, 5, 8, 0.40) 65%, rgba(3, 5, 8, 0.78) 100%)'
+              background: 'radial-gradient(ellipse at center, rgba(3, 5, 8, 0.12) 0%, rgba(3, 5, 8, 0.32) 65%, rgba(3, 5, 8, 0.65) 100%)'
             }}
           />
         </div>

@@ -157,14 +157,14 @@ export default function CTA() {
                 unoptimized
                 priority
                 sizes="100vw"
-                className="object-cover object-center w-full h-full filter brightness-[0.25] contrast-[1.15]"
+                className="object-cover object-center w-full h-full filter brightness-[0.72] contrast-[1.10]"
                 referrerPolicy="no-referrer"
               />
             </div>
           );
         })}
 
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[3px] z-3 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px] z-3 pointer-events-none" />
       </div>
 
       <div className="relative z-10 w-full max-w-[840px] flex items-center justify-center min-h-[480px] sm:min-h-[620px] lg:min-h-[600px]">

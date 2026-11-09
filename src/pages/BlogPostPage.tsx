@@ -18,8 +18,8 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
-import SEOHead from '@/src/components/common/SEOHead';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
+import CurtainIntro from '@/src/components/common/CurtainIntro';
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -43,21 +43,15 @@ export default function BlogPostPage() {
   }
 
   const localizedContent = post.content[language] || post.content.GEO;
-  const postTitle = `${post.title[language] || post.title.GEO} — GLC Law Company`;
-  const postDesc = (localizedContent.intro || post.excerpt[language] || post.excerpt.GEO).slice(0, 160);
   const directConsultationUrl = `https://wa.me/995599277794?text=${encodeURIComponent(
     `მოგესალმებით, გავეცანი თქვენს სტატიას „${post.title[language] || post.title.GEO}“ და მსურს კონსულტაცია ამ საკითხზე.`
   )}`;
 
   return (
     <div className="min-h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col selection:bg-[#D3AF37]/30 selection:text-white">
-      <SEOHead
-        title={postTitle}
-        description={postDesc}
-        ogImage={post.image}
-        isArticle={true}
-        canonicalPath={`/blogs/${post.slug}`}
-      />
+      {/* Cinematic Curtain Transition */}
+      <CurtainIntro title="BLOGS & INSIGHTS" subtitle="GLC LAW COMPANY" />
+
       {/* Top Floating Mini Navbar */}
       <nav className="sticky top-0 z-50 w-full bg-[#0C0D0D]/90 backdrop-blur-md border-b border-white/[0.08] px-6 sm:px-12 py-3.5 flex items-center justify-between">
         <Link

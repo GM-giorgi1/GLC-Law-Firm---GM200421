@@ -253,7 +253,7 @@ export const translations: Record<Language, TranslationSchema> = {
       cases: 'NOTABLE CASE RESULTS',
       testimonials: 'TESTIMONIALS',
       team: 'OUR TEAM',
-      blogs: 'LATEST INSIGHTS',
+      blogs: 'Blogs & Latest Insights',
       contact: 'CONTACT & LOCATION',
       officeHeadquarters: 'OFFICE HEADQUARTERS',
       address: 'Georgia, Batumi, Kutaisi str, office #31, Batumi, Georgia, 6000',
@@ -332,11 +332,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'With 21+ years of dedicated criminal trial experience, we provide fearless courtroom advocacy, suppress unlawful evidence, and conduct prompt visits to detention facilities to protect our clients.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM.png',
               caption: 'Courtroom Trial Advocacy & Defense',
             },
             {
-              url: 'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM1.png',
               caption: 'Forensic Evidence & Case Investigation',
             },
           ],
@@ -356,11 +356,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Combining deep empathy with rigorous trial advocacy, we handle sensitive family matters, divorce negotiations, custody arrangements, and core civil litigation.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM2.png',
               caption: 'Private Client Consultation & Mediation',
             },
             {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM3.png',
               caption: 'Protective Child & Spousal Agreements',
             },
           ],
@@ -380,7 +380,7 @@ export const translations: Record<Language, TranslationSchema> = {
             'Guiding developers, investors, and property owners through acquisitions, property transfers, title clearances, and complex municipal agreements to guarantee clean ownership and risk-free deals.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM6.webp',
               caption: 'Commercial Land Development & Acquisitions',
             },
             {
@@ -404,11 +404,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Comprehensive corporate legal counsel: from entity incorporation to high-stakes M&A transactions, corporate governance audits, and decisive resolution of shareholder disputes.',
           images: [
             {
-              url: '/corporate.png',
+              url: '/GM4.png',
               caption: 'Corporate Governance & Entity Formation',
             },
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM5.png',
               caption: 'Commercial M&A & Shareholder Advocacy',
             },
           ],
@@ -734,7 +734,7 @@ export const translations: Record<Language, TranslationSchema> = {
       cases: 'წარმატებული საქმეები',
       testimonials: 'შეფასებები',
       team: 'ჩვენი გუნდი',
-      blogs: 'სიახლეები და სტატიები',
+      blogs: 'ბლოგები & სიახლეები',
       contact: 'კონტაქტი და ლოკაცია',
       officeHeadquarters: 'ცენტრალური ოფისი',
       address: 'საქართველო, ბათუმი, ქუთაისის ქ. #31, ბათუმი, 6000',
@@ -813,11 +813,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'სისხლის სამართალში 21+ წლიანი გამოცდილებით, ჩვენ უზრუნველვყოფთ უკომპრომისო დაცვას გამოძიების დაწყებიდან განაჩენის გამოტანამდე, მტკიცებულებების შეგროვებას და სასჯელაღსრულების დაწესებულებებში დაუყოვნებლივ ვიზიტს.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM.png',
               caption: 'სასამართლო დაცვა და პროცესუალური წარმომადგენლობა',
             },
             {
-              url: 'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM1.png',
               caption: 'მტკიცებულებების ანალიზი და ექსპერტიზა',
             },
           ],
@@ -837,11 +837,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'საოჯახო და სამოქალაქო დავებში ჩვენ ვიცავთ კლიენტის ფუნდამენტურ ინტერესებს: ქონების სამართლიანი გაყოფა, ბავშვზე ზრუნვის გეგმები, ალიმენტი და სახელშეკრულებო ვალდებულებების აღსრულება.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM2.png',
               caption: 'პირადი კონსულტაცია და მედიაცია',
             },
             {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM3.png',
               caption: 'ბავშვთა და მეუღლეთა უფლებების დაცვა',
             },
           ],
@@ -861,7 +861,7 @@ export const translations: Record<Language, TranslationSchema> = {
             'უძრავი ქონების შეძენის, გასხვისების და ქონებრივი გარიგებების სრული სამართლებრივი უზრუნველყოფა, ხელშეკრულებების მომზადება და კლიენტის საკუთრების უფლების უსაფრთხოება.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM6.webp',
               caption: 'კომერციული დეველოპმენტი და შესყიდვები',
             },
             {
@@ -885,11 +885,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'კომპანიების სრული სამართლებრივი მხარდაჭერა: დაფუძნებიდან მსხვილ კომერციულ გარიგებებამდე, შიდა კორპორაციული აუდიტი, საგადასახადო ოპტიმიზაციის სამართლებრივი უზრუნველყოფა და პარტნიორთა ინტერესების ურყევი დაცვა.',
           images: [
             {
-              url: '/corporate.png',
+              url: '/GM4.png',
               caption: 'კორპორაციული მართვა და კომპანიების რეგისტრაცია',
             },
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM5.png',
               caption: 'M&A გარიგებები და პარტნიორთა წარმომადგენლობა',
             },
           ],
@@ -1215,7 +1215,7 @@ export const translations: Record<Language, TranslationSchema> = {
       cases: 'УСПЕШНЫЕ ДЕЛА',
       testimonials: 'ОТЗЫВЫ',
       team: 'НАША КОМАНДА',
-      blogs: 'СТАТЬИ И АНАЛИТИКА',
+      blogs: 'БЛОГИ & АНАЛИТИКА',
       contact: 'КОНТАКТЫ И АДРЕС',
       officeHeadquarters: 'ГЛАВНЫЙ ОФИС',
       address: 'Грузия, Батуми, ул. Кутаиси #31, офис 6000',
@@ -1294,11 +1294,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'С более чем 21 годом опыта в уголовных делах мы проводим независимые адвокатские расследования, исключаем недопустимые доказательства и оперативно посещаем пенитенциарные учреждения для защиты доверителей.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM.png',
               caption: 'Судебная защита и участие в заседаниях',
             },
             {
-              url: 'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM1.png',
               caption: 'Анализ доказательств и экспертиза',
             },
           ],
@@ -1318,11 +1318,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Мы сочетаем эмпатию и бескомпромиссную защиту в суде: справедливый раздел имущества, алиментные соглашения, защита прав детей и ведение гражданских споров.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM2.png',
               caption: 'Конфиденциальные консультации и медиация',
             },
             {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM3.png',
               caption: 'Защита прав детей и супругов',
             },
           ],
@@ -1342,7 +1342,7 @@ export const translations: Record<Language, TranslationSchema> = {
             'Сопровождение инвесторов и частных владельцев: купля-продажа, проверка юридической чистоты объекта, договоры и безопасное закрытие сделок.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM6.webp',
               caption: 'Коммерческий девелопмент и сделки',
             },
             {
@@ -1366,11 +1366,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Комплексное правовое сопровождение бизнеса: от создания компаний до сделок M&A, корпоративного аудита и защиты прав участников в суде.',
           images: [
             {
-              url: '/corporate.png',
+              url: '/GM4.png',
               caption: 'Корпоративное управление и регистрация бизнеса',
             },
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM5.png',
               caption: 'Сделки M&A и судебное представительство',
             },
           ],
@@ -1696,7 +1696,7 @@ export const translations: Record<Language, TranslationSchema> = {
       cases: 'BAŞARILI DAVALAR',
       testimonials: 'MÜVEKKİL YORUMLARI',
       team: 'EKİBİMİZ',
-      blogs: 'HUKUKİ YAZILAR',
+      blogs: 'HUKUKİ YAZILAR & MAKALELER',
       contact: 'İLETİŞİM VE KONUM',
       officeHeadquarters: 'GENEL MERKEZ',
       address: 'Gürcistan, Batum, Kutaisi Cad. #31, Ofis 6000',
@@ -1775,11 +1775,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Ceza hukuku alanında 21 yılı aşkın tecrübemizle soruşturmanın başından hüküm aşamasına kadar tavizsiz savunma sağlıyor, hukuka aykırı delillere itiraz ediyor ve tutukluları ceza infaz kurumlarında ivedilikle ziyaret ediyoruz.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM.png',
               caption: 'Duruşma Temsili ve Ceza Savunması',
             },
             {
-              url: 'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM1.png',
               caption: 'Delil İncelemesi ve Dosya İtirazları',
             },
           ],
@@ -1799,11 +1799,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Aile hukuku davalarında empati ile mahkeme kararlılığını bir araya getiriyoruz: adil mal paylaşımı, velayet planlaması, nafaka ve medeni hukuk uyuşmazlıklarında etkin temsil.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM2.png',
               caption: 'Özel Danışmanlık ve Arabuluculuk',
             },
             {
-              url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM3.png',
               caption: 'Çocuk ve Eş Haklarının Korunması',
             },
           ],
@@ -1818,12 +1818,12 @@ export const translations: Record<Language, TranslationSchema> = {
             'Tapu incelemeleri, hukuki durum tespiti (Due Diligence) ve tescil',
             'Mülkiyet ve kira uyuşmazlıklarının kararlı çözümü',
           ],
-          tags: ['Mülk Devri', 'Due Diligence', 'Tapu Güvencesi'],
+          tags: ['Mülk Devri', 'Due Diligence', 'Tapu Güვencesi'],
           detailedOverview:
             'Yatırımcıları ve mülk sahiplerini gayrimenkul alımlarında, tapu devirlerinde ve sözleşme denetiminde tam hukuki güvenceyle yönlendiriyoruz.',
           images: [
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM6.webp',
               caption: 'Ticari Arazi Geliştirme ve Satın Alma',
             },
             {
@@ -1847,11 +1847,11 @@ export const translations: Record<Language, TranslationSchema> = {
             'Şirketler için kapsamlı hukuki danışmanlık: kuruluş aşamasından M&A işlemlerine, kurumsal denetimden ortaklar arası uyuşmazlıkların çözümüne kadar tam destek.',
           images: [
             {
-              url: '/corporate.png',
+              url: '/GM4.png',
               caption: 'Kurumsal Yönetim ve Şirket Kuruluşu',
             },
             {
-              url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+              url: '/GM5.png',
               caption: 'M&A İşlemleri ve Ticari Dava Temsili',
             },
           ],

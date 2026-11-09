@@ -89,9 +89,9 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
                 priority
                 unoptimized
                 sizes="100vw"
-                className="object-cover object-center filter brightness-[0.25] contrast-[1.2]"
+                className="object-cover object-center filter brightness-[0.52] contrast-[1.12]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#030508] via-[#030508]/85 to-[#030508]/90 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#030508] via-[#030508]/60 to-[#030508]/70 pointer-events-none" />
             </div>
           )}
 

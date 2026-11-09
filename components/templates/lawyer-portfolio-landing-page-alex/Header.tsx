@@ -348,126 +348,7 @@ export default function Header() {
         style={{ paddingTop: '8px', paddingBottom: '16px' }}
       >
         
-        {/* ================= TOP NAVIGATION ROW ================= */}
-        <div 
-          className={`fixed top-0 left-0 right-0 z-[60] px-4 sm:px-6 md:px-12 lg:px-[90px] h-14 md:h-16 flex flex-row justify-between items-center transition-all duration-300 ${
-            isOtherSection 
-              ? 'bg-[#0C0D0D]/65 backdrop-blur-md border-b border-white/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.35)]' 
-              : 'bg-transparent border-0 border-none shadow-none'
-          }`}
-          style={{ 
-            transform: isNavHidden && isOtherSection ? 'translateY(-110%)' : 'translateY(0)',
-            opacity: isNavHidden && isOtherSection ? 0 : 1,
-            pointerEvents: isNavHidden && isOtherSection ? 'none' : 'auto',
-          }}
-        >
-          {/* Left: Icon on All Viewports */}
-          <div 
-            className="cursor-pointer flex items-center group shrink-0 transition-transform duration-300 hover:scale-105 active:scale-95 gap-2.5 sm:gap-3"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            title="GLC Law Company - Back to Top"
-            aria-label="Back to Top"
-          >
-            <div className="w-8 h-8 md:w-9 md:h-9 relative flex items-center justify-center shrink-0">
-              <Image 
-                src="https://cdn.jiro.build/Alex/All%20SVG/nav%20left%20top%20icon.svg"
-                alt="GLC Law Company"
-                width={36}
-                height={36}
-                priority
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-
-          {/* Right: Language Selector & Menu button */}
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
-            {/* Multi-language Selector (4 Languages: ENG, GEO, RUS, TUR) */}
-            <div className="relative flex items-center">
-              {/* Desktop & Tablet: Segmented Pill */}
-              <div className="hidden sm:inline-flex items-center p-0.5 rounded-full border border-[#D3AF37]/30 bg-black/40 backdrop-blur-md shadow-sm">
-                {(['ENG', 'GEO', 'RUS', 'TUR'] as const).map((lang) => (
-                  <button
-                    key={lang}
-                    type="button"
-                    onClick={() => setLanguage(lang)}
-                    className={`px-2.5 py-1 text-xs font-semibold tracking-wider transition-all duration-200 rounded-full cursor-pointer ${
-                      language === lang
-                        ? 'bg-gradient-to-r from-[#FDE99A] via-[#E2C359] to-[#CDA12B] text-black shadow-[0_2px_10px_rgba(211,175,55,0.35)]'
-                        : 'text-[#D3AF37]/80 hover:text-[#D3AF37] hover:bg-[#D3AF37]/10'
-                    }`}
-                    aria-label={`Select language ${lang}`}
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-
-              {/* Mobile: Compact Dropdown Button */}
-              <div className="sm:hidden relative">
-                <button
-                  type="button"
-                  onClick={() => setIsLangDropdownOpen((prev) => !prev)}
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-[#D3AF37]/30 bg-black/40 text-[#D3AF37] hover:bg-[#D3AF37]/10 text-xs font-semibold tracking-wider transition-all"
-                  aria-label="Change Language"
-                >
-                  <Globe className="w-3.5 h-3.5 text-[#D3AF37]" />
-                  <span>{language}</span>
-                  <ChevronDown className={`w-3 h-3 text-[#D3AF37] transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                <AnimatePresence>
-                  {isLangDropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.95 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-2 w-28 rounded-xl bg-[#121213]/95 backdrop-blur-xl border border-[#D3AF37]/30 shadow-2xl py-1 z-[70] flex flex-col"
-                    >
-                      {(['ENG', 'GEO', 'RUS', 'TUR'] as const).map((lang) => (
-                        <button
-                          key={lang}
-                          type="button"
-                          onClick={() => {
-                            setLanguage(lang);
-                            setIsLangDropdownOpen(false);
-                          }}
-                          className={`px-3 py-1.5 text-xs text-left font-semibold tracking-wider flex items-center justify-between transition-colors ${
-                            language === lang
-                              ? 'text-[#D3AF37] bg-[#D3AF37]/15'
-                              : 'text-white/70 hover:text-[#D3AF37] hover:bg-[#D3AF37]/10'
-                          }`}
-                        >
-                          <span>{lang}</span>
-                          {language === lang && <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37]" />}
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Menu text + Menu icon */}
-            <button
-              onClick={() => setIsMenuOpen(true)}
-              className="flex flex-row items-center gap-2 md:gap-3 cursor-pointer group py-2 px-3 rounded-md focus:outline-none shrink-0 transition-transform duration-300 hover:scale-105 active:scale-95"
-              aria-label="Open Navigation Menu"
-            >
-              <span className="font-antonio font-bold text-xl md:text-[22px] leading-none tracking-[-0.02em] text-[#FFFEFE]/90 group-hover:text-[#D3AF37] transition-colors">
-                {tr.nav.menu}
-              </span>
-              <div className="w-6 h-6 flex items-center justify-center relative">
-                {/* Menu Icon Frame with Gold Accent */}
-                <div className="w-full h-[14px] border-y-[2.33px] border-[#D3AF37] flex items-center justify-center group-hover:border-white transition-colors">
-                  <div className="w-full h-[2px] bg-[#D3AF37] group-hover:bg-white transition-colors" />
-                </div>
-              </div>
-            </button>
-          </div>
-        </div>
+        {/* Top navigation row is unified globally via <GlobalNavbar /> */}
 
 
         {/* ================= MIDDLE CONTENT ROW ================= */}
@@ -727,23 +608,33 @@ export default function Header() {
             <div className="w-full max-w-[1420px] mx-auto my-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
                 {[
-                  { name: tr.nav.home, href: '#' },
-                  { name: tr.nav.about, href: '#about' },
-                  { name: tr.nav.services, href: '#services' },
-                  { name: tr.nav.cases, href: '#cases' },
-                  { name: tr.nav.testimonials, href: '#testimonials' },
-                  { name: tr.nav.team, href: '#team' },
-                  { name: tr.nav.blogs, href: '#blogs' },
-                  { name: tr.nav.contact, href: '#contact' },
+                  { name: tr.nav.home, target: 'top' },
+                  { name: tr.nav.about, target: 'about' },
+                  { name: tr.nav.services, target: 'services' },
+                  { name: tr.nav.cases, target: 'cases' },
+                  { name: tr.nav.testimonials, target: 'testimonials' },
+                  { name: tr.nav.team, target: 'team' },
+                  { name: tr.nav.blogs, target: 'blogs' },
                 ].map((item, idx) => (
                   <motion.a
                     key={item.name}
-                    href={item.href}
+                    href={`#${item.target}`}
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 * idx + 0.1 }}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="font-antonio font-bold text-3xl sm:text-5xl lg:text-6xl text-[#FAFAFB] hover:text-[#D3AF37] transition-colors flex items-center justify-between group py-1 border-b border-white/5"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMenuOpen(false);
+                      if (item.target === 'top') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      } else {
+                        const el = document.getElementById(item.target);
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }
+                    }}
+                    className="font-antonio font-bold text-3xl sm:text-5xl lg:text-6xl text-[#FAFAFB] hover:text-[#D3AF37] transition-colors flex items-center justify-between group py-1 border-b border-white/5 cursor-pointer"
                   >
                     <span>{item.name}</span>
                     <ChevronRight className="w-8 h-8 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 text-[#D3AF37] transition-all" />

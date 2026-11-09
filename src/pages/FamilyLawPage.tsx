@@ -20,8 +20,6 @@ import CurtainIntro from '@/src/components/common/CurtainIntro';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
-import SEOHead from '@/src/components/common/SEOHead';
-import { BlurWaveText } from '@/src/components/common/MotionReveal';
 
 // Family Law Assets
 import familyHeroImg from '@/src/assets/family.png';
@@ -194,6 +192,13 @@ export default function FamilyLawPage() {
   ];
 
   // 4 Stages Protocol Data with family5 to family8 assets
+  const protocolBadge = isGeo
+    ? 'საპროცესო პროტოკოლი'
+    : isEng
+    ? 'PROCEDURAL PROTOCOL'
+    : isRus
+    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ'
+    : 'USUL PROTOKOLÜ';
 
   const protocolHeading = isGeo
     ? 'დაცვის 4 ეტაპი'
@@ -201,7 +206,7 @@ export default function FamilyLawPage() {
     ? '4 stages of defence'
     : isRus
     ? '4 этапа защиты'
-    : '4 Savunma Aşaması';
+    : '4 savunma aşaması';
 
   // Strictly: "საოჯახო და მემკვიდრეობით საკითხებთან დაკავშირებულ საკითხებზე სრული იურიდიული მომსახურეობა."
   const protocolSub = isGeo
@@ -289,26 +294,8 @@ export default function FamilyLawPage() {
     },
   ];
 
-  const familyTitle = isGeo
-    ? 'საოჯახო & მემკვიდრეობითი სამართალი — GLC Law Company | გიორგი გუბელაძე'
-    : isEng
-    ? 'Family & Inheritance Law — GLC Law Company | Giorgi Gubeladze'
-    : 'Семейное и наследственное право — GLC Law Company | Георгий Губеладзе';
-
-  const familyDesc = isGeo
-    ? 'ქორწინება, ქონების გაყოფა, არასრულწლოვნის უფლებები, ალიმენტი და მემკვიდრეობითი დავები. 21+ წლიანი გამოცდილება. დარეკეთ: +995 599 27 77 94.'
-    : isEng
-    ? 'Divorce settlements, division of marital assets, minor custody, and inheritance succession in Georgia. Call: +995 599 27 77 94.'
-    : 'Развод, раздел имущества, опека над детьми и наследственные споры в Грузии. Тел: +995 599 27 77 94.';
-
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
-      <SEOHead
-        title={familyTitle}
-        description={familyDesc}
-        canonicalPath="/practice-areas/family-law"
-        practiceAreaName={isGeo ? 'საოჯახო სამართალი' : 'Family Law'}
-      />
       {/* Universal Curtain Opening Transition */}
       <CurtainIntro
         title="FAMILY & INHERITANCE LAW"
@@ -349,17 +336,17 @@ export default function FamilyLawPage() {
             alt="GLC Family & Inheritance Law"
             fill
             priority
-            className="object-cover object-center filter brightness-[0.92] contrast-[1.08] scale-100"
+            className="object-cover object-center filter brightness-[0.96] contrast-[1.08] scale-100"
             unoptimized
           />
-          {/* Multi-stop Dark Obsidian Luxury Gradient (~90% opacity for pristine text legibility) */}
+          {/* Refined Balanced Obsidian Luxury Gradient (40% - 65% opacity range for vivid background visibility) */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'linear-gradient(180deg, rgba(3, 5, 8, 0.90) 0%, rgba(3, 5, 8, 0.82) 40%, rgba(3, 5, 8, 0.92) 80%, #030508 100%)',
+              background: 'linear-gradient(180deg, rgba(3, 5, 8, 0.42) 0%, rgba(3, 5, 8, 0.35) 40%, rgba(3, 5, 8, 0.65) 100%)',
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#030508]/85 via-transparent to-[#030508]/85 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#030508]/40 via-transparent to-[#030508]/40 pointer-events-none" />
         </div>
 
         {/* Ambient Gold Radial Glow */}
@@ -452,23 +439,17 @@ export default function FamilyLawPage() {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
-          >
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
             <span className="font-geist text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#D3AF37] uppercase mb-3">
               {pillarsBadge}
             </span>
-            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 text-center">
-              <BlurWaveText text={pillarsHeading} />
+            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
+              {pillarsHeading}
             </h2>
             <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
               {pillarsSub}
             </p>
-          </motion.div>
+          </div>
 
           {/* 4 Pillars Grid with family1 to family4 assets and subtle blur glassmorphism */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
@@ -490,10 +471,10 @@ export default function FamilyLawPage() {
                       alt={pillar.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-center filter blur-[1px] brightness-[0.70] contrast-[1.1] group-hover:scale-105 transition-transform duration-700 ease-out"
+                      className="object-cover object-center filter blur-[0.5px] brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
-                    {/* Rich multi-stop dark obsidian glassmorphism overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#090D16]/90 via-[#090D16]/82 to-[#090D16]/95 pointer-events-none" />
+                    {/* Balanced dark obsidian glassmorphism overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#090D16]/50 via-[#090D16]/55 to-[#090D16]/75 pointer-events-none" />
                   </div>
 
                   {/* Card Header: Number & Icon */}
@@ -537,21 +518,15 @@ export default function FamilyLawPage() {
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Section Header: Symmetrically centered without protocol prefix badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20"
-          >
-            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 text-center">
-              <BlurWaveText text={protocolHeading} />
+          {/* Section Header */}
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+            <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
+              {protocolHeading}
             </h2>
-            <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl text-center">
+            <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
               {protocolSub}
             </p>
-          </motion.div>
+          </div>
 
           {/* 4 Protocol Cards Grid with family5 to family8 assets */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
@@ -573,9 +548,9 @@ export default function FamilyLawPage() {
                     alt={step.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover object-center filter blur-[1px] brightness-[0.70] contrast-[1.1] group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="object-cover object-center filter blur-[0.5px] brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#030508] via-[#030508]/85 to-[#030508]/75 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030508]/75 via-[#030508]/48 to-[#030508]/38 pointer-events-none" />
                 </div>
 
                 {/* Number & Stage indicator */}

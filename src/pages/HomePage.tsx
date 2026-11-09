@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import SEOHead from '@/src/components/common/SEOHead';
+import GlobalNavbar from '@/src/components/common/GlobalNavbar';
 import Header from '@/components/templates/lawyer-portfolio-landing-page-alex/Header';
 import Aboutme from '@/components/templates/lawyer-portfolio-landing-page-alex/AboutMe';
 import Services from '@/components/templates/lawyer-portfolio-landing-page-alex/Services';
@@ -12,31 +12,39 @@ import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 
 export default function HomePage() {
-  // If an anchor hash is present, smoothly scroll to it on load
+  // If an anchor hash or sessionStorage scroll target is present, smoothly scroll to it on load
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes('#')) {
-      const parts = hash.split('#');
-      const targetId = parts[parts.length - 1];
-      if (targetId && !['/', 'aboutme', 'services', 'cases', 'testimonials', 'blogs', 'contact'].includes(targetId)) {
-        return;
+    const handleScrollTarget = () => {
+      let target = sessionStorage.getItem('scroll_target');
+      if (target) {
+        sessionStorage.removeItem('scroll_target');
+      } else if (window.location.hash) {
+        const hash = window.location.hash;
+        const match = hash.match(/#(?:.*#)?([a-zA-Z0-9_-]+)$/);
+        if (match && match[1] && match[1] !== '/') {
+          target = match[1];
+        }
       }
-      if (targetId) {
-        setTimeout(() => {
-          const el = document.getElementById(targetId);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 100);
+
+      if (target) {
+        const validIds = ['about', 'aboutme', 'services', 'cases', 'testimonials', 'team', 'pricing', 'metrics', 'blogs', 'contact'];
+        if (validIds.includes(target)) {
+          setTimeout(() => {
+            const el = document.getElementById(target);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 150);
+        }
       }
-    }
+    };
+
+    handleScrollTarget();
   }, []);
 
   return (
     <>
-      <SEOHead
-        canonicalPath="/"
-      />
+      <GlobalNavbar />
       <Header />
       <Aboutme />
       <Services />

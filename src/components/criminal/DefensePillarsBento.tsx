@@ -203,19 +203,19 @@ export default function DefensePillarsBento() {
                     alt={pillar.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 640px"
-                    className="object-cover object-center filter brightness-[0.78] contrast-[1.08] blur-[1.5px] transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="object-cover object-center filter brightness-[0.92] contrast-[1.08] blur-[0.5px] transition-transform duration-700 ease-out group-hover:scale-105"
                     unoptimized
                   />
-                  {/* Refined delicate dark glassmorphism gradient shadow overlay (rgba(3, 5, 8, 0.75)) */}
+                  {/* Refined delicate dark glassmorphism gradient shadow overlay (40% - 68% balanced range) */}
                   <div 
                     className="absolute inset-0 transition-opacity duration-300"
                     style={{
-                      background: 'linear-gradient(180deg, rgba(3, 5, 8, 0.62) 0%, rgba(3, 5, 8, 0.75) 50%, rgba(3, 5, 8, 0.88) 100%)'
+                      background: 'linear-gradient(180deg, rgba(3, 5, 8, 0.38) 0%, rgba(3, 5, 8, 0.48) 50%, rgba(3, 5, 8, 0.68) 100%)'
                     }}
                   />
-                  {/* Directional vignette protecting bottom text readability */}
+                  {/* Subtle directional vignette protecting bottom text readability */}
                   <div 
-                    className="absolute inset-0 bg-gradient-to-t from-[#030508]/85 via-transparent to-[#030508]/30 pointer-events-none" 
+                    className="absolute inset-0 bg-gradient-to-t from-[#030508]/65 via-transparent to-[#030508]/15 pointer-events-none" 
                   />
                   {/* Subtle golden ambient highlight on hover */}
                   <div className="absolute top-0 right-0 w-48 h-48 bg-[#D3AF37]/[0.03] group-hover:bg-[#D3AF37]/[0.10] rounded-bl-full pointer-events-none transition-colors duration-500" />

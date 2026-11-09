@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import { useLanguage } from '@/src/context/LanguageContext';
-import { BlurWaveText } from '@/src/components/common/MotionReveal';
 
 // Background Assets for 4 Procedural Protocol Cards
 import card1Img from '@/src/assets/CARD1.png';
@@ -20,13 +19,21 @@ export default function Process() {
   const isEng = language === 'ENG';
   const isRus = language === 'RUS';
 
+  const badgeText = isGeo
+    ? 'საპროცესო პროტოკოლი'
+    : isEng
+    ? 'PROCEDURAL PROTOCOL'
+    : isRus
+    ? 'ПРОЦЕССУАЛЬНЫЙ ПРОТОКОЛ'
+    : 'USUL PROTOKOLÜ';
+
   const headingText = isGeo
     ? 'დაცვის 4 ეტაპი'
     : isEng
     ? '4 stages of defence'
     : isRus
     ? '4 этапа защиты'
-    : '4 Savunma Aşaması';
+    : '4 savunma aşaması';
 
   const subText = isGeo
     ? 'სისხლისსამართლებრივი დაცვის მკაცრი მექანიზმი დაკავების პირველივე წუთიდან სასამართლოში წარმომადგენლობამდე.'
@@ -137,7 +144,7 @@ export default function Process() {
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         
-        {/* Top Header: Perfectly Center-Aligned & Symmetrical without protocol prefix badge */}
+        {/* Top Header: Perfectly Center-Aligned & Symmetrical */}
         <motion.div
           variants={topHeaderVariants}
           initial="hidden"
@@ -146,7 +153,7 @@ export default function Process() {
           className="w-full max-w-4xl flex flex-col items-center justify-center text-center mx-auto mb-14 sm:mb-16 px-4"
         >
           <h2 className="font-big-shoulders font-[900] uppercase text-white tracking-tight leading-tight text-3xl sm:text-5xl lg:text-6xl text-center">
-            <BlurWaveText text={headingText} />
+            {headingText}
           </h2>
 
           <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/90 mt-4 max-w-2xl text-center leading-relaxed">
@@ -186,21 +193,21 @@ export default function Process() {
                     alt={step.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 360px"
-                    className="object-cover object-center filter brightness-[0.78] contrast-[1.08] blur-[1.5px] transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="object-cover object-center filter brightness-[0.92] contrast-[1.08] blur-[0.5px] transition-transform duration-700 ease-out group-hover:scale-105"
                     unoptimized
                   />
-                  {/* Refined delicate dark glassmorphism gradient shadow overlay (rgba(3, 5, 8, 0.75)) */}
+                  {/* Refined delicate dark glassmorphism gradient shadow overlay (40% - 68% balanced range) */}
                   <div 
                     className="absolute inset-0 transition-opacity duration-300"
                     style={{
                       background: isHovered
-                        ? 'linear-gradient(180deg, rgba(3, 5, 8, 0.55) 0%, rgba(3, 5, 8, 0.70) 50%, rgba(3, 5, 8, 0.85) 100%)'
-                        : 'linear-gradient(180deg, rgba(3, 5, 8, 0.65) 0%, rgba(3, 5, 8, 0.75) 50%, rgba(3, 5, 8, 0.90) 100%)'
+                        ? 'linear-gradient(180deg, rgba(3, 5, 8, 0.32) 0%, rgba(3, 5, 8, 0.42) 50%, rgba(3, 5, 8, 0.60) 100%)'
+                        : 'linear-gradient(180deg, rgba(3, 5, 8, 0.38) 0%, rgba(3, 5, 8, 0.48) 50%, rgba(3, 5, 8, 0.68) 100%)'
                     }}
                   />
                   {/* Subtle directional vignette for text readability */}
                   <div 
-                    className="absolute inset-0 bg-gradient-to-t from-[#030508]/85 via-transparent to-[#030508]/30 pointer-events-none" 
+                    className="absolute inset-0 bg-gradient-to-t from-[#030508]/65 via-transparent to-[#030508]/15 pointer-events-none" 
                   />
                 </div>
 

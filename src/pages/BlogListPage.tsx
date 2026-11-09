@@ -7,22 +7,13 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CornerDownRight, BookOpen, Clock, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
-import SEOHead from '@/src/components/common/SEOHead';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
+import CurtainIntro from '@/src/components/common/CurtainIntro';
+import gm7Img from '@/src/assets/GM7.webp';
 
 export default function BlogListPage() {
   const { language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  const blogTitle = language === 'GEO'
-    ? 'იურიდიული ბლოგი & პუბლიკაციები — GLC Law Company'
-    : language === 'ENG'
-    ? 'Legal Insights & Statutory Publications — GLC Law Company'
-    : 'Юридические публикации — GLC Law Company';
-
-  const blogDesc = language === 'GEO'
-    ? 'პრაქტიკული იურიდიული რჩევები, საკანონმდებლო ანალიზი და სასამართლო პრაქტიკა GLC Law Company-ს ადვოკატებისგან.'
-    : 'Practical legal guidance, case analysis, and statutory insights by GLC Law Company trial attorneys.';
 
   const categories = [
     { id: 'all', label: language === 'GEO' ? 'ყველა პუბლიკაცია' : language === 'ENG' ? 'All Publications' : language === 'RUS' ? 'Все публикации' : 'Tüm Yazılar' },
@@ -37,11 +28,9 @@ export default function BlogListPage() {
 
   return (
     <div className="min-h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col selection:bg-[#D3AF37]/30 selection:text-white">
-      <SEOHead
-        title={blogTitle}
-        description={blogDesc}
-        canonicalPath="/blogs"
-      />
+      {/* Cinematic Curtain Transition */}
+      <CurtainIntro title="BLOGS & INSIGHTS" subtitle="GLC LAW COMPANY" backdropImage={gm7Img} />
+
       {/* Top Floating Mini Navbar */}
       <nav className="sticky top-0 z-50 w-full bg-[#0C0D0D]/90 backdrop-blur-md border-b border-white/[0.08] px-6 sm:px-12 py-3.5 flex items-center justify-between">
         <Link
@@ -57,12 +46,32 @@ export default function BlogListPage() {
         </span>
       </nav>
 
-      {/* Hero Header */}
-      <section className="relative w-full py-16 sm:py-20 border-b border-white/[0.08] overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#D3AF37]/[0.05] rounded-full blur-[160px] pointer-events-none" />
+      {/* Hero Header with GM7 Background & Refined Balanced Luxury Overlay */}
+      <section className="relative w-full py-20 sm:py-24 border-b border-[#D3AF37]/20 overflow-hidden bg-[#030508]">
+        {/* Background Photo: GM7 with Vividly Visible Balanced Luxury Overlay */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+          <Image
+            src={gm7Img}
+            alt="GLC Law Legal Insights & Articles"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center filter brightness-[0.92] contrast-[1.10]"
+          />
+          {/* Balanced luxury radial vignette (35% to 68% opacity range) revealing GM7 crisp details */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(3, 5, 8, 0.35) 0%, rgba(3, 5, 8, 0.48) 55%, rgba(3, 5, 8, 0.68) 100%)'
+            }}
+          />
+          {/* Subtle gold ambient glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#D3AF37]/[0.08] rounded-full blur-[160px] pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0D0D] via-transparent to-[#0C0D0D]/30 pointer-events-none" />
+        </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 text-center">
-          <div className="flex items-center justify-center gap-2 text-xs font-inter-tight text-white/40 uppercase tracking-widest mb-4">
+          <div className="flex items-center justify-center gap-2 text-xs font-inter-tight text-white/60 uppercase tracking-widest mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             <Link to="/" className="hover:text-white transition-colors">GLC</Link>
             <ChevronRight className="w-3 h-3 text-[#D3AF37]" />
             <span className="text-[#D3AF37] font-semibold">
@@ -70,10 +79,10 @@ export default function BlogListPage() {
             </span>
           </div>
 
-          <h1 className="font-['Antonio'] uppercase text-4xl sm:text-6xl lg:text-7xl text-white font-bold tracking-tight leading-[1.08] mb-4">
+          <h1 className="font-['Antonio'] uppercase text-4xl sm:text-6xl lg:text-7xl text-white font-bold tracking-tight leading-[1.08] mb-4 drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
             {language === 'GEO' ? 'სამართლებრივი პუბლიკაციები' : language === 'ENG' ? 'Legal Insights & Articles' : language === 'RUS' ? 'Юридические публикации' : 'Hukuki Makaleler'}
           </h1>
-          <p className="font-inter-tight text-base sm:text-lg text-white/60 max-w-2xl mx-auto">
+          <p className="font-inter-tight text-base sm:text-lg text-white/85 max-w-2xl mx-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
             {language === 'GEO' 
               ? 'პრაქტიკული ანალიტიკა, სასამართლო პრეცედენტები და საკანონმდებლო განმარტებები GLC Law Company-ის ადვოკატებისგან.'
               : 'Practical analysis, judicial precedents, and statutory breakdowns from GLC Law Company attorneys.'}

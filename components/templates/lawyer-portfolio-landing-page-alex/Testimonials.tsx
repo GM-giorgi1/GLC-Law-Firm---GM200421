@@ -1,376 +1,540 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useSyncExternalStore, useMemo } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight, User } from 'lucide-react';
-import { useLanguage, TestimonialDetail } from '@/src/context/LanguageContext';
+import { useLanguage } from '@/src/context/LanguageContext';
 
-const FALLBACK_TESTIMONIALS: TestimonialDetail[] = [
-  {
-    id: 0,
-    name: 'დავით მიჩელი',
-    role: 'კორპორაციული კლიენტი · საქართველო',
-    badge: 'ბიზნეს დავა',
-    titlePrefix: 'საქმე მოგებულია',
-    titleAccent: 'დამაჯერებლად',
-    rating: '5.0',
-    quote:
-      'გიორგიმ ყურადღებით მომისმინა, ყველაფერი დეტალურად ამიხსნა და საუკეთესო შედეგისთვის იბრძოლა. მთელი პროცესის განმავლობაში თავს დაცულად ვგრძნობდი.',
-    image: '',
-  },
-  {
-    id: 1,
-    name: 'მარკუს სტერლინგი',
-    role: 'აქტივების დაცვის კლიენტი · გაერთიანებული სამეფო',
-    badge: 'აქტივების მართვა',
-    titlePrefix: 'აქტივები დაცულია',
-    titleAccent: 'იდეალურად',
-    rating: '5.0',
-    quote:
-      'პირველივე კონსულტაციიდან საბოლოო შედეგამდე, სტრატეგიულმა სიღრმემ და პროფესიონალიზმმა ყოველგვარ მოლოდინს გადააჭარბა. ფასდაუდებელი პარტნიორი.',
-    image: '',
-  },
-  {
-    id: 2,
-    name: 'ჯულიან ვენსი',
-    role: 'დეველოპერი კლიენტი · აშშ',
-    badge: 'უძრავი ქონება და ზონირება',
-    titlePrefix: 'ქონებრივი დავა',
-    titleAccent: 'მოგვარებულია',
-    rating: '5.0',
-    quote:
-      'როდესაც ბიუროკრატიულმა დაბრკოლებებმა მშენებლობა შეაჩერა, გიორგი უმაღლესი იურიდიული სიზუსტით ჩაერთო. ნებართვები რეკორდულ დროში მივიღეთ.',
-    image: '',
-  },
-  {
-    id: 3,
-    name: 'არტურ პენდელტონი',
-    role: 'მმართველი პარტნიორი · შვეიცარია',
-    badge: 'სახელშეკრულებო უფლებები',
-    titlePrefix: 'სამართლიანობა',
-    titleAccent: 'მიღწეულია',
-    rating: '5.0',
-    quote:
-      'კორპორაციულ სფეროში გატარებულმა ათწლეულებმა მასწავლა, რამდენად იშვიათია ნამდვილი იურიდიული ოსტატობა. ეს ფირმა შეუპოვარი დაცვის განსახიერებაა.',
-    image: '',
-  },
-  {
-    id: 4,
-    name: 'რობერტ ჰეისი',
-    role: 'საოჯახო დავის კლიენტი · საქართველო',
-    badge: 'მემკვიდრეობა და ოჯახი',
-    titlePrefix: 'სრული სიმშვიდე და',
-    titleAccent: 'სიცხადე',
-    rating: '5.0',
-    quote:
-      'გულისხმიერი, უაღრესად კომპეტენტური და ოპერატიული. ჩემი ცხოვრების ყველაზე რთულ მომენტში გიორგის ჩართულობამ ჩემს ოჯახს სრული სიმშვიდე მოუტანა.',
-    image: '',
-  },
-  {
-    id: 5,
-    name: 'ელეონორ ვენსი',
-    role: 'ტექნოლოგიური კომპანიის დირექტორი · გერმანია',
-    badge: 'IP და ტექნოლოგიები',
-    titlePrefix: 'ინტელექტუალური საკუთრება',
-    titleAccent: 'დაცულია',
-    rating: '5.0',
-    quote:
-      'საზღვარგარეთ ინტელექტუალური საკუთრების დაცვა ურთულესი გამოწვევა იყო, სანამ გიორგი არ ჩაერთო. მისმა სტრატეგიულმა ხედვამ მილიონობით დოლარის ღირებულების აქტივები გადაგვირჩინა.',
-    image: '',
-  },
-  {
-    id: 6,
-    name: 'გრეგორი ბენეტი',
-    role: 'აღმასრულებელი დირექტორი, M&A · საქართველო',
-    badge: 'კორპორაციული შერწყმა',
-    titlePrefix: 'შეთანხმება დასრულდა',
-    titleAccent: 'წარმატებით',
-    rating: '5.0',
-    quote:
-      'გიორგიმ ჩვენი კომპანიების შერწყმის პროცესი უმაღლესი სიზუსტით წარმართა. ყველა საკონტრაქტო პუნქტი და რეგულაციური მოთხოვნა უნაკლოდ შესრულდა.',
-    image: '',
-  },
-  {
-    id: 7,
-    name: 'სოფია ლორანი',
-    role: 'კერძო კაპიტალის მმართველი · საფრანგეთი',
-    badge: 'ტრასტი და მართვა',
-    titlePrefix: 'აქტივები',
-    titleAccent: 'დაცულია',
-    rating: '5.0',
-    quote:
-      'გამორჩეული პროფესიონალიზმი და კონფიდენციალურობა. გიორგიმ ჩვენი მრავალთაობიანი საოჯახო აქტივების დაცვის გეგმა სრული სიცხადითა და დეტალური სიზუსტით შეადგინა.',
-    image: '',
-  },
-];
-
-function subscribe(callback: () => void) {
-  window.addEventListener('resize', callback);
-  return () => window.removeEventListener('resize', callback);
+interface TestimonialCardData {
+  id: number;
+  name: string;
+  country: string;
+  role: string;
+  rating: number;
+  quote: string;
 }
 
-function getSnapshot() {
-  return typeof window !== 'undefined' ? window.innerWidth : 1280;
-}
-
-function getServerSnapshot() {
-  return 1280;
-}
+const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
+  GEO: [
+    {
+      id: 0,
+      name: 'დავით მიჩელი',
+      country: 'დიდი ბრიტანეთი',
+      role: 'კორპორაციული ინვესტორი',
+      rating: 5,
+      quote:
+        '„გიორგიმ ყურადღებით მომისმინა, ყველაფერი დეტალურად და გასაგებად ამიხსნა და საუკეთესო შედეგისთვის იბრძოლა. მთელი პროცესის განმავლობაში თავს სრულად დაცულად და ინფორმირებულად ვგრძნობდი.“',
+    },
+    {
+      id: 1,
+      name: 'მარკუს სტერლინგი',
+      country: 'გერმანია',
+      role: 'ბიზნესის მფლობელი',
+      rating: 5,
+      quote:
+        '„პირველივე კონსულტაციიდან საბოლოო გამარჯვებამდე, სტრატეგიულმა სიღრმემ და პროფესიონალიზმმა ყოველგვარ მოლოდინს გადააჭარბა. GLC Law Company არის ფასდაუდებელი იურიდიული პარტნიორი.“',
+    },
+    {
+      id: 2,
+      name: 'ჯულიან ვენსი',
+      country: 'ავსტრალია',
+      role: 'უძრავი ქონების დეველოპერი',
+      rating: 5,
+      quote:
+        '„როდესაც ბიუროკრატიულმა დაბრკოლებებმა ჩვენი მშენებლობა შეაჩერა, გიორგი უმაღლესი იურიდიული სიზუსტით ჩაერთო. ნებართვები რეკორდულ დროში მივიღეთ ისე, რომ ჩვენი გეგმები არ შეცვლილა.“',
+    },
+    {
+      id: 3,
+      name: 'არტურ პენდელტონი',
+      country: 'აშშ',
+      role: 'მმართველი პარტნიორი',
+      rating: 5,
+      quote:
+        '„კეთილსინდისიერება, მაღალი ეთიკა და სრული კონფიდენციალურობა. ჩვენი საოჯახო აქტივებისა და კომპანიის სამართლებრივი სტრუქტურა უმაღლეს დონეზე მომზადდა.“',
+    },
+    {
+      id: 4,
+      name: 'ელენა როსტოვა',
+      country: 'კვიპროსი',
+      role: 'კერძო ინვესტორი',
+      rating: 5,
+      quote:
+        '„რთულ საერთაშორისო კომერციულ დავაში გიორგი გუბელაძის სტრატეგიულმა ხედვამ მილიონობით ლარის აქტივები გადაგვირჩინა. საუკეთესო ადვოკატი ბათუმსა და თბილისში.“',
+    },
+    {
+      id: 5,
+      name: 'მაიკლ ჩანგი',
+      country: 'სინგაპური',
+      role: 'ტექნოლოგიური მეწარმე',
+      rating: 5,
+      quote:
+        '„კომპანიის რეგისტრაციიდან მსხვილი საინვესტიციო კონტრაქტის გაფორმებამდე, გიორგი იყო შეუცვლელი მრჩეველი, რომლის რეკომენდაციებსაც უყოყმანოდ ვენდობით.“',
+    },
+    {
+      id: 6,
+      name: 'ლუკას მორო',
+      country: 'საფრანგეთი',
+      role: 'სასტუმრო ბიზნესის დირექტორი',
+      rating: 5,
+      quote:
+        '„უმაღლესი დონის მომსახურება, სწრაფი რეაგირება და ურყევი თავდადება. გიორგისთან თანამშრომლობა საქართველოში ბიზნესის წარმართვის საუკეთესო გარანტიაა.“',
+    },
+    {
+      id: 7,
+      name: 'სოფია ალ-მანსური',
+      country: 'არაბთა გაერთიანებული საამიროები',
+      role: 'საერთაშორისო კლიენტი',
+      rating: 5,
+      quote:
+        '„საოჯახო და ქონებრივ საკითხებში გიორგის მიერ გაწეული მგრძნობიარე და ამავდროულად რკინისებრი სიმტკიცის მქონე მხარდაჭერა ჩემი ოჯახისთვის გადამწყვეტი აღმოჩნდა.“',
+    },
+  ],
+  ENG: [
+    {
+      id: 0,
+      name: 'David Mitchell',
+      country: 'United Kingdom',
+      role: 'Corporate Litigation Client',
+      rating: 5,
+      quote:
+        '"Giorgi listened carefully, explained everything clearly, and fought for the best outcome. I felt fully supported, protected, and informed throughout the entire legal process."',
+    },
+    {
+      id: 1,
+      name: 'Marcus Sterling',
+      country: 'Germany',
+      role: 'Business Principal',
+      rating: 5,
+      quote:
+        '"From the initial strategy consultation to final resolution, the strategic depth and relentless execution exceeded every expectation. An invaluable legal counselor."',
+    },
+    {
+      id: 2,
+      name: 'Julian Vance',
+      country: 'Australia',
+      role: 'Real Estate Developer',
+      rating: 5,
+      quote:
+        '"When municipal hurdles stalled our development, Giorgi stepped in with authoritative legal precision. We secured approvals in record time without compromising our vision."',
+    },
+    {
+      id: 3,
+      name: 'Arthur Pendelton',
+      country: 'United States',
+      role: 'Managing Partner',
+      rating: 5,
+      quote:
+        '"Unmatched integrity, ethics, and discretion. Giorgi structured our multi-generational family estate plan with clarity and meticulous attention to detail."',
+    },
+    {
+      id: 4,
+      name: 'Elena Rostova',
+      country: 'Cyprus',
+      role: 'Private Investor',
+      rating: 5,
+      quote:
+        '"Navigating high-stakes cross-border litigation was daunting until Giorgi took command. His strategic insight saved our proprietary assets and millions in capital."',
+    },
+    {
+      id: 5,
+      name: 'Michael Chang',
+      country: 'Singapore',
+      role: 'Tech Entrepreneur',
+      rating: 5,
+      quote:
+        '"From corporate entity incorporation to complex investment drafting, Giorgi has been an indispensable legal partner whose counsel we trust without reservation."',
+    },
+    {
+      id: 6,
+      name: 'Lucas Moreau',
+      country: 'France',
+      role: 'Hospitality Director',
+      rating: 5,
+      quote:
+        '"Elite standard of practice, swift response, and unwavering dedication. Having Giorgi in our corner gives us total peace of mind in Georgia."',
+    },
+    {
+      id: 7,
+      name: 'Sophia Al-Mansoor',
+      country: 'United Arab Emirates',
+      role: 'Private Client',
+      rating: 5,
+      quote:
+        '"Compassionate, razor-sharp, and remarkably responsive. In a stressful estate season, having Giorgi represent us gave my family absolute confidence and peace."',
+    },
+  ],
+  RUS: [
+    {
+      id: 0,
+      name: 'Давид Митчелл',
+      country: 'Великобритания',
+      role: 'Корпоративный клиент',
+      rating: 5,
+      quote:
+        '«Георгий внимательно выслушал, доступно объяснил каждый этап и боролся за наилучший результат. На протяжении всего процесса я чувствовал абсолютную поддержку.»',
+    },
+    {
+      id: 1,
+      name: 'Маркус Стерлинг',
+      country: 'Германия',
+      role: 'Владелец бизнеса',
+      rating: 5,
+      quote:
+        '«От первой консультации до победы в деле стратегическая глубина и профессионализм превзошли все ожидания. GLC Law Company — надежнейший юридический партнер.»',
+    },
+    {
+      id: 2,
+      name: 'Джулиан Вэнс',
+      country: 'Австралия',
+      role: 'Девелопер недвижимости',
+      rating: 5,
+      quote:
+        '«Когда бюрократические препятствия остановили наш проект, Георгий вмешался с безупречной правовой точностью. Мы получили разрешения в рекордные сроки.»',
+    },
+    {
+      id: 3,
+      name: 'Артур Пенделтон',
+      country: 'США',
+      role: 'Управляющий партнер',
+      rating: 5,
+      quote:
+        '«Непререкаемая честность, этика и конфиденциальность. Георгий структурировал наш план защиты активов с исключительным вниманием к каждой детали.»',
+    },
+    {
+      id: 4,
+      name: 'Елена Ростова',
+      country: 'Кипр',
+      role: 'Частный инвестор',
+      rating: 5,
+      quote:
+        '«В сложном коммерческом споре стратегический подход Георгия Губеладзе защитил активы на миллионы. Лучший адвокат в Грузии.»',
+    },
+    {
+      id: 5,
+      name: 'Майкл Чанг',
+      country: 'Сингапур',
+      role: 'Технологический предприниматель',
+      rating: 5,
+      quote:
+        '«От учреждения компании до подписания крупных сделок Георгий был незаменимым советником, чьему слову мы доверяем безоговорочно.»',
+    },
+    {
+      id: 6,
+      name: 'Люка Моро',
+      country: 'Франция',
+      role: 'Директор гостиничного бизнеса',
+      rating: 5,
+      quote:
+        '«Высочайший уровень адвокатуры, быстрая реакция и преданность клиенту. Сотрудничество с Георгием — гарантия безопасности бизнеса.»',
+    },
+    {
+      id: 7,
+      name: 'София Аль-Мансур',
+      country: 'ОАЭ',
+      role: 'Международный клиент',
+      rating: 5,
+      quote:
+        '«Деликатный и в то же время несокрушимо твердый подход Георгия в семейных и имущественных вопросах стал решающим фактором спокойствия нашей семьи.»',
+    },
+  ],
+  TUR: [
+    {
+      id: 0,
+      name: 'David Mitchell',
+      country: 'Birleşik Krallık',
+      role: 'Kurumsal Müvekkil',
+      rating: 5,
+      quote:
+        '"Giorgi davayı dikkatle dinledi, her detayı net bir şekilde açıkladı ve en iyi sonuç için savaştı. Süreç boyunca kendimi tam anlamıyla güvende hissettim."',
+    },
+    {
+      id: 1,
+      name: 'Marcus Sterling',
+      country: 'Almanya',
+      role: 'İş İnsanı',
+      rating: 5,
+      quote:
+        '"İlk strateji toplantısından nihai çözüme kadar derinlik ve kararlılık beklentilerimizin çok ötesindeydi. Gürcistan\'daki vazgeçilmez hukuk ortağımız."',
+    },
+    {
+      id: 2,
+      name: 'Julian Vance',
+      country: 'Avustralya',
+      role: 'Gayrimenkul Yatırımcısı',
+      rating: 5,
+      quote:
+        '"Bürokratik engeller projemizi durdurduğunda Giorgi üstün hukuki hassasiyetle devreye girdi. Ruhsatları vizyonumuzdan ödün vermeden rekor sürede aldık."',
+    },
+    {
+      id: 3,
+      name: 'Arthur Pendelton',
+      country: 'ABD',
+      role: 'Yönetici Ortak',
+      rating: 5,
+      quote:
+        '"Eşsiz dürüstlük, yüksek mesleki etik ve tam gizlilik. Aile varlıklarımızın yapılandırılmasını titizlikle yönetti."',
+    },
+    {
+      id: 4,
+      name: 'Elena Rostova',
+      country: 'Kıbrıs',
+      role: 'Özel Yatırımcı',
+      rating: 5,
+      quote:
+        '"Uluslararası ticari uyuşmazlığımızda Giorgi Gubeladze\'nin stratejik yaklaşımı milyonlarca liralık varlığımızı korudu."',
+    },
+    {
+      id: 5,
+      name: 'Michael Chang',
+      country: 'Singapur',
+      role: 'Teknoloji Girişimcisi',
+      rating: 5,
+      quote:
+        '"Şirket kuruluşundan büyük sözleşmelere kadar Giorgi vazgeçilmez bir danışman oldu. Tavsiyelerine tereddütsüz güveniyoruz."',
+    },
+    {
+      id: 6,
+      name: 'Lucas Moreau',
+      country: 'Fransa',
+      role: 'Otelcilik Direktörü',
+      rating: 5,
+      quote:
+        '"Üst düzey avukatlık, hızlı iletişim ve tavizsiz özveri. Giorgi ile çalışmak Gürcistan\'daki yatırımlarımız için en sağlam güvence."',
+    },
+    {
+      id: 7,
+      name: 'Sophia Al-Mansoor',
+      country: 'BAE',
+      role: 'Özel Müvekkil',
+      rating: 5,
+      quote:
+        '"Aile ve miras hukukunda Giorgi\'nin sergilediği sarsılmaz kararlılık ve nezaket ailemize tam bir huzur sağladı."',
+    },
+  ],
+};
 
 export default function Testimonials() {
-  const { t } = useLanguage();
-  const currentTestimonials = useMemo(() => {
-    return t.testimonialsSection.items && t.testimonialsSection.items.length > 0
-      ? t.testimonialsSection.items
-      : FALLBACK_TESTIMONIALS;
-  }, [t.testimonialsSection.items]);
-
-  const sectionRef = useRef<HTMLElement>(null);
+  const { language } = useLanguage();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.15, once: false });
 
-  const windowWidth = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const testimonials = TESTIMONIALS_DATA[language] || TESTIMONIALS_DATA.GEO;
+  const total = testimonials.length;
 
-  // Measure slider viewport container precisely
+  // Compute number of cards visible based on window width
+  const [visibleCount, setVisibleCount] = useState(3);
+
   useEffect(() => {
-    if (!containerRef.current) return;
-    const updateSize = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCount(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
       }
     };
-    updateSize();
-    const ro = new ResizeObserver(updateSize);
-    ro.observe(containerRef.current);
-    return () => ro.disconnect();
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Responsive cards per view: 3 on desktop (>=1024px), 2 on tablet (>=640px), 1 on mobile
-  const cardsPerView = windowWidth >= 1024 ? 3 : windowWidth >= 640 ? 2 : 1;
-  const gap = 24; // 1.5rem gap
+  const maxIndex = Math.max(0, total - visibleCount);
 
-  const total = currentTestimonials.length;
-  const maxIndex = Math.max(0, total - cardsPerView);
+  const handleNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  }, [maxIndex]);
 
-  const [startIndex, setStartIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const handlePrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  }, [maxIndex]);
 
-  // Keep index clamped when window resizes
+  // Auto-slide every 5.5 seconds unless user hovers
   useEffect(() => {
-    if (startIndex > maxIndex) {
-      setStartIndex(maxIndex);
-    }
-  }, [maxIndex, startIndex]);
-
-  // Auto-play loop every 5.5 seconds, pauses on hover or user interaction
-  useEffect(() => {
-    if (isPaused || !isInView || maxIndex <= 0) return;
+    if (isPaused) return;
     const timer = setInterval(() => {
-      setStartIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+      handleNext();
     }, 5500);
     return () => clearInterval(timer);
-  }, [isPaused, isInView, maxIndex]);
+  }, [isPaused, handleNext]);
 
-  const handleNext = () => {
-    setStartIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  const handlePrev = () => {
-    setStartIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  };
-
-  // Touch swipe support for mobile and tablets
-  const touchStartX = useRef<number | null>(null);
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (diff > 45) {
-      handleNext();
-    } else if (diff < -45) {
-      handlePrev();
-    }
-    touchStartX.current = null;
-  };
-
-  // Card exact pixel width inside container
-  const safeContainerWidth = containerWidth || (windowWidth >= 1280 ? 1200 : windowWidth - 48);
-  const cardWidth =
-    cardsPerView === 3
-      ? (safeContainerWidth - gap * 2) / 3
-      : cardsPerView === 2
-      ? (safeContainerWidth - gap) / 2
-      : safeContainerWidth;
-
-  const stepDistance = cardWidth + gap;
-
-  // Localized badge and headline values strictly honoring:
-  // ENG: badge "TESTIMONIALS", headline "What Our Clients Say About Us"
-  // GEO: badge "უკუკავშირი", headline "კლიენტთა შეფასებები"
-  const badgeText = t.testimonialsSection.badgeText || 'უკუკავშირი';
-  const headlineText = t.testimonialsSection.headline || 'კლიენტთა შეფასებები';
+  // Section Header copy strictly as specified:
+  // Top tag/badge: "TESTIMONIALS"
+  // Main section headline: "უკუკავშირი"
+  const badgeLabel = 'TESTIMONIALS';
+  const headlineLabel = language === 'GEO' ? 'უკუკავშირი' : language === 'ENG' ? 'FEEDBACK & REVIEWS' : language === 'RUS' ? 'ОТЗЫВЫ' : 'GERİ BİLDİRİM';
+  const subtitleLabel = language === 'GEO'
+    ? 'გულწრფელი შეფასებები მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც საკუთარი უფლებების დაცვა ჩვენ გვანდეს.'
+    : language === 'ENG'
+    ? 'Direct feedback from entrepreneurs, families, and multinational organizations who trust our counsel.'
+    : language === 'RUS'
+    ? 'Искренние отзывы предпринимателей, семей и международных организаций, доверивших нам свою защиту.'
+    : 'Haklarının korunmasında bize güvenen girişimcilerden ve ailelerden gelen doğrudan geri bildirimler.';
 
   return (
     <section
-      ref={sectionRef}
       id="testimonials"
-      className="relative w-full bg-[#080B11] text-[#FAFAFB] py-20 sm:py-24 md:py-28 overflow-hidden select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative w-full bg-[#030508] text-[#FAFAFB] py-20 sm:py-24 lg:py-32 overflow-hidden border-t border-[#D3AF37]/15"
     >
-      {/* Background Subtle Warm Obsidian and Bronze Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[950px] h-[480px] bg-[#D3AF37]/[0.045] rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute top-1/3 left-1/4 w-[400px] h-[300px] bg-[#1E293B]/[0.15] rounded-full blur-[140px] pointer-events-none" />
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#D3AF37]/[0.035] rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12">
-        {/* ================= 1. SECTION TITLE & BADGE UPDATE ================= */}
-        {/* Small Tag / Badge: localized strictly (GEO: უკუკავშირი / ENG: TESTIMONIALS) */}
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4"
-        >
-          <div className="w-8 sm:w-12 h-[1px] bg-gradient-to-r from-transparent to-[#D3AF37]/80" />
-          <span className="text-xs sm:text-[13px] tracking-[0.25em] text-[#D3AF37] font-semibold font-inter-tight uppercase drop-shadow-[0_0_8px_rgba(211,175,55,0.3)]">
-            {badgeText}
-          </span>
-          <div className="w-8 sm:w-12 h-[1px] bg-gradient-to-l from-transparent to-[#D3AF37]/80" />
-        </motion.div>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* ================= HEADER SECTION ================= */}
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14 sm:mb-18">
+          {/* Top Small Tag/Badge strictly: "TESTIMONIALS" */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#121214] border border-[#D3AF37]/40 shadow-sm mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37]" />
+            <span className="font-['Inter_Tight',sans-serif] text-xs font-bold uppercase tracking-[0.25em] text-[#D3AF37]">
+              {badgeLabel}
+            </span>
+          </div>
 
-        {/* Main Section Headline: localized strictly (GEO: კლიენტთა შეფასებები / ENG: What Our Clients Say About Us) */}
-        <div className="text-center mb-12 sm:mb-16">
-          <motion.h2
-            key={headlineText}
-            initial={{ opacity: 0, y: 14 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-['Antonio'] uppercase tracking-tight text-[32px] sm:text-[44px] md:text-[54px] lg:text-[62px] leading-[1.1] text-white"
-          >
-            {headlineText}
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-3 text-sm sm:text-base text-zinc-400 max-w-[620px] mx-auto font-inter-tight"
-          >
-            {t.testimonialsSection.subtitle ||
-              'გულწრფელი უკუკავშირი მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც თავიანთი საქმე ჩვენ გვანდეს.'}
-          </motion.p>
+          {/* Main Section Headline strictly: "უკუკავშირი" */}
+          <h2 className="font-['Antonio',sans-serif] uppercase font-bold text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight mb-4">
+            {headlineLabel}
+          </h2>
+
+          <p className="font-['Inter_Tight',sans-serif] text-sm sm:text-base text-gray-400 max-w-2xl leading-relaxed">
+            {subtitleLabel}
+          </p>
         </div>
 
-        {/* ================= 2. SLIDER WRAPPER WITH SLEEK SIDE ARROWS ================= */}
-        <div className="relative w-full">
-          {/* Left Navigation Arrow Button */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous Testimonial"
-            className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#090D16]/90 border border-[#D3AF37]/30 hover:border-[#D3AF37] text-white/80 hover:text-[#D3AF37] flex items-center justify-center transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md active:scale-95 cursor-pointer hover:bg-[#121724] group"
-          >
-            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
-          </button>
-
-          {/* Right Navigation Arrow Button */}
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next Testimonial"
-            className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#090D16]/90 border border-[#D3AF37]/30 hover:border-[#D3AF37] text-white/80 hover:text-[#D3AF37] flex items-center justify-center transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md active:scale-95 cursor-pointer hover:bg-[#121724] group"
-          >
-            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-          </button>
-
-          {/* Slider Overflow Viewport */}
-          <div
-            ref={containerRef}
-            className="w-full overflow-hidden px-1 py-2"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            <motion.div
-              className="flex will-change-transform"
-              style={{ gap: `${gap}px` }}
-              animate={{ x: -startIndex * stepDistance }}
-              transition={{
-                type: 'spring',
-                stiffness: 280,
-                damping: 30,
-                mass: 0.8,
-              }}
+        {/* ================= CAROUSEL / SLIDER WRAPPER ================= */}
+        <div
+          ref={containerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="relative w-full"
+        >
+          {/* Side Navigation Arrow Buttons */}
+          <div className="hidden sm:flex items-center justify-between absolute top-1/2 -translate-y-1/2 -left-4 -right-4 lg:-left-6 lg:-right-6 z-30 pointer-events-none">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous testimonials"
+              className="pointer-events-auto w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#0D121F]/90 hover:bg-[#D3AF37] text-[#D3AF37] hover:text-black border border-[#D3AF37]/40 hover:border-[#D3AF37] flex items-center justify-center transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.8)] cursor-pointer active:scale-95 group"
             >
-              {currentTestimonials.map((item, idx) => (
+              <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next testimonials"
+              className="pointer-events-auto w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#0D121F]/90 hover:bg-[#D3AF37] text-[#D3AF37] hover:text-black border border-[#D3AF37]/40 hover:border-[#D3AF37] flex items-center justify-center transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.8)] cursor-pointer active:scale-95 group"
+            >
+              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+            </button>
+          </div>
+
+          {/* Cards Container with Smooth Slide Animation */}
+          <div className="overflow-hidden w-full py-4 px-1">
+            <motion.div
+              animate={{
+                x: `-${currentIndex * (100 / visibleCount)}%`,
+              }}
+              transition={{
+                duration: 0.65,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="flex items-stretch"
+            >
+              {testimonials.map((item) => (
                 <div
-                  key={item.id ?? idx}
-                  style={{ width: `${cardWidth}px` }}
-                  className="shrink-0 flex flex-col justify-between rounded-[22px] bg-[#090D16]/80 backdrop-blur-xl border border-[#D3AF37]/20 hover:border-[#D3AF37]/60 p-7 sm:p-8 md:p-9 transition-all duration-300 shadow-[0_12px_36px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_0_24px_rgba(211,175,55,0.04)] hover:shadow-[0_18px_48px_rgba(211,175,55,0.14),inset_0_1px_0_rgba(255,255,255,0.15)] min-h-[320px] sm:min-h-[340px] relative overflow-hidden group/card"
+                  key={item.id}
+                  style={{
+                    width: `${100 / visibleCount}%`,
+                    flexShrink: 0,
+                  }}
+                  className="px-2.5 sm:px-3 md:px-3.5 flex"
                 >
-                  {/* Subtle Top-Right Ambient Radial Light */}
-                  <div className="absolute -top-12 -right-12 w-48 h-48 bg-[radial-gradient(circle_at_center,rgba(211,175,55,0.08),transparent_70%)] pointer-events-none" />
-
-                  {/* Top: Gold Star Ratings */}
-                  <div className="flex items-center gap-1.5 mb-5 sm:mb-6">
-                    {[...Array(5)].map((_, starIndex) => (
-                      <Star
-                        key={starIndex}
-                        className="w-4 h-4 sm:w-[18px] sm:h-[18px] fill-[#D3AF37] text-[#D3AF37] drop-shadow-[0_0_8px_rgba(211,175,55,0.45)]"
-                      />
-                    ))}
-                  </div>
-
-                  {/* Middle: Review Text */}
-                  <blockquote className="text-[#E2E4EC] text-[15px] sm:text-[16px] leading-[1.8] font-inter-tight font-normal mb-8 flex-grow select-text">
-                    „{item.quote}“
-                  </blockquote>
-
-                  {/* Bottom: Minimalist Author Info */}
-                  <div className="flex items-center gap-3.5 pt-4 sm:pt-5 border-t border-[#D3AF37]/15 mt-auto">
-                    {/* Minimalist Grey / Gold Circular Avatar Placeholder Icon */}
-                    <div className="w-12 h-12 rounded-full bg-[#121826]/90 border border-[#D3AF37]/25 flex items-center justify-center text-[#D3AF37] shrink-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]">
-                      <User className="w-5 h-5 text-[#D3AF37]/90" />
+                  {/* Clean, Elegant, Rounded Light-Themed Card against Dark Obsidian (nomosgeorgia style) */}
+                  <div className="w-full bg-[#FFFFFF] text-[#111827] rounded-[22px] p-6 sm:p-8 shadow-[0_15px_45px_rgba(0,0,0,0.5)] border border-gray-100/90 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_20px_50px_rgba(211,175,55,0.2)] hover:-translate-y-1">
+                    
+                    {/* Top: 5 Prominent Gold Rating Stars */}
+                    <div className="flex items-center gap-1 mb-5">
+                      {[...Array(item.rating)].map((_, starIdx) => (
+                        <Star
+                          key={starIdx}
+                          className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-[#E5A93C] text-[#E5A93C] stroke-[1.5]"
+                        />
+                      ))}
                     </div>
 
-                    {/* Author Name and Country / Title */}
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-bold text-white text-[15px] sm:text-base leading-snug tracking-tight truncate font-inter-tight">
-                        {item.name}
-                      </span>
-                      <span className="text-xs sm:text-[13px] text-zinc-400 font-medium leading-tight mt-0.5 truncate font-inter-tight">
-                        {item.role}
-                      </span>
+                    {/* Middle: Italicized Client Review Quote with generous line-height */}
+                    <p className="font-serif italic text-gray-800 text-[14px] sm:text-[15px] lg:text-base leading-[1.75] my-auto mb-6">
+                      {item.quote}
+                    </p>
+
+                    {/* Bottom: Minimalist Author Info */}
+                    <div className="pt-5 border-t border-gray-100 flex items-center gap-3.5">
+                      {/* Minimalist Grey Circular Avatar / Placeholder Icon */}
+                      <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0 shadow-inner">
+                        <User className="w-5 h-5 text-gray-400 stroke-[1.8]" />
+                      </div>
+
+                      {/* Author Name in Bold + Country underneath */}
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-['Inter_Tight',sans-serif] font-bold text-sm sm:text-base text-gray-900 leading-snug truncate">
+                          {item.name}
+                        </span>
+                        <span className="font-['Inter_Tight',sans-serif] text-xs font-medium text-gray-500 tracking-wide mt-0.5 truncate">
+                          {item.country}
+                        </span>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               ))}
             </motion.div>
           </div>
+
+          {/* Mobile Bottom Navigation Buttons */}
+          <div className="flex sm:hidden items-center justify-center gap-4 mt-6">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous testimonial"
+              className="w-10 h-10 rounded-full bg-[#121214] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next testimonial"
+              className="w-10 h-10 rounded-full bg-[#121214] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Active Bottom Dot Pagination Indicators */}
+          <div className="flex items-center justify-center gap-2 mt-8 sm:mt-10">
+            {Array.from({ length: maxIndex + 1 }).map((_, dotIdx) => {
+              const isActive = dotIdx === currentIndex;
+              return (
+                <button
+                  key={dotIdx}
+                  type="button"
+                  onClick={() => setCurrentIndex(dotIdx)}
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? 'w-7 sm:w-8 bg-[#D3AF37] shadow-[0_0_12px_rgba(211,175,55,0.6)]'
+                      : 'w-2 bg-white/20 hover:bg-white/40'
+                  }`}
+                />
+              );
+            })}
+          </div>
+
         </div>
 
-        {/* ================= 3. ACTIVE BOTTOM DOT PAGINATION INDICATORS ================= */}
-        <div className="mt-10 sm:mt-12 flex items-center justify-center gap-2.5">
-          {Array.from({ length: maxIndex + 1 }).map((_, dotIdx) => (
-            <button
-              key={dotIdx}
-              type="button"
-              onClick={() => setStartIndex(dotIdx)}
-              aria-label={`Go to slide ${dotIdx + 1}`}
-              className="py-2 px-1 focus:outline-none cursor-pointer transition-all duration-300"
-            >
-              {dotIdx === startIndex ? (
-                <motion.div
-                  layoutId="activeTestimonialDot"
-                  className="w-8 sm:w-10 h-2.5 rounded-full bg-gradient-to-r from-[#FFF4CC] via-[#E2C359] to-[#CDA12B] shadow-[0_0_12px_rgba(211,175,55,0.6)]"
-                />
-              ) : (
-                <div className="w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 transition-colors duration-200" />
-              )}
-            </button>
-          ))}
-        </div>
       </div>
     </section>
   );

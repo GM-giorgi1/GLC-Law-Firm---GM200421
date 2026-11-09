@@ -36,11 +36,11 @@ const servicesData: ServiceItem[] = [
       'With 21+ years of dedicated criminal trial experience, we provide fearless courtroom advocacy, suppress unlawful evidence, and conduct prompt visits to detention facilities to protect our clients.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1000&auto=format&fit=crop',
+        url: '/GM.png',
         caption: 'Courtroom Trial Advocacy & Defense',
       },
       {
-        url: 'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1000&auto=format&fit=crop',
+        url: '/GM1.png',
         caption: 'Forensic Evidence & Case Investigation',
       },
     ],
@@ -60,11 +60,11 @@ const servicesData: ServiceItem[] = [
       'Combining deep empathy with rigorous trial advocacy, we handle sensitive family matters, divorce negotiations, custody arrangements, and core civil litigation.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop',
+        url: '/GM2.png',
         caption: 'Private Client Consultation & Mediation',
       },
       {
-        url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1000&auto=format&fit=crop',
+        url: '/GM3.png',
         caption: 'Protective Child & Spousal Agreements',
       },
     ],
@@ -84,7 +84,7 @@ const servicesData: ServiceItem[] = [
       'Guiding developers, investors, and property owners through acquisitions, property transfers, title clearances, and complex municipal agreements to guarantee clean ownership and risk-free deals.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop',
+        url: '/GM6.webp',
         caption: 'Commercial Land Development & Acquisitions',
       },
       {
