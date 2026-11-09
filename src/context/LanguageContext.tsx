@@ -201,35 +201,6 @@ export interface TranslationSchema {
     openWhatsAppDirectly: string;
     sendAnotherBtn: string;
   };
-  // About Page
-  aboutPage: {
-    heroBadge: string;
-    heroHeadline: string;
-    heroSubheadline: string;
-    heritageBadge: string;
-    heritageTitle: string;
-    heritageParagraph1: string;
-    heritageParagraph2: string;
-    stats: {
-      years: string;
-      yearsLabel: string;
-      cases: string;
-      casesLabel: string;
-      success: string;
-      successLabel: string;
-      offices: string;
-      officesLabel: string;
-    };
-    founderTitle: string;
-    founderRole: string;
-    founderQuote: string;
-    pillarsBadge: string;
-    pillarsTitle: string;
-    pillarsSubtitle: string;
-    ctaHeadline: string;
-    ctaSubheadline: string;
-    ctaBtn: string;
-  };
   // Footer
   footer: {
     marqueeWord1: string;
@@ -488,9 +459,9 @@ export const translations: Record<Language, TranslationSchema> = {
     },
     testimonialsSection: {
       badgeNumber: '(06)',
-      badgeText: 'TESTIMONIALS',
-      headline: 'What Our Clients Say About Us',
-      headlineHighlight: 'Say About Us',
+      badgeText: 'CLIENT TESTIMONIALS',
+      headline: 'WHAT OUR CLIENTS SAY ABOUT US',
+      headlineHighlight: 'SAY',
       subtitle: 'Honest feedback from entrepreneurs, families, and organizations who trusted us with their most critical legal matters.',
       items: [
         {
@@ -515,91 +486,43 @@ export const translations: Record<Language, TranslationSchema> = {
           rating: '5.0',
           quote:
             'From the initial consultation to final resolution, the strategic depth and relentless execution exceeded every expectation. An invaluable legal partner.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2002.png',
         },
         {
           id: 2,
           name: 'Julian Vance',
-          role: 'Commercial Property Developer · USA',
+          role: 'Commercial Property Client',
           badge: 'Real Estate & Zoning',
           titlePrefix: 'ZONING DISPUTE',
           titleAccent: 'RESOLVED',
-          rating: '5.0',
+          rating: '4.9',
           quote:
-            'When regulatory hurdles stalled our multi-million construction project, Giorgi stepped in with authoritative legal mastery. We secured permits in record time.',
-          image: '',
+            'When municipal hurdles stalled our development, Giorgi stepped in with authoritative legal precision. We secured approvals in record time without compromising our vision.',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2003.png',
         },
         {
           id: 3,
           name: 'Arthur Pendelton',
-          role: 'Managing Partner · Switzerland',
+          role: 'Senior Advisory Client',
           badge: 'Contractual Rights',
           titlePrefix: 'JUSTICE & TRUST',
           titleAccent: 'ATTAINED',
           rating: '5.0',
           quote:
             'Decades in corporate leadership taught me how rare true legal mastery is. This firm embodies relentless advocacy, pristine ethics, and supreme courtroom prowess.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2004.png',
         },
         {
           id: 4,
           name: 'Robert Hayes',
-          role: 'Family Estate Client · Georgia',
+          role: 'Family Estate Client',
           badge: 'Estate & Probate',
           titlePrefix: 'ESTATE PROBATE',
           titleAccent: 'CLARITY',
           rating: '5.0',
           quote:
             'Compassionate, razor-sharp, and remarkably responsive. In the most stressful season of my life, having Giorgi in our corner gave my family absolute peace of mind.',
-          image: '',
-        },
-        {
-          id: 5,
-          name: 'Dr. Elena Rostova',
-          role: 'Managing Director, Tech Assets · Germany',
-          badge: 'IP & International Commerce',
-          titlePrefix: 'INTELLECTUAL PROPERTY',
-          titleAccent: 'SECURED',
-          rating: '5.0',
-          quote:
-            'Protecting international assets and IP across jurisdictions was daunting until we partnered with GLC Law Company. Their strategic vision preserved millions in enterprise value.',
-          image: '',
-        },
-        {
-          id: 6,
-          name: 'Grigol Bennett',
-          role: 'Executive Director, M&A · Georgia',
-          badge: 'Corporate Restructuring',
-          titlePrefix: 'TRANSACTION COMPLETED',
-          titleAccent: 'SEAMLESSLY',
-          rating: '5.0',
-          quote:
-            'Giorgi navigated our complex corporate merger with utmost precision. Every contractual term and regulatory requirement was executed flawlessly without friction.',
-          image: '',
-        },
-        {
-          id: 7,
-          name: 'Sophie Laurent',
-          role: 'Private Wealth Counsel · France',
-          badge: 'Trust & Estate Management',
-          titlePrefix: 'PRIVATE WEALTH',
-          titleAccent: 'PROTECTED',
-          rating: '5.0',
-          quote:
-            'Unmatched professionalism and absolute discretion. Giorgi structured our multi-generational estate protection plan with clarity, confidence, and meticulous care.',
-          image: '',
-        },
-        {
-          id: 8,
-          name: 'Deniz Karaca',
-          role: 'Logistics & Maritime Trade · Turkey',
-          badge: 'Maritime & Trade Law',
-          titlePrefix: 'MARITIME ARBITRATION',
-          titleAccent: 'SETTLED',
-          rating: '5.0',
-          quote:
-            'In cross-border shipping and commercial logistics disputes across Batumi and the Black Sea region, GLC Law Company is an indispensable partner. Decisive and victorious.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2005.png',
         },
       ],
     },
@@ -634,7 +557,7 @@ export const translations: Record<Language, TranslationSchema> = {
           id: 2,
           date: 'Sep 12, 2026',
           title: '5 Legal Steps Every Small Business Should Take',
-          image: '/lawwallpaper.jpg',
+          image: '/.tempmediaStorage/lawwallpaper.jpg',
           alt: 'Attorney in tailored suit signing legal documents with fountain pen and gavel',
         },
         {
@@ -680,38 +603,6 @@ export const translations: Record<Language, TranslationSchema> = {
       successDesc: 'Thank you. Giorgi Gubeladze and our executive legal team have received your inquiry and will reach out to you within 1 business day.',
       openWhatsAppDirectly: 'Open WhatsApp Chat Directly',
       sendAnotherBtn: 'Send Another Message',
-    },
-    aboutPage: {
-      heroBadge: 'FOUNDED IN BATUMI · SERVING NATIONWIDE',
-      heroHeadline: 'PREMIER LEGAL ARCHITECTURE & UNCOMPROMISING ADVOCACY',
-      heroSubheadline:
-        'GLC Law Company is a leading law firm in Georgia, founded in Batumi and recognized as one of the most authoritative legal practices nationwide.',
-      heritageBadge: 'INSTITUTIONAL HERITAGE',
-      heritageTitle: 'ROOTED IN BATUMI, PROVEN ACROSS ALL JURISDICTIONS',
-      heritageParagraph1:
-        'GLC Law Company was established in the maritime economic capital of Batumi, Georgia, built upon the bedrock philosophy that high-stakes legal defense requires rigorous intellectual discipline, unyielding courtroom presence, and profound regional insight. Over more than two decades, our firm has grown into a premier national practice representing leading corporations, international investors, and families.',
-      heritageParagraph2:
-        'From landmark criminal acquittals and precedent-setting supreme court judgments to complex cross-border commercial transactions, our advocates deliver uncompromising protection. We combine international standards of excellence with local mastery of the Georgian judicial system.',
-      stats: {
-        years: '21+',
-        yearsLabel: 'Years of Courtroom Trial Practice',
-        cases: '1,500+',
-        casesLabel: 'Litigation & Advisory Matters Resolved',
-        success: '98%',
-        successLabel: 'Client Satisfaction & Retention Rate',
-        offices: '2',
-        officesLabel: 'Strategic Hubs in Batumi & Tbilisi',
-      },
-      founderTitle: 'GIORGI GUBELADZE',
-      founderRole: 'Founder, Managing Partner & Senior Trial Counsel',
-      founderQuote:
-        '“True legal mastery is not measured by mere argument, but by the relentless precision of your evidentiary strategy and the unwavering courage to protect your client’s liberty and enterprise.”',
-      pillarsBadge: 'CORE PILLARS OF PRACTICE',
-      pillarsTitle: 'FOUR PILLARS OF INSTITUTIONAL DEFENSE',
-      pillarsSubtitle: 'Excellence, confidentiality, and tactical superiority across all four core domains of modern law.',
-      ctaHeadline: 'NEED AUTHORITATIVE LEGAL COUNSEL?',
-      ctaSubheadline: 'Schedule a confidential strategy session with Managing Partner Giorgi Gubeladze.',
-      ctaBtn: 'SCHEDULE CONFIDENTIAL SESSION',
     },
     footer: {
       marqueeWord1: "LET'S TALK",
@@ -969,118 +860,70 @@ export const translations: Record<Language, TranslationSchema> = {
     },
     testimonialsSection: {
       badgeNumber: '(06)',
-      badgeText: 'უკუკავშირი',
-      headline: 'კლიენტთა შეფასებები',
-      headlineHighlight: 'შეფასებები',
+      badgeText: 'კლიენტთა შეფასებები',
+      headline: 'კლიენტების შეფასება',
+      headlineHighlight: 'შეფასება',
       subtitle: 'გულწრფელი უკუკავშირი მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც თავიანთი საქმე ჩვენ გვანდეს.',
       items: [
         {
           id: 0,
           name: 'დავით მიჩელი',
-          role: 'კორპორაციული კლიენტი · საქართველო',
+          role: 'კორპორაციული კლიენტი',
           badge: 'ბიზნეს დავა',
           titlePrefix: 'საქმე მოგებულია',
           titleAccent: 'დამაჯერებლად',
           rating: '5.0',
           quote:
             'გიორგიმ ყურადღებით მომისმინა, ყველაფერი დეტალურად ამიხსნა და საუკეთესო შედეგისთვის იბრძოლა. მთელი პროცესის განმავლობაში თავს დაცულად ვგრძნობდი.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2001.png',
         },
         {
           id: 1,
           name: 'მარკუს სტერლინგი',
-          role: 'აქტივების დაცვის კლიენტი · გაერთიანებული სამეფო',
+          role: 'აქტივების დაცვის კლიენტი',
           badge: 'აქტივების მართვა',
           titlePrefix: 'აქტივები დაცულია',
           titleAccent: 'იდეალურად',
           rating: '5.0',
           quote:
             'პირველივე კონსულტაციიდან საბოლოო შედეგამდე, სტრატეგიულმა სიღრმემ და პროფესიონალიზმმა ყოველგვარ მოლოდინს გადააჭარბა. ფასდაუდებელი პარტნიორი.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2002.png',
         },
         {
           id: 2,
           name: 'ჯულიან ვენსი',
-          role: 'დეველოპერი კლიენტი · აშშ',
+          role: 'დეველოპერი კლიენტი',
           badge: 'უძრავი ქონება და ზონირება',
           titlePrefix: 'ქონებრივი დავა',
           titleAccent: 'მოგვარებულია',
-          rating: '5.0',
+          rating: '4.9',
           quote:
             'როდესაც ბიუროკრატიულმა დაბრკოლებებმა მშენებლობა შეაჩერა, გიორგი უმაღლესი იურიდიული სიზუსტით ჩაერთო. ნებართვები რეკორდულ დროში მივიღეთ.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2003.png',
         },
         {
           id: 3,
           name: 'არტურ პენდელტონი',
-          role: 'მმართველი პარტნიორი · შვეიცარია',
+          role: 'მმართველი პარტნიორი',
           badge: 'სახელშეკრულებო უფლებები',
           titlePrefix: 'სამართლიანობა',
           titleAccent: 'მიღწეულია',
           rating: '5.0',
           quote:
             'კორპორაციულ სფეროში გატარებულმა ათწლეულებმა მასწავლა, რამდენად იშვიათია ნამდვილი იურიდიული ოსტატობა. ეს ფირმა შეუპოვარი დაცვის განსახიერებაა.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2004.png',
         },
         {
           id: 4,
           name: 'რობერტ ჰეისი',
-          role: 'საოჯახო დავის კლიენტი · საქართველო',
+          role: 'საოჯახო დავის კლიენტი',
           badge: 'მემკვიდრეობა და ოჯახი',
           titlePrefix: 'სრული სიმშვიდე და',
           titleAccent: 'სიცხადე',
           rating: '5.0',
           quote:
             'გულისხმიერი, უაღრესად კომპეტენტური და ოპერატიული. ჩემი ცხოვრების ყველაზე რთულ მომენტში გიორგის ჩართულობამ ჩემს ოჯახს სრული სიმშვიდე მოუტანა.',
-          image: '',
-        },
-        {
-          id: 5,
-          name: 'ელეონორ ვენსი',
-          role: 'ტექნოლოგიური კომპანიის დირექტორი · გერმანია',
-          badge: 'IP და ტექნოლოგიები',
-          titlePrefix: 'ინტელექტუალური საკუთრება',
-          titleAccent: 'დაცულია',
-          rating: '5.0',
-          quote:
-            'საზღვარგარეთ ინტელექტუალური საკუთრების დაცვა ურთულესი გამოწვევა იყო, სანამ გიორგი არ ჩაერთო. მისმა სტრატეგიულმა ხედვამ მილიონობით დოლარის ღირებულების აქტივები გადაგვირჩინა.',
-          image: '',
-        },
-        {
-          id: 6,
-          name: 'გრეგორი ბენეტი',
-          role: 'აღმასრულებელი დირექტორი, M&A · საქართველო',
-          badge: 'კორპორაციული შერწყმა',
-          titlePrefix: 'შეთანხმება დასრულდა',
-          titleAccent: 'წარმატებით',
-          rating: '5.0',
-          quote:
-            'გიორგიმ ჩვენი კომპანიების შერწყმის პროცესი უმაღლესი სიზუსტით წარმართა. ყველა საკონტრაქტო პუნქტი და რეგულაციური მოთხოვნა უნაკლოდ შესრულდა.',
-          image: '',
-        },
-        {
-          id: 7,
-          name: 'სოფია ლორანი',
-          role: 'კერძო კაპიტალის მმართველი · საფრანგეთი',
-          badge: 'ტრასტი და მართვა',
-          titlePrefix: 'აქტივები',
-          titleAccent: 'დაცულია',
-          rating: '5.0',
-          quote:
-            'გამორჩეული პროფესიონალიზმი და კონფიდენციალურობა. გიორგიმ ჩვენი მრავალთაობიანი საოჯახო აქტივების დაცვის გეგმა სრული სიცხადითა და დეტალური სიზუსტით შეადგინა.',
-          image: '',
-        },
-        {
-          id: 8,
-          name: 'დენიზ ქარაჯა',
-          role: 'ლოგისტიკა და საზღვაო ვაჭრობა · თურქეთი',
-          badge: 'საზღვაო და კომერციული დავა',
-          titlePrefix: 'საზღვაო დავა',
-          titleAccent: 'მოგვარებულია',
-          rating: '5.0',
-          quote:
-            'ბათუმისა და რეგიონის საზღვაო და სატრანსპორტო დავებში GLC Law Company შეუცვლელი პარტნიორია. ოპერატიული რეაგირება და სტრატეგიული შედეგი გარანტირებულია.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2005.png',
         },
       ],
     },
@@ -1115,7 +958,7 @@ export const translations: Record<Language, TranslationSchema> = {
           id: 2,
           date: '12 სექ, 2026',
           title: '5 აუცილებელი იურიდიული ნაბიჯი მცირე და საშუალო ბიზნესისთვის',
-          image: '/lawwallpaper.jpg',
+          image: '/.tempmediaStorage/lawwallpaper.jpg',
           alt: 'ადვოკატი ხელშეკრულების ხელმოწერისას',
         },
         {
@@ -1161,38 +1004,6 @@ export const translations: Record<Language, TranslationSchema> = {
       successDesc: 'გმადლობთ. გიორგი გუბელაძე და იურიდიული გუნდი დაგიკავშირდებათ 1 სამუშაო დღის განმავლობაში.',
       openWhatsAppDirectly: 'WhatsApp-ში გადასვლა',
       sendAnotherBtn: 'სხვა შეტყობინების გაგზავნა',
-    },
-    aboutPage: {
-      heroBadge: 'დაარსდა ბათუმში · მოქმედებს მთელ საქართველოში',
-      heroHeadline: 'უმაღლესი იურიდიული არქიტექტურა და ურყევი დაცვა',
-      heroSubheadline:
-        'GLC Law Company არის წამყვანი იურიდიული კომპანია საქართველოში, რომელიც დაარსდა ბათუმში და დღეს წარმოადგენს ერთ-ერთ ყველაზე ავტორიტეტულ სამართლებრივ ფირმას ქვეყანაში.',
-      heritageBadge: 'ინსტიტუციური ისტორია',
-      heritageTitle: 'ფესვები ბათუმში, გამარჯვება ყველა ინსტანციაში',
-      heritageParagraph1:
-        'GLC Law Company დაარსდა საქართველოს საზღვაო-ეკონომიკურ ცენტრში — ქალაქ ბათუმში, იმ მტკიცე პრინციპზე დაყრდნობით, რომ უმაღლესი დონის სამართლებრივი დაცვა მოითხოვს მკაცრ ინტელექტუალურ დისციპლინას, უშეღავათო სასამართლო ოსტატობასა და რეგიონის ღრმა ცოდნას. 21 წელზე მეტი ხნის განმავლობაში ჩვენმა ფირმამ მოიპოვა წამყვანი კომპანიების, საერთაშორისო ინვესტორებისა და კერძო პირების ურყევი ნდობა.',
-      heritageParagraph2:
-        'გახმაურებული გამამართლებელი განაჩენებიდან და უზენაესი სასამართლოს პრეცედენტული გადაწყვეტილებებიდან დაწყებული, მსხვილი ტრანსსასაზღვრო კომერციული გარიგებებით დამთავრებული — ჩვენი ადვოკატები უზრუნველყოფენ უკომპრომისო დაცვას. ჩვენ ვაერთიანებთ საერთაშორისო საადვოკატო ეთიკასა და ქართული მართლმსაჯულების სისტემის სრულყოფილ ცოდნას.',
-      stats: {
-        years: '21+',
-        yearsLabel: 'წლიანი სასამართლო და საადვოკატო პრაქტიკა',
-        cases: '1,500+',
-        casesLabel: 'წარმატებით მოგვარებული საქმე',
-        success: '98%',
-        successLabel: 'კლიენტთა კმაყოფილება და ნდობის ინდექსი',
-        offices: '2',
-        officesLabel: 'სტრატეგიული ოფისები ბათუმსა და თბილისში',
-      },
-      founderTitle: 'გიორგი გუბელაძე',
-      founderRole: 'დამფუძნებელი, მმართველი პარტნიორი და წამყვანი ადვოკატი',
-      founderQuote:
-        '„ნამდვილი იურიდიული ოსტატობა არ იზომება მხოლოდ რიტორიკით — იგი განისაზღვრება მტკიცებულებათა უტყუარი სიზუსტით და იმ სიმამაცით, რომლითაც შენი კლიენტის თავისუფლებასა და ინტერესებს იცავ.“',
-      pillarsBadge: 'სამართლებრივი საყრდენები',
-      pillarsTitle: 'ინსტიტუციური დაცვის 4 ფუნდამენტური მიმართულება',
-      pillarsSubtitle: 'უმაღლესი სტანდარტი, სრული კონფიდენციალურობა და ტაქტიკური უპირატესობა თანამედროვე სამართლის ოთხივე საკვანძო სფეროში.',
-      ctaHeadline: 'გესაჭიროებათ ავტორიტეტული იურიდიული დაცვა?',
-      ctaSubheadline: 'დაჯავშნეთ კონფიდენციალური სტრატეგიული შეხვედრა მმართველ პარტნიორთან — გიორგი გუბელაძესთან.',
-      ctaBtn: 'კონსულტაციის დაჯავშნა',
     },
     footer: {
       marqueeWord1: 'ვისაუბროთ',
@@ -1513,55 +1324,7 @@ export const translations: Record<Language, TranslationSchema> = {
           rating: '5.0',
           quote:
             'Тактичный, невероятно проницательный и всегда на связи. В самый трудный момент участие Георгия вернуло моей семье уверенность.',
-          image: '',
-        },
-        {
-          id: 5,
-          name: 'Д-р Елена Ростова',
-          role: 'Директор по технологиям · Германия',
-          badge: 'IP и международная торговля',
-          titlePrefix: 'ИНТЕЛЛЕКТУАЛЬНАЯ СОБСТВЕННОСТЬ',
-          titleAccent: 'ЗАЩИЩЕНА',
-          rating: '5.0',
-          quote:
-            'Защита международных активов и интеллектуальной собственности за рубежом казалась непреодолимой задачей, пока мы не обратились в GLC Law Company. Стратегия Георгия спасла миллионные активы.',
-          image: '',
-        },
-        {
-          id: 6,
-          name: 'Григол Беннетт',
-          role: 'Исполнительный директор, M&A · Грузия',
-          badge: 'Корпоративные слияния',
-          titlePrefix: 'СДЕЛКА ЗАВЕРШЕНА',
-          titleAccent: 'УСПЕШНО',
-          rating: '5.0',
-          quote:
-            'Георгий провел сложнейшее слияние наших компаний с ювелирной точностью. Все контрактные и регуляторные нюансы были закрыты без единого сбоя.',
-          image: '',
-        },
-        {
-          id: 7,
-          name: 'Софи Лоран',
-          role: 'Управление семейным капиталом · Франция',
-          badge: 'Траст и структурирование',
-          titlePrefix: 'ЧАСТНЫЙ КАПИТАЛ',
-          titleAccent: 'ЗАЩИЩЕН',
-          rating: '5.0',
-          quote:
-            'Исключительный профессионализм и абсолютная конфиденциальность. Георгий разработал многоуровневый план защиты семейных активов с непревзойденной ясностью.',
-          image: '',
-        },
-        {
-          id: 8,
-          name: 'Дениз Караджа',
-          role: 'Морская торговля и логистика · Турция',
-          badge: 'Морское и торговое право',
-          titlePrefix: 'МОРСКОЙ СПОР',
-          titleAccent: 'УРЕГУЛИРОВАН',
-          rating: '5.0',
-          quote:
-            'В морских и транспортных спорах в регионе Батуми и Черного моря GLC Law Company — незаменимый партнер. Быстрое реагирование и железный результат.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2005.png',
         },
       ],
     },
@@ -1596,7 +1359,7 @@ export const translations: Record<Language, TranslationSchema> = {
           id: 2,
           date: '12 сен, 2026',
           title: '5 главных правовых шагов для каждого бизнеса',
-          image: '/lawwallpaper.jpg',
+          image: '/.tempmediaStorage/lawwallpaper.jpg',
           alt: 'Адвокат подписывает юридические документы',
         },
         {
@@ -1642,38 +1405,6 @@ export const translations: Record<Language, TranslationSchema> = {
       successDesc: 'Спасибо. Георгий Губеладзе и юридическая команда свяжутся с вами в течение 1 рабочего дня.',
       openWhatsAppDirectly: 'Открыть чат WhatsApp напрямую',
       sendAnotherBtn: 'Отправить другое сообщение',
-    },
-    aboutPage: {
-      heroBadge: 'ОСНОВАНА В БАТУМИ · РАБОТАЕМ ПО ВСЕЙ ГРУЗИИ',
-      heroHeadline: 'ПРЕМИАЛЬНАЯ ЮРИДИЧЕСКАЯ АРХИТЕКТУРА И БЕЗУПРЕЧНАЯ ЗАЩИТА',
-      heroSubheadline:
-        'GLC Law Company — ведущая юридическая компания в Грузии, основанная в Батуми и признанная одной из наиболее авторитетных юридических фирм страны.',
-      heritageBadge: 'ИСТОРИЯ И НАСЛЕДИЕ',
-      heritageTitle: 'КОРНИ В БАТУМИ, ПОБЕДЫ ВО ВСЕХ ИНСТАНЦИЯХ',
-      heritageParagraph1:
-        'GLC Law Company была основана в Батуми на незыблемом принципе: надежная юридическая защита требует строгой интеллектуальной дисциплины, авторитетного судебного мастерства и глубокого понимания регионального контекста. Более 21 года фирма защищает ведущие корпорации, инвесторов и частных клиентов.',
-      heritageParagraph2:
-        'От громких оправдательных приговоров и прецедентных решений Верховного Суда до масштабных международных сделок — мы обеспечиваем бескомпромиссную защиту прав.',
-      stats: {
-        years: '21+',
-        yearsLabel: 'Лет непрерывной судебной практики',
-        cases: '1,500+',
-        casesLabel: 'Успешно решенных дел и споров',
-        success: '98%',
-        successLabel: 'Индекс доверия и удовлетворенности',
-        offices: '2',
-        officesLabel: 'Офисы в Батуми и Тбилиси',
-      },
-      founderTitle: 'ГЕОРГИЙ ГУБЕЛАДЗЕ',
-      founderRole: 'Основатель, управляющий партнер и ведущий адвокат',
-      founderQuote:
-        '«Истинное юридическое мастерство измеряется не речами, а безупречной точностью доказательств и смелостью отстаивать свободу и интересы клиента».',
-      pillarsBadge: 'ОСНОВНЫЕ НАПРАВЛЕНИЯ',
-      pillarsTitle: '4 СТОЛПА ИНСТИТУЦИОНАЛЬНОЙ ЗАЩИТЫ',
-      pillarsSubtitle: 'Высочайшие стандарты и конфиденциальность во всех ключевых отраслях права.',
-      ctaHeadline: 'НУЖНА НАДЕЖНАЯ ЮРИДИЧЕСКАЯ ПОМОЩЬ?',
-      ctaSubheadline: 'Запишитесь на конфиденциальную консультацию с Георгием Губеладзе.',
-      ctaBtn: 'ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ',
     },
     footer: {
       marqueeWord1: 'ПОГОВОРИМ О',
@@ -1994,55 +1725,7 @@ export const translations: Record<Language, TranslationSchema> = {
           rating: '5.0',
           quote:
             'Şefkatli, son derece zeki ve her zaman ulaşılabilir. Hayatımın en stresli döneminde Giorgi’nin yanımızda olması aileme tam bir huzur verdi.',
-          image: '',
-        },
-        {
-          id: 5,
-          name: 'Dr. Elena Rostova',
-          role: 'Teknoloji Varlıkları Direktörü · Almanya',
-          badge: 'Fikri Mülkiyet ve Ticaret',
-          titlePrefix: 'FİKRİ MÜLKİYET',
-          titleAccent: 'KORUNDU',
-          rating: '5.0',
-          quote:
-            'Uluslararası varlıklarımızı ve fikri mülkiyetimizi korumak zorlu bir süreçti; GLC Law Company stratejik vizyonuyla milyonlarca dolarlık varlığımızı güvenceye aldı.',
-          image: '',
-        },
-        {
-          id: 6,
-          name: 'Grigol Bennett',
-          role: 'İcra Direktörü, M&A · Gürcistan',
-          badge: 'Şirket Birleşmeleri',
-          titlePrefix: 'İŞLEM TAMAMLANDI',
-          titleAccent: 'KUSURSUZCA',
-          rating: '5.0',
-          quote:
-            'Giorgi şirketlerimizin birleşme sürecini olağanüstü bir hassasiyetle yürüttü. Tüm sözleşme ve regülasyon şartları sıfır hata ile tamamlandı.',
-          image: '',
-        },
-        {
-          id: 7,
-          name: 'Sophie Laurent',
-          role: 'Özel Varlık Danışmanı · Fransa',
-          badge: 'Tröst ve Varlık Yönetimi',
-          titlePrefix: 'ÖZEL SERMAYE',
-          titleAccent: 'GÜVENCEDE',
-          rating: '5.0',
-          quote:
-            'Benzersiz bir profesyonellik ve mutlak gizlilik. Giorgi, çok kuşaklı aile varlıklarımızın korunma planını kusursuz bir netlikle hazırladı.',
-          image: '',
-        },
-        {
-          id: 8,
-          name: 'Deniz Karaca',
-          role: 'Lojistik ve Deniz Ticareti · Türkiye',
-          badge: 'Deniz ve Ticaret Hukuku',
-          titlePrefix: 'DENİZ TİCARETİ',
-          titleAccent: 'ÇÖZÜME ULAŞTI',
-          rating: '5.0',
-          quote:
-            'Batum ve Karadeniz bölgesindeki deniz taşımacılığı ve lojistik ihtilaflarında GLC Law Company vazgeçilmez bir ortaktır. Hızlı müdahale ve kesin sonuç.',
-          image: '',
+          image: 'https://cdn.jiro.build/Jahid/Extra/Img/avater%2005.png',
         },
       ],
     },
@@ -2077,7 +1760,7 @@ export const translations: Record<Language, TranslationSchema> = {
           id: 2,
           date: '12 Eyl, 2026',
           title: 'Her Küçük İşletmenin Atması Gereken 5 Hukuki Adım',
-          image: '/lawwallpaper.jpg',
+          image: '/.tempmediaStorage/lawwallpaper.jpg',
           alt: 'Avukat sözleşme imzalarken',
         },
         {
@@ -2123,38 +1806,6 @@ export const translations: Record<Language, TranslationSchema> = {
       successDesc: 'Teşekkür ederiz. Giorgi Gubeladze ve hukuk ekibimiz talebinizi almış olup 1 iş günü içinde sizinle iletişime geçecektir.',
       openWhatsAppDirectly: 'WhatsApp Sohbetini Doğrudan Aç',
       sendAnotherBtn: 'Başka Bir Mesaj Gönder',
-    },
-    aboutPage: {
-      heroBadge: "BATUM'DA KURULDU · TÜM GÜRCİSTAN'DA HİZMET",
-      heroHeadline: 'Seçkin Hukuk Mimarisi ve Tavizsiz Savunma',
-      heroSubheadline:
-        "GLC Law Company, Batum'da kurulan ve bugün ülke çapında en yetkin hukuk bürolarından biri olarak tanınan Gürcistan'ın lider hukuk şirketidir.",
-      heritageBadge: 'KURUMSAL KÖKLER',
-      heritageTitle: "BATUM'DA DOĞAN, TÜM MERCİLERDE KANITLANAN GÜÇ",
-      heritageParagraph1:
-        "GLC Law Company, deniz ticaretinin kalbi Batum'da, üst düzey savunmanın sarsılmaz bir disiplin ve derin bölgesel tecrübe gerektirdiği ilkesiyle kuruldu. 21 yılı aşkın süredir lider şirketlerin ve yatırımcıların güvenini kazandı.",
-      heritageParagraph2:
-        'Emsal teşkil eden beraat kararlarından Yüksek Mahkeme zaferlerine ve uluslararası ticari sözleşmelere kadar müvekkillerimizin haklarını tavizsiz savunuyoruz.',
-      stats: {
-        years: '21+',
-        yearsLabel: 'Yıllık Mahkeme ve Dava Tecrübesi',
-        cases: '1,500+',
-        casesLabel: 'Başarıyla Sonuçlandırılan Dava',
-        success: '98%',
-        successLabel: 'Müvekkil Memnuniyet Oranı',
-        offices: '2',
-        officesLabel: 'Batum ve Tiflis Merkez Ofisleri',
-      },
-      founderTitle: 'GIORGI GUBELADZE',
-      founderRole: 'Kurucu, Yönetici Ortak ve Kıdemli Dava Avukatı',
-      founderQuote:
-        '“Gerçek hukuk ustalığı kelimelerle değil; delillerin sarsılmaz doğruluğu ve müvekkilin haklarını savunma kararlılığıyla ölçülür.”',
-      pillarsBadge: 'FAALİYET ALANLARI',
-      pillarsTitle: 'KURUMSAL SAVUNMANIN 4 TEMEL DİREĞİ',
-      pillarsSubtitle: 'Modern hukukun tüm kritik alanlarında mutlak gizlilik ve taktiksel üstünlük.',
-      ctaHeadline: 'UZMAN HUKUKİ DESTEĞE Mİ İHTİYACINIZ VAR?',
-      ctaSubheadline: 'Yönetici Ortak Giorgi Gubeladze ile gizli danışma seansı planlayın.',
-      ctaBtn: 'GİZLİ DANIŞMA RANDEVUSU AL',
     },
     footer: {
       marqueeWord1: 'HUKUKU',

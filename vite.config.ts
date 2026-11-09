@@ -4,8 +4,6 @@ import path from 'path';
 import fs from 'fs';
 import {defineConfig, Plugin} from 'vite';
 
-const rootDir = import.meta.dirname || path.resolve('.');
-
 function serveTempMediaPlugin(): Plugin {
   return {
     name: 'serve-tempmedia',
@@ -15,9 +13,9 @@ function serveTempMediaPlugin(): Plugin {
           const cleanUrl = decodeURIComponent(req.url.split('?')[0]);
           const fileName = path.basename(cleanUrl);
           const candidatePaths = [
-            path.resolve(rootDir, 'public/.tempmediaStorage', fileName),
-            path.resolve(rootDir, '.tempmediaStorage', fileName),
-            path.resolve(rootDir, 'public', fileName),
+            path.resolve(__dirname, 'public/.tempmediaStorage', fileName),
+            path.resolve(__dirname, '.tempmediaStorage', fileName),
+            path.resolve(__dirname, 'public', fileName),
           ];
           for (const filePath of candidatePaths) {
             if (fs.existsSync(filePath)) {
@@ -39,9 +37,9 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss(), serveTempMediaPlugin()],
     resolve: {
       alias: {
-        '@': path.resolve(rootDir, '.'),
-        'next/image': path.resolve(rootDir, 'src/shims/next-image.tsx'),
-        'next/link': path.resolve(rootDir, 'src/shims/next-link.tsx'),
+        '@': path.resolve(__dirname, '.'),
+        'next/image': path.resolve(__dirname, 'src/shims/next-image.tsx'),
+        'next/link': path.resolve(__dirname, 'src/shims/next-link.tsx'),
       },
     },
     server: {
