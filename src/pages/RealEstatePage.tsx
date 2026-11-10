@@ -20,6 +20,7 @@ import ConsultationModal from '@/src/components/common/ConsultationModal';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 
 // Real Estate Assets
 import realEstateHeroImg from '@/src/assets/realestate0.png';
@@ -363,30 +364,22 @@ export default function RealEstatePage() {
             </span>
           </motion.div>
 
-          {/* Centered Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          {/* Centered Main Headline with letter-by-letter reveal */}
+          <h1
             className="font-big-shoulders font-[900] uppercase text-[clamp(32px,5.5vw,76px)] tracking-tight leading-[1.04] sm:leading-[0.98] realestate-gold-gradient select-none text-center max-w-4xl mx-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_8px_rgba(211,175,55,0.35)]"
           >
-            {heroHeadlineText}
-          </motion.h1>
+            <ScrollLetterReveal text={heroHeadlineText} delay={0.1} triggerMode="mount" stagger={0.02} />
+          </h1>
 
           {/* Centered Editorial Subheading (Two distinct centered lines) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2"
-          >
+          <div className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2">
             <p className="font-geist font-semibold text-base sm:text-lg lg:text-xl text-[#FEF5CD] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              {heroSubLine1}
+              <ScrollLetterReveal text={heroSubLine1} delay={0.3} triggerMode="mount" stagger={0.012} />
             </p>
             <p className="font-geist font-medium text-sm sm:text-base text-gray-200/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-              {heroSubLine2}
+              <ScrollLetterReveal text={heroSubLine2} delay={0.5} triggerMode="mount" stagger={0.01} />
             </p>
-          </motion.div>
+          </div>
 
           {/* Centered CTA Buttons */}
           <motion.div
@@ -444,11 +437,11 @@ export default function RealEstatePage() {
             </div>
 
             <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              {pillarsHeading}
+              <ScrollLetterReveal text={pillarsHeading} delay={0.08} stagger={0.018} />
             </h2>
 
             <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/85 mt-4 max-w-2xl leading-relaxed">
-              {pillarsSub}
+              <ScrollLetterReveal text={pillarsSub} delay={0.2} stagger={0.008} />
             </p>
           </motion.div>
 
@@ -542,11 +535,11 @@ export default function RealEstatePage() {
             className="w-full max-w-4xl flex flex-col items-center justify-center text-center mx-auto mb-14 sm:mb-16 px-4"
           >
             <h2 className="font-big-shoulders font-[900] uppercase text-white tracking-tight leading-tight text-3xl sm:text-5xl lg:text-6xl text-center">
-              {protocolHeading}
+              <ScrollLetterReveal text={protocolHeading} delay={0.08} stagger={0.018} />
             </h2>
 
             <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/90 mt-4 max-w-2xl text-center leading-relaxed">
-              {protocolSub}
+              <ScrollLetterReveal text={protocolSub} delay={0.2} stagger={0.008} />
             </p>
           </motion.div>
 

@@ -20,6 +20,7 @@ import CurtainIntro from '@/src/components/common/CurtainIntro';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 
 // Family Law Assets
 import familyHeroImg from '@/src/assets/family.png';
@@ -368,28 +369,20 @@ export default function FamilyLawPage() {
             </span>
           </motion.div>
 
-          {/* Centered Compact Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          {/* Centered Compact Headline with letter-by-letter reveal */}
+          <h1
             className="font-big-shoulders font-[900] uppercase text-[40px] sm:text-[58px] md:text-[72px] lg:text-[84px] leading-[0.96] tracking-tight mb-6 sm:mb-8 text-center max-w-4xl"
           >
             <span className="family-gold-gradient block drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-              {heroHeadlineText}
+              <ScrollLetterReveal text={heroHeadlineText} delay={0.1} triggerMode="mount" stagger={0.02} />
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Two Distinct Hero Subtext Lines Centered */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-3xl flex flex-col items-center gap-3.5 sm:gap-4 mb-10 sm:mb-12 px-2"
-          >
+          <div className="w-full max-w-3xl flex flex-col items-center gap-3.5 sm:gap-4 mb-10 sm:mb-12 px-2">
             {/* Line 1: Strong authoritative statement */}
             <p className="font-geist text-base sm:text-lg md:text-xl font-medium text-[#FAF8F5] leading-relaxed text-center tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
-              {heroSubLine1}
+              <ScrollLetterReveal text={heroSubLine1} delay={0.3} triggerMode="mount" stagger={0.012} />
             </p>
 
             {/* Subtle Divider Bar */}
@@ -397,9 +390,9 @@ export default function FamilyLawPage() {
 
             {/* Line 2: Comprehensive scope */}
             <p className="font-geist text-xs sm:text-sm md:text-base text-gray-300 font-normal leading-relaxed text-center max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
-              {heroSubLine2}
+              <ScrollLetterReveal text={heroSubLine2} delay={0.5} triggerMode="mount" stagger={0.01} />
             </p>
-          </motion.div>
+          </div>
 
           {/* Action CTAs */}
           <motion.div
@@ -444,10 +437,10 @@ export default function FamilyLawPage() {
               {pillarsBadge}
             </span>
             <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
-              {pillarsHeading}
+              <ScrollLetterReveal text={pillarsHeading} delay={0.08} stagger={0.018} />
             </h2>
             <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
-              {pillarsSub}
+              <ScrollLetterReveal text={pillarsSub} delay={0.2} stagger={0.008} />
             </p>
           </div>
 
@@ -521,10 +514,10 @@ export default function FamilyLawPage() {
           {/* Section Header */}
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
             <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4">
-              {protocolHeading}
+              <ScrollLetterReveal text={protocolHeading} delay={0.08} stagger={0.018} />
             </h2>
             <p className="font-geist text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
-              {protocolSub}
+              <ScrollLetterReveal text={protocolSub} delay={0.2} stagger={0.008} />
             </p>
           </div>
 

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight, User } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 
 interface TestimonialCardData {
   id: number;
@@ -12,6 +13,7 @@ interface TestimonialCardData {
   role: string;
   rating: number;
   quote: string;
+  seoHighlight: string;
 }
 
 const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
@@ -23,7 +25,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'კორპორაციული ინვესტორი',
       rating: 5,
       quote:
-        '„გიორგიმ ყურადღებით მომისმინა, ყველაფერი დეტალურად და გასაგებად ამიხსნა და საუკეთესო შედეგისთვის იბრძოლა. მთელი პროცესის განმავლობაში თავს სრულად დაცულად და ინფორმირებულად ვგრძნობდი.“',
+        '„გიორგიმ ყურადღებით მომისმინა, ყველაფერი დეტალურად და გასაგებად ამიხსნა და საუკეთესო შედეგისთვის იბრძოლა. ჩემი გამოცდილებით, ის ცალსახად არის საუკეთესო ადვოკატი ბათუმში, რომელთან თანამშრომლობაც უსაფრთხოების სრულ გარანტიას გაძლევს.“',
+      seoHighlight: 'საუკეთესო ადვოკატი ბათუმში',
     },
     {
       id: 1,
@@ -32,7 +35,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'ბიზნესის მფლობელი',
       rating: 5,
       quote:
-        '„პირველივე კონსულტაციიდან საბოლოო გამარჯვებამდე, სტრატეგიულმა სიღრმემ და პროფესიონალიზმმა ყოველგვარ მოლოდინს გადააჭარბა. GLC Law Company არის ფასდაუდებელი იურიდიული პარტნიორი.“',
+        '„პირველივე კონსულტაციიდან საბოლოო გამარჯვებამდე, სტრატეგიულმა სიღრმემ ყოველგვარ მოლოდინს გადააჭარბა. GLC Law Company არის საუკეთესო იურიდიული კომპანია ბათუმში და მთელს საქართველოში.“',
+      seoHighlight: 'საუკეთესო იურიდიული კომპანია ბათუმში და მთელს საქართველოში',
     },
     {
       id: 2,
@@ -41,7 +45,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'უძრავი ქონების დეველოპერი',
       rating: 5,
       quote:
-        '„როდესაც ბიუროკრატიულმა დაბრკოლებებმა ჩვენი მშენებლობა შეაჩერა, გიორგი უმაღლესი იურიდიული სიზუსტით ჩაერთო. ნებართვები რეკორდულ დროში მივიღეთ ისე, რომ ჩვენი გეგმები არ შეცვლილა.“',
+        '„როდესაც ბიუროკრატიულმა ბარიერებმა მშენებლობა შეაჩერა, გიორგი და მისი გუნდი დაუყოვნებლივ ჩაერთნენ. მათ გაგვიწიეს საუკეთესო იურიდიული მომსახურება ბათუმის რეგიონსა და საქართველოში, რამაც ნებართვები რეკორდულ ვადაში მოგვიტანა.“',
+      seoHighlight: 'საუკეთესო იურიდიული მომსახურება ბათუმის რეგიონსა და საქართველოში',
     },
     {
       id: 3,
@@ -50,7 +55,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'მმართველი პარტნიორი',
       rating: 5,
       quote:
-        '„კეთილსინდისიერება, მაღალი ეთიკა და სრული კონფიდენციალურობა. ჩვენი საოჯახო აქტივებისა და კომპანიის სამართლებრივი სტრუქტურა უმაღლეს დონეზე მომზადდა.“',
+        '„ჩვენი საინვესტიციო აქტივებისა და კომპანიის სამართლებრივი სტრუქტურა უმაღლეს დონეზე მომზადდა. გიორგი გუბელაძე არის საუკეთესო ადვოკატი ბათუმში, რომლის ეთიკა და სტრატეგიული სიზუსტე შეუდარებელია.“',
+      seoHighlight: 'საუკეთესო ადვოკატი ბათუმში',
     },
     {
       id: 4,
@@ -59,7 +65,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'კერძო ინვესტორი',
       rating: 5,
       quote:
-        '„რთულ საერთაშორისო კომერციულ დავაში გიორგი გუბელაძის სტრატეგიულმა ხედვამ მილიონობით ლარის აქტივები გადაგვირჩინა. საუკეთესო ადვოკატი ბათუმსა და თბილისში.“',
+        '„რთულ საერთაშორისო კომერციულ დავაში გიორგი გუბელაძის სტრატეგიულმა ხედვამ მილიონობით ლარის აქტივები გადაგვირჩინა. GLC Law Company უდავოდ არის საუკეთესო იურიდიული კომპანია ბათუმში და მთელს საქართველოში.“',
+      seoHighlight: 'საუკეთესო იურიდიული კომპანია ბათუმში და მთელს საქართველოში',
     },
     {
       id: 5,
@@ -68,7 +75,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'ტექნოლოგიური მეწარმე',
       rating: 5,
       quote:
-        '„კომპანიის რეგისტრაციიდან მსხვილი საინვესტიციო კონტრაქტის გაფორმებამდე, გიორგი იყო შეუცვლელი მრჩეველი, რომლის რეკომენდაციებსაც უყოყმანოდ ვენდობით.“',
+        '„კომპანიის რეგისტრაციიდან მსხვილი საინვესტიციო კონტრაქტის გაფორმებამდე, GLC-მ გაგვიწია საუკეთესო იურიდიული მომსახურება ბათუმის რეგიონსა და საქართველოში, რაც უცხოელი ინვესტორისთვის ფასდაუდებელია.“',
+      seoHighlight: 'საუკეთესო იურიდიული მომსახურება ბათუმის რეგიონსა და საქართველოში',
     },
     {
       id: 6,
@@ -77,7 +85,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'სასტუმრო ბიზნესის დირექტორი',
       rating: 5,
       quote:
-        '„უმაღლესი დონის მომსახურება, სწრაფი რეაგირება და ურყევი თავდადება. გიორგისთან თანამშრომლობა საქართველოში ბიზნესის წარმართვის საუკეთესო გარანტიაა.“',
+        '„უმაღლესი დონის მომსახურება, სწრაფი რეაგირება და ურყევი თავდადება. გიორგი გუბელაძე არის საუკეთესო ადვოკატი ბათუმში, რომელთან თანამშრომლობაც საქართველოში ბიზნესის წარმართვის საუკეთესო გარანტიაა.“',
+      seoHighlight: 'საუკეთესო ადვოკატი ბათუმში',
     },
     {
       id: 7,
@@ -86,7 +95,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'საერთაშორისო კლიენტი',
       rating: 5,
       quote:
-        '„საოჯახო და ქონებრივ საკითხებში გიორგის მიერ გაწეული მგრძნობიარე და ამავდროულად რკინისებრი სიმტკიცის მქონე მხარდაჭერა ჩემი ოჯახისთვის გადამწყვეტი აღმოჩნდა.“',
+        '„საოჯახო და უძრავი ქონების საკითხებში მივიღეთ საუკეთესო იურიდიული მომსახურება ბათუმის რეგიონსა და საქართველოში, სრული კონფიდენციალურობითა და რკინისებრი სამართლებრივი დაცვით.“',
+      seoHighlight: 'საუკეთესო იურიდიული მომსახურება ბათუმის რეგიონსა და საქართველოში',
     },
   ],
   ENG: [
@@ -97,7 +107,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Corporate Litigation Client',
       rating: 5,
       quote:
-        '"Giorgi listened carefully, explained everything clearly, and fought for the best outcome. I felt fully supported, protected, and informed throughout the entire legal process."',
+        '"Giorgi listened carefully, explained everything clearly, and fought for the best outcome. He is unequivocally the best lawyer in Batumi, and I felt completely protected throughout the entire legal process."',
+      seoHighlight: 'best lawyer in Batumi',
     },
     {
       id: 1,
@@ -106,7 +117,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Business Principal',
       rating: 5,
       quote:
-        '"From the initial strategy consultation to final resolution, the strategic depth and relentless execution exceeded every expectation. An invaluable legal counselor."',
+        '"From the initial strategy consultation to final resolution, their execution exceeded every expectation. GLC Law Company is undeniably the best law firm in Batumi and all Georgia."',
+      seoHighlight: 'best law firm in Batumi and all Georgia',
     },
     {
       id: 2,
@@ -115,7 +127,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Real Estate Developer',
       rating: 5,
       quote:
-        '"When municipal hurdles stalled our development, Giorgi stepped in with authoritative legal precision. We secured approvals in record time without compromising our vision."',
+        '"When municipal hurdles stalled our construction, Giorgi intervened with decisive precision. They provided the top legal services in the Batumi region and Georgia, securing permits in record time."',
+      seoHighlight: 'top legal services in the Batumi region and Georgia',
     },
     {
       id: 3,
@@ -124,7 +137,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Managing Partner',
       rating: 5,
       quote:
-        '"Unmatched integrity, ethics, and discretion. Giorgi structured our multi-generational family estate plan with clarity and meticulous attention to detail."',
+        '"Unmatched integrity, ethics, and discretion. Giorgi structured our corporate estate plan flawlessly; he is truly the best attorney in Batumi."',
+      seoHighlight: 'best attorney in Batumi',
     },
     {
       id: 4,
@@ -133,7 +147,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Private Investor',
       rating: 5,
       quote:
-        '"Navigating high-stakes cross-border litigation was daunting until Giorgi took command. His strategic insight saved our proprietary assets and millions in capital."',
+        '"Navigating high-stakes cross-border litigation was daunting until Giorgi took command. GLC Law Company is the best law firm in Batumi and throughout Georgia."',
+      seoHighlight: 'best law firm in Batumi and throughout Georgia',
     },
     {
       id: 5,
@@ -142,7 +157,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Tech Entrepreneur',
       rating: 5,
       quote:
-        '"From corporate entity incorporation to complex investment drafting, Giorgi has been an indispensable legal partner whose counsel we trust without reservation."',
+        '"From entity incorporation to complex investment drafting, GLC delivered the leading legal services in Batumi and Georgia, giving our business total certainty."',
+      seoHighlight: 'leading legal services in Batumi and Georgia',
     },
     {
       id: 6,
@@ -151,7 +167,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Hospitality Director',
       rating: 5,
       quote:
-        '"Elite standard of practice, swift response, and unwavering dedication. Having Giorgi in our corner gives us total peace of mind in Georgia."',
+        '"Elite standard of practice, swift response, and unwavering dedication. Giorgi is the top lawyer in Batumi, and working with him guarantees absolute peace of mind."',
+      seoHighlight: 'top lawyer in Batumi',
     },
     {
       id: 7,
@@ -160,7 +177,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Private Client',
       rating: 5,
       quote:
-        '"Compassionate, razor-sharp, and remarkably responsive. In a stressful estate season, having Giorgi represent us gave my family absolute confidence and peace."',
+        '"For high-stakes family assets and real estate transactions, we received the best legal services in the Batumi region and Georgia with absolute discretion and strength."',
+      seoHighlight: 'best legal services in the Batumi region and Georgia',
     },
   ],
   RUS: [
@@ -171,7 +189,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Корпоративный клиент',
       rating: 5,
       quote:
-        '«Георгий внимательно выслушал, доступно объяснил каждый этап и боролся за наилучший результат. На протяжении всего процесса я чувствовал абсолютную поддержку.»',
+        '«Георгий внимательно выслушал, доступно объяснил каждый этап и добился победы. Он однозначно лучший адвокат в Батуми, с которым чувствуешь себя в полной безопасности.»',
+      seoHighlight: 'лучший адвокат в Батуми',
     },
     {
       id: 1,
@@ -180,7 +199,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Владелец бизнеса',
       rating: 5,
       quote:
-        '«От первой консультации до победы в деле стратегическая глубина и профессионализм превзошли все ожидания. GLC Law Company — надежнейший юридический партнер.»',
+        '«От первой консультации до победы в деле стратегическая глубина превзошла все ожидания. GLC Law Company — это лучшая юридическая компания в Батуми и всей Грузии.»',
+      seoHighlight: 'лучшая юридическая компания в Батуми и всей Грузии',
     },
     {
       id: 2,
@@ -189,7 +209,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Девелопер недвижимости',
       rating: 5,
       quote:
-        '«Когда бюрократические препятствия остановили наш проект, Георгий вмешался с безупречной правовой точностью. Мы получили разрешения в рекордные сроки.»',
+        '«Когда бюрократические препятствия остановили проект, Георгий оперативно решил вопрос. Нам предоставили лучшие юридические услуги в Батуми и Грузии.»',
+      seoHighlight: 'лучшие юридические услуги в Батуми и Грузии',
     },
     {
       id: 3,
@@ -198,7 +219,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Управляющий партнер',
       rating: 5,
       quote:
-        '«Непререкаемая честность, этика и конфиденциальность. Георгий структурировал наш план защиты активов с исключительным вниманием к каждой детали.»',
+        '«Непререкаемая честность, этика и конфиденциальность. Георгий структурировал активы безупречно; он лучший адвокат в Батуми для международного бизнеса.»',
+      seoHighlight: 'лучший адвокат в Батуми',
     },
     {
       id: 4,
@@ -207,7 +229,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Частный инвестор',
       rating: 5,
       quote:
-        '«В сложном коммерческом споре стратегический подход Георгия Губеладзе защитил активы на миллионы. Лучший адвокат в Грузии.»',
+        '«В сложном коммерческом споре стратегический подход сохранил активы на миллионы. GLC Law Company — безусловно лучшая юридическая компания в Батуми и всей Грузии.»',
+      seoHighlight: 'лучшая юридическая компания в Батуми и всей Грузии',
     },
     {
       id: 5,
@@ -216,25 +239,28 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Технологический предприниматель',
       rating: 5,
       quote:
-        '«От учреждения компании до подписания крупных сделок Георгий был незаменимым советником, чьему слову мы доверяем безоговорочно.»',
+        '«От учреждения компании до подписания крупных сделок мы получили лучшие юридические услуги в Батуми и Грузии, дающие абсолютную правовую уверенность.»',
+      seoHighlight: 'лучшие юридические услуги в Батуми и Грузии',
     },
     {
       id: 6,
-      name: 'Люка Моро',
+      name: 'Лукас Моро',
       country: 'Франция',
-      role: 'Директор гостиничного бизнеса',
+      role: 'Отельер и инвестор',
       rating: 5,
       quote:
-        '«Высочайший уровень адвокатуры, быстрая реакция и преданность клиенту. Сотрудничество с Георгием — гарантия безопасности бизнеса.»',
+        '«Высочайший стандарт практики, быстрое реагирование и преданность клиенту. Георгий — лучший адвокат в Батуми для защиты инвестиций.»',
+      seoHighlight: 'лучший адвокат в Батуми',
     },
     {
       id: 7,
       name: 'София Аль-Мансур',
       country: 'ОАЭ',
-      role: 'Международный клиент',
+      role: 'Частный клиент',
       rating: 5,
       quote:
-        '«Деликатный и в то же время несокрушимо твердый подход Георгия в семейных и имущественных вопросах стал решающим фактором спокойствия нашей семьи.»',
+        '«В семейных и имущественных вопросах нам гарантировали лучшие юридические услуги в Батуми и Грузии при абсолютной конфиденциальности.»',
+      seoHighlight: 'лучшие юридические услуги в Батуми и Грузии',
     },
   ],
   TUR: [
@@ -242,19 +268,21 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       id: 0,
       name: 'David Mitchell',
       country: 'Birleşik Krallık',
-      role: 'Kurumsal Müvekkil',
+      role: 'Kurumsal Dava Müvekkili',
       rating: 5,
       quote:
-        '"Giorgi davayı dikkatle dinledi, her detayı net bir şekilde açıkladı ve en iyi sonuç için savaştı. Süreç boyunca kendimi tam anlamıyla güvende hissettim."',
+        '"Giorgi süreci dikkatle dinledi ve mükemmel bir netice elde etti. Kendisi şüphesiz Batum\'daki en iyi avukat ve tam bir güvence sağladı."',
+      seoHighlight: "Batum'daki en iyi avukat",
     },
     {
       id: 1,
       name: 'Marcus Sterling',
       country: 'Almanya',
-      role: 'İş İnsanı',
+      role: 'Şirket Sahibi',
       rating: 5,
       quote:
-        '"İlk strateji toplantısından nihai çözüme kadar derinlik ve kararlılık beklentilerimizin çok ötesindeydi. Gürcistan\'daki vazgeçilmez hukuk ortağımız."',
+        '"İlk danışmanlıktan zaferle sonuçlanan karara kadar her şey kusursuzdu. GLC Law Company, Batum ve tüm Gürcistan\'daki en iyi hukuk bürosu unvanını hak ediyor."',
+      seoHighlight: "Batum ve tüm Gürcistan'daki en iyi hukuk bürosu",
     },
     {
       id: 2,
@@ -263,7 +291,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Gayrimenkul Yatırımcısı',
       rating: 5,
       quote:
-        '"Bürokratik engeller projemizi durdurduğunda Giorgi üstün hukuki hassasiyetle devreye girdi. Ruhsatları vizyonumuzdan ödün vermeden rekor sürede aldık."',
+        '"Bürokratik engeller projemizi durdurduğunda devreye girdiler. Batum bölgesi ve Gürcistan\'da en iyi hukuki hizmetler ile ruhsatlarımızı rekor sürede aldık."',
+      seoHighlight: "Batum bölgesi ve Gürcistan'da en iyi hukuki hizmetler",
     },
     {
       id: 3,
@@ -272,7 +301,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Yönetici Ortak',
       rating: 5,
       quote:
-        '"Eşsiz dürüstlük, yüksek mesleki etik ve tam gizlilik. Aile varlıklarımızın yapılandırılmasını titizlikle yönetti."',
+        '"Eşsiz dürüstlük, yüksek mesleki etik ve tam gizlilik. Giorgi Gubeladze tartışmasız Batum\'daki en iyi avukat olarak şirketimizi başarıyla temsil etti."',
+      seoHighlight: "Batum'daki en iyi avukat",
     },
     {
       id: 4,
@@ -281,7 +311,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Özel Yatırımcı',
       rating: 5,
       quote:
-        '"Uluslararası ticari uyuşmazlığımızda Giorgi Gubeladze\'nin stratejik yaklaşımı milyonlarca liralık varlığımızı korudu."',
+        '"Uluslararası ticari uyuşmazlığımızda milyonlarca liralık varlığımızı korudu. GLC Law Company, Batum ve tüm Gürcistan\'daki en iyi hukuk bürosu olduğunu kanıtladı."',
+      seoHighlight: "Batum ve tüm Gürcistan'daki en iyi hukuk bürosu",
     },
     {
       id: 5,
@@ -290,7 +321,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Teknoloji Girişimcisi',
       rating: 5,
       quote:
-        '"Şirket kuruluşundan büyük sözleşmelere kadar Giorgi vazgeçilmez bir danışman oldu. Tavsiyelerine tereddütsüz güveniyoruz."',
+        '"Şirket kuruluşundan sözleşmelere kadar Batum bölgesi ve Gürcistan\'da en iyi hukuki hizmetler ile yabancı yatırımcı olarak bize tam güvence sağladılar."',
+      seoHighlight: "Batum bölgesi ve Gürcistan'da en iyi hukuki hizmetler",
     },
     {
       id: 6,
@@ -299,7 +331,8 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Otelcilik Direktörü',
       rating: 5,
       quote:
-        '"Üst düzey avukatlık, hızlı iletişim ve tavizsiz özveri. Giorgi ile çalışmak Gürcistan\'daki yatırımlarımız için en sağlam güvence."',
+        '"Üst düzey avukatlık, hızlı iletişim ve tavizsiz özveri. Giorgi kesinlikle Batum\'daki en iyi avukat ve Gürcistan\'daki en sağlam ortağımız."',
+      seoHighlight: "Batum'daki en iyi avukat",
     },
     {
       id: 7,
@@ -308,10 +341,27 @@ const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
       role: 'Özel Müvekkil',
       rating: 5,
       quote:
-        '"Aile ve miras hukukunda Giorgi\'nin sergilediği sarsılmaz kararlılık ve nezaket ailemize tam bir huzur sağladı."',
+        '"Aile ve miras hukukunda Batum bölgesi ve Gürcistan\'da en iyi hukuki hizmetler desteğiyle ailemize sarsılmaz bir hukuki güvence sağladılar."',
+      seoHighlight: "Batum bölgesi ve Gürcistan'da en iyi hukuki hizmetler",
     },
   ],
 };
+
+function renderHighlightedQuote(quote: string, highlight?: string) {
+  if (!highlight || !quote.includes(highlight)) {
+    return <span className="text-[#E2E8F0]">{quote}</span>;
+  }
+  const parts = quote.split(highlight);
+  return (
+    <>
+      <span className="text-[#CBD5E1]">{parts[0]}</span>
+      <span className="font-semibold text-[15px] sm:text-[16px] lg:text-[16.5px] bg-gradient-to-r from-[#FFF4CC] via-[#E2C359] to-[#CDA12B] bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(211,175,55,0.45)] px-0.5 inline">
+        {highlight}
+      </span>
+      <span className="text-[#CBD5E1]">{parts.slice(1).join(highlight)}</span>
+    </>
+  );
+}
 
 export default function Testimonials() {
   const { language } = useLanguage();
@@ -360,45 +410,103 @@ export default function Testimonials() {
   }, [isPaused, handleNext]);
 
   // Section Header copy strictly as specified:
-  // Top tag/badge: "TESTIMONIALS"
-  // Main section headline: "უკუკავშირი"
-  const badgeLabel = 'TESTIMONIALS';
-  const headlineLabel = language === 'GEO' ? 'უკუკავშირი' : language === 'ENG' ? 'FEEDBACK & REVIEWS' : language === 'RUS' ? 'ОТЗЫВЫ' : 'GERİ BİLDİRİM';
-  const subtitleLabel = language === 'GEO'
-    ? 'გულწრფელი შეფასებები მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც საკუთარი უფლებების დაცვა ჩვენ გვანდეს.'
-    : language === 'ENG'
-    ? 'Direct feedback from entrepreneurs, families, and multinational organizations who trust our counsel.'
-    : language === 'RUS'
-    ? 'Искренние отзывы предпринимателей, семей и международных организаций, доверивших нам свою защиту.'
-    : 'Haklarının korunmasında bize güvenen girişimcilerden ve ailelerden gelen doğrudan geri bildirimler.';
+  // English Mode:
+  // • Small top badge: strictly "TESTIMONIALS"
+  // • Main headline: strictly "WHAT OUR CLIENTS SAY ABOUT USO"
+  // Georgian Mode:
+  // • Small top badge: strictly "უკუკავშირი"
+  // • Main headline: strictly "რას ამბობენ კლიენტები ჩვენზე"
+  const badgeLabel =
+    language === 'GEO'
+      ? 'უკუკავშირი'
+      : language === 'ENG'
+      ? 'TESTIMONIALS'
+      : language === 'RUS'
+      ? 'ОТЗЫВЫ'
+      : 'MÜVEKKİL YORUMLARI';
+
+  const headlineLabel =
+    language === 'GEO'
+      ? 'რას ამბობენ კლიენტები ჩვენზე'
+      : language === 'ENG'
+      ? 'WHAT OUR CLIENTS SAY ABOUT US'
+      : language === 'RUS'
+      ? 'ЧТО ГОВОРЯТ О НАС КЛИЕНТЫ'
+      : 'MÜVEKKİLLERİMİZİN BİZİM HAKKIMIZDA SÖYLEDİKLERİ';
+
+  const subtitleLabel =
+    language === 'GEO'
+      ? 'გულწრფელი შეფასებები მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც საკუთარი უფლებების დაცვა ჩვენ გვანდეს.'
+      : language === 'ENG'
+      ? 'Direct feedback from entrepreneurs, families, and multinational organizations who trust our counsel.'
+      : language === 'RUS'
+      ? 'Искренние отзывы предпринимателей, семей и международных организаций, доверивших нам свою защиту.'
+      : 'Haklarının korunmasında bize güvenen girişimcilerden ve ailelerden gelen doğrudan geri bildirimler.';
 
   return (
     <section
       id="testimonials"
       className="relative w-full bg-[#030508] text-[#FAFAFB] py-20 sm:py-24 lg:py-32 overflow-hidden border-t border-[#D3AF37]/15"
     >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#D3AF37]/[0.035] rounded-full blur-[160px] pointer-events-none" />
+      {/* Background ambient lighting & fluid motion waves */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <motion.div
+          animate={{
+            scale: [1, 1.14, 1],
+            opacity: [0.035, 0.075, 0.035],
+            x: ['-50%', '-48%', '-50%'],
+            y: ['-50%', '-52%', '-50%'],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[550px] bg-gradient-to-r from-[#D3AF37]/25 via-[#BA9524]/20 to-[#D3AF37]/25 rounded-full blur-[160px]"
+        />
+        <motion.div
+          animate={{
+            x: ['-15%', '15%', '-15%'],
+            y: ['10%', '-10%', '10%'],
+            opacity: [0.02, 0.05, 0.02],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="absolute top-1/3 right-10 w-[650px] h-[450px] bg-gradient-to-bl from-[#E2C359]/20 to-transparent rounded-full blur-[140px]"
+        />
+      </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* ================= HEADER SECTION ================= */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-          {/* Top Small Tag/Badge strictly: "TESTIMONIALS" */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#121214] border border-[#D3AF37]/40 shadow-sm mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37]" />
+        <div className="flex flex-col items-center text-center max-w-4xl lg:max-w-5xl mx-auto mb-14 sm:mb-20">
+          {/* Top Small Tag/Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#121622]/90 border border-[#D3AF37]/40 shadow-[0_2px_12px_rgba(211,175,55,0.12)] mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37] animate-pulse" />
             <span className="font-['Inter_Tight',sans-serif] text-xs font-bold uppercase tracking-[0.25em] text-[#D3AF37]">
               {badgeLabel}
             </span>
           </div>
 
-          {/* Main Section Headline strictly: "უკუკავშირი" */}
-          <h2 className="font-['Antonio',sans-serif] uppercase font-bold text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight mb-4">
-            {headlineLabel}
+          {/* Main Section Headline with scroll-triggered staggered letter reveal */}
+          <h2
+            className={`font-['Antonio',sans-serif] uppercase font-bold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] ${
+              language === 'GEO'
+                ? 'text-[clamp(21px,3.7vw,48px)] sm:whitespace-nowrap leading-tight px-1'
+                : 'text-3xl sm:text-5xl lg:text-6xl leading-[1.18]'
+            }`}
+          >
+            <ScrollLetterReveal text={headlineLabel} delay={0.08} stagger={0.018} />
           </h2>
 
-          <p className="font-['Inter_Tight',sans-serif] text-sm sm:text-base text-gray-400 max-w-2xl leading-relaxed">
-            {subtitleLabel}
+          {/* Georgian Typography Spacing Fix: Generous Vertical Margin */}
+          <div className={language === 'GEO' ? 'h-6 sm:h-8' : 'h-3 sm:h-4'} />
+
+          <p className="font-['Inter_Tight',sans-serif] text-sm sm:text-base text-gray-300/90 max-w-2xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            <ScrollLetterReveal text={subtitleLabel} delay={0.25} stagger={0.008} />
           </p>
         </div>
 
@@ -451,43 +559,89 @@ export default function Testimonials() {
                   }}
                   className="px-2.5 sm:px-3 md:px-3.5 flex"
                 >
-                  {/* Clean, Elegant, Rounded Light-Themed Card against Dark Obsidian (nomosgeorgia style) */}
-                  <div className="w-full bg-[#FFFFFF] text-[#111827] rounded-[22px] p-6 sm:p-8 shadow-[0_15px_45px_rgba(0,0,0,0.5)] border border-gray-100/90 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_20px_50px_rgba(211,175,55,0.2)] hover:-translate-y-1">
+                  {/* Clean, Elite Dark Obsidian Glassmorphism Card with Framer Motion hover elevation */}
+                  <motion.div
+                    whileHover={{ y: -6, scale: 1.01 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative group w-full bg-[#090D16]/90 sm:bg-[#090D16]/95 backdrop-blur-xl rounded-[22px] p-6 sm:p-8 border border-[#D3AF37]/25 hover:border-[#D3AF37]/80 shadow-[0_16px_45px_rgba(0,0,0,0.7),0_0_20px_rgba(211,175,55,0.06)] hover:shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(211,175,55,0.28)] flex flex-col justify-between transition-colors duration-500 overflow-hidden cursor-pointer"
+                  >
                     
-                    {/* Top: 5 Prominent Gold Rating Stars */}
-                    <div className="flex items-center gap-1 mb-5">
-                      {[...Array(item.rating)].map((_, starIdx) => (
-                        <Star
-                          key={starIdx}
-                          className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-[#E5A93C] text-[#E5A93C] stroke-[1.5]"
-                        />
-                      ))}
+                    {/* Radiant Ambient Luxury Color Wave inside the card (მოძრავი რადიუციული ფერების ტალღა) */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[22px] z-0">
+                      <motion.div
+                        animate={{
+                          x: ['-25%', '25%', '-25%'],
+                          y: ['-15%', '20%', '-15%'],
+                          scale: [1, 1.18, 1],
+                          opacity: [0.18, 0.35, 0.18],
+                        }}
+                        transition={{
+                          duration: 10,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                        }}
+                        className="absolute -top-16 -left-16 w-72 h-72 rounded-full bg-gradient-to-br from-[#D3AF37]/35 via-[#E5A93C]/25 to-transparent blur-[55px]"
+                      />
+                      <motion.div
+                        animate={{
+                          x: ['25%', '-25%', '25%'],
+                          y: ['20%', '-15%', '20%'],
+                          scale: [1.15, 0.95, 1.15],
+                          opacity: [0.15, 0.30, 0.15],
+                        }}
+                        transition={{
+                          duration: 12,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                        }}
+                        className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-tl from-[#BA9524]/30 via-[#D3AF37]/15 to-transparent blur-[60px]"
+                      />
+                      {/* Dynamic bronze and gold reflection sheen intensified on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-[#D3AF37]/0 via-[#D3AF37]/[0.05] to-[#FFF4CC]/[0.10] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[22px]" />
+                      <div className="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-[#D3AF37]/0 group-hover:bg-[#D3AF37]/15 blur-2xl transition-all duration-700 pointer-events-none" />
+                      {/* Subtle delicate glass sheen */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] via-transparent to-black/50 pointer-events-none" />
                     </div>
 
-                    {/* Middle: Italicized Client Review Quote with generous line-height */}
-                    <p className="font-serif italic text-gray-800 text-[14px] sm:text-[15px] lg:text-base leading-[1.75] my-auto mb-6">
-                      {item.quote}
+                    {/* Top: 5 Prominent Gold Rating Stars */}
+                    <div className="relative z-10 flex items-center justify-between mb-5">
+                      <div className="flex items-center gap-1">
+                        {[...Array(item.rating)].map((_, starIdx) => (
+                          <Star
+                            key={starIdx}
+                            className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-[#D3AF37] text-[#D3AF37] stroke-[1.5] drop-shadow-[0_0_8px_rgba(211,175,55,0.5)]"
+                          />
+                        ))}
+                      </div>
+                      <span className="font-mono text-xs font-semibold text-[#D3AF37]/90 tracking-wider px-2 py-0.5 rounded-full bg-[#121622]/80 border border-[#D3AF37]/30">
+                        5.0
+                      </span>
+                    </div>
+
+                    {/* Middle: Italicized Client Review Quote with generous line-height & Signature Golden SEO Accent */}
+                    <p className="relative z-10 font-serif italic text-[14px] sm:text-[15px] lg:text-[15.5px] leading-[1.8] my-auto mb-6">
+                      {renderHighlightedQuote(item.quote, item.seoHighlight)}
                     </p>
 
-                    {/* Bottom: Minimalist Author Info */}
-                    <div className="pt-5 border-t border-gray-100 flex items-center gap-3.5">
-                      {/* Minimalist Grey Circular Avatar / Placeholder Icon */}
-                      <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0 shadow-inner">
-                        <User className="w-5 h-5 text-gray-400 stroke-[1.8]" />
+                    {/* Bottom: Minimalist Dark Author Info */}
+                    <div className="relative z-10 pt-5 border-t border-[#D3AF37]/20 flex items-center gap-3.5">
+                      {/* Minimalist Dark Circular Avatar with subtle gold accent ring */}
+                      <div className="w-10 h-10 rounded-full bg-[#121622] border border-[#D3AF37]/40 flex items-center justify-center text-[#D3AF37] shrink-0 shadow-inner group-hover:border-[#D3AF37] group-hover:scale-105 transition-all">
+                        <User className="w-5 h-5 text-[#D3AF37] stroke-[1.8]" />
                       </div>
 
                       {/* Author Name in Bold + Country underneath */}
                       <div className="flex flex-col min-w-0">
-                        <span className="font-['Inter_Tight',sans-serif] font-bold text-sm sm:text-base text-gray-900 leading-snug truncate">
+                        <span className="font-['Inter_Tight',sans-serif] font-bold text-sm sm:text-base text-white leading-snug truncate group-hover:text-[#FEF5CD] transition-colors">
                           {item.name}
                         </span>
-                        <span className="font-['Inter_Tight',sans-serif] text-xs font-medium text-gray-500 tracking-wide mt-0.5 truncate">
-                          {item.country}
+                        <span className="font-['Inter_Tight',sans-serif] text-xs font-medium text-gray-400 tracking-wide mt-0.5 truncate">
+                          {item.country} • {item.role}
                         </span>
                       </div>
                     </div>
 
-                  </div>
+                  </motion.div>
                 </div>
               ))}
             </motion.div>
@@ -499,7 +653,7 @@ export default function Testimonials() {
               type="button"
               onClick={handlePrev}
               aria-label="Previous testimonial"
-              className="w-10 h-10 rounded-full bg-[#121214] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
+              className="w-10 h-10 rounded-full bg-[#121622] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -507,7 +661,7 @@ export default function Testimonials() {
               type="button"
               onClick={handleNext}
               aria-label="Next testimonial"
-              className="w-10 h-10 rounded-full bg-[#121214] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
+              className="w-10 h-10 rounded-full bg-[#121622] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

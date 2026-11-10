@@ -459,7 +459,7 @@ export const translations: Record<Language, TranslationSchema> = {
     },
     testimonialsSection: {
       badgeNumber: '(06)',
-      badgeText: 'CLIENT TESTIMONIALS',
+      badgeText: 'TESTIMONIALS',
       headline: 'WHAT OUR CLIENTS SAY ABOUT US',
       headlineHighlight: 'SAY',
       subtitle: 'Honest feedback from entrepreneurs, families, and organizations who trusted us with their most critical legal matters.',
@@ -860,9 +860,9 @@ export const translations: Record<Language, TranslationSchema> = {
     },
     testimonialsSection: {
       badgeNumber: '(06)',
-      badgeText: 'კლიენტთა შეფასებები',
-      headline: 'კლიენტების შეფასება',
-      headlineHighlight: 'შეფასება',
+      badgeText: 'უკუკავშირი',
+      headline: 'რას ამბობენ კლიენტები ჩვენზე',
+      headlineHighlight: 'ჩვენზე',
       subtitle: 'გულწრფელი უკუკავშირი მეწარმეებისგან, ოჯახებისა და ორგანიზაციებისგან, რომლებმაც თავიანთი საქმე ჩვენ გვანდეს.',
       items: [
         {

@@ -6,6 +6,7 @@ import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { ArrowUpRight, Shield } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 import criminalHeroImg from '@/src/assets/criminalhero.png';
 
 /**
@@ -261,29 +262,21 @@ export default function Header() {
           </motion.div>
 
           {/* Centered Main Headline (Scaled down slightly, impeccably centered, luxury golden gradient) */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 1.0, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+          <h1
             className="font-big-shoulders font-[900] uppercase text-[clamp(34px,5.8vw,78px)] tracking-tight leading-[1.04] sm:leading-[0.98] criminal-gold-gradient select-none text-center max-w-4xl mx-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_8px_rgba(211,175,55,0.35)]"
           >
-            {mainHeadlineText}
-          </motion.h1>
+            <ScrollLetterReveal text={mainHeadlineText} delay={1.9} triggerMode="mount" stagger={0.018} />
+          </h1>
 
           {/* Centered Editorial Subheading (Two distinct centered lines) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 2.05, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2"
-          >
+          <div className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2">
             <p className="font-geist font-semibold text-base sm:text-lg lg:text-xl text-[#FEF5CD] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              {subheadlineLine1}
+              <ScrollLetterReveal text={subheadlineLine1} delay={2.1} triggerMode="mount" stagger={0.01} />
             </p>
             <p className="font-geist font-medium text-sm sm:text-base text-gray-200/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-              {subheadlineLine2}
+              <ScrollLetterReveal text={subheadlineLine2} delay={2.3} triggerMode="mount" stagger={0.008} />
             </p>
-          </motion.div>
+          </div>
 
           {/* Centered CTA Buttons */}
           <motion.div

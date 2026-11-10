@@ -20,6 +20,7 @@ import { useLanguage } from '@/src/context/LanguageContext';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -86,7 +87,7 @@ export default function BlogPostPage() {
           </span>
 
           <h1 className="font-['Antonio'] uppercase text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight leading-[1.1] mb-6">
-            {post.title[language] || post.title.GEO}
+            <ScrollLetterReveal text={post.title[language] || post.title.GEO} delay={0.1} triggerMode="mount" stagger={0.015} />
           </h1>
 
           <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm text-white/60 font-inter-tight pb-6 border-b border-white/[0.08]">

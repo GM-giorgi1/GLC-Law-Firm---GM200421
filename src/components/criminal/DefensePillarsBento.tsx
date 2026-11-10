@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import { ShieldAlert, Scale, FileSearch, Gavel, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 
 // Background Image Assets for 4 Strategic Pillars
 import investigationImg from '@/src/assets/investigation.png';
@@ -170,11 +171,11 @@ export default function DefensePillarsBento() {
           </div>
 
           <h2 className="font-big-shoulders font-[900] uppercase text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-            {headingText}
+            <ScrollLetterReveal text={headingText} delay={0.08} stagger={0.016} />
           </h2>
 
           <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/85 mt-4 max-w-2xl leading-relaxed">
-            {subText}
+            <ScrollLetterReveal text={subText} delay={0.2} stagger={0.008} />
           </p>
         </motion.div>
 

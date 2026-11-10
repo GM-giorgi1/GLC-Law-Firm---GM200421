@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import { useLanguage } from '@/src/context/LanguageContext';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 
 // Background Assets for 4 Procedural Protocol Cards
 import card1Img from '@/src/assets/CARD1.png';
@@ -153,11 +154,11 @@ export default function Process() {
           className="w-full max-w-4xl flex flex-col items-center justify-center text-center mx-auto mb-14 sm:mb-16 px-4"
         >
           <h2 className="font-big-shoulders font-[900] uppercase text-white tracking-tight leading-tight text-3xl sm:text-5xl lg:text-6xl text-center">
-            {headingText}
+            <ScrollLetterReveal text={headingText} delay={0.08} stagger={0.016} />
           </h2>
 
           <p className="font-geist font-normal text-sm sm:text-base lg:text-lg text-gray-300/90 mt-4 max-w-2xl text-center leading-relaxed">
-            {subText}
+            <ScrollLetterReveal text={subText} delay={0.2} stagger={0.008} />
           </p>
         </motion.div>
 

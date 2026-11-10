@@ -9,6 +9,7 @@ import { useLanguage } from '@/src/context/LanguageContext';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
+import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 import gm7Img from '@/src/assets/GM7.webp';
 
 export default function BlogListPage() {
@@ -80,12 +81,22 @@ export default function BlogListPage() {
           </div>
 
           <h1 className="font-['Antonio'] uppercase text-4xl sm:text-6xl lg:text-7xl text-white font-bold tracking-tight leading-[1.08] mb-4 drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-            {language === 'GEO' ? 'სამართლებრივი პუბლიკაციები' : language === 'ENG' ? 'Legal Insights & Articles' : language === 'RUS' ? 'Юридические публикации' : 'Hukuki Makaleler'}
+            <ScrollLetterReveal 
+              text={language === 'GEO' ? 'სამართლებრივი პუბლიკაციები' : language === 'ENG' ? 'Legal Insights & Articles' : language === 'RUS' ? 'Юридические публикации' : 'Hukuki Makaleler'} 
+              delay={0.1} 
+              triggerMode="mount" 
+              stagger={0.02} 
+            />
           </h1>
           <p className="font-inter-tight text-base sm:text-lg text-white/85 max-w-2xl mx-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-            {language === 'GEO' 
-              ? 'პრაქტიკული ანალიტიკა, სასამართლო პრეცედენტები და საკანონმდებლო განმარტებები GLC Law Company-ის ადვოკატებისგან.'
-              : 'Practical analysis, judicial precedents, and statutory breakdowns from GLC Law Company attorneys.'}
+            <ScrollLetterReveal 
+              text={language === 'GEO' 
+                ? 'პრაქტიკული ანალიტიკა, სასამართლო პრეცედენტები და საკანონმდებლო განმარტებები GLC Law Company-ის ადვოკატებისგან.'
+                : 'Practical analysis, judicial precedents, and statutory breakdowns from GLC Law Company attorneys.'} 
+              delay={0.25} 
+              triggerMode="mount" 
+              stagger={0.008} 
+            />
           </p>
 
           {/* Category Filter Pills */}

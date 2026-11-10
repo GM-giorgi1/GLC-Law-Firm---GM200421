@@ -26,13 +26,13 @@ function BlurWaveText({
       key={text}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.05, margin: '0px 0px -30px 0px' }}
+      viewport={{ once: false, amount: 0.1, margin: '0px 0px -30px 0px' }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.05,
+            staggerChildren: 0.016,
             delayChildren: delay,
           },
         },
@@ -42,27 +42,34 @@ function BlurWaveText({
       {words.map((word, wordIndex) => {
         const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
         return (
-          <motion.span
+          <span
             key={`${word}-${wordIndex}`}
-            variants={{
-              hidden: { opacity: 0, y: 16, filter: 'blur(6px)' },
-              visible: {
-                opacity: 1,
-                y: 0,
-                filter: 'blur(0px)',
-                transition: {
-                  duration: 0.75,
-                  ease: [0.25, 1, 0.5, 1],
-                },
-              },
-            }}
-            style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-            className={`inline-block whitespace-nowrap mr-[0.25em] will-change-[transform,opacity] ${
-              isHighlighted ? highlightClass : ''
-            }`}
+            className="inline-block whitespace-nowrap mr-[0.25em]"
           >
-            {word}
-          </motion.span>
+            {word.split('').map((char, charIndex) => (
+              <motion.span
+                key={`${char}-${charIndex}`}
+                variants={{
+                  hidden: { opacity: 0, y: 12, filter: 'blur(5px)' },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    filter: 'blur(0px)',
+                    transition: {
+                      duration: 0.4,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                }}
+                style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+                className={`inline-block will-change-[transform,opacity] ${
+                  isHighlighted ? highlightClass : ''
+                }`}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </span>
         );
       })}
     </motion.span>
