@@ -29,12 +29,12 @@ export default function DefensePillarsBento() {
     : 'DENEYİM. STRATEJİ. SONUÇ.';
 
   const headingText = isGeo
-    ? 'სისხლისსამართლებრივი დაცვის 4 ფუნდამენტური საყრდენი'
+    ? 'დაცვის 4 ფუნდამენტური საყრდენი'
     : isEng
-    ? '4 Fundamental Pillars of Criminal Defense'
+    ? '4 Fundamental Pillars of Defense'
     : isRus
-    ? '4 фундаментальные опоры уголовной защиты'
-    : 'Ceza Savunmasının 4 Temel Dayanağı';
+    ? '4 фундаментальные опоры защиты'
+    : 'Savunmanın 4 Temel Dayanağı';
 
   const subText = isGeo
     ? 'საპროცესო სიზუსტე, საგამოძიებო კონტროლი და თავისუფლების უფლების ურყევი დაცვა სასამართლოს ყველა ინსტანციაში.'

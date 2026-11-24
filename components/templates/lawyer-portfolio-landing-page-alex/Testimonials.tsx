@@ -1,20 +1,15 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight, User } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
-
-interface TestimonialCardData {
-  id: number;
-  name: string;
-  country: string;
-  role: string;
-  rating: number;
-  quote: string;
-  seoHighlight: string;
-}
+import {
+  PRACTICE_TESTIMONIALS_DATA,
+  type PracticeTestimonialKey,
+  type TestimonialCardData,
+} from '@/src/data/practiceTestimonialsData';
 
 const TESTIMONIALS_DATA: Record<string, TestimonialCardData[]> = {
   GEO: [
@@ -363,59 +358,112 @@ function renderHighlightedQuote(quote: string, highlight?: string) {
   );
 }
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  practiceKey?: PracticeTestimonialKey;
+  sectionId?: string;
+}
+
+export default function Testimonials({
+  practiceKey,
+  sectionId = 'testimonials',
+}: TestimonialsProps) {
   const { language } = useLanguage();
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  const testimonials = TESTIMONIALS_DATA[language] || TESTIMONIALS_DATA.GEO;
-  const total = testimonials.length;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const singleSetRef = useRef<HTMLDivElement>(null);
+  const isPausedRef = useRef(false);
+  const offsetRef = useRef(0);
+  const targetNudgeRef = useRef(0);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragDistanceRef = useRef(0);
 
-  // Compute number of cards visible based on window width
-  const [visibleCount, setVisibleCount] = useState(3);
+  const activeMap = practiceKey
+    ? PRACTICE_TESTIMONIALS_DATA[practiceKey]
+    : TESTIMONIALS_DATA;
+  const testimonials = activeMap[language] || activeMap.GEO;
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setVisibleCount(1);
-      } else if (window.innerWidth < 1024) {
-        setVisibleCount(2);
-      } else {
-        setVisibleCount(3);
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
+
+  // Reset scroll offset cleanly when dataset/language changes
+  useEffect(() => {
+    offsetRef.current = 0;
+    targetNudgeRef.current = 0;
+    if (trackRef.current) {
+      trackRef.current.style.transform = 'translate3d(0px, 0, 0)';
+    }
+  }, [practiceKey, language]);
+
+  // Continuous requestAnimationFrame marquee — deliberately slower than Blogs (46px/s vs 78px/s)
+  // so client quotes remain serene, fluid, and comfortable to read.
+  useEffect(() => {
+    let rafId: number;
+    let lastTime = performance.now();
+    const SPEED_PX_PER_SEC = 46;
+
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - lastTime) / 1000);
+      lastTime = now;
+
+      const singleSetEl = singleSetRef.current;
+      const trackEl = trackRef.current;
+
+      if (singleSetEl && trackEl) {
+        const setWidth = singleSetEl.offsetWidth;
+        if (setWidth > 0) {
+          if (Math.abs(targetNudgeRef.current) > 0.5) {
+            const step = targetNudgeRef.current * Math.min(1, dt * 10);
+            offsetRef.current += step;
+            targetNudgeRef.current -= step;
+          } else if (!isPausedRef.current && !isDraggingRef.current) {
+            offsetRef.current -= SPEED_PX_PER_SEC * dt;
+          }
+
+          while (offsetRef.current <= -setWidth) {
+            offsetRef.current += setWidth;
+          }
+          while (offsetRef.current > 0) {
+            offsetRef.current -= setWidth;
+          }
+
+          trackEl.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+        }
       }
+
+      rafId = requestAnimationFrame(tick);
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
-  const maxIndex = Math.max(0, total - visibleCount);
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [testimonials.length, practiceKey]);
 
-  const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, [maxIndex]);
+  const handleStep = (direction: 'prev' | 'next') => {
+    const firstCard = singleSetRef.current?.querySelector('[data-testimonial-card]') as HTMLElement | null;
+    const cardStep = firstCard ? firstCard.offsetWidth + 24 : 420;
+    targetNudgeRef.current += direction === 'next' ? -cardStep : cardStep;
+  };
 
-  const handlePrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  }, [maxIndex]);
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    isDraggingRef.current = true;
+    dragStartXRef.current = e.clientX;
+    dragDistanceRef.current = 0;
+  };
 
-  // Auto-slide every 5.5 seconds unless user hovers
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      handleNext();
-    }, 5500);
-    return () => clearInterval(timer);
-  }, [isPaused, handleNext]);
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    const dx = e.clientX - dragStartXRef.current;
+    dragStartXRef.current = e.clientX;
+    dragDistanceRef.current += Math.abs(dx);
+    offsetRef.current += dx;
+  };
 
-  // Section Header copy strictly as specified:
-  // English Mode:
-  // • Small top badge: strictly "TESTIMONIALS"
-  // • Main headline: strictly "WHAT OUR CLIENTS SAY ABOUT USO"
-  // Georgian Mode:
-  // • Small top badge: strictly "უკუკავშირი"
-  // • Main headline: strictly "რას ამბობენ კლიენტები ჩვენზე"
+  const handlePointerUp = () => {
+    isDraggingRef.current = false;
+  };
+
   const badgeLabel =
     language === 'GEO'
       ? 'უკუკავშირი'
@@ -443,10 +491,100 @@ export default function Testimonials() {
       ? 'Искренние отзывы предпринимателей, семей и международных организаций, доверивших нам свою защиту.'
       : 'Haklarının korunmasında bize güvenen girişimcilerden ve ailelerden gelen doğrudan geri bildirimler.';
 
+  const renderTestimonialCard = (item: TestimonialCardData, isClone = false) => (
+    <div
+      key={`${isClone ? 'clone' : 'orig'}-${item.id}`}
+      data-testimonial-card={!isClone ? 'true' : undefined}
+      className="w-[84vw] sm:w-[370px] md:w-[400px] lg:w-[420px] shrink-0 flex"
+    >
+      {/* Clean, Elite Dark Obsidian Glassmorphism Card with Framer Motion hover elevation */}
+      <motion.div
+        whileHover={{ y: -6, scale: 1.01 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="relative group w-full bg-[#090D16]/90 sm:bg-[#090D16]/95 backdrop-blur-xl rounded-[22px] p-6 sm:p-8 border border-[#D3AF37]/25 hover:border-[#D3AF37]/80 shadow-[0_16px_45px_rgba(0,0,0,0.7),0_0_20px_rgba(211,175,55,0.06)] hover:shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(211,175,55,0.28)] flex flex-col justify-between transition-colors duration-500 overflow-hidden cursor-pointer select-none"
+      >
+        {/* Radiant Ambient Luxury Color Wave inside the card */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[22px] z-0">
+          <motion.div
+            animate={{
+              x: ['-25%', '25%', '-25%'],
+              y: ['-15%', '20%', '-15%'],
+              scale: [1, 1.18, 1],
+              opacity: [0.18, 0.35, 0.18],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute -top-16 -left-16 w-72 h-72 rounded-full bg-gradient-to-br from-[#D3AF37]/35 via-[#E5A93C]/25 to-transparent blur-[55px]"
+          />
+          <motion.div
+            animate={{
+              x: ['25%', '-25%', '25%'],
+              y: ['20%', '-15%', '20%'],
+              scale: [1.15, 0.95, 1.15],
+              opacity: [0.15, 0.30, 0.15],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-tl from-[#BA9524]/30 via-[#D3AF37]/15 to-transparent blur-[60px]"
+          />
+          {/* Dynamic bronze and gold reflection sheen intensified on hover */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#D3AF37]/0 via-[#D3AF37]/[0.05] to-[#FFF4CC]/[0.10] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[22px]" />
+          <div className="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-[#D3AF37]/0 group-hover:bg-[#D3AF37]/15 blur-2xl transition-all duration-700 pointer-events-none" />
+          {/* Subtle delicate glass sheen */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] via-transparent to-black/50 pointer-events-none" />
+        </div>
+
+        {/* Top: 5 Prominent Gold Rating Stars */}
+        <div className="relative z-10 flex items-center justify-between mb-5">
+          <div className="flex items-center gap-1">
+            {[...Array(item.rating)].map((_, starIdx) => (
+              <Star
+                key={starIdx}
+                className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-[#D3AF37] text-[#D3AF37] stroke-[1.5] drop-shadow-[0_0_8px_rgba(211,175,55,0.5)]"
+              />
+            ))}
+          </div>
+          <span className="font-mono text-xs font-semibold text-[#D3AF37]/90 tracking-wider px-2 py-0.5 rounded-full bg-[#121622]/80 border border-[#D3AF37]/30">
+            5.0
+          </span>
+        </div>
+
+        {/* Middle: Italicized Client Review Quote with generous line-height & Signature Golden SEO Accent */}
+        <p className="relative z-10 font-serif italic text-[14px] sm:text-[15px] lg:text-[15.5px] leading-[1.8] my-auto mb-6">
+          {renderHighlightedQuote(item.quote, item.seoHighlight)}
+        </p>
+
+        {/* Bottom: Minimalist Dark Author Info */}
+        <div className="relative z-10 pt-5 border-t border-[#D3AF37]/20 flex items-center gap-3.5">
+          {/* Minimalist Dark Circular Avatar with subtle gold accent ring */}
+          <div className="w-10 h-10 rounded-full bg-[#121622] border border-[#D3AF37]/40 flex items-center justify-center text-[#D3AF37] shrink-0 shadow-inner group-hover:border-[#D3AF37] group-hover:scale-105 transition-all">
+            <User className="w-5 h-5 text-[#D3AF37] stroke-[1.8]" />
+          </div>
+
+          {/* Author Name in Bold + Country underneath */}
+          <div className="flex flex-col min-w-0">
+            <span className="font-['Inter_Tight',sans-serif] font-bold text-sm sm:text-base text-white leading-snug truncate group-hover:text-[#FEF5CD] transition-colors">
+              {item.name}
+            </span>
+            <span className="font-['Inter_Tight',sans-serif] text-xs font-medium text-gray-400 tracking-wide mt-0.5 truncate">
+              {item.country} • {item.role}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+
   return (
     <section
-      id="testimonials"
-      className="relative w-full bg-[#030508] text-[#FAFAFB] py-20 sm:py-24 lg:py-32 overflow-hidden border-t border-[#D3AF37]/15"
+      id={sectionId}
+      className="relative w-full bg-[#030508] text-[#FAFAFB] py-20 sm:py-24 lg:py-32 overflow-hidden border-t border-[#D3AF37]/15 scroll-mt-20"
     >
       {/* Background ambient lighting & fluid motion waves */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -480,9 +618,8 @@ export default function Testimonials() {
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* ================= HEADER SECTION ================= */}
-        <div className="flex flex-col items-center text-center max-w-4xl lg:max-w-5xl mx-auto mb-14 sm:mb-20">
+        <div className="flex flex-col items-center text-center max-w-4xl lg:max-w-5xl mx-auto mb-12 sm:mb-16">
           {/* Top Small Tag/Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#121622]/90 border border-[#D3AF37]/40 shadow-[0_2px_12px_rgba(211,175,55,0.12)] mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37] animate-pulse" />
@@ -509,186 +646,92 @@ export default function Testimonials() {
             <ScrollLetterReveal text={subtitleLabel} delay={0.25} stagger={0.008} />
           </p>
         </div>
+      </div>
 
-        {/* ================= CAROUSEL / SLIDER WRAPPER ================= */}
-        <div
-          ref={containerRef}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full"
-        >
-          {/* Side Navigation Arrow Buttons */}
-          <div className="hidden sm:flex items-center justify-between absolute top-1/2 -translate-y-1/2 -left-4 -right-4 lg:-left-6 lg:-right-6 z-30 pointer-events-none">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous testimonials"
-              className="pointer-events-auto w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#0D121F]/90 hover:bg-[#D3AF37] text-[#D3AF37] hover:text-black border border-[#D3AF37]/40 hover:border-[#D3AF37] flex items-center justify-center transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.8)] cursor-pointer active:scale-95 group"
-            >
-              <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
-            </button>
+      {/* ================= FULL-BLEED CONTINUOUS HORIZONTAL MARQUEE ================= */}
+      <div
+        className="relative z-10 w-full"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => {
+          setIsPaused(false);
+          handlePointerUp();
+        }}
+        onFocusCapture={() => setIsPaused(true)}
+        onBlurCapture={() => setIsPaused(false)}
+      >
+        {/* Side Navigation Arrow Buttons */}
+        <div className="hidden sm:flex items-center justify-between absolute top-1/2 -translate-y-1/2 left-4 right-4 lg:left-8 lg:right-8 z-30 pointer-events-none">
+          <button
+            type="button"
+            onClick={() => handleStep('prev')}
+            aria-label="Previous testimonials"
+            className="pointer-events-auto w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#0D121F]/90 hover:bg-[#D3AF37] text-[#D3AF37] hover:text-black border border-[#D3AF37]/40 hover:border-[#D3AF37] flex items-center justify-center transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.8)] cursor-pointer active:scale-95 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3AF37]"
+          >
+            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
+          </button>
 
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next testimonials"
-              className="pointer-events-auto w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#0D121F]/90 hover:bg-[#D3AF37] text-[#D3AF37] hover:text-black border border-[#D3AF37]/40 hover:border-[#D3AF37] flex items-center justify-center transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.8)] cursor-pointer active:scale-95 group"
-            >
-              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-            </button>
-          </div>
-
-          {/* Cards Container with Smooth Slide Animation */}
-          <div className="overflow-hidden w-full py-4 px-1">
-            <motion.div
-              animate={{
-                x: `-${currentIndex * (100 / visibleCount)}%`,
-              }}
-              transition={{
-                duration: 0.65,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="flex items-stretch"
-            >
-              {testimonials.map((item) => (
-                <div
-                  key={item.id}
-                  style={{
-                    width: `${100 / visibleCount}%`,
-                    flexShrink: 0,
-                  }}
-                  className="px-2.5 sm:px-3 md:px-3.5 flex"
-                >
-                  {/* Clean, Elite Dark Obsidian Glassmorphism Card with Framer Motion hover elevation */}
-                  <motion.div
-                    whileHover={{ y: -6, scale: 1.01 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative group w-full bg-[#090D16]/90 sm:bg-[#090D16]/95 backdrop-blur-xl rounded-[22px] p-6 sm:p-8 border border-[#D3AF37]/25 hover:border-[#D3AF37]/80 shadow-[0_16px_45px_rgba(0,0,0,0.7),0_0_20px_rgba(211,175,55,0.06)] hover:shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(211,175,55,0.28)] flex flex-col justify-between transition-colors duration-500 overflow-hidden cursor-pointer"
-                  >
-                    
-                    {/* Radiant Ambient Luxury Color Wave inside the card (მოძრავი რადიუციული ფერების ტალღა) */}
-                    <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[22px] z-0">
-                      <motion.div
-                        animate={{
-                          x: ['-25%', '25%', '-25%'],
-                          y: ['-15%', '20%', '-15%'],
-                          scale: [1, 1.18, 1],
-                          opacity: [0.18, 0.35, 0.18],
-                        }}
-                        transition={{
-                          duration: 10,
-                          repeat: Infinity,
-                          ease: 'easeInOut',
-                        }}
-                        className="absolute -top-16 -left-16 w-72 h-72 rounded-full bg-gradient-to-br from-[#D3AF37]/35 via-[#E5A93C]/25 to-transparent blur-[55px]"
-                      />
-                      <motion.div
-                        animate={{
-                          x: ['25%', '-25%', '25%'],
-                          y: ['20%', '-15%', '20%'],
-                          scale: [1.15, 0.95, 1.15],
-                          opacity: [0.15, 0.30, 0.15],
-                        }}
-                        transition={{
-                          duration: 12,
-                          repeat: Infinity,
-                          ease: 'easeInOut',
-                        }}
-                        className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-tl from-[#BA9524]/30 via-[#D3AF37]/15 to-transparent blur-[60px]"
-                      />
-                      {/* Dynamic bronze and gold reflection sheen intensified on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-[#D3AF37]/0 via-[#D3AF37]/[0.05] to-[#FFF4CC]/[0.10] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[22px]" />
-                      <div className="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-[#D3AF37]/0 group-hover:bg-[#D3AF37]/15 blur-2xl transition-all duration-700 pointer-events-none" />
-                      {/* Subtle delicate glass sheen */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] via-transparent to-black/50 pointer-events-none" />
-                    </div>
-
-                    {/* Top: 5 Prominent Gold Rating Stars */}
-                    <div className="relative z-10 flex items-center justify-between mb-5">
-                      <div className="flex items-center gap-1">
-                        {[...Array(item.rating)].map((_, starIdx) => (
-                          <Star
-                            key={starIdx}
-                            className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-[#D3AF37] text-[#D3AF37] stroke-[1.5] drop-shadow-[0_0_8px_rgba(211,175,55,0.5)]"
-                          />
-                        ))}
-                      </div>
-                      <span className="font-mono text-xs font-semibold text-[#D3AF37]/90 tracking-wider px-2 py-0.5 rounded-full bg-[#121622]/80 border border-[#D3AF37]/30">
-                        5.0
-                      </span>
-                    </div>
-
-                    {/* Middle: Italicized Client Review Quote with generous line-height & Signature Golden SEO Accent */}
-                    <p className="relative z-10 font-serif italic text-[14px] sm:text-[15px] lg:text-[15.5px] leading-[1.8] my-auto mb-6">
-                      {renderHighlightedQuote(item.quote, item.seoHighlight)}
-                    </p>
-
-                    {/* Bottom: Minimalist Dark Author Info */}
-                    <div className="relative z-10 pt-5 border-t border-[#D3AF37]/20 flex items-center gap-3.5">
-                      {/* Minimalist Dark Circular Avatar with subtle gold accent ring */}
-                      <div className="w-10 h-10 rounded-full bg-[#121622] border border-[#D3AF37]/40 flex items-center justify-center text-[#D3AF37] shrink-0 shadow-inner group-hover:border-[#D3AF37] group-hover:scale-105 transition-all">
-                        <User className="w-5 h-5 text-[#D3AF37] stroke-[1.8]" />
-                      </div>
-
-                      {/* Author Name in Bold + Country underneath */}
-                      <div className="flex flex-col min-w-0">
-                        <span className="font-['Inter_Tight',sans-serif] font-bold text-sm sm:text-base text-white leading-snug truncate group-hover:text-[#FEF5CD] transition-colors">
-                          {item.name}
-                        </span>
-                        <span className="font-['Inter_Tight',sans-serif] text-xs font-medium text-gray-400 tracking-wide mt-0.5 truncate">
-                          {item.country} • {item.role}
-                        </span>
-                      </div>
-                    </div>
-
-                  </motion.div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Mobile Bottom Navigation Buttons */}
-          <div className="flex sm:hidden items-center justify-center gap-4 mt-6">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous testimonial"
-              className="w-10 h-10 rounded-full bg-[#121622] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next testimonial"
-              className="w-10 h-10 rounded-full bg-[#121622] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Active Bottom Dot Pagination Indicators */}
-          <div className="flex items-center justify-center gap-2 mt-8 sm:mt-10">
-            {Array.from({ length: maxIndex + 1 }).map((_, dotIdx) => {
-              const isActive = dotIdx === currentIndex;
-              return (
-                <button
-                  key={dotIdx}
-                  type="button"
-                  onClick={() => setCurrentIndex(dotIdx)}
-                  aria-label={`Go to slide ${dotIdx + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    isActive
-                      ? 'w-7 sm:w-8 bg-[#D3AF37] shadow-[0_0_12px_rgba(211,175,55,0.6)]'
-                      : 'w-2 bg-white/20 hover:bg-white/40'
-                  }`}
-                />
-              );
-            })}
-          </div>
-
+          <button
+            type="button"
+            onClick={() => handleStep('next')}
+            aria-label="Next testimonials"
+            className="pointer-events-auto w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#0D121F]/90 hover:bg-[#D3AF37] text-[#D3AF37] hover:text-black border border-[#D3AF37]/40 hover:border-[#D3AF37] flex items-center justify-center transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.8)] cursor-pointer active:scale-95 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3AF37]"
+          >
+            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+          </button>
         </div>
 
+        {/* Overflow Track Wrapper with Pointer Drag Support & Subtle Edge Vignettes */}
+        <div
+          className="relative w-full overflow-hidden py-5 touch-pan-y"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-16 lg:w-24 bg-gradient-to-r from-[#030508] to-transparent z-20 pointer-events-none" />
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-16 lg:w-24 bg-gradient-to-l from-[#030508] to-transparent z-20 pointer-events-none" />
+
+          <div
+            ref={trackRef}
+            className="flex flex-row flex-nowrap w-max will-change-transform px-4 sm:px-6 lg:px-10"
+          >
+            {/* Primary Set */}
+            <div
+              ref={singleSetRef}
+              className="flex flex-row flex-nowrap items-stretch gap-6 pr-6 shrink-0"
+            >
+              {testimonials.map((item) => renderTestimonialCard(item, false))}
+            </div>
+
+            {/* Seamless Infinite Loop Clone Set */}
+            <div
+              aria-hidden="true"
+              className="flex flex-row flex-nowrap items-stretch gap-6 pr-6 shrink-0"
+            >
+              {testimonials.map((item) => renderTestimonialCard(item, true))}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Bottom Navigation Buttons */}
+        <div className="flex sm:hidden items-center justify-center gap-4 mt-4 px-4">
+          <button
+            type="button"
+            onClick={() => handleStep('prev')}
+            aria-label="Previous testimonial"
+            className="w-11 h-11 rounded-full bg-[#121622] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3AF37]"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleStep('next')}
+            aria-label="Next testimonial"
+            className="w-11 h-11 rounded-full bg-[#121622] text-[#D3AF37] border border-[#D3AF37]/40 flex items-center justify-center active:scale-95 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3AF37]"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </section>
   );

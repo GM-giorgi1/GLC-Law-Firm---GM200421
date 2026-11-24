@@ -17,10 +17,12 @@ import {
 import { useLanguage } from '@/src/context/LanguageContext';
 import GlobalNavbar from '@/src/components/common/GlobalNavbar';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
+import Testimonials from '@/components/templates/lawyer-portfolio-landing-page-alex/Testimonials';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
 import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
+import SeoHead, { SITE_URL } from '@/src/components/common/SeoHead';
 
 // Real Estate Assets
 import realEstateHeroImg from '@/src/assets/realestate0.png';
@@ -292,32 +294,46 @@ export default function RealEstatePage() {
 
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
+      <SeoHead
+        title={
+          isGeo
+            ? 'უძრავი ქონება და სახელშეკრულებო სამართალი | GLC Law Company'
+            : isRus
+              ? 'Недвижимость и договорное право | GLC Law Company'
+              : language === 'TUR'
+                ? 'Gayrimenkul ve Sözleşme Hukuku | GLC Law Company'
+                : 'Real Estate & Contract Law | GLC Law Company'
+        }
+        description={heroSubLine2}
+        canonicalPath="/practice-areas/real-estate-law"
+        ogType="website"
+        ogImage="/realestate0.png"
+        locale={isGeo ? 'ka_GE' : isRus ? 'ru_RU' : language === 'TUR' ? 'tr_TR' : 'en_US'}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'GLC Law Company - Real Estate & Contract Law',
+            url: `${SITE_URL}/practice-areas/real-estate-law`,
+            provider: { '@id': `${SITE_URL}/#organization` },
+            serviceType: 'Real Estate & Contract Law',
+            areaServed: 'Georgia',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+              { '@type': 'ListItem', position: 2, name: 'Real Estate & Contract Law', item: `${SITE_URL}/practice-areas/real-estate-law` },
+            ],
+          },
+        ]}
+      />
       {/* Universal Curtain Opening Transition */}
       <CurtainIntro title="REAL ESTATE LAW" subtitle="GLC LAW COMPANY" backdropImage={realEstateHeroImg} />
 
       {/* 1. Global Navbar with compact language dropdown */}
       <GlobalNavbar />
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Antonio:wght@600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap');
-          
-          .font-big-shoulders {
-            font-family: 'Big Shoulders Display', 'Antonio', sans-serif;
-            font-optical-sizing: auto;
-          }
-          .font-geist {
-            font-family: 'Inter Tight', -apple-system, sans-serif;
-          }
-          
-          .realestate-gold-gradient {
-            background: linear-gradient(180deg, #FEF5CD 0%, #E2C359 45%, #D2AE37 75%, #8C6A1C 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-          }
-        `
-      }} />
 
       {/* 2. HERO SECTION: Real Estate Architecture Backdrop */}
       <header className="relative w-full min-h-[90vh] lg:min-h-screen bg-[#030508] border-b border-[#D3AF37]/15 overflow-hidden flex flex-col justify-center items-center pt-32 sm:pt-36 lg:pt-40 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-8 lg:px-12">
@@ -327,6 +343,7 @@ export default function RealEstatePage() {
             src={realEstateHeroImg || '/realestate.png'}
             alt="GLC Real Estate & Contract Law"
             fill
+            sizes="100vw"
             priority
             className="object-cover object-center filter brightness-[0.96] contrast-[1.08] scale-100"
             unoptimized
@@ -355,7 +372,7 @@ export default function RealEstatePage() {
           <motion.div
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.75, delay: 0.85 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D3AF37]/40 bg-[#0E0E10]/90 backdrop-blur-md shadow-[0_0_15px_rgba(211,175,55,0.15)] mb-5 sm:mb-6"
           >
             <Building2 className="w-3.5 h-3.5 text-[#D3AF37]" />
@@ -368,16 +385,16 @@ export default function RealEstatePage() {
           <h1
             className="font-big-shoulders font-[900] uppercase text-[clamp(32px,5.5vw,76px)] tracking-tight leading-[1.04] sm:leading-[0.98] realestate-gold-gradient select-none text-center max-w-4xl mx-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_8px_rgba(211,175,55,0.35)]"
           >
-            <ScrollLetterReveal text={heroHeadlineText} delay={0.1} triggerMode="mount" stagger={0.02} />
+            <ScrollLetterReveal text={heroHeadlineText} delay={0.95} triggerMode="mount" stagger={0.02} />
           </h1>
 
           {/* Centered Editorial Subheading (Two distinct centered lines) */}
           <div className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2">
             <p className="font-geist font-semibold text-base sm:text-lg lg:text-xl text-[#FEF5CD] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={heroSubLine1} delay={0.3} triggerMode="mount" stagger={0.012} />
+              <ScrollLetterReveal text={heroSubLine1} delay={1.1} triggerMode="mount" stagger={0.012} />
             </p>
             <p className="font-geist font-medium text-sm sm:text-base text-gray-200/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={heroSubLine2} delay={0.5} triggerMode="mount" stagger={0.01} />
+              <ScrollLetterReveal text={heroSubLine2} delay={1.25} triggerMode="mount" stagger={0.01} />
             </p>
           </div>
 
@@ -385,7 +402,7 @@ export default function RealEstatePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35 }}
+            transition={{ duration: 0.75, delay: 1.25 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mt-8 sm:mt-9 w-full sm:w-auto"
           >
             {/* Primary Action: WhatsApp Consultation */}
@@ -397,7 +414,7 @@ export default function RealEstatePage() {
               whileTap={{ scale: 0.98 }}
               className="w-full sm:w-auto overflow-hidden inline-flex items-center justify-center pl-6 pr-3 py-3 gap-3 bg-gradient-to-r from-[#FEF5CD] via-[#D2AE37] to-[#BA9524] text-[#00070B] rounded-xl cursor-pointer shadow-[0_8px_30px_rgba(211,175,55,0.4)] font-big-shoulders font-[900] text-lg sm:text-xl uppercase tracking-wider"
             >
-              <span>{isGeo ? 'გადაუდებელი კონსულტაცია' : 'Emergency Consultation'}</span>
+              <span>{isGeo ? 'გადაუდებელი კონსულტაცია' : isRus ? 'Срочная консультация' : language === 'TUR' ? 'Acil Danışmanlık' : 'Emergency Consultation'}</span>
               <div className="w-8 h-8 bg-[#00070B] rounded-lg flex items-center justify-center shrink-0">
                 <ArrowUpRight className="w-4 h-4 text-[#D3AF37] stroke-[2.5]" />
               </div>
@@ -410,7 +427,7 @@ export default function RealEstatePage() {
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#0E0E10]/90 border border-[#D3AF37]/50 hover:border-[#D3AF37] hover:bg-[#D3AF37]/10 text-white text-sm font-semibold tracking-wide transition-all cursor-pointer font-geist shadow-md"
             >
               <KeyRound className="w-4 h-4 text-[#D3AF37]" />
-              <span>{isGeo ? 'საქმის რეგისტრაცია' : 'Register Case Inquiry'}</span>
+              <span>{isGeo ? 'საქმის რეგისტრაცია' : isRus ? 'Регистрация обращения' : language === 'TUR' ? 'Başvuru Kaydı' : 'Register Case Inquiry'}</span>
             </button>
           </motion.div>
         </div>
@@ -616,7 +633,10 @@ export default function RealEstatePage() {
         </div>
       </section>
 
-      {/* 5. EXECUTIVE CONSULTATION: Rich Dark Slate-Navy (#090D16) */}
+      {/* 5. DEDICATED REAL ESTATE CLIENT TESTIMONIALS */}
+      <Testimonials practiceKey="real-estate" />
+
+      {/* 6. EXECUTIVE CONSULTATION: Rich Dark Slate-Navy (#090D16) */}
       <Contacts bgTheme="slate-navy" />
 
       {/* 6. HOMEPAGE AUTHORITATIVE FOOTER */}

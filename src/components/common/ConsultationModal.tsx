@@ -17,11 +17,33 @@ export default function ConsultationModal({
   defaultService = '',
 }: ConsultationModalProps) {
   const { language, t: tr } = useLanguage();
+  const normalizeService = (svc: string) => {
+    switch (svc) {
+      case 'criminal-defense':
+      case 'criminal':
+        return 'criminal';
+      case 'real-estate-law':
+      case 'civil':
+        return 'civil';
+      case 'administrative':
+        return 'administrative';
+      case 'corporate':
+      case 'corporate-law':
+      case 'business':
+        return 'business';
+      case 'family-law':
+      case 'familyInheritance':
+        return 'familyInheritance';
+      default:
+        return 'criminal';
+    }
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    service: defaultService,
+    service: normalizeService(defaultService),
     message: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -42,7 +64,7 @@ export default function ConsultationModal({
       name: '',
       phone: '',
       email: '',
-      service: defaultService,
+      service: normalizeService(defaultService),
       message: '',
     });
     onClose();
@@ -67,7 +89,7 @@ export default function ConsultationModal({
             {/* Close Button */}
             <button
               onClick={handleReset}
-              className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Close Modal"
             >
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -110,14 +132,28 @@ export default function ConsultationModal({
                     rel="noopener noreferrer"
                     className="saas-btn-gold py-3 px-6 rounded-xl font-['Antonio'] text-base uppercase font-bold text-black flex items-center justify-center gap-2 flex-1"
                   >
-                    <span>{language === 'GEO' ? 'პირდაპირი დაკავშირება' : 'Direct Message'}</span>
+                    <span>
+                      {language === 'GEO'
+                        ? 'პირდაპირი დაკავშირება'
+                        : language === 'RUS'
+                          ? 'Написать напрямую'
+                          : language === 'TUR'
+                            ? 'Doğrudan Mesaj'
+                            : 'Direct Message'}
+                    </span>
                     <ArrowRight className="w-4 h-4" />
                   </a>
                   <button
                     onClick={handleReset}
-                    className="saas-btn-dark py-3 px-6 rounded-xl font-['Antonio'] text-base uppercase font-bold text-gray-300 hover:text-white flex items-center justify-center flex-1"
+                    className="saas-btn-dark py-3 px-6 rounded-xl font-['Antonio'] text-base uppercase font-bold text-gray-300 hover:text-white flex items-center justify-center flex-1 cursor-pointer min-h-[44px]"
                   >
-                    {language === 'GEO' ? 'დახურვა' : 'Close'}
+                    {language === 'GEO'
+                      ? 'დახურვა'
+                      : language === 'RUS'
+                        ? 'Закрыть'
+                        : language === 'TUR'
+                          ? 'Kapat'
+                          : 'Close'}
                   </button>
                 </div>
               </motion.div>
@@ -131,7 +167,15 @@ export default function ConsultationModal({
                   <input
                     type="text"
                     required
-                    placeholder={language === 'GEO' ? 'მაგ. გიორგი ბერიძე' : 'e.g. John Doe'}
+                    placeholder={
+                      language === 'GEO'
+                        ? 'მაგ. გიორგი ბერიძე'
+                        : language === 'RUS'
+                          ? 'Напр. Георгий Беридзе'
+                          : language === 'TUR'
+                            ? 'Örn. Ahmet Yılmaz'
+                            : 'e.g. John Doe'
+                    }
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 bg-[#151518] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#D3AF37] transition-colors text-sm"
@@ -176,12 +220,11 @@ export default function ConsultationModal({
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     className="w-full px-4 py-3 bg-[#151518] border border-white/10 rounded-xl text-white focus:outline-none focus:border-[#D3AF37] transition-colors text-sm"
                   >
-                    <option value="">{language === 'GEO' ? 'აირჩიეთ მიმართულება' : 'Select Practice Area'}</option>
-                    <option value="criminal-defense">{language === 'GEO' ? 'სისხლის სამართალი' : 'Criminal Defense'}</option>
-                    <option value="family-law">{language === 'GEO' ? 'საოჯახო და მემკვიდრეობითი სამართალი' : 'Family & Inheritance Law'}</option>
-                    <option value="real-estate-law">{language === 'GEO' ? 'სახელშეკრულებო სამართალი და უძრავი ქონება' : 'Contract & Real Estate Law'}</option>
-                    <option value="corporate">{language === 'GEO' ? 'კორპორაციული მომსახურება' : 'Corporate Advisory'}</option>
-                    <option value="other">{language === 'GEO' ? 'სხვა იურიდიული საკითხი' : 'Other Legal Matter'}</option>
+                    <option value="criminal">{tr.hero.options.criminal}</option>
+                    <option value="civil">{tr.hero.options.civil}</option>
+                    <option value="administrative">{tr.hero.options.administrative}</option>
+                    <option value="business">{tr.hero.options.business}</option>
+                    <option value="familyInheritance">{tr.hero.options.familyInheritance}</option>
                   </select>
                 </div>
 
@@ -191,7 +234,15 @@ export default function ConsultationModal({
                   </label>
                   <textarea
                     rows={3}
-                    placeholder={language === 'GEO' ? 'მოკლედ აღწერეთ თქვენი საქმე ან კითხვა...' : 'Briefly describe your case or question...'}
+                    placeholder={
+                      language === 'GEO'
+                        ? 'მოკლედ აღწერეთ თქვენი საქმე ან კითხვა...'
+                        : language === 'RUS'
+                          ? 'Кратко опишите ваше дело или вопрос...'
+                          : language === 'TUR'
+                            ? 'Durumunuzu veya sorunuzu kısaca özetleyin...'
+                            : 'Briefly describe your case or question...'
+                    }
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-2.5 bg-[#151518] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#D3AF37] transition-colors text-sm resize-none"
@@ -201,15 +252,33 @@ export default function ConsultationModal({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="saas-btn-gold w-full py-3.5 px-6 rounded-xl font-['Antonio'] text-lg uppercase font-bold text-black flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-2"
+                  className="saas-btn-gold w-full py-3.5 px-6 rounded-xl font-['Antonio'] text-lg uppercase font-bold text-black flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-2 min-h-[44px]"
                 >
-                  <span>{isSubmitting ? (language === 'GEO' ? 'იგზავნება...' : 'Submitting...') : tr.hero.confirmScheduleBtn}</span>
+                  <span>
+                    {isSubmitting
+                      ? language === 'GEO'
+                        ? 'იგზავნება...'
+                        : language === 'RUS'
+                          ? 'Отправка...'
+                          : language === 'TUR'
+                            ? 'Gönderiliyor...'
+                            : 'Submitting...'
+                      : tr.hero.confirmScheduleBtn}
+                  </span>
                   <ArrowRight className="w-5 h-5 text-black" />
                 </button>
 
                 {/* Direct Line Alternative */}
                 <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
-                  <span>{language === 'GEO' ? 'სასწრაფო საქმეებზე პირდაპირი კავშირი:' : 'Urgent Direct Line:'}</span>
+                  <span>
+                    {language === 'GEO'
+                      ? 'სასწრაფო საქმეებზე პირდაპირი კავშირი:'
+                      : language === 'RUS'
+                        ? 'Срочная линия связи:'
+                        : language === 'TUR'
+                          ? 'Acil Doğrudan Hat:'
+                          : 'Urgent Direct Line:'}
+                  </span>
                   <a
                     href="tel:+995599277794"
                     className="text-[#D3AF37] font-semibold hover:underline inline-flex items-center gap-1.5"

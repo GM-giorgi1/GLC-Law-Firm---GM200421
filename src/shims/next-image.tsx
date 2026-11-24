@@ -8,7 +8,7 @@ export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const Image = React.forwardRef<HTMLImageElement, ImageProps>(function Image(
-  { fill, priority, quality, unoptimized, style, className = '', src, onError, ...props },
+  { fill, priority, quality, unoptimized, style, className = '', src, onError, decoding, ...props },
   ref
 ) {
   const [currentSrc, setCurrentSrc] = React.useState(src);
@@ -37,7 +37,8 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(function Image(
       style={fillStyle}
       className={className}
       loading={priority ? 'eager' : 'lazy'}
-      decoding="async"
+      fetchPriority={priority ? 'high' : 'auto'}
+      decoding={decoding ?? 'async'}
       onError={(e) => {
         if (typeof currentSrc === 'string') {
           if (currentSrc.startsWith('/.tempmediaStorage/')) {

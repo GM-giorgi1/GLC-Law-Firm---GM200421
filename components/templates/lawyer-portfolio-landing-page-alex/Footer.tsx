@@ -2,11 +2,12 @@
 
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { Mail, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
+import { scrollToSection } from '@/src/utils/scrollToSection';
 
 // Custom Facebook and TikTok icons matching brand aesthetic
 function FacebookIcon({ className = 'w-4 h-4' }: { className?: string }) {
@@ -61,12 +62,29 @@ export default function Footer() {
     setMousePos({ x: targetX, y: targetY });
   };
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSectionLink = (sectionId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      scrollToSection(sectionId);
+    } else {
+      try {
+        sessionStorage.setItem('scroll_target', sectionId);
+        navigate('/');
+      } catch {
+        navigate(`/#${sectionId}`);
+      }
+    }
+  };
+
   const navLinks = [
-    { name: t.nav.home, href: '#/' },
-    { name: t.nav.about, href: '#/about' },
-    { name: t.nav.services, href: '#/practice-areas/criminal-defense' },
-    { name: t.nav.blogs, href: '#/blogs' },
-    { name: t.nav.contact, href: '#/contact' },
+    { name: t.nav.home, to: '/', sectionId: null as string | null },
+    { name: t.nav.about, to: '/#metrics', sectionId: 'metrics' },
+    { name: t.nav.services, to: '/practice-areas/criminal-defense', sectionId: null as string | null },
+    { name: t.nav.blogs, to: '/blogs', sectionId: null as string | null },
+    { name: t.nav.contact, to: '/#contact', sectionId: 'contact' },
   ];
 
   return (
@@ -75,34 +93,6 @@ export default function Footer() {
       id="footer"
       className="relative w-full bg-[#080909] text-[#FAFAFB] pt-[85px] pb-[32px] overflow-hidden"
     >
-      {/* Dynamic Keyframes for ultra-slow right-to-left marquee & Self-contained Google Fonts */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-
-        @keyframes footerMarqueeAnim {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .footer-marquee-track {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          width: max-content;
-          will-change: transform;
-          animation: footerMarqueeAnim 220s linear infinite;
-          transition: animation-duration 0.8s ease;
-        }
-        .footer-marquee-track.slowed {
-          animation-duration: 420s;
-        }
-      `}</style>
 
       {/* Background Ambient Warm Golden Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[1000px] h-[450px] bg-[#D3AF37]/[0.035] rounded-full blur-[220px] pointer-events-none" />
@@ -212,12 +202,11 @@ export default function Footer() {
           {/* Symmetrical Upright Founder Photo without tilt */}
           <div className="relative w-[190px] h-[250px] sm:w-[240px] sm:h-[310px] md:w-[280px] md:h-[360px] lg:w-[310px] lg:h-[400px] rounded-2xl overflow-hidden bg-[#080909] shadow-[0px_20px_50px_rgba(0,0,0,0.6)] border border-white/[0.06]">
             <Image
-              src="/.tempmediaStorage/GUBE1.jpeg"
+              src="/GUBE1.jpeg"
               alt="Giorgi Gubeladze Legal Counsel"
               fill
               sizes="(max-width: 768px) 240px, 320px"
               className="object-cover object-top border-0 outline-none transition-transform duration-700 ease-out hover:scale-105"
-              priority
               referrerPolicy="no-referrer"
             />
             {/* Top subtle shade */}
@@ -250,15 +239,26 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 sm:pb-16 border-b border-white/[0.08]">
           {/* Navigation Links */}
           <nav className="flex flex-wrap items-center justify-center gap-6 sm:gap-9">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-sm sm:text-base text-gray-400 hover:text-white font-medium transition-colors duration-200"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.sectionId ? (
+                <a
+                  key={link.name}
+                  href={link.to}
+                  onClick={(e) => handleSectionLink(link.sectionId!, e)}
+                  className="text-sm sm:text-base text-gray-400 hover:text-white font-medium transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.to}
+                  className="text-sm sm:text-base text-gray-400 hover:text-white font-medium transition-colors duration-200"
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
           </nav>
 
           {/* Social Icons in brand gold */}
@@ -305,7 +305,7 @@ export default function Footer() {
             <span className="font-['Antonio'] text-[#D3AF37] font-bold tracking-wider uppercase text-sm sm:text-base">
               GLC Law Company
             </span>
-            <span className="text-gray-500">—</span>
+            <span className="text-gray-500">-</span>
             <span className="text-gray-400 font-normal">
               {t.footer.justiceSlogan}
             </span>

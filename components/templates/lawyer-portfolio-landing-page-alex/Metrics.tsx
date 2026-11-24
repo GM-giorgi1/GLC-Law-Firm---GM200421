@@ -165,15 +165,8 @@ export default function Metrics() {
     <section
       ref={sectionRef}
       id="metrics"
-      className="relative w-full bg-[#0B0A0A] text-[#FBFAFB] py-[90px] pl-0 overflow-hidden select-none"
+      className="relative w-full bg-[#0B0A0A] text-[#FBFAFB] py-[90px] pl-0 overflow-hidden select-none scroll-mt-20"
     >
-      {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
 
       {/* Warm Ambient Golden Center Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] bg-[#D2AE37]/[0.05] rounded-full blur-[160px] pointer-events-none" />
@@ -218,7 +211,7 @@ export default function Metrics() {
           >
             {/* Portrait Image with linear bottom fade */}
             <Image
-              src="/.tempmediaStorage/GUBE.jpeg"
+              src="/GUBE.jpeg"
               alt="Giorgi Gubeladze - Senior Legal Counsel"
               fill
               sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 220px"
@@ -228,7 +221,6 @@ export default function Metrics() {
                 WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 98%)',
               }}
               referrerPolicy="no-referrer"
-              priority
             />
 
             {/* Linear type gradient overlay at bottom to smoothly blend into dark background */}

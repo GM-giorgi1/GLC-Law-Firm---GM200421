@@ -90,18 +90,10 @@ export default function Price() {
     <section
       ref={sectionRef}
       id="team"
-      className="relative w-full bg-[#0A0A0B] text-[#FBFBFB] py-[90px] md:py-[110px] overflow-hidden select-none"
+      className="relative w-full bg-[#0A0A0B] text-[#FBFBFB] py-[90px] md:py-[110px] overflow-hidden select-none scroll-mt-20"
     >
       {/* Anchor for backward compatibility with existing links */}
       <div id="pricing" className="absolute -top-24 pointer-events-none" />
-
-      {/* Self-contained Google Fonts & Styling */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
 
       {/* Ambient Luxury Golden Glow in Background */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] sm:w-[900px] h-[450px] bg-[#D2AF37]/[0.045] rounded-full blur-[170px] pointer-events-none" />
@@ -159,12 +151,11 @@ export default function Price() {
               <div className="relative w-full max-w-[340px] sm:max-w-[380px] lg:max-w-none aspect-[3/3.8] rounded-[24px] p-2 bg-[#171616]/80 backdrop-blur-md border border-[#D2AF37]/60 shadow-[0_15px_40px_rgba(0,0,0,0.7),0_0_25px_rgba(211,175,55,0.15)] group overflow-hidden">
                 <div className="relative w-full h-full rounded-[18px] overflow-hidden bg-[#0A0A0B]">
                   <Image
-                    src="/.tempmediaStorage/GUBE1.jpeg"
-                    alt="Giorgi Gubeladze — Founder & Managing Partner"
+                    src="/GUBE1.jpeg"
+                    alt="Giorgi Gubeladze - Founder & Managing Partner"
                     fill
                     sizes="(max-width: 768px) 100vw, 420px"
                     className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                    priority
                     referrerPolicy="no-referrer"
                   />
                   {/* Subtle Gradient Shade at bottom */}

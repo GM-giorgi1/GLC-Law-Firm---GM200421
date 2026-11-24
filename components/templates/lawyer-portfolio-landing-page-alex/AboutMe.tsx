@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { scrollToSection } from '@/src/utils/scrollToSection';
 
 function BlurWaveText({
   text,
@@ -101,14 +102,7 @@ export default function AboutMe() {
   }));
 
   return (
-    <section id="about" className="relative w-full bg-[#0C0D0D] text-[#FAFAFB] py-[90px] overflow-hidden">
-      {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
+    <section id="about" className="relative w-full bg-[#0C0D0D] text-[#FAFAFB] py-[90px] overflow-hidden scroll-mt-20">
 
       {/* Ambient background gold glow */}
       <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-[#D3AF37]/[0.035] rounded-full blur-[150px] pointer-events-none" />
@@ -196,7 +190,7 @@ export default function AboutMe() {
               >
                 {/* Lawyer Image - exact same width & height as the div */}
                 <Image
-                  src="/.tempmediaStorage/GUBE1.jpeg"
+                  src="/GUBE1.jpeg"
                   alt="Giorgi Gubeladze - Legal Counsel"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
@@ -266,15 +260,7 @@ export default function AboutMe() {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  const servicesEl = document.getElementById('services');
-                  if (servicesEl) {
-                    servicesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  } else {
-                    const fallback = document.querySelector('section[id="services"]');
-                    if (fallback) {
-                      fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                  }
+                  scrollToSection('services');
                 }}
                 onMouseMove={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();

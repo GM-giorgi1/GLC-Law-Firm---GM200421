@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /assets/*.map$
+
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+Sitemap: https://glclaw.ge/sitemap.xml

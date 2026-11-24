@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, ArrowRight, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
@@ -240,14 +241,7 @@ export default function Services() {
   }, [currentServices]);
 
   return (
-    <section id="services" className="relative w-full bg-[#0C0C0D] text-[#FBFBFB] py-16 sm:py-24 md:py-28 lg:py-[clamp(90px,8.5vh,170px)] overflow-hidden">
-      {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
+    <section id="services" className="relative w-full bg-[#0C0C0D] text-[#FBFBFB] py-16 sm:py-24 md:py-28 lg:py-[clamp(90px,8.5vh,170px)] overflow-hidden scroll-mt-20">
 
       {/* Ambient background gold glow */}
       <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#D2AF37]/[0.025] rounded-full blur-[160px] pointer-events-none" />
@@ -373,14 +367,14 @@ export default function Services() {
                           />
                         </button>
 
-                        <a
-                          href={`#/practice-areas/${service.id}`}
+                        <Link
+                          to={`/practice-areas/${service.id}`}
                           onClick={(e) => e.stopPropagation()}
                           className="saas-btn-gold px-[clamp(14px,1.1vw,20px)] py-[clamp(7px,0.75vh,11px)] rounded-md text-xs sm:text-sm font-['Antonio'] font-bold text-[#0C0C0D] tracking-wider uppercase inline-flex items-center gap-1.5 cursor-pointer shadow-[0_2px_12px_rgba(211,175,55,0.2)]"
                         >
                           <span>{t.aboutMe?.exploreBtn || 'ვრცლად'}</span>
                           <ExternalLink className="w-3.5 h-3.5 text-[#0C0C0D]" />
-                        </a>
+                        </Link>
                       </div>
 
                       {/* Bottom Row: Tags Pills (3-4 tags per card) - scales fluidly */}

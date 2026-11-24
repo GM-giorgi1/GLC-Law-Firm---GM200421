@@ -183,7 +183,6 @@ function CaseCard({ item, variant = 'wide', className = '', style }: CardProps) 
           sizes={imageSizes}
           className="object-cover object-center grayscale contrast-105 transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-[10deg] group-hover:grayscale-0 will-change-transform"
           referrerPolicy="no-referrer"
-          priority
         />
         {/* Subtle photo vignette & corner marker */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
@@ -339,16 +338,8 @@ export default function CaseStudy() {
 
   return (
     <section className="relative w-full bg-[#0D0D0D] text-[#FBFAFA]">
-      {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
-
       {/* Normal Section Content Anchor */}
-      <div id="cases" className="w-full" />
+      <div id="cases" className="w-full scroll-mt-20" />
 
       {/* Sticky Scroll Driver: controls the duration the card viewport stays pinned */}
       <div

@@ -1,17 +1,33 @@
-import React, { useEffect } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { LanguageProvider } from "@/src/context/LanguageContext";
 import ScrollToTop from "@/src/components/ScrollToTop";
 import HomePage from "@/src/pages/HomePage";
-import PracticeAreaPage from "@/src/pages/PracticeAreaPage";
-import BlogListPage from "@/src/pages/BlogListPage";
-import BlogPostPage from "@/src/pages/BlogPostPage";
-import RealEstatePage from "@/src/pages/RealEstatePage";
-import FamilyLawPage from "@/src/pages/FamilyLawPage";
-import CorporateLawPage from "@/src/pages/CorporateLawPage";
+
+// Route-level code splitting for faster initial homepage load (LCP/INP)
+const PracticeAreaPage = lazy(() => import("@/src/pages/PracticeAreaPage"));
+const BlogListPage = lazy(() => import("@/src/pages/BlogListPage"));
+const BlogPostPage = lazy(() => import("@/src/pages/BlogPostPage"));
+const RealEstatePage = lazy(() => import("@/src/pages/RealEstatePage"));
+const FamilyLawPage = lazy(() => import("@/src/pages/FamilyLawPage"));
+const CorporateLawPage = lazy(() => import("@/src/pages/CorporateLawPage"));
+const NotFoundPage = lazy(() => import("@/src/pages/NotFoundPage"));
+
+function LegacyHashRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#/')) {
+      const targetPath = hash.slice(1) || '/';
+      navigate(targetPath, { replace: true });
+    }
+  }, [navigate]);
+
+  return null;
+}
 
 export default function App() {
-  // Global high-tech mouse-tracking spotlight and press state coordinator
   useEffect(() => {
     const updateButtonCoords = (clientX: number, clientY: number, target: Element | null) => {
       const btn = target?.closest('.saas-btn-gold, .saas-btn-dark, .premium-saas-btn') as HTMLElement | null;
@@ -64,22 +80,25 @@ export default function App() {
 
   return (
     <LanguageProvider>
-      <HashRouter>
+      <BrowserRouter>
+        <LegacyHashRedirect />
         <ScrollToTop />
-        <main className="min-h-screen bg-[#0C0D0D]">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/practice-areas/real-estate-law" element={<RealEstatePage />} />
-            <Route path="/practice-areas/family-law" element={<FamilyLawPage />} />
-            <Route path="/practice-areas/corporate-law" element={<CorporateLawPage />} />
-            <Route path="/practice-areas/criminal-defense" element={<PracticeAreaPage />} />
-            <Route path="/practice-areas/:id" element={<PracticeAreaPage />} />
-            <Route path="/blogs" element={<BlogListPage />} />
-            <Route path="/blogs/:slug" element={<BlogPostPage />} />
-            <Route path="*" element={<HomePage />} />
-          </Routes>
-        </main>
-      </HashRouter>
+        <div className="min-h-screen bg-[#0C0D0D]">
+          <Suspense fallback={<div className="min-h-screen bg-[#0C0D0D]" aria-busy="true" />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/practice-areas/real-estate-law" element={<RealEstatePage />} />
+              <Route path="/practice-areas/family-law" element={<FamilyLawPage />} />
+              <Route path="/practice-areas/corporate-law" element={<CorporateLawPage />} />
+              <Route path="/practice-areas/criminal-defense" element={<PracticeAreaPage />} />
+              <Route path="/practice-areas/:id" element={<NotFoundPage />} />
+              <Route path="/blogs" element={<BlogListPage />} />
+              <Route path="/blogs/:slug" element={<BlogPostPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </BrowserRouter>
     </LanguageProvider>
   );
 }

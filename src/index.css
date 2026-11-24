@@ -1,10 +1,19 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap');
-
 .font-antonio { font-family: 'Antonio', 'Noto Sans Georgian', sans-serif !important; }
+.font-big-shoulders { font-family: 'Big Shoulders Display', 'Antonio', 'Noto Sans Georgian', sans-serif !important; }
 .font-inter-tight { font-family: 'Inter Tight', 'Noto Sans Georgian', sans-serif !important; }
+.font-geist { font-family: 'Inter Tight', 'Noto Sans Georgian', sans-serif !important; }
 .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
+
+.criminal-gold-gradient,
+.realestate-gold-gradient,
+.family-gold-gradient,
+.corporate-gold-gradient {
+  background: linear-gradient(135deg, #FEF5CD 0%, #D2AE37 48%, #BA9524 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 html {
   scroll-behavior: smooth;
@@ -38,12 +47,10 @@ html {
 [data-lang="GEO"],
 html[lang="ka"],
 html[lang="geo"] {
-  /* High-fidelity Georgian typography: clean, compact, refined matching English */
   font-family: 'Noto Sans Georgian', 'Inter Tight', system-ui, sans-serif;
   letter-spacing: 0.005em;
 }
 
-/* Ensure Georgian headers and motion containers never clip descenders (ქ, წ, ჭ, შ, ყ, ძ, ჰ, გ, პ, etc.) */
 [data-lang="GEO"] h1,
 [data-lang="GEO"] h2,
 [data-lang="GEO"] h3,
@@ -54,7 +61,6 @@ html[lang="geo"] {
   line-height: 1.3 !important;
 }
 
-/* Ensure gradient-clipped Georgian text does not truncate deep descenders */
 [data-lang="GEO"] .bg-clip-text,
 html[lang="ka"] .bg-clip-text {
   padding-bottom: 0.16em !important;
@@ -62,7 +68,6 @@ html[lang="ka"] .bg-clip-text {
   overflow: visible !important;
 }
 
-/* Ensure Antonio font gracefully falls back to Noto Sans Georgian with natural line-height */
 [data-lang="GEO"] .font-antonio,
 [data-lang="GEO"] [class*="font-['Antonio']"],
 [data-lang="GEO"] [class*='font-["Antonio"]'] {
@@ -122,7 +127,6 @@ html[lang="ka"] .bg-clip-text {
   outline-offset: 3px;
 }
 
-/* Secondary Obsidian / Dark Buttons with 4-Layer Depth & Spotlight */
 .saas-btn-dark {
   --btn-glow-rgb: 211, 175, 55;
   --mouse-x: 50%;
@@ -168,4 +172,3 @@ html[lang="ka"] .bg-clip-text {
   outline: 2px solid #D3AF37;
   outline-offset: 3px;
 }
-

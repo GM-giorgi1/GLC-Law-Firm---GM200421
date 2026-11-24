@@ -1,3 +1,33 @@
+import sisImg from '@/src/assets/images/SIS.jpg';
+import glcImg from '@/src/assets/images/GLC.jpg';
+import anderImg from '@/src/assets/images/ANDER.jpg';
+
+export interface BlogFaqItem {
+  question: string;
+  answer: string[];
+}
+
+export interface BlogSection {
+  heading: string;
+  statuteRef?: string;
+  body: string[];
+  listItems?: string[];
+  bodyAfterList?: string[];
+}
+
+export interface LocalizedBlogContent {
+  intro: string;
+  sections: BlogSection[];
+  faq?: {
+    title: string;
+    items: BlogFaqItem[];
+  };
+  closingTitle?: string;
+  closingNote?: string;
+  keyTakeaways?: string[];
+  statutorySummary?: string;
+}
+
 export interface BlogPostDetail {
   id: number;
   slug: string;
@@ -15,6 +45,12 @@ export interface BlogPostDetail {
     RUS: string;
     TUR: string;
   };
+  seoTitle?: {
+    GEO: string;
+    ENG: string;
+    RUS: string;
+    TUR: string;
+  };
   excerpt: {
     GEO: string;
     ENG: string;
@@ -22,6 +58,7 @@ export interface BlogPostDetail {
     TUR: string;
   };
   image: string;
+  ogImage?: string;
   alt: string;
   author: {
     name: string;
@@ -34,75 +71,46 @@ export interface BlogPostDetail {
     avatar: string;
   };
   content: {
-    GEO: {
-      intro: string;
-      sections: {
-        heading: string;
-        statuteRef?: string;
-        body: string[];
-      }[];
-      keyTakeaways: string[];
-      statutorySummary: string;
-    };
-    ENG: {
-      intro: string;
-      sections: {
-        heading: string;
-        statuteRef?: string;
-        body: string[];
-      }[];
-      keyTakeaways: string[];
-      statutorySummary: string;
-    };
-    RUS: {
-      intro: string;
-      sections: {
-        heading: string;
-        statuteRef?: string;
-        body: string[];
-      }[];
-      keyTakeaways: string[];
-      statutorySummary: string;
-    };
-    TUR: {
-      intro: string;
-      sections: {
-        heading: string;
-        statuteRef?: string;
-        body: string[];
-      }[];
-      keyTakeaways: string[];
-      statutorySummary: string;
-    };
+    GEO: LocalizedBlogContent;
+    ENG: LocalizedBlogContent;
+    RUS: LocalizedBlogContent;
+    TUR: LocalizedBlogContent;
   };
 }
 
 export const BLOG_POSTS_DETAIL: BlogPostDetail[] = [
   {
     id: 1,
-    slug: 'what-to-do-when-served-lawsuit',
-    category: 'სამოქალაქო სამართალი',
-    readTime: '6 წთ საკითხავი',
+    slug: 'inheritance-and-wills-in-georgia',
+    category: 'მემკვიდრეობითი სამართალი',
+    readTime: '5 წთ საკითხავი',
     date: {
-      GEO: '18 სექტემბერი, 2026',
-      ENG: 'Sep 18, 2026',
-      RUS: '18 сентября 2026 г.',
-      TUR: '18 Eylül 2026',
+      GEO: '2026 წლის სექტემბერი',
+      ENG: 'September 2026',
+      RUS: 'Сентябрь 2026 г.',
+      TUR: 'Eylül 2026',
     },
     title: {
-      GEO: 'რა უნდა მოიმოქმედოთ, როდესაც სასამართლო სარჩელს ჩაგაბარებენ',
-      ENG: "What to Do When You're Served with a Lawsuit",
-      RUS: 'Что делать, если вам вручили судебный иск',
-      TUR: 'Size Bir Dava Tebliğ Edildiğinde Ne Yapmalısınız',
+      GEO: 'მემკვიდრეობის მიღება და ანდერძი: როგორ მივიღოთ კუთვნილი წილი?',
+      ENG: 'Inheritance and Wills in Georgia: How to Claim Your Rightful Share',
+      RUS: 'Наследство и завещание в Грузии: как получить причитающуюся долю',
+      TUR: "Gürcistan'da Miras ve Vasiyetname: Hakkınız Olan Payı Nasıl Alırsınız?",
+    },
+    seoTitle: {
+      GEO: 'მემკვიდრეობის მიღება და ანდერძი: როგორ მივიღოთ კუთვნილი წილი? | GLC Law Company',
+      ENG: 'Inheritance and Wills in Georgia: How to Claim Your Rightful Share | GLC Law Company',
+      RUS: 'Наследство и завещание в Грузии: как получить причитающуюся долю | GLC Law Company',
+      TUR: "Gürcistan'da Miras ve Vasiyetname: Hakkınız Olan Payı Nasıl Alırsınız? | GLC Law Company",
     },
     excerpt: {
-      GEO: 'სასამართლო უწყების ჩაბარებისთანავე იწყება მკაცრი პროცესუალური ვადების ათვლა. გაიგეთ, როგორ დაიცვათ თავი და არ დაკარგოთ თქვენი კანონიერი უფლებები.',
-      ENG: 'Receipt of a summons initiates strict statutory limitation periods. Discover critical procedural steps to preserve your legal rights and strategic defense.',
-      RUS: 'Вручение судебного иска запускает строгие процессуальные сроки. Узнайте, как защитить свои права и сформировать стратегическую защиту.',
-      TUR: 'Dava tebligatı ile birlikte yasal süreler işlemeye başlar. Yasal haklarınızı korumak ve etkili bir savunma hazırlamak için gereken adımlar.',
+      GEO: 'ექვსთვიანი ვადა მემკვიდრეობის მისაღებად, ანდერძი და მემკვიდრეების რიგითობა საქართველოს სამოქალაქო კოდექსის მიხედვით.',
+      ENG: 'The six-month deadline for accepting an inheritance, wills, compulsory shares, and notary registration rules under the Civil Code of Georgia.',
+      RUS: 'Шестимесячный срок принятия наследства, завещание, очередность наследников и регистрация прав в Грузии.',
+      TUR: "Gürcistan Medeni Kanunu'na göre mirasın kabulü için altı aylık süre, vasiyetname, mirasçı sıralaması ve tapu tescili.",
     },
-    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-    alt: 'Golden scales of justice on mahogany executive desk with law books',
+    image: anderImg,
+    ogImage: '/family.png',
+    alt: 'Inheritance and wills legal representation in Georgia - GLC Law Company',
     author: {
       name: 'გიორგი გუბელაძე',
       role: {
@@ -111,171 +119,283 @@ export const BLOG_POSTS_DETAIL: BlogPostDetail[] = [
         RUS: 'Старший партнер, Адвокат',
         TUR: 'Kıdemli Ortak, Avukat',
       },
-      avatar: '/.tempmediaStorage/GUBE1.jpeg',
+      avatar: '/GUBE1.jpeg',
     },
     content: {
       GEO: {
-        intro: 'საქართველოს სამოქალაქო საპროცესო კოდექსის შესაბამისად, სასამართლო სარჩელისა და თანდართული დოკუმენტაციის ოფიციალური ჩაბარების მომენტიდან იწყება მოპასუხის უფლება-მოვალეობების პროცესუალური ათვლა. პასიურობა ან ვადების გაშვება იწვევს დაუსწრებელი გადაწყვეტილების გამოტანას მოსარჩელის სასარგებლოდ.',
+        intro:
+          'ნათესავის გარდაცვალების შემდეგ ოჯახებს ქონებაზე ფიქრის თავიც არ აქვთ, თუმცა კანონი მემკვიდრეობის მისაღებად კონკრეტულ ვადას ადგენს და მისი გაშვება **წლობით გაჭიანურებულ სასამართლო დავაში შეიძლება გადაიზარდოს.** ამ საკითხებს [სამოქალაქო კოდექსი](https://matsne.gov.ge/ka/document/view/16426) მემკვიდრეობითი სამართლით აწესრიგებს, ქვემოთ კი იმას მიმოვიხილავთ, რაც პრაქტიკაში ყველაზე ხშირად გვჭირდება.',
         sections: [
           {
-            heading: '1. ჩაბარების თარიღის ფიქსაცია და დოკუმენტების აუდიტი',
-            statuteRef: 'სსსკ მუხლი 70–78 (სასამართლო შეტყობინება და დაბარება)',
+            heading: 'ვის რა წილი ერგება',
+            statuteRef: 'საქართველოს სამოქალაქო კოდექსი - მემკვიდრეობითი სამართალი',
             body: [
-              'ჩაბარების ფაქტი და თარიღი არის საპროცესო ვადის ათვლის ერთადერთი სამართლებრივი საწყისი წერტილი. აუცილებლად დააფიქსირეთ გზავნილის მიღების ზუსტი დღე და საათი.',
-              'სრულად გადაამოწმეთ სარჩელზე თანდართული მტკიცებულებების ნუსხა: ყველა მოხსენიებული დოკუმენტი რეალურად არის თუ არა ჩაბარებულ კონვერტში.',
+              'თუ გარდაცვლილმა **ანდერძი** დატოვა, ქონება მის ნებას უნდა მიჰყვეს, ხოლო ანდერძის არარსებობისას მემკვიდრეები კანონით განისაზღვრებიან **რიგების მიხედვით**, სადაც **პირველ რიგში შვილები, მეუღლე და მშობლები დგანან**, მათ მოჰყვებიან **და-ძმები, ბებია-ბაბუა** და **უფრო შორეული ნათესავები.**',
+              'ანდერძის არსებობის შემთხვევაშიც კი კანონი ზოგიერთ ახლო ნათესავს სავალდებულო წილს უტოვებს, ამიტომ ქონების მთლიანად სასურველ პირზე გადაცემა ყოველთვის ვერ ხერხდება.',
+              '**უმჯობესია ანდერძი ნოტარიუსთან დამოწმდეს,** რადგან მესამე პირის ხელში მოხვედრილი ან დაკარგული ეგზემპლარის შემთხვევაში [**ნოტარიუსთან**](https://www.notary.ge/geo-1-mtavari) **დაცული ასლი ადვილად აღდგება.**',
             ],
           },
           {
-            heading: '2. შესაგებლის მომზადების იმპერატიული ვადა',
-            statuteRef: 'სსსკ მუხლი 201 (შესაგებლის წარდგენა)',
+            heading: 'როგორ და როდის მივიღოთ მემკვიდრეობა',
+            statuteRef: 'მემკვიდრეობის მიღების 6-თვიანი ვადა და საჯარო რეესტრში რეგისტრაცია',
             body: [
-              'სასამართლოს მიერ განისაზღვრება შესაგებლის წარდგენის ვადა (როგორც წესი, 14-დან 21 დღემდე საქმის სირთულის მიხედვით).',
-              'თუ მოპასუხე დადგენილ ვადაში არ წარადგენს შესაგებელს და არ წარმოადგენს საპატიო მიზეზს, მოსამართლე უფლებამოსილია გამოიტანოს დაუსწრებელი გადაწყვეტილება მოსარჩელის მოთხოვნის სრული დაკმაყოფილებით.',
-            ],
-          },
-          {
-            heading: '3. შეგებებული სარჩელის წარდგენა და მტკიცებულებითი ბაზა',
-            statuteRef: 'სსსკ მუხლი 207 (შეგებებული სარჩელი)',
-            body: [
-              'თუ თქვენ გაქვთ ურთიერთდაკავშირებული მოთხოვნა მოსარჩელის მიმართ, შეგებებული სარჩელის აღძვრა შესაძლებელია მხოლოდ შესაგებლისთვის დადგენილ ვადაში.',
-              'მტკიცებულებების მოძიება (წერილობითი ხელშეკრულებები, საბანკო ამონაწერები, ექსპერტიზის დასკვნები) უნდა დაიწყოს დაუყოვნებლივ პირველსავე დღეებში.',
+              'გარდაცვალებიდან **ექვსი თვის** განმავლობაში [ნოტარიუსთან](https://notary.ge/eng-2859-succession-proceedings-and-compliance-of-practice-with-law) უნდა შეიტანოთ განცხადება მემკვიდრეობის მიღების შესახებ, რის საფუძველზეც **ნოტარიუსი მემკვიდრეობის მოწმობას გასცემს**, უძრავი ქონების შემთხვევაში კი ამ მოწმობით თქვენი საკუთრება [საჯარო რეესტრში](https://www.napr.gov.ge) უნდა დარეგისტრირდეს.',
             ],
           },
         ],
-        keyTakeaways: [
-          'არასდროს დატოვოთ სასამართლო გზავნილი უპასუხოდ; იურიდიული უმოქმედობა უტოლდება მოთხოვნის უსიტყვო აღიარებას.',
-          'შესაგებლის წარდგენის ვადის გაშვება იწვევს დაუსწრებელ გადაწყვეტილებას (Default Judgment).',
-          'საქმის მასალების პროფესიონალური ანალიზი პირველივე 48 საათში ზრდის მოგების შანსს 80%-ზე მეტით.',
-        ],
-        statutorySummary: 'საქართველოს სამოქალაქო საპროცესო კოდექსის მუხლი 201-ის თანახმად, შესაგებლის წარდგენის ვადის გაგრძელება შესაძლებელია მხოლოდ საპატიო მიზეზის არსებობისას შესაბამისი შუამდგომლობის დროული დაყენებით.',
+        faq: {
+          title: 'ხშირად დასმული კითხვები',
+          items: [
+            {
+              question: 'რა ხდება, თუ ექვსი თვე გავუშვი?',
+              answer: [
+                'როგორც წესი, მემკვიდრეობა მიღებულად ითვლება მაშინაც, თუ მემკვიდრემ ქონება **ფაქტობრივად დაიკავა ან მართავს** მას, თუმცა დავის დროს ამის დამტკიცება შესაძლოა არ იყოს მარტივი, ხოლო **საპატიო მიზეზის** არსებობისას სასამართლოს ვადის გაგრძელება შეუძლია.',
+              ],
+            },
+            {
+              question: 'შეიძლება მემკვიდრეობაზე უარის თქმა?',
+              answer: [
+                'კანონი ამის შესაძლებლობას იძლევა, რაც განსაკუთრებით მნიშვნელოვანია მაშინ, როცა **გარდაცვლილს ვალები დარჩა,** ამიტომ გადაწყვეტილებამდე ქონებისა და ვალების სრული ანალიზი უნდა ჩაატაროთ.',
+              ],
+            },
+            {
+              question: 'აუცილებელია თუ არა ანდერძის ნოტარიუსთან დამოწმება?',
+              answer: [
+                'ანდერძი წერილობით უნდა შედგეს და ხელმოწერილი უნდა იყოს, ჩვეულებრივ კი მას ნოტარიუსი ამოწმებს, რადგან დაუმოწმებელი ანდერძის გასაჩივრება გაცილებით ადვილია.',
+              ],
+            },
+            {
+              question: 'რა დოკუმენტებია საჭირო?',
+              answer: [
+                'ჩვეულებრივ საჭიროა გარდაცვალების მოწმობა, ნათესაობის დამადასტურებელი დოკუმენტები, ქონებაზე საკუთრების დოკუმენტები და პირადობის მოწმობა.',
+              ],
+            },
+            {
+              question: 'რა ხდება, როცა მემკვიდრეები წილზე ვერ თანხმდებიან?',
+              answer: [
+                'გაყოფის შესახებ წერილობითი შეთანხმება საუკეთესო გზაა, ხოლო თუ ის ვერ შედგა, საკითხს **სასამართლო გადაწყვეტს,** ამიტომ ადვოკატის ადრეული ჩართვა ხშირად დროსა და ნერვებს გიზოგავთ.',
+              ],
+            },
+          ],
+        },
+        closingTitle: 'სამემკვიდრეო დავები - GLC Law Company',
+        closingNote:
+          '**GLC Law Company**-ის ადვოკატები დაგეხმარებიან სამემკვდირეო დავის წარმატებით დასრულებაში, ანდერძის შემოწმებიდან სასამართლოში წარმომადგენლობამდე.\n\nკონსულტაციისთვის დაჯავშნეთ თქვენი ადგილი ან გადაუდებელი აუცილებლობის შემთხვევაში მოგვმართეთ ცხელ ხაზზე: +995 599 27 77 74.',
       },
       ENG: {
-        intro: 'Under procedural civil law, the formal service of a lawsuit initiates a strict clock. Inaction or missed deadlines typically result in a default judgment being granted directly in favor of the plaintiff.',
+        intro:
+          'After the death of a loved one, families rarely have the energy to think about property, yet the law sets a deadline for accepting an inheritance, and missing it can grow into a **court dispute that drags on for years.** These matters are governed by the [Civil Code](https://matsne.gov.ge/en/document/view/16426), and below we go through what comes up most often in practice.',
         sections: [
           {
-            heading: '1. Date Stamp and Comprehensive Evidence Audit',
-            statuteRef: 'Civil Procedure Code, Arts. 70-78',
+            heading: 'Who gets what',
+            statuteRef: 'Civil Code of Georgia - Inheritance Law',
             body: [
-              'Document the precise day and hour of delivery. This is the sole starting point for procedural statutory periods.',
-              'Cross-check every exhibit referenced in the petition against physical copies delivered.',
+              'If the deceased left a **will**, the estate follows it, and without one the heirs are determined by **order of priority** under the law, with **children, the spouse and parents in the first order**, followed by **siblings, grandparents** and **more distant relatives.**',
+              'Even with a will, the law reserves a compulsory share for certain close relatives, so the estate cannot always be passed entirely to the person the testator prefers.',
+              '**A will certified by a notary is the safer route,** because if the testator\'s own copy is lost or ends up with a third party, the copy deposited with the [**notary**](https://www.notary.ge/geo-1-mtavari) **can easily be restored.**',
             ],
           },
           {
-            heading: '2. Mandatory Timeframe for Filing a Formal Defense',
-            statuteRef: 'Civil Procedure Code, Art. 201',
+            heading: 'How and when to accept',
+            statuteRef: 'Six-Month Acceptance Deadline and Public Registry',
             body: [
-              'The court establishes a strict response window (typically 14 to 21 days). Failure to reply allows the court to issue a default judgment without further trial hearing.',
-            ],
-          },
-          {
-            heading: '3. Counterclaims and Evidentiary Submission',
-            statuteRef: 'Civil Procedure Code, Art. 207',
-            body: [
-              'Counterclaims must be filed strictly concurrently with your statement of defense.',
-              'Evidence collection must begin within the first 48 hours to secure witness statements and forensic materials.',
+              'Within **six months** of the death you need to submit a statement of acceptance to a [notary](https://notary.ge/eng-2859-succession-proceedings-and-compliance-of-practice-with-law), who then issues a **succession certificate confirming your ownership**, and for real estate that certificate is what you take to the [Public Registry](https://www.napr.gov.ge) to have your name entered.',
             ],
           },
         ],
-        keyTakeaways: [
-          'Never ignore a formal court delivery; silence is legally construed as admissions.',
-          'Statutory response periods are rigid; missed deadlines result in default judgments.',
-          'Immediate legal counsel within 48 hours preserves procedural counterclaims.',
-        ],
-        statutorySummary: 'Civil Procedure Code Article 201 mandates formal defense submission within the statutory timeframe or face binding adverse judgment.',
+        faq: {
+          title: 'Questions and answers',
+          items: [
+            {
+              question: 'What if I miss the six months?',
+              answer: [
+                'As a rule an heir is also treated as having accepted by **actually taking over or managing** the estate, though this can be hard to prove in a dispute, and a court may extend the deadline where the delay has a **valid reason.**',
+              ],
+            },
+            {
+              question: 'Can I refuse an inheritance?',
+              answer: [
+                'The law allows it, which matters when the **deceased left debts**, so it is worth getting a full picture of assets and liabilities before deciding.',
+              ],
+            },
+            {
+              question: 'Does a will have to be notarized?',
+              answer: [
+                'A will must be in writing and signed, and it is normally certified by a notary, because an uncertified will is far easier to challenge.',
+              ],
+            },
+            {
+              question: 'Which documents do I need?',
+              answer: [
+                'Typically the death certificate, proof of your family relationship, ownership documents for the property and your ID, although the notary will confirm the exact list.',
+              ],
+            },
+            {
+              question: 'What if the heirs cannot agree on shares?',
+              answer: [
+                'A written agreement on division is the best route, and if it fails **the court decides**, so involving a lawyer early often saves time and stress.',
+              ],
+            },
+          ],
+        },
+        closingTitle: 'Inheritance Cases - GLC Law Company',
+        closingNote:
+          'The lawyers of **GLC Law Company** handle inheritance cases from Batumi and assist with both notary procedures and court proceedings, from will verification to courtroom representation.\n\nFor a consultation call +995 599 27 77 74. If you cannot afford a lawyer, contact the [Legal Aid Service](https://www.legalaid.ge). This article is general information, not legal advice.',
       },
       RUS: {
-        intro: 'В соответствии с Гражданским процессуальным кодексом официальное вручение искового заявления запускает строгий отсчет процессуальных сроков. Бездействие приводит к вынесению заочного решения в пользу истца.',
+        intro:
+          'После смерти близкого человека семьям редко хватает сил думать об имуществе, однако закон устанавливает срок для принятия наследства, и его пропуск может обернуться **судебным спором на долгие годы.** Эти вопросы регулирует [Гражданский кодекс](https://matsne.gov.ge/en/document/view/16426), и ниже мы разберем то, с чем на практике сталкиваются чаще всего.',
         sections: [
           {
-            heading: '1. Фиксация даты вручения и аудит доказательств',
-            statuteRef: 'ГПК, статьи 70–78 (Судебные извещения)',
+            heading: 'Кому что достается',
+            statuteRef: 'Гражданский кодекс Грузии - Наследственное право',
             body: [
-              'Зафиксируйте точный день и час получения. Это отправная точка всех сроков.',
-              'Проверьте соответствие всех приложенных документов описи.',
+              'Если умерший оставил **завещание**, имущество переходит согласно его воле, а при отсутствии завещания наследники определяются **по очередям**, установленным законом: **в первую очередь это дети, супруг и родители**, затем **братья и сестры, бабушки и дедушки** и **более дальние родственники.**',
+              'Даже при наличии завещания закон закрепляет обязательную долю за некоторыми близкими родственниками, поэтому передать все имущество желаемому лицу удается не всегда.',
+              '**Завещание лучше удостоверить у нотариуса,** ведь при утрате собственного экземпляра завещателя экземпляр, хранящийся у [**нотариуса**](https://www.notary.ge/geo-1-mtavari), **можно легко восстановить.**',
             ],
           },
           {
-            heading: '2. Пресекательный срок подачи отзыва на иск',
-            statuteRef: 'ГПК, статья 201 (Подача возражения)',
+            heading: 'Как и когда принять наследство',
+            statuteRef: 'Шестимесячный срок и регистрация в Публичном реестре',
             body: [
-              'Суд устанавливает срок подачи отзыва (обычно от 14 до 21 дня). Непредоставление отзыва влечет вынесение заочного решения.',
-            ],
-          },
-          {
-            heading: '3. Встречный иск и доказательственная база',
-            statuteRef: 'ГПК, статья 207 (Встречный иск)',
-            body: [
-              'Встречный иск может быть подан исключительно в пределах срока, установленного для подачи возражений.',
+              'В течение **шести месяцев** со дня смерти необходимо подать заявление о принятии наследства [нотариусу](https://notary.ge/eng-2859-succession-proceedings-and-compliance-of-practice-with-law), который выдаст **свидетельство о праве на наследство**, а в случае недвижимости с этим свидетельством нужно обратиться в [Публичный реестр](https://www.napr.gov.ge), чтобы зарегистрировать право собственности.',
             ],
           },
         ],
-        keyTakeaways: [
-          'Игнорирование иска влечет заочное решение суда в пользу истца.',
-          'Сроки ответа строго регламентированы процессуальным законом.',
-          'Своевременное обращение к адвокату позволяет сохранить право на встречный иск.',
-        ],
-        statutorySummary: 'Статья 201 ГПК предусматривает обязательную подачу отзыва на иск под угрозой немедленного вынесения заочного решения.',
+        faq: {
+          title: 'Вопросы и ответы',
+          items: [
+            {
+              question: 'Что делать, если я пропустил шесть месяцев?',
+              answer: [
+                'Как правило, наследство считается принятым и тогда, когда наследник **фактически вступил во владение имуществом или управляет им**, хотя доказать это в споре бывает трудно, а суд при **уважительной причине** может продлить срок.',
+              ],
+            },
+            {
+              question: 'Можно ли отказаться от наследства?',
+              answer: [
+                'Закон это допускает, что особенно важно при наличии **у умершего долгов**, поэтому перед решением стоит получить полную картину активов и обязательств.',
+              ],
+            },
+            {
+              question: 'Обязательно ли нотариально удостоверять завещание?',
+              answer: [
+                'Завещание должно быть составлено письменно и подписано, а обычно его удостоверяет нотариус, поскольку неудостоверенное завещание оспорить гораздо проще.',
+              ],
+            },
+            {
+              question: 'Какие документы потребуются?',
+              answer: [
+                'Как правило, свидетельство о смерти, документы о родстве, документы на право собственности на имущество и удостоверение личности, однако точный перечень уточнит нотариус.',
+              ],
+            },
+            {
+              question: 'Что делать, если наследники не могут договориться о долях?',
+              answer: [
+                'Лучший путь - письменное соглашение о разделе, а если оно не достигнуто, спор **решает суд**, поэтому раннее привлечение адвоката часто экономит время и нервы.',
+              ],
+            },
+          ],
+        },
+        closingTitle: 'Наследственные споры - GLC Law Company',
+        closingNote:
+          'Адвокаты **GLC Law Company** ведут наследственные дела из Батуми и помогают на каждом этапе, от проверки завещания и нотариальных процедур до представительства в суде.\n\nДля консультации звоните по горячей линии: +995 599 27 77 74. Если нанять адвоката нет возможности, обратитесь в [Службу юридической помощи](https://www.legalaid.ge). Статья носит общий информационный характер и не заменяет консультацию юриста.',
       },
       TUR: {
-        intro: 'Hukuk Muhakemeleri Kanunu uyarınca dava dilekçesinin tebliği ile birlikte yasal süreler işlemeye başlar. Hareketsizlik, davacı lehine gıyapta karar verilmesine yol açabilir.',
+        intro:
+          'Yakınımızı kaybettikten sonra aileler çoğu zaman mal varlığını düşünecek halde olmaz, ancak kanun mirasın kabulü için belirli bir süre koyar ve bu sürenin kaçırılması **yıllarca süren bir mahkeme uyuşmazlığına dönüşebilir.** Bu konuları [Medeni Kanun](https://matsne.gov.ge/en/document/view/16426) düzenler; aşağıda pratikte en sık karşılaşılanları ele alıyoruz.',
         sections: [
           {
-            heading: '1. Tebligat Tarihinin Tespiti ve Belge Denetimi',
-            statuteRef: 'HMK İlgili Tebligat Maddeleri',
+            heading: 'Kime ne düşer',
+            statuteRef: 'Gürcistan Medeni Kanunu - Miras Hukuku',
             body: [
-              'Tebligatın alındığı gün ve saati kesin olarak not edin.',
-              'Dava dilekçesine ekli tüm delilleri eksiksiz kontrol edin.',
+              'Ölen kişi **vasiyetname** bıraktıysa mal varlığı onun iradesine göre paylaşılır, vasiyetname yoksa mirasçılar kanunla belirlenen **sıralara göre** tespit edilir; **birinci sırada çocuklar, eş ve anne baba**, ardından **kardeşler, büyükanne ve büyükbaba** ile **daha uzak akrabalar** gelir.',
+              'Vasiyetname olsa bile kanun bazı yakın akrabalar için saklı pay öngörür, bu yüzden mal varlığının tamamını istenen kişiye bırakmak her zaman mümkün olmaz.',
+              '**Vasiyetnamenin noterde onaylanması daha güvenlidir,** çünkü vasiyet edenin kendi nüshası kaybolursa [**notere**](https://www.notary.ge/geo-1-mtavari) **bırakılan nüsha kolayca geri getirilebilir.**',
             ],
           },
           {
-            heading: '2. Cevap Dilekçesi Verme Zorunluluğu',
-            statuteRef: 'HMK Cevap Süreleri',
+            heading: 'Miras nasıl ve ne zaman kabul edilir',
+            statuteRef: 'Altı Aylık Başvuru Süresi ve Kamu Sicili Tescili',
             body: [
-              'Yasal süresi içerisinde cevap dilekçesi verilmemesi, davacının iddialarının kabulü anlamına gelebilecek sonuçlar doğurur.',
-            ],
-          },
-          {
-            heading: '3. Karşı Dava Açma ve Delil Sunumu',
-            statuteRef: 'HMK Karşı Dava Hükümleri',
-            body: [
-              'Karşı dava ancak cevap süresi içerisinde açılabilir; gecikmeler hak kaybına neden olur.',
+              'Ölümden itibaren **altı ay** içinde [notere](https://notary.ge/eng-2859-succession-proceedings-and-compliance-of-practice-with-law) mirasın kabulüne dair başvuru yapmanız gerekir; noter **mülkiyetinizi doğrulayan veraset belgesini** düzenler, taşınmaz söz konusuysa bu belgeyle [Kamu Sicili](https://www.napr.gov.ge) kurumuna giderek adınıza tescil yaptırırsınız.',
             ],
           },
         ],
-        keyTakeaways: [
-          'Tebligatı asla yanıtsız bırakmayın.',
-          'Yasal süreler kesin olup gecikmeler telafisi zor sonuçlar doğurur.',
-          'İlk 48 saatte uzman bir avukatla strateji oluşturmak hayati önem taşır.',
-        ],
-        statutorySummary: 'Yasal cevap süresinde savunma sunulması esastır.',
+        faq: {
+          title: 'Sorular ve cevaplar',
+          items: [
+            {
+              question: 'Altı ayı kaçırırsam ne olur?',
+              answer: [
+                'Kural olarak mirasçı malı **fiilen devralmışsa veya yönetiyorsa** miras kabul edilmiş sayılır, ancak bir uyuşmazlıkta bunu ispatlamak zor olabilir ve **geçerli bir neden** varsa mahkeme süreyi uzatabilir.',
+              ],
+            },
+            {
+              question: 'Mirası reddedebilir miyim?',
+              answer: [
+                'Kanun buna izin verir; ölenin **borçları varsa** bu özellikle önemlidir, bu yüzden karar vermeden önce mal varlığı ve borçların tam dökümünü görmekte fayda var.',
+              ],
+            },
+            {
+              question: 'Vasiyetnamenin noterde onaylanması şart mı?',
+              answer: [
+                'Vasiyetname yazılı olmalı ve imzalanmalıdır, genellikle de noter tarafından onaylanır, çünkü onaysız bir vasiyetnameye itiraz etmek çok daha kolaydır.',
+              ],
+            },
+            {
+              question: 'Hangi belgeler gerekir?',
+              answer: [
+                'Genellikle ölüm belgesi, akrabalık belgeleri, mal varlığının mülkiyet belgeleri ve kimlik gerekir; kesin listeyi noter size bildirir.',
+              ],
+            },
+            {
+              question: 'Mirasçılar paylar konusunda anlaşamazsa ne olur?',
+              answer: [
+                'En iyi yol yazılı bir paylaşım sözleşmesidir; olmazsa **mahkeme karar verir**, bu yüzden avukatı erken sürece dahil etmek çoğu zaman zaman ve sinir kazandırır.',
+              ],
+            },
+          ],
+        },
+        closingTitle: 'Miras Davaları - GLC Law Company',
+        closingNote:
+          "**GLC Law Company** avukatları miras davalarına Batum'dan bakıyor ve vasiyetnamenin incelenmesinden noter işlemlerine ve mahkeme temsiline kadar her aşamada destek veriyor.\n\nDanışmak için +995 599 27 77 74 numarasını arayın. Avukat tutamıyorsanız [Hukuki Yardım Servisi](https://www.legalaid.ge) sayfasına başvurabilirsiniz. Bu yazı genel bilgi niteliğindedir, hukuki tavsiye yerine geçmez.",
       },
     },
   },
   {
     id: 2,
-    slug: '5-legal-steps-every-small-business-should-take',
-    category: 'კორპორაციული სამართალი',
-    readTime: '8 წთ საკითხავი',
+    slug: 'rogor-shevarchioth-iuridiuli-kompania',
+    category: 'იურიდიული გზამკვლევი',
+    readTime: '6 წთ საკითხავი',
     date: {
-      GEO: '12 სექტემბერი, 2026',
-      ENG: 'Sep 12, 2026',
-      RUS: '12 сентября 2026 г.',
-      TUR: '12 Eylül 2026',
+      GEO: '2026 წლის სექტემბერი',
+      ENG: 'September 2026',
+      RUS: 'Сентябрь 2026 г.',
+      TUR: 'Eylül 2026',
     },
     title: {
-      GEO: '5 სამართლებრივი ნაბიჯი, რომელიც ყველა ბიზნესმა უნდა გადადგას',
-      ENG: '5 Legal Steps Every Small Business Should Take',
-      RUS: '5 правовых шагов, которые должен предпринять каждый бизнес',
-      TUR: 'Her Küçük İşletmenin Atması Gereken 5 Hukuki Adım',
+      GEO: 'როგორ შევარჩიოთ იურიდიული კომპანია: სრული გზამკვლევი',
+      ENG: 'How to Choose a Law Firm: A Complete Guide',
+      RUS: 'Как выбрать юридическую компанию: полное руководство',
+      TUR: 'Hukuk Şirketi Nasıl Seçilir: Kapsamlı Rehber',
+    },
+    seoTitle: {
+      GEO: 'როგორ შევარჩიოთ იურიდიული კომპანია: სრული გზამკვლევი | GLC Law Company',
+      ENG: 'How to Choose a Law Firm in Georgia: A Complete Guide | GLC Law Company',
+      RUS: 'Как выбрать юридическую компанию в Грузии: полное руководство | GLC Law Company',
+      TUR: "Gürcistan'da Hukuk Şirketi Nasıl Seçilir: Kapsamlı Rehber | GLC Law Company",
     },
     excerpt: {
-      GEO: 'კორპორაციული წესდება, დამფუძნებელთა შეთანხმება, შრომითი კონტრაქტები და ინტელექტუალური საკუთრების დაცვა — როგორ ავიცილოთ თავიდან ძვირადღირებული დავები.',
-      ENG: 'Articles of association, founders agreement, employment contracts, and intellectual property protection — avoid crippling corporate disputes early.',
-      RUS: 'Корпоративный устав, соглашение учредителей, трудовые контракты и защита интеллектуальной собственности — предотвращение рисков.',
-      TUR: 'Şirket esas sözleşmesi, kurucu ortaklar sözleşmesi, iş sözleşmeleri ve fikri mülkiyetin korunması rehberi.',
+      GEO: 'როგორ შევარჩიოთ იურიდიული კომპანია საქართველოში: რას დავაკვირდეთ, რა არის საგანგაშო ნიშანი და რა უნდა ეწეროს ხელშეკრულებაში.',
+      ENG: 'How to choose a law firm in Georgia: what to check, which red flags to avoid, and what a service agreement should contain.',
+      RUS: 'Как выбрать юридическую компанию в Грузии: на что смотреть, какие тревожные сигналы учитывать и что должен содержать договор.',
+      TUR: "Gürcistan'da hukuk şirketi nasıl seçilir: nelere bakmalı, hangi uyarı işaretlerinden kaçınmalı ve hizmet sözleşmesinde neler olmalı.",
     },
-    image: '/.tempmediaStorage/lawwallpaper.jpg',
-    alt: 'Attorney in tailored suit signing legal documents with fountain pen and gavel',
+    image: glcImg,
+    ogImage: '/HERO_GUBE.jpeg',
+    alt: 'GLC Law Company office and legal counsel guide on choosing a law firm in Georgia',
     author: {
       name: 'გიორგი გუბელაძე',
       role: {
@@ -284,223 +404,410 @@ export const BLOG_POSTS_DETAIL: BlogPostDetail[] = [
         RUS: 'Старший партнер, Адвокат',
         TUR: 'Kıdemli Ortak, Avukat',
       },
-      avatar: '/.tempmediaStorage/GUBE1.jpeg',
+      avatar: '/GUBE1.jpeg',
     },
     content: {
       GEO: {
-        intro: 'საქართველოს კანონი „მეწარმეთა შესახებ“ ახალი რედაქციით მნიშვნელოვნად ცვლის კორპორაციული მართვის, პარტნიორთა უფლებამოსილებებისა და დირექტორის პასუხისმგებლობის სტანდარტებს. ქვემოთ განხილულია 5 სავალდებულო სამართლებრივი ინსტრუმენტი.',
+        intro:
+          'იურისტს ხშირად მაშინ ვეძებთ, როცა პრობლემა უკვე გვაწუხებს. როდესაც სარჩელი ჩაგბარდებათ, ან თქვენს წინააღმდეგ დაიწყება სისხლის სამართლებრივი დევნა ან ბიზნესს სჭირდება იურიდიული აუდიტი - შესაძლოა უკვე გვიანი იყოს.\n\nნებისმიერ შემთხვევაში, აუცილებელია წინასწარ იცოდეთ, რომელ იურიდიულ კომპანიას მიმართოთ მაშინვე დასახმარებლად.',
         sections: [
           {
-            heading: '1. პარტნიორთა შეთანხმების (Shareholders Agreement) გაფორმება',
-            statuteRef: 'კანონი „მეწარმეთა შესახებ“ მუხლი 12–14',
+            heading: 'როგორ უნდა დაიწყოთ შერჩევა',
             body: [
-              'სტანდარტული წესდება არ იცავს პარტნიორებს ჩიხური სიტუაციებისგან (Deadlock).',
-              'აუცილებელია დეტალური შეთანხმება წილების გასხვისების წესზე (Tag-Along, Drag-Along უფლებები) და გადაწყვეტილების მიღების კვორუმზე.',
+              'სანამ კომპანიას შეარჩევთ, უნდა იცოდეთ, თუ რისთვის გჭირდებათ იგი. ერთჯერადი და მრავალჯერადი საქმეებისთვის ერთი და იგივე კომპანია ხშირად არ გამოდგება. იურიდიული პრაქტიკა ერთგვაროვანი არ არის.',
+              'მაგალითად, სასამართლოში გამოცდილი ადვოკატი სულაც არ არის ხშირად საუკეთესო არჩევანი კორპორაციული საქმეებისათვის, ამიტომ ჯერ უნდა განსაზღვროთ სექტორული გამოცდილება.',
             ],
           },
           {
-            heading: '2. შრომითი ხელშეკრულებების სრული შესაბამისობა კოდექსთან',
-            statuteRef: 'საქართველოს შრომის კოდექსი მუხლი 6–15',
+            heading: 'რას უნდა მიაქციოთ ყურადღება',
             body: [
-              'ზეპირი შეთანხმებები და ბუნდოვანი პირობები იწვევს დამსაქმებლის სრულ ფინანსურ პასუხისმგებლობას და კომპენსაციის დაკისრებას სასამართლოში.',
-              'კონფიდენციალურობისა (NDA) და არაკონკურენციის პირობები უნდა იყოს ზუსტად გაწერილი.',
+              'იურიდიული კომპანიის ან კერძო ადვოკატის არჩევისას ყურადღება გაამახვილეთ შემდეგ კრიტერიუმებზე:',
+            ],
+            listItems: [
+              '1) **სექტორული გამოცდილება -** დაადგინეთ, რამდენად აქვს გამოცდილება კომპანიას კონკრეტულად ისეთ საქმეებში, რომელიც თქვენი საქმის იდენტურია, და ვინ იმუშავებს უშუალოდ თქვენს საქმეზე.',
+              '2) **სტატუსი -** თუ ადვოკატს ან იურიდიულ კომპანიას არჩევთ, მნიშვნელოვანია მის მიერ დამკვიდრებული სტატუსი და რეგისტრაცია ([ადვოკატთა ასოციაცია](https://www.gcba.org.ge/) და [საჯარო რეესტრი](https://napr.gov.ge/)), რადგან იურიდიულ სფეროში ნდობა და ღირსება ყველაზე მნიშვნელოვანია.',
+              '3) **კომუნიკაცია -** თუ თქვენი დამცველი გვიან გპასუხობთ ან ვერ იღებთ მკაფიო განმარტებებს, ეს მნიშვნელოვანი მინუსია და სჯობს სწრაფად ჩაანაცვლოთ კვალიფიციური დამცველით. დამცველთან კომუნიკაცია არ უნდა იყოს ბარიერი, არამედ მარტივი და გასაგები პროცესი.',
             ],
           },
           {
-            heading: '3. ინტელექტუალური საკუთრებისა და სავაჭრო ნიშნის რეგისტრაცია',
-            statuteRef: 'კანონი „სასაქონლო ნიშნების შესახებ“ („საქპატენტი“)',
+            heading: 'საგანგაშო ნიშნები',
             body: [
-              'თქვენი ბრენდის სახელი და ლოგო არ არის დაცული, სანამ არ გაივლის ოფიციალურ რეგისტრაციას საქპატენტში.',
-              'დაურეგისტრირებელი ნიშნის გამოყენებამ შეიძლება გამოიწვიოს მესამე პირების მხრიდან ბრენდის მითვისება.',
+              'საკონსულტაციო ეტაპზევე მიაქციეთ ყურადღება რისკის შემცველ სიგნალებს:',
             ],
-          },
-          {
-            heading: '4. კონტრაქტორებთან პასუხისმგებლობის ზღვრის განსაზღვრა',
-            statuteRef: 'საქართველოს სამოქალაქო კოდექსი მუხლი 390–405',
-            body: [
-              'ხელშეკრულებებში გათვალისწინებული უნდა იყოს პასუხისმგებლობის ზედა ზღვარი (Limitation of Liability) და ფორსმაჟორული დათქმები.',
-            ],
-          },
-          {
-            heading: '5. საგადასახადო რისკების პრევენციული აუდიტი',
-            statuteRef: 'საქართველოს საგადასახადო კოდექსი',
-            body: [
-              'ტრანზაქციების სწორი დოკუმენტირება იცავს კომპანიას საგადასახადო ჯარიმებისა და დარიცხვებისაგან.',
+            listItems: [
+              '1) **მაშინვე შეწყვიტეთ კომუნიკაცია, თუ კომპანია ან კერძო ადვოკატი გარანტირებულ შედეგს გპირდებათ.**',
+              '2) **მაშინვე შეწყვიტეთ კომუნიკაცია, თუ მომსახურების საფასურს დამატებითი კითხვებისა და საქმის მოცულობის შესწავლის გარეშე გიდგენთ.**',
+              '3) **მაშინვე შეწყვიტეთ კომუნიკაცია, თუ დამცველი უდიერად ეპყრობა თქვენს საქმეს ან საფრთხის ქვეშ აყენებს კონფიდენციალურობას.**',
             ],
           },
         ],
-        keyTakeaways: [
-          'ახალი „მეწარმეთა შესახებ“ კანონი ითხოვს წესდებების განახლებას.',
-          'კონფიდენციალურობის შეთანხმება (NDA) უნდა გაფორმდეს ნებისმიერ მოლაპარაკებამდე.',
-          'საქპატენტში რეგისტრაცია ბიზნესის აქტივების დაცვის ქვაკუთხედია.',
-        ],
-        statutorySummary: 'კორპორაციული დოკუმენტაციის დროული მოწესრიგება კომპანიას არიდებს მრავალათასიან ზიანსა და პარტნიორთა შორის გაჭიანურებულ დავებს.',
+        closingTitle: 'დასკვნა - GLC Law Company',
+        closingNote:
+          '**GLC Law Company** არის საქართველოში, კერძოდ, ბათუმში დაფუძნებული იურიდიული კომპანია, რომელიც ცნობილია პროფესიონალიზმით, ეფექტური წარმომადგენლობით და დიდი გამოცდილებით იურიდიულ სფეროში.\n\nკომპანიას აქვს როგორც ადგილობრივი, ისე საერთაშორისო გამოცდილება და სპეციალიზდება სამართლის ყველა მიმართულებით: სისხლის სამართალი, სამოქალაქო და ბიზნეს სამართალი, ადმინისტრაციული სამართალი, საოჯახო და მემკვიდრეობითი დავები თუ სხვა.\n\nჩვენთვის გადამწყვეტია თქვენი ინტერესების ეფექტურად დაცვა, რადგან თქვენი გამარჯვება ჩვენი გამარჯვებაცაა. ინდივიდუალური სამართლებრივი სტრატეგიით გამარჯვების მოსაპოვებლად დაჯავშნეთ კონსულტაცია ან დაგვიკავშირდით ცხელ ხაზზე: +995 599 27 77 94.',
+        faq: {
+          title: 'ხშირად დასმული კითხვები',
+          items: [
+            {
+              question: 'რა ღირს იურიდიული მომსახურება საქართველოში?',
+              answer: [
+                'ერთიანი ტარიფი რა თქმა უნდა არ არსებობს, რადგან ფასი დამოკიდებულია საქმის სირთულეზე, ვადებსა და ანგარიშსწორების მოდელზე (საათობრივი, ფიქსირებული ან აბონენტური).',
+              ],
+            },
+            {
+              question: 'რით განსხვავდება იურისტი ადვოკატისგან?',
+              answer: [
+                'იურისტი ფართო ცნებაა და იურიდიული განათლების მქონე ნებისმიერ სპეციალისტს მოიცავს, ხოლო ადვოკატს ადვოკატის სტატუსი აქვს და [ადვოკატთა ასოციაციის](https://www.gcba.org.ge/) წევრია.',
+              ],
+            },
+            {
+              question: 'შემიძლია თუ არა კომპანიის წარსული შედეგების შემოწმება?',
+              answer: [
+                'კლიენტების საქმეები კონფიდენციალურია, ამიტომ კომპანია ცხადია მათ ვერ გაგიმხელთ. კომპანიის და ადვოკატის სტატუსი, როგორც წესი, საზოგადოებაში ფართოდ არის გავრცელებული და ყველასთვის ხელმისაწვდომია. საჯარო სასამართლო პრაქტიკის გაცნობა ასევე შესაძლებელია [უზენაესი სასამართლოს](https://www.supremecourt.ge/) ვებგვერდზე.',
+              ],
+            },
+            {
+              question: 'რა უნდა ეწეროს მომსახურების ხელშეკრულებაში?',
+              answer: [
+                'მომსახურების მოცულობა, ჰონორარი და გადახდის წესი, ხარჯების განაწილება, ვადები, კონფიდენციალურობა და ხელშეკრულების შეწყვეტის პირობები ([სამოქალაქო კოდექსი](https://matsne.gov.ge/ka/document/view/31702)).',
+              ],
+            },
+            {
+              question: 'შემიძლია იურისტის შეცვლა საქმის დაწყების შემდეგ?',
+              answer: [
+                'როგორც წესი, დიახ, თუმცა უნდა დაიცვათ ხელშეკრულებით გათვალისწინებული შეწყვეტის წესი და აანაზღაუროთ უკვე შესრულებული სამუშაო. ყოფილი ადვოკატი კი ვალდებულია ახალ ადვოკატს საქმის ყოველი მასალა დაუყოვნებლივ გადასცეს.',
+              ],
+            },
+            {
+              question: 'დაცულია თუ არა ჩემი ინფორმაცია და კონფიდენციალურობა?',
+              answer: [
+                'ადვოკატის ერთ-ერთი ყველაზე საყურადღებო პასუხისმგებლობა არის კლიენტის ინფორმაციის კონფიდენციალურად შენახვა, რადგან სხვა შემთხვევაში შესაძლებელია დისციპლინარული სამართალწარმოების დაწყება და გაფრთხილების მიღება, ან ადვოკატის ლიცენზიის შეჩერება ან შეწყვეტა.',
+              ],
+            },
+            {
+              question: 'როდის ღირს მუდმივი იურიდიული აუთსორსინგი?',
+              answer: [
+                'როცა ბიზნესს რეგულარულად სჭირდება ხელშეკრულებები, შრომითი ურთიერთობების მოწესრიგება ან [საგადასახადო](https://www.rs.ge/) შესაბამისობა.',
+              ],
+            },
+          ],
+        },
       },
       ENG: {
-        intro: 'The modern Law of Georgia on Entrepreneurs establishes elevated fiduciary duties for directors and robust minority shareholder mechanisms. Here are the 5 vital legal pillars every operating business must secure.',
+        intro:
+          "Most of us look for a lawyer when the problem is already at the door: a claim has arrived, a contract must be signed tomorrow, or a business is about to launch with a foreign partner. Under that pressure we choose by a friend's recommendation or by the lowest price.\n\nSometimes that works. Sometimes one badly drafted clause costs far more than a good lawyer's fee, so knowing which firm to call in advance makes all the difference.",
         sections: [
           {
-            heading: '1. Comprehensive Shareholders Agreement (SHA)',
-            statuteRef: 'Law on Entrepreneurs, Arts. 12-14',
+            heading: 'Start with your own needs',
             body: [
-              'Standard public statutes fail to prevent deadlock. Tailored dead-lock mechanisms and share transfer restrictions (Right of First Refusal, Tag-Along) are imperative.',
+              'Before you pick a firm, answer two questions: do you need litigation or legal structuring for a business? Is it a one-off matter or ongoing support? Legal practice is not uniform.',
+              'A courtroom veteran is not automatically the best choice for a corporate deal, so check sector specialisation first and price second.',
             ],
           },
           {
-            heading: '2. Enforceable Employment Contracts & NDAs',
-            statuteRef: 'Labor Code of Georgia, Arts. 6-15',
+            heading: 'What to look for',
             body: [
-              'Ambiguous terms expose businesses to full statutory back-pay liability in court.',
+              'When evaluating a law firm or advocate in Georgia, focus on these core standards:',
+            ],
+            listItems: [
+              '1) **Experience in cases like yours -** Ask how many similar matters they have handled and who exactly will work on yours.',
+              '2) **Status and registration -** If you are hiring an advocate, confirm membership on the [Georgian Bar Association](https://www.gcba.org.ge/) website, and look up the company in the [public registry](https://napr.gov.ge/).',
+              '3) **A written agreement -** Within the [Civil Code](https://matsne.gov.ge/ka/document/view/31702) you are free to agree on scope, fees and deadlines, and all of it should be on paper.',
+              '4) **Communication -** A good lawyer does not leave questions unanswered and explains complex points in plain language.',
+              "5) **Language and international experience -** If you have a foreign partner or investor, the firm should be able to explain [Georgia's investment environment](https://www.investingeorgia.org/) and local rules clearly in both languages.",
             ],
           },
           {
-            heading: '3. Trademark Registration via Sakpatenti',
-            statuteRef: 'Law on Trademarks',
+            heading: 'Red flags',
             body: [
-              'Your trade name and logo possess zero legal exclusivity until registered with the national patent office.',
+              'Do not overlook clear warning signs during your initial consultation:',
+            ],
+            listItems: [
+              '1) **Stop immediately if a firm or lawyer promises a guaranteed win.** In law there are no guaranteed outcomes, only well-assessed risks.',
+              '2) **Stop immediately if fees are quoted without reviewing your documents or asking clarifying questions.** Fees require understanding the scope of work.',
+              '3) **Stop immediately if your counsel handles your file carelessly or puts client confidentiality at risk.**',
             ],
           },
           {
-            heading: '4. Contractual Limitation of Liability',
-            statuteRef: 'Civil Code of Georgia, Arts. 390-405',
+            heading: 'Price or value, and the first meeting',
             body: [
-              'Cap consequential damages in all supplier and service provider agreements.',
-            ],
-          },
-          {
-            heading: '5. Preventive Tax and Regulatory Compliance',
-            statuteRef: 'Tax Code of Georgia',
-            body: [
-              'Maintain strict documentary substantiation for all capital transactions.',
+              'Fees may be hourly, fixed or a monthly retainer. In every case ask for a written estimate and what it includes and excludes. A cheap lawyer becomes expensive if you later discover a missed procedural deadline, or that the company form chosen is not the best fit for your business (see the [Law on Entrepreneurs](https://matsne.gov.ge/document/view/5230186?publication=12)).',
+              'Bring your documents to the first meeting and prepare three questions: which risks does the lawyer see, what options exist, and what does each cost? If the answer is vague and general, you have already learned what working together would look like.',
             ],
           },
         ],
-        keyTakeaways: [
-          'Mandatory company charter re-registration under the Entrepreneurial Act.',
-          'Execute non-disclosure agreements before sharing trade secrets.',
-          'Trademark registration shields corporate identity from infringement.',
-        ],
-        statutorySummary: 'Proactive corporate governance eliminates over 85% of catastrophic shareholder and operational disputes.',
+        closingTitle: 'Conclusion - GLC Law Company',
+        closingNote:
+          '**GLC Law Company** is a law firm founded in Batumi, Georgia, recognized for professionalism, decisive courtroom advocacy, and deep legal experience.\n\nWith both domestic and international practice across criminal, civil, corporate, administrative, family, and inheritance law, our team prioritizes protecting your interests because your victory is our victory. At GLC Law Company, the first conversation starts with your goal, not with a price. Call +995 599 27 77 94 to schedule a consultation.',
+        faq: {
+          title: 'Frequently Asked Questions',
+          items: [
+            {
+              question: 'How much do legal services cost in Georgia?',
+              answer: [
+                'There is no single tariff. The price depends on the complexity of the matter, deadlines and the billing model (hourly, fixed or retainer). Always ask for a written estimate.',
+              ],
+            },
+            {
+              question: 'What is the difference between a lawyer and an advocate?',
+              answer: [
+                '"Lawyer" is a broad term for any legally trained professional. An advocate holds advocate status and is a member of the [Georgian Bar Association](https://www.gcba.org.ge/). Which one you need depends on the type of case.',
+              ],
+            },
+            {
+              question: "Can I check a firm's track record?",
+              answer: [
+                'Client matters are confidential, so a firm cannot disclose them. Published case law, including on the [Supreme Court](https://www.supremecourt.ge/) website, helps you understand how courts reason in cases like yours.',
+              ],
+            },
+            {
+              question: 'What should a service agreement include?',
+              answer: [
+                'Scope of services, fee and payment terms, allocation of expenses, deadlines, confidentiality and termination conditions.',
+              ],
+            },
+            {
+              question: 'Can I change my lawyer after the work has started?',
+              answer: [
+                'Generally yes, but you must follow the termination terms of the agreement and pay for work already done. The former advocate is obligated to hand over all case materials promptly to the new lawyer.',
+              ],
+            },
+            {
+              question: 'Is my information protected?',
+              answer: [
+                "An advocate's professional secrecy is strictly protected by law, and violations may lead to disciplinary proceedings or suspension of the advocate's license. In any case, write a confidentiality clause into the agreement as well.",
+              ],
+            },
+            {
+              question: 'When is ongoing legal outsourcing worth it?',
+              answer: [
+                'When a business regularly needs contracts, employment matters or [tax](https://www.rs.ge/) compliance. A retainer is then often more predictable than paying for each issue separately.',
+              ],
+            },
+          ],
+        },
       },
       RUS: {
-        intro: 'Новая редакция Закона Грузии «О предпринимателях» устанавливает строгие требования к корпоративному управлению. Ниже приведены 5 ключевых правовых инструментов защиты бизнеса.',
+        intro:
+          'Юриста обычно ищут тогда, когда проблема уже на пороге: пришел иск, завтра нужно подписать договор или бизнес запускается вместе с иностранным партнером. В такой момент выбор делают по совету знакомого или по самой низкой цене.\n\nИногда это срабатывает, а иногда один неудачно составленный пункт обходится гораздо дороже, чем гонорар хорошего юриста. Поэтому важно заранее понимать, к какой юридической компании обратиться за помощью.',
         sections: [
           {
-            heading: '1. Соглашение учредителей (Корпоративный договор)',
-            statuteRef: 'Закон «О предпринимателях», ст. 12–14',
+            heading: 'Начните с собственной задачи',
             body: [
-              'Устранение тупиковых ситуаций (Deadlock) и четкий регламент отчуждения долей.',
+              'Прежде чем выбирать компанию, ответьте на два вопроса: вам нужно ведение спора или юридическое оформление бизнеса? Это разовый вопрос или постоянное сопровождение? Юридическая практика неоднородна.',
+              'Опытный судебный юрист не всегда лучший выбор для корпоративной сделки, поэтому сначала проверьте отраслевую специализацию и только потом цену.',
             ],
           },
           {
-            heading: '2. Трудовые договоры и соглашения о неразглашении (NDA)',
-            statuteRef: 'Трудовой кодекс Грузии',
+            heading: 'На что обратить внимание',
             body: [
-              'Четкое формулирование трудовых обязанностей исключает риски судебных компенсаций.',
+              'При выборе юридической компании или адвоката в Грузии оцените следующие критерии:',
+            ],
+            listItems: [
+              '1) **Опыт в похожих делах -** Спросите, сколько аналогичных дел компания уже вела и кто именно будет работать по вашему делу.',
+              '2) **Статус и регистрация -** Если вы нанимаете адвоката, проверьте членство на сайте [Ассоциации адвокатов Грузии](https://www.gcba.org.ge/), а данные компании найдите в [публичном реестре](https://napr.gov.ge/).',
+              '3) **Письменный договор -** В рамках [Гражданского кодекса](https://matsne.gov.ge/ka/document/view/31702) вы вправе свободно согласовать объем услуг, гонорар и сроки, но все это должно быть зафиксировано на бумаге.',
+              '4) **Коммуникация -** Хороший юрист не оставляет вопросы без ответа и объясняет сложное простым языком.',
+              '5) **Язык и международный опыт -** Если у вас иностранный партнер или инвестор, компания должна уметь объяснить [инвестиционную среду Грузии](https://www.investingeorgia.org/) и местные правила на обоих языках.',
             ],
           },
           {
-            heading: '3. Регистрация товарного знака в Сакпатенти',
-            statuteRef: 'Закон «О товарных знаках»',
+            heading: 'Тревожные сигналы',
             body: [
-              'Без официальной регистрации бренд уязвим для недобросовестных конкурентов.',
+              'Немедленно прекратите общение или проявите максимальную осторожность в следующих случаях:',
+            ],
+            listItems: [
+              '1) **Если вам обещают гарантированный результат.** В праве не бывает гарантированных побед, бывает только грамотно оцененный риск.',
+              '2) **Если стоимость называют без изучения документов и уточняющих вопросов.**',
+              '3) **Если защитник небрежно относится к вашему делу или ставит под угрозу конфиденциальность.**',
             ],
           },
           {
-            heading: '4. Ограничение ответственности в договорах',
-            statuteRef: 'Гражданский кодекс Грузии',
+            heading: 'Цена или ценность и первая встреча',
             body: [
-              'Ограничение пределов возмещения убытков в коммерческих контрактах.',
-            ],
-          },
-          {
-            heading: '5. Налоговый аудит транзакций',
-            statuteRef: 'Налоговый кодекс Грузии',
-            body: [
-              'Надлежащее оформление сделок защищает от штрафных санкций налоговых органов.',
+              'Гонорар может быть почасовым, фиксированным или в виде ежемесячной абонентской платы. В любом случае запросите письменную смету и уточните, что в нее входит, а что нет. Дешевый юрист обходится дорого, если позже выясняется, что пропущен процессуальный срок или выбрана неподходящая организационно-правовая форма (см. [Закон о предпринимателях](https://matsne.gov.ge/document/view/5230186?publication=12)).',
+              'Возьмите на консультацию документы и подготовьте три вопроса: какие риски видит юрист, какие есть варианты и сколько стоит каждый. Если ответ получился общим и расплывчатым, вы уже поняли, какое сотрудничество вас ждет.',
             ],
           },
         ],
-        keyTakeaways: [
-          'Обязательное обновление уставов в соответствии с новым законодательством.',
-          'Защита интеллектуальной собственности через национальный патентный орган.',
-          'Юридический аудит контрактов до их подписания.',
-        ],
-        statutorySummary: 'Своевременное правовое структурирование бизнеса гарантирует защиту активов и стабильность операций.',
+        closingTitle: 'Заключение - GLC Law Company',
+        closingNote:
+          '**GLC Law Company** - юридическая компания, основанная в Батуми, известная профессионализмом, результативным представительством и многолетним опытом.\n\nКомпания обладает как местной, так и международной практикой во всех ключевых отраслях права: уголовном, гражданском, корпоративном, административном, семейном и наследственном. В GLC Law Company первую беседу мы начинаем с вашей цели, а не с цены. Для консультации звоните по горячей линии: +995 599 27 77 94.',
+        faq: {
+          title: 'Часто задаваемые вопросы',
+          items: [
+            {
+              question: 'Сколько стоят юридические услуги в Грузии?',
+              answer: [
+                'Единого тарифа нет. Цена зависит от сложности дела, сроков и модели оплаты (почасовая, фиксированная или абонентская). Запросите письменную смету.',
+              ],
+            },
+            {
+              question: 'Чем юрист отличается от адвоката?',
+              answer: [
+                '"Юрист" - широкое понятие, охватывающее любого специалиста с юридическим образованием. Адвокат имеет статус адвоката и состоит в [Ассоциации адвокатов Грузии](https://www.gcba.org.ge/). Кто нужен вам, зависит от типа дела.',
+              ],
+            },
+            {
+              question: 'Можно ли проверить прошлые результаты компании?',
+              answer: [
+                'Дела клиентов конфиденциальны, поэтому компания не вправе их раскрывать. Опубликованная судебная практика, в том числе на сайте [Верховного суда](https://www.supremecourt.ge/), поможет понять, как суды рассуждают по похожим делам.',
+              ],
+            },
+            {
+              question: 'Что должен содержать договор на юридические услуги?',
+              answer: [
+                'Объем услуг, гонорар и порядок оплаты, распределение расходов, сроки, конфиденциальность и условия расторжения.',
+              ],
+            },
+            {
+              question: 'Можно ли сменить юриста после начала работы?',
+              answer: [
+                'Как правило, да, но нужно соблюсти порядок расторжения, предусмотренный договором, и оплатить уже выполненную работу. Бывший адвокат обязан незамедлительно передать все материалы дела новому адвокату.',
+              ],
+            },
+            {
+              question: 'Защищена ли моя информация?',
+              answer: [
+                'Профессиональная тайна адвоката защищена законом, а ее нарушение влечет дисциплинарную ответственность вплоть до приостановления или прекращения лицензии. Условие о конфиденциальности также стоит закрепить в договоре.',
+              ],
+            },
+            {
+              question: 'Когда выгоден постоянный юридический аутсорсинг?',
+              answer: [
+                'Когда бизнесу регулярно нужны договоры, кадровое оформление или [налоговое](https://www.rs.ge/) соответствие. Тогда абонентская модель часто предсказуемее, чем оплата каждого вопроса отдельно.',
+              ],
+            },
+          ],
+        },
       },
       TUR: {
-        intro: 'Gürcistan Ticaret Kanunu çerçevesinde şirketlerin uyması gereken temel kurumsal standartlar ve 5 kritik adım.',
+        intro:
+          "Avukatı çoğu zaman sorun kapıya dayandığında ararız: dava dilekçesi geldi, sözleşme yarın imzalanacak ya da iş yabancı bir ortakla başlıyor. Böyle anlarda seçimi ya bir tanıdığın tavsiyesine ya da en düşük fiyata göre yaparız.\n\nBazen işe yarar; bazen de kötü yazılmış tek bir madde, iyi bir avukatın ücretinden çok daha pahalıya patlar. Bu nedenle ihtiyaç anında hangi hukuk şirketine başvuracağınızı önceden bilmeniz gerekir.",
         sections: [
           {
-            heading: '1. Hissedarlar Sözleşmesi ve Çözüm Mekanizmaları',
-            statuteRef: 'Ticaret Kanunu',
+            heading: 'Önce kendi ihtiyacınızı belirleyin',
             body: [
-              'Ortaklar arası anlaşmazlıkları önleyen pay devri ve karar alma kuralları.',
+              'Bir şirket seçmeden önce iki soruyu yanıtlayın: Dava takibine mi yoksa işinizin hukuki yapılandırmasına mı ihtiyacınız var? Tek seferlik bir konu mu, sürekli destek mi? Hukuk pratiği tek tip değildir.',
+              'Mahkemede deneyimli bir avukat, kurumsal bir işlem için otomatik olarak en iyi seçim sayılmaz; bu yüzden önce sektörel uzmanlığa, sonra fiyata bakın.',
             ],
           },
           {
-            heading: '2. İş Sözleşmeleri ve Gizlilik Anlaşmaları (NDA)',
-            statuteRef: 'İş Kanunu',
+            heading: 'Nelere dikkat etmelisiniz',
             body: [
-              'Yasal tazminat risklerine karşı koruyan eksiksiz sözleşmeler.',
+              'Gürcistan’da bir hukuk şirketi veya avukat seçerken şu temel kriterleri kontrol edin:',
+            ],
+            listItems: [
+              '1) **Benzer işlerdeki deneyim -** Kaç benzer dosya yürüttüklerini ve sizin dosyanızda tam olarak kimin çalışacağını sorun.',
+              '2) **Statü ve kayıt -** Bir avukat tutuyorsanız üyeliği [Gürcistan Barolar Birliği](https://www.gcba.org.ge/) sitesinden doğrulayın; şirket bilgilerini ise [kamu sicilinde](https://napr.gov.ge/) arayın.',
+              '3) **Yazılı sözleşme -** [Medeni Kanun](https://matsne.gov.ge/ka/document/view/31702) çerçevesinde hizmetin kapsamı, ücret ve süreler üzerinde serbestçe anlaşabilirsiniz; ancak hepsi yazılı olmalıdır.',
+              '4) **İletişim -** İyi bir avukat soruları yanıtsız bırakmaz ve karmaşık konuları sade bir dille anlatır.',
+              "5) **Dil ve uluslararası deneyim -** Yabancı bir ortağınız ya da yatırımcınız varsa şirket, [Gürcistan'ın yatırım ortamını](https://www.investingeorgia.org/) ve yerel kuralları iki dilde açıklayabilmelidir.",
             ],
           },
           {
-            heading: '3. Marka Tescili (Sakpatenti)',
-            statuteRef: 'Marka Kanunu',
+            heading: 'Kırmızı bayraklar',
             body: [
-              'Ticari unvan ve logonun tescil ile tam koruma altına alınması.',
+              'Görüşme sırasında aşağıdaki uyarı işaretlerinden biriyle karşılaşırsanız iletişimi hemen durdurun:',
+            ],
+            listItems: [
+              '1) **Garantili sonuç vaat ediliyorsa iletişimi hemen kesin.** Hukukta garantili galibiyet yoktur; yalnızca iyi değerlendirilmiş risk vardır.',
+              '2) **Belgeleriniz incelenmeden ve kapsam değerlendirilmeden ücret belirleniyorsa dikkatli olun.**',
+              '3) **Dosyanıza özensiz yaklaşılıyor veya gizliliğiniz riske atılıyorsa hemen başka bir uzmanla çalışın.**',
             ],
           },
           {
-            heading: '4. Sözleşmelerde Sorumluluk Sınırları',
-            statuteRef: 'Borçlar Kanunu',
+            heading: 'Fiyat mı, değer mi ve ilk görüşme',
             body: [
-              'Tedarikçi ve müşteri sözleşmelerinde risklerin sınırlandırılması.',
-            ],
-          },
-          {
-            heading: '5. Vergi ve Uyum Denetimi',
-            statuteRef: 'Vergi Kanunu',
-            body: [
-              'İşlemlerin mevzuata uygun şekilde belgelenmesi.',
+              'Ücret saatlik, sabit ya da aylık abonelik şeklinde olabilir. Her durumda yazılı bir maliyet tahmini isteyin ve nelerin dahil, nelerin hariç olduğunu öğrenin. Ucuz avukat, sonradan usul süresinin kaçırıldığı ya da işinize uygun olmayan bir şirket türünün seçildiği anlaşılırsa pahalıya mal olur ([Girişimciler Kanunu](https://matsne.gov.ge/document/view/5230186?publication=12)).',
+              'Görüşmeye belgelerinizi götürün ve üç soru hazırlayın: avukat hangi riskleri görüyor, hangi seçenekler var ve her birinin maliyeti ne? Yanıt genel ve belirsizse, nasıl bir iş birliğinin sizi beklediğini zaten görmüşsünüzdür.',
             ],
           },
         ],
-        keyTakeaways: [
-          'Şirket ana sözleşmesinin güncellenmesi zorunludur.',
-          'Gizlilik anlaşmaları olmadan ticari sır paylaşmayın.',
-          'Marka tescili ile kurumsal kimliğinizi koruyun.',
-        ],
-        statutorySummary: 'Hukuki altyapının baştan sağlam kurulması işletmenin geleceğini güvenceye alır.',
+        closingTitle: 'Sonuç - GLC Law Company',
+        closingNote:
+          "**GLC Law Company**, Gürcistan'ın Batum şehrinde kurulmuş olup profesyonelliği, etkili temsili ve köklü hukuk deneyimiyle tanınmaktadır.\n\nCeza, medeni, şirketler, idare, aile ve miras hukuku dahil tüm temel alanlarda yerel ve uluslararası deneyime sahip olan ekibimiz, başarınızı kendi başarısı olarak görür. İlk görüşmeye fiyatla değil, sizin hedefinizle başlıyoruz. Danışmak için +995 599 27 77 94 numarasını arayın.",
+        faq: {
+          title: 'Sıkça Sorulan Sorular',
+          items: [
+            {
+              question: "Gürcistan'da hukuki hizmetlerin maliyeti nedir?",
+              answer: [
+                'Tek bir tarife yoktur. Fiyat, işin karmaşıklığına, sürelere ve ücretlendirme modeline (saatlik, sabit veya abonelik) bağlıdır. Yazılı bir maliyet tahmini isteyin.',
+              ],
+            },
+            {
+              question: 'Hukukçu ile avukat arasındaki fark nedir?',
+              answer: [
+                '"Hukukçu", hukuk eğitimi almış herkesi kapsayan geniş bir kavramdır. Avukat ise avukatlık statüsüne sahiptir ve [Gürcistan Barolar Birliği](https://www.gcba.org.ge/) üyesidir. Hangisine ihtiyacınız olduğu davanın türüne bağlıdır.',
+              ],
+            },
+            {
+              question: 'Bir şirketin geçmiş sonuçlarını kontrol edebilir miyim?',
+              answer: [
+                'Müvekkil dosyaları gizlidir, bu nedenle şirket bunları paylaşamaz. [Yargıtay](https://www.supremecourt.ge/) sitesi dahil yayımlanmış mahkeme içtihatları, mahkemelerin benzer davalarda nasıl değerlendirme yaptığını anlamanıza yardımcı olur.',
+              ],
+            },
+            {
+              question: 'Hizmet sözleşmesinde neler yer almalı?',
+              answer: [
+                'Hizmetin kapsamı, ücret ve ödeme şekli, masrafların paylaşımı, süreler, gizlilik ve sözleşmenin sona erme koşulları.',
+              ],
+            },
+            {
+              question: 'İş başladıktan sonra avukatımı değiştirebilir miyim?',
+              answer: [
+                'Genellikle evet; ancak sözleşmedeki fesih usulüne uymanız ve yapılmış işin bedelini ödemeniz gerekir. Önceki avukat, dosya belgelerini gecikmeksizin yeni avukata devretmekle yükümlüdür.',
+              ],
+            },
+            {
+              question: 'Bilgilerim korunuyor mu?',
+              answer: [
+                'Avukatın mesleki sırrı kanunla korunur ve ihlali disiplin soruşturmasına veya ruhsatın askıya alınmasına yol açabilir. Her durumda gizlilik şartını sözleşmeye de yazdırın.',
+              ],
+            },
+            {
+              question: 'Sürekli hukuki dış kaynak kullanımı ne zaman mantıklıdır?',
+              answer: [
+                'İşletmenizin düzenli olarak sözleşmelere, iş ilişkilerinin düzenlenmesine veya [vergi](https://www.rs.ge/) uyumuna ihtiyacı olduğunda. Bu durumda abonelik modeli, her konuyu ayrı ödemekten çoğu zaman daha öngörülebilirdir.',
+              ],
+            },
+          ],
+        },
       },
     },
   },
   {
     id: 3,
-    slug: 'understanding-rights-criminal-investigation',
+    slug: 'drug-offences-in-georgia',
     category: 'სისხლის სამართალი',
-    readTime: '7 წთ საკითხავი',
+    readTime: '6 წთ საკითხავი',
     date: {
-      GEO: '9 სექტემბერი, 2026',
-      ENG: 'Sep 9, 2026',
-      RUS: '9 сентября 2026 г.',
-      TUR: '9 Eylül 2026',
+      GEO: '2025 წლის ივლისი',
+      ENG: 'July 2025',
+      RUS: 'Июль 2025 г.',
+      TUR: 'Temmuz 2025',
     },
     title: {
-      GEO: 'თქვენი უფლებები სისხლისსამართლებრივი გამოძიების დროს',
-      ENG: 'Understanding Your Rights during a Criminal Investigation',
-      RUS: 'Ваши права в ходе уголовного расследования',
-      TUR: 'Ceza Soruşturması Sırasında Haklarınız',
+      GEO: 'ნარკოდანაშაული საქართველოში: რა უნდა ვიცოდეთ ქართულ კანონმდებლობაზე',
+      ENG: 'Drug Offences in Georgia: What You Should Know About Georgian Law',
+      RUS: 'Наркопреступления в Грузии: что нужно знать о грузинском законодательстве',
+      TUR: "Gürcistan'da Uyuşturucu Suçları: Gürcü Hukuku Hakkında Bilmeniz Gerekenler",
+    },
+    seoTitle: {
+      GEO: 'ნარკოდანაშაული საქართველოში: სსკ 260 და 273 მუხლები | GLC Law Company',
+      ENG: 'Drug Offences in Georgia: Articles 260 & 273 Guide | GLC Law Company',
+      RUS: 'Наркопреступления в Грузии: статьи 260 и 273 УК | GLC Law Company',
+      TUR: "Gürcistan'da Uyuşturucu Suçları: 260 ve 273. Maddeler | GLC Law Company",
     },
     excerpt: {
-      GEO: 'დუმილის უფლება, ადვოკატის დაუყოვნებელი მოთხოვნა, ჩხრეკისა და დაკავების კანონიერი ფარგლები — რა უნდა იცოდეთ პოლიციასთან პირველივე კონტაქტისას.',
-      ENG: 'Right to silence, immediate attorney representation, lawful limits of search and detention — imperative safeguards upon first law enforcement contact.',
-      RUS: 'Право на молчание, немедленный вызов адвоката, пределы обыска и задержания — фундаментальные гарантии при контакте с полицией.',
-      TUR: 'Suskunluk hakkı, derhal avukat talep etme, arama ve gözaltının yasal sınırları rehberi.',
+      GEO: 'ნარკოტიკებთან დაკავშირებული საქმეები ხშირად ერთი შემოწმებით, ტესტით ან პატარა პაკეტით იწყება. გაიგეთ, სად გადის ზღვარი 260-ე და 273-ე მუხლებს შორის და რა შეიცვალა 2025 წელს.',
+      ENG: 'Drug cases in Georgia often start with one police check, one test, or a small packet. Learn where the line sits under Articles 260 and 273 and what changed in 2025.',
+      RUS: 'Дела о наркотиках в Грузии часто начинаются с одной проверки или теста. Узнайте о статьях 260 и 273 УК Грузии и об ужесточении закона в 2025 году.',
+      TUR: "Gürcistan'da uyuşturucu davaları çoğu zaman tek bir kontrol veya testle başlar. 260. ve 273. maddeler arasındaki sınırı ve 2025 yılı değişikliklerini öğrenin.",
     },
-    image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1200&auto=format&fit=crop',
-    alt: 'Bronze Lady Justice statue with balanced scales in dark law library',
+    image: sisImg,
+    ogImage: '/criminalhero.png',
+    alt: 'Criminal law legal defense analysis on drug offences legislation in Georgia',
     author: {
       name: 'გიორგი გუბელაძე',
       role: {
@@ -509,167 +816,271 @@ export const BLOG_POSTS_DETAIL: BlogPostDetail[] = [
         RUS: 'Старший партнер, Адвокат',
         TUR: 'Kıdemli Ortak, Avukat',
       },
-      avatar: '/.tempmediaStorage/GUBE1.jpeg',
+      avatar: '/GUBE1.jpeg',
     },
     content: {
       GEO: {
-        intro: 'საქართველოს სისხლის სამართლის საპროცესო კოდექსი და საქართველოს კონსტიტუცია აღჭურავს პირს ფუნდამენტური გარანტიებით გამოძიების ნებისმიერ ეტაპზე. ამ უფლებათა ზედმიწევნით ცოდნა და მათი მტკიცედ მოთხოვნა ხშირად გადამწყვეტია თავისუფლების შესანარჩუნებლად.',
+        intro:
+          'ნარკოტიკებთან დაკავშირებული საქმეები ხშირად დიდი ბრალდებით კი არა, ერთი შემოწმებით, ერთი ტესტით ან ჯიბეში ნაპოვნი პატარა პაკეტით იწყება. 2025 წელს [სისხლის სამართლის კოდექსში](https://matsne.gov.ge/ka/document/view/16426) შეტანილმა ცვლილებებმა ნარკოდანაშაულები კიდევ უფრო გაამკაცრა.',
         sections: [
           {
-            heading: '1. დუმილის უფლება და თვითინკრიმინაციის აკრძალვა',
-            statuteRef: 'სსსკ მუხლი 38 და საქართველოს კონსტიტუციის 31-ე მუხლი',
+            heading: 'სად გადის ზღვარი',
+            statuteRef: 'სსკ მუხლი 260 და მუხლი 273',
             body: [
-              'არავინ არის ვალდებული მისცეს ჩვენება საკუთარი თავის ან ახლო ნათესავების წინააღმდეგ.',
-              'დუმილის უფლების გამოყენება არ შეიძლება შეფასდეს ბრალეულობის დამადასტურებელ გარემოებად ან გამოყენებულ იქნეს პირის საზიანოდ.',
+              'ნარკოდანაშაულებთან დაკავშირებით ყველაზე აქტუალურია **260-ე** და **273-ე** მუხლები. თავის მხრივ, სასჯელი სამ რამეზეა დამოკიდებული:',
+            ],
+            listItems: [
+              '1) **რა ნივთიერებაა?**',
+              '2) **რამდენია?**',
+              '3) **რისთვის ინახება?**',
+            ],
+            bodyAfterList: [
+              'თითოეული ნივთიერებისთვის კანონი ოდენობას გრამებში ადგენს, ზოგი მძიმე ნარკოტიკისთვის კი უმცირესი ოდენობაც საკმარისია სისხლისსამართლებრივი პასუხისმგებლობისთვის.',
+              'ჩვენს პრაქტიკაში ბევრია შემთხვევა, როდესაც პროკურატურამ ადამიანს ნივთიერების პირადი მოხმარებისათვის გასაღების ბრალდება წაუყენა.',
+              'ეს ორი უკანასკნელი კი რადიკალურად სხვადასხვა რამეა.',
+              'გასაღებად ითვლება ნებისმიერი გზით სხვისთვის გადაცემა და სასჯელი ძალიან მძიმეა, დამამძიმებელ გარემოებებში საერთოდ უვადო თავისუფლების აღკვეთამდეც კი ადის.',
             ],
           },
           {
-            heading: '2. ადვოკატის დაუყოვნებლივი მოთხოვნის უფლება',
-            statuteRef: 'სსსკ მუხლი 38, ნაწილი 3',
+            heading: 'რა შეიცვალა 2025 წელს',
+            statuteRef: '2025 წლის 1 ივნისის და 2 ივლისის საკანონმდებლო ცვლილებები',
             body: [
-              'დაკავების ან გამოკითხვის პირველივე წამიდან გაქვთ უფლება მოითხოვოთ ადვოკატის დასწრება.',
-              'ადვოკატის მოსვლამდე სამართალდამცავებს არ აქვთ უფლება გააგრძელონ თქვენი დაკითხვა ან ზეწოლა.',
-            ],
-          },
-          {
-            heading: '3. ჩხრეკისა და ამოღების კანონიერი წესი',
-            statuteRef: 'სსსკ მუხლები 119–124 (საგამოძიებო მოქმედებები)',
-            body: [
-              'ჩხრეკა უნდა ჩატარდეს მხოლოდ მოსამართლის განჩინების საფუძველზე, გარდა გადაუდებელი აუცილებლობის შემთხვევებისა.',
-              'გადაუდებელი ჩხრეკის შემთხვევაში გამომძიებელი ვალდებულია 24 საათში მიმართოს სასამართლოს ჩხრეკის კანონიერების შესამოწმებლად.',
-            ],
-          },
-          {
-            heading: '4. დაკავების მაქსიმალური ვადები (48 + 24 საათი)',
-            statuteRef: 'საქართველოს კონსტიტუციის მე-13 მუხლი',
-            body: [
-              'დაკავებული პირი უნდა წარედგინოს სასამართლოს არაუგვიანეს 48 საათისა. თუ მომდევნო 24 საათში სასამართლო არ გამოიტანს გადაწყვეტილებას აღკვეთის ღონისძიების შესახებ, პირი დაუყოვნებლივ უნდა გათავისუფლდეს.',
+              '[2 ივლისის ცვლილებით](https://matsne.gov.ge/ka/document/view/6560604/0) კანაფი და მარიხუანა სხვა ნარკოტიკების გვერდით დადგა.',
+              '[მათი შეძენა, შენახვა, დამზადება და გასაღება ახლა ზოგადი წესით ისჯება](https://civil.ge/?p=689664).',
+              'ამავე წლის 1 ივნისიდან კი [მოხმარების დადასტურება ან ნარკოლოგიურ შემოწმებაზე უარი სამი წლით მართვის უფლების ჩამორთმევას იწვევს](https://jam-news.net/ge/marikhuanis-da-kanafis-regulacia/).',
             ],
           },
         ],
-        keyTakeaways: [
-          'არასდროს მისცეთ განმარტება ან ჩვენება ადვოკატის გარეშე.',
-          'დუმილის უფლება კონსტიტუციური გარანტიაა.',
-          'ადვოკატთან კონფიდენციალური კომუნიკაცია დაცულია კანონით და არ ექვემდებარება მიყურადებას.',
-        ],
-        statutorySummary: 'საქართველოს სისხლის სამართლის საპროცესო კოდექსის თანახმად, უკანონო მეთოდებით ან ადვოკატის გარეშე მოპოვებული მტკიცებულება სასამართლოში დაუშვებლად (inadmissible) ცხადდება.',
+        faq: {
+          title: 'ხშირად დასმული შეკითხვები',
+          items: [
+            {
+              question: 'რა მემუქრება, თუ პირველად დამაკავებენ მოხმარებისთვის?',
+              answer: [
+                'როგორც წესი, ადმინისტრაციული სახდელი და არა სისხლისსამართლებრივი პასუხისმგებლობა.',
+                'მაგრამ თუ იმავე ქმედებას ერთი წლის განმავლობაში გაიმეორებთ, ის უკვე დანაშაულია.',
+                '2025 წელს ამასთან დაკავშირებით შეიცვალა [ადმინისტრაციულ სამართალდარღვევათა კოდექსიც](https://www.matsne.gov.ge/ka/document/view/6560332).',
+              ],
+            },
+            {
+              question: 'შეიძლება ნარკოლოგიურ შემოწმებაზე უარის თქმა?',
+              answer: [
+                'პოლიციის კანონიერი მოთხოვნისას უარი **დადასტურებულ მოხმარებასთან უთანაბრდება** და შედეგიც მძიმეა. ამიტომ ჯერ იკითხეთ, რა საფუძვლით გთხოვენ შემოწმებას, შემდეგ დაუყოვნებლივ მოგვმართეთ დახმარებისათვის.',
+              ],
+            },
+            {
+              question: 'რა შეზღუდვები მოჰყვება ძირითად სასჯელს?',
+              answer: [
+                'ძირითადი სასჯელის გარდა შეიძლება შეგეზღუდოთ მართვის უფლება, მუშაობა საჯარო სამსახურში, საგანმანათლებლო, სამედიცინო და ფარმაცევტულ სფეროში, იარაღის ფლობა.',
+                'სასამართლოს სავალდებულო მკურნალობის დანიშვნაც შეუძლია.',
+              ],
+            },
+            {
+              question: 'მარიხუანის მოხმარება ახლა დანაშაულია?',
+              answer: [
+                'პარლამენტში განაცხადეს, რომ [მოხმარების წესები უცვლელია](https://civil.ge/?p=689664). თუმცა შეძენა და შენახვა, რაც მოხმარებას თითქმის აუცილებლად უსწრებს, ახლა ზოგადი წესით ისჯება, ამიტომ ზღვარი თითქმის არ არსებობს.',
+                'კონკრეტული ქმედების კვალიფიკაცია გარემოებებზეა დამოკიდებული, ამიტომ ნებისმიერ შემთხვევაში დაგვიკავშირდით კონსულტაციისთვის.',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          '**GLC Law Company**-ის იურიდიული გუნდი სისხლის სამართლის საქმეებს ათწლეულებია უძღვება. ჩვენი გამოცდილება და პრაქტიკა არის თქვენი წარმატების გასაღები. ჩვენ ვუზრუნველყოფთ თქვენს ეფექტურ დაცვას დაკავების პირველივე წუთებიდან სასამართლოში კვალიფიციურ წარმომადგენლობამდე.',
       },
       ENG: {
-        intro: 'The Constitution of Georgia and the Criminal Procedure Code grant absolute procedural safeguards upon any interaction with investigating bodies. Understanding and firmly invoking these rights is vital.',
+        intro:
+          'Drug cases in Georgia rarely begin with a dramatic accusation. More often it is one police check, one test, or a small packet found in a pocket. That is why it pays to know where the line is drawn before you need to. Amendments to the [Criminal Code](https://matsne.gov.ge/en/document/view/16426) in summer 2025 made an already strict picture stricter.',
         sections: [
           {
-            heading: '1. Absolute Right to Remain Silent',
-            statuteRef: 'Criminal Procedure Code, Art. 38; Constitution Art. 31',
+            heading: 'Where the line is drawn',
+            statuteRef: 'Criminal Code, Articles 260 and 273',
             body: [
-              'You cannot be compelled to testify against yourself or close family members. Silence can never be utilized as an admission of guilt.',
+              'The core rules sit in **Articles 260 and 273**. Punishment depends on three things:',
+            ],
+            listItems: [
+              '1) **Which substance is it?**',
+              '2) **How much is involved?**',
+              '3) **What was it kept for?**',
+            ],
+            bodyAfterList: [
+              'The law sets quantities in grams for each substance, and for some hard drugs even a tiny amount is enough for criminal liability.',
+              'In our practice, prosecutors frequently bring sale charges even in cases involving a substance kept for personal use. Possession for personal use and sale are entirely different acts.',
+              'Sale means handing a substance to anyone in any way, including leaving it in a hiding spot for pickup, and it carries the heaviest penalties, up to life imprisonment in aggravated cases.',
             ],
           },
           {
-            heading: '2. Immediate Access to Defense Counsel',
-            statuteRef: 'Criminal Procedure Code, Art. 38(3)',
+            heading: 'What changed in 2025',
+            statuteRef: 'Amendments of 1 June and 2 July 2025',
             body: [
-              'From the initial moment of detention or interrogation, you are entitled to retain legal counsel. Questioning must halt until your attorney arrives.',
-            ],
-          },
-          {
-            heading: '3. Judicial Warrants for Search and Seizure',
-            statuteRef: 'Criminal Procedure Code, Arts. 119-124',
-            body: [
-              'Searches require a prior judicial warrant, except under strict emergency circumstances where post-factum judicial verification is mandatory within 24 hours.',
-            ],
-          },
-          {
-            heading: '4. Strict 48+24 Hour Detention Limit',
-            statuteRef: 'Constitution of Georgia, Art. 13',
-            body: [
-              'A detainee must appear before a judge within 48 hours. If the court does not order detention within an additional 24 hours, immediate release is compulsory.',
+              'The [amendment of 2 July](https://matsne.gov.ge/ka/document/view/6560604/0) put cannabis and marijuana alongside other drugs: [buying, keeping, producing and selling them is now punished under the general rules](https://civil.ge/?p=689664).',
+              'And since 1 June, [a confirmed positive test, or refusing a drug test, costs you your driving licence for three years](https://jam-news.net/ge/marikhuanis-da-kanafis-regulacia/).',
             ],
           },
         ],
-        keyTakeaways: [
-          'Never provide statements without defense counsel present.',
-          'Silence is a protected constitutional immunity.',
-          'Evidence gathered in violation of procedural rights is legally inadmissible in court.',
-        ],
-        statutorySummary: 'Under the Criminal Procedure Code, evidence obtained in violation of counsel rights is permanently suppressed as inadmissible evidence.',
+        faq: {
+          title: 'Questions and answers',
+          items: [
+            {
+              question: 'What happens if I am detained for personal use for the first time?',
+              answer: [
+                'As a rule, an administrative penalty rather than a criminal case.',
+                'But repeating the same act within a year makes it a crime. The [Code of Administrative Offences](https://www.matsne.gov.ge/ka/document/view/6560332) was also amended in 2025.',
+              ],
+            },
+            {
+              question: 'Can I refuse a drug test?',
+              answer: [
+                'When the police request is lawful, **refusing is treated the same as a confirmed positive**, with the same consequences. So first ask on what grounds you are being tested, and call a lawyer immediately.',
+              ],
+            },
+            {
+              question: 'What restrictions follow a conviction?',
+              answer: [
+                'Besides the main sentence, you may lose the right to drive, to work in the civil service, education, healthcare and pharmacy, and to own weapons.',
+                'The court can also order mandatory treatment.',
+              ],
+            },
+            {
+              question: 'Is cannabis use now a crime?',
+              answer: [
+                'Parliament said [the rules on consumption are unchanged](https://civil.ge/?p=689664). But buying and keeping it, which almost always comes before use, is now punished under the general rules, so the line is very thin.',
+                'How an act is classified depends on the circumstances, so talk to a lawyer before giving a statement or signing a protocol.',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          'The lawyers of **GLC Law Company** handle criminal cases from Batumi. The key is to have a lawyer from the first minutes of detention. For a consultation call +995 599 27 77 74. If you cannot afford a lawyer, contact the [Legal Aid Service](https://www.legalaid.ge). This article is general information, not legal advice.',
       },
       RUS: {
-        intro: 'Конституция Грузии и Уголовно-процессуальный кодекс гарантируют фундаментальные права при контакте со следственными органами. Четкое следование правилам исключает процессуальные злоупотребления.',
+        intro:
+          'Дела о наркотиках в Грузии редко начинаются с громкого обвинения. Чаще это одна проверка, один тест или небольшой сверток в кармане. Поэтому границу лучше знать заранее. Поправки к [Уголовному кодексу](https://matsne.gov.ge/en/document/view/16426), принятые летом 2025 года, сделали и без того жесткую картину еще жестче.',
         sections: [
           {
-            heading: '1. Право на молчание и запрет самоизобличения',
-            statuteRef: 'УПК Грузии, ст. 38; Конституция, ст. 31',
+            heading: 'Где проходит граница',
+            statuteRef: 'УК Грузии, статьи 260 и 273',
             body: [
-              'Никто не обязан свидетельствовать против себя и близких родственников. Отказ от дачи показаний не является доказательством вины.',
+              'Основные правила содержатся в **статьях 260 и 273**. Наказание зависит от трех факторов:',
+            ],
+            listItems: [
+              '1) **Какое это вещество?**',
+              '2) **В каком количестве?**',
+              '3) **Для чего оно хранится?**',
+            ],
+            bodyAfterList: [
+              'Закон устанавливает количества в граммах для каждого вещества, а для некоторых тяжелых наркотиков уголовная ответственность наступает даже при минимальном количестве.',
+              'В нашей практике немало случаев, когда обвинение предъявлялось за сбыт при хранении для личного потребления. Хранение для личного потребления и сбыт - принципиально разные деяния.',
+              'Сбытом считается передача вещества другому лицу любым способом, в том числе через "закладку", и наказание за него самое строгое, вплоть до пожизненного лишения свободы при отягчающих обстоятельствах.',
             ],
           },
           {
-            heading: '2. Незамедлительное требование адвоката',
-            statuteRef: 'УПК Грузии, ст. 38, ч. 3',
+            heading: 'Что изменилось в 2025 году',
+            statuteRef: 'Поправки от 1 июня и 2 июля 2025 года',
             body: [
-              'С первой секунды задержания или опроса вы имеете право на участие защитника. До его прибытия следственные действия должны быть приостановлены.',
-            ],
-          },
-          {
-            heading: '3. Порядок проведения обыска и выемки',
-            statuteRef: 'УПК Грузии, ст. 119–124',
-            body: [
-              'Обыск проводится исключительно на основании судебного постановления, за исключением случаев неотложной необходимости.',
-            ],
-          },
-          {
-            heading: '4. Сроки задержания: правило 48 + 24 часов',
-            statuteRef: 'Конституция Грузии, ст. 13',
-            body: [
-              'Задержанное лицо должно предстать перед судьей в течение 48 часов, иначе подлежит немедленному освобождению.',
+              '[Поправка от 2 июля](https://matsne.gov.ge/ka/document/view/6560604/0) поставила каннабис и марихуану в один ряд с другими наркотиками: [их приобретение, хранение, изготовление и сбыт теперь наказываются по общим правилам](https://civil.ge/?p=689664).',
+              'А с 1 июня [подтвержденное употребление или отказ от наркологической проверки влечет лишение водительских прав на три года](https://jam-news.net/ge/marikhuanis-da-kanafis-regulacia/).',
             ],
           },
         ],
-        keyTakeaways: [
-          'Никаких показаний до конфиденциальной беседы с адвокатом.',
-          'Право на молчание гарантировано Конституцией Грузии.',
-          'Доказательства, полученные с нарушением права на защиту, признаются недопустимыми.',
-        ],
-        statutorySummary: 'УПК Грузии прямо запрещает использование в суде доказательств, полученных с нарушением прав обвиняемого.',
+        faq: {
+          title: 'Вопросы и ответы',
+          items: [
+            {
+              question: 'Что грозит, если меня впервые задержат за употребление?',
+              answer: [
+                'Как правило, административное взыскание, а не уголовное дело.',
+                'Но если в течение года вы повторите то же деяние, оно станет преступлением. В 2025 году изменился и [Кодекс об административных правонарушениях](https://www.matsne.gov.ge/ka/document/view/6560332).',
+              ],
+            },
+            {
+              question: 'Можно ли отказаться от наркологической проверки?',
+              answer: [
+                'При законном требовании полиции **отказ приравнивается к подтвержденному употреблению**, и последствия те же. Поэтому сначала спросите, на каком основании вас просят пройти проверку, и сразу позвоните адвокату.',
+              ],
+            },
+            {
+              question: 'Какие ограничения следуют за приговором?',
+              answer: [
+                'Помимо основного наказания могут ограничить право управлять транспортом, работать на госслужбе, в образовании, медицине и фармацевтике, владеть оружием.',
+                'Суд также может назначить лечение.',
+              ],
+            },
+            {
+              question: 'Является ли употребление марихуаны теперь преступлением?',
+              answer: [
+                'В парламенте заявили, что [правила об употреблении не менялись](https://civil.ge/?p=689664). Но приобретение и хранение, которые почти всегда предшествуют употреблению, теперь наказываются по общим правилам, так что грань очень тонкая.',
+                'Квалификация зависит от обстоятельств, поэтому сначала поговорите с адвокатом, а потом давайте показания или подписывайте протокол.',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          'Адвокаты **GLC Law Company** ведут уголовные дела из Батуми. Главное - пригласить адвоката с первых минут задержания. Для консультации звоните: +995 599 27 77 74. Если нанять адвоката нет возможности, обратитесь в [Службу юридической помощи](https://www.legalaid.ge). Статья носит общий информационный характер и не заменяет консультацию юриста.',
       },
       TUR: {
-        intro: 'Gürcistan Anayasası ve Ceza Muhakemesi Kanunu, soruşturma aşamasında şüpheli ve sanıklara geniş anayasal güvenceler tanımaktadır.',
+        intro:
+          "Gürcistan'da uyuşturucu davaları nadiren büyük bir suçlamayla başlar. Çoğu zaman tek bir kontrol, tek bir test ya da cebinizde bulunan küçük bir paket yeter. Bu yüzden sınırın nerede çizildiğini önceden bilmekte fayda var. 2025 yazında [Ceza Kanunu](https://matsne.gov.ge/en/document/view/16426)'nda yapılan değişiklikler, zaten sıkı olan tabloyu daha da sertleştirdi.",
         sections: [
           {
-            heading: '1. Susma Hakkı ve Kendini Suçlamama İlkesi',
-            statuteRef: 'CMK Md. 38; Anayasa Md. 31',
+            heading: 'Sınır nerede çiziliyor',
+            statuteRef: 'Gürcistan Ceza Kanunu, 260. ve 273. Maddeler',
             body: [
-              'Hiç kimse kendisi veya yakınları aleyhine ifade vermeye zorlanamaz.',
+              'Temel kurallar **260. ve 273. maddelerde** yer alır. Ceza üç şeye bağlıdır:',
+            ],
+            listItems: [
+              '1) **Maddenin türü nedir?**',
+              '2) **Miktarı ne kadardır?**',
+              '3) **Ne amaçla bulundurulmaktadır?**',
+            ],
+            bodyAfterList: [
+              'Kanun her madde için miktarı gram cinsinden belirler; bazı ağır uyuşturucularda en küçük miktar bile cezai sorumluluk için yeterlidir.',
+              'Uygulamamızda kişisel kullanım amacıyla bulundurulan maddeler için satış suçlaması yöneltilen pek çok dosya bulunmaktadır. Kişisel kullanım amacıyla bulundurma ile satış tamamen farklı fiillerdir.',
+              'Satış, maddeyi başkasına herhangi bir yolla vermek demektir; gizli bir noktaya bırakmak da buna dahildir. En ağır ceza bunun için öngörülür ve ağırlaştırıcı hallerde ömür boyu hapse kadar çıkar.',
             ],
           },
           {
-            heading: '2. Derhal Avukat Talep Etme Hakkı',
-            statuteRef: 'CMK Md. 38/3',
+            heading: "2025'te ne değişti",
+            statuteRef: '1 Haziran ve 2 Temmuz 2025 Değişiklikleri',
             body: [
-              'Gözaltı veya sorgunun ilk anından itibaren avukatınızın hazır bulunmasını isteme hakkınız vardır.',
-            ],
-          },
-          {
-            heading: '3. Arama ve Elkoymanın Yasal Koşulları',
-            statuteRef: 'CMK Md. 119-124',
-            body: [
-              'Arama işlemleri kural olarak hâkim kararı ile gerçekleştirilir.',
-            ],
-          },
-          {
-            heading: '4. Gözaltı Süreleri (48 + 24 Kuralı)',
-            statuteRef: 'Gürcistan Anayasası Md. 13',
-            body: [
-              'Gözaltına alınan kişi en geç 48 saat içinde hâkim önüne çıkarılmalıdır.',
+              '[2 Temmuz tarihli değişiklik](https://matsne.gov.ge/ka/document/view/6560604/0) kenevir ve marihuanayı diğer uyuşturucularla aynı sıraya koydu: [bunların satın alınması, bulundurulması, üretilmesi ve satılması artık genel kurallara göre cezalandırılıyor](https://civil.ge/?p=689664).',
+              '1 Haziran itibarıyla da [kullanımın doğrulanması ya da uyuşturucu testinin reddi, ehliyetin üç yıl süreyle alınmasına yol açıyor](https://jam-news.net/ge/marikhuanis-da-kanafis-regulacia/).',
             ],
           },
         ],
-        keyTakeaways: [
-          'Avukatınız olmadan hiçbir belge imzalamayın ve ifade vermeyin.',
-          'Susma hakkı yasal bir güvencedir.',
-          'Hukuka aykırı deliller mahkemede hükme esas alınamaz.',
-        ],
-        statutorySummary: 'Usule aykırı toplanan tüm deliller mahkeme kararıyla dosya dışı bırakılır.',
+        faq: {
+          title: 'Sıkça sorulan sorular',
+          items: [
+            {
+              question: 'İlk kez kullanım nedeniyle gözaltına alınırsam ne olur?',
+              answer: [
+                'Kural olarak ceza davası değil, idari yaptırım uygulanır.',
+                'Ancak bir yıl içinde aynı fiili tekrarlarsanız artık suç sayılır. 2025 yılında [İdari Suçlar Kanunu](https://www.matsne.gov.ge/ka/document/view/6560332) da değişti.',
+              ],
+            },
+            {
+              question: 'Uyuşturucu testini reddedebilir miyim?',
+              answer: [
+                'Polisin yasal talebi karşısında **ret, kullanımın doğrulanmasıyla aynı sayılır** ve sonuçlar aynıdır. Bu yüzden önce testin hangi gerekçeyle istendiğini sorun ve hemen bir avukat arayın.',
+              ],
+            },
+            {
+              question: 'Mahkumiyetten sonra hangi kısıtlamalar gelir?',
+              answer: [
+                'Asıl cezaya ek olarak araç kullanma, kamu görevi, eğitim, sağlık ve eczacılık alanlarında çalışma ile silah bulundurma hakları kısıtlanabilir.',
+                'Mahkeme tedavi de kararlaştırabilir.',
+              ],
+            },
+            {
+              question: 'Kenevir kullanımı artık suç mu?',
+              answer: [
+                'Parlamentoda [tüketime ilişkin kuralların değişmediği](https://civil.ge/?p=689664) belirtildi. Ancak kullanımdan neredeyse her zaman önce gelen satın alma ve bulundurma artık genel kurallara göre cezalandırılıyor; yani sınır çok ince.',
+                'Fiilin nasıl nitelendirileceği somut duruma bağlıdır, bu yüzden ifade vermeden ya da tutanak imzalamadan önce bir avukatla konuşun.',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          "**GLC Law Company** avukatları ceza davalarına Batum'dan bakıyor. En önemlisi, gözaltının ilk dakikalarından itibaren yanınızda bir avukat olmasıdır. Danışmak için +995 599 27 77 74 numarasını arayın. Avukat tutamıyorsanız [Hukuki Yardım Servisi](https://www.legalaid.ge) sayfasına başvurabilirsiniz. Bu yazı genel bilgi niteliğindedir, hukuki tavsiye yerine geçmez.",
       },
     },
   },

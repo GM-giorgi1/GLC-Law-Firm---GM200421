@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
+import { scrollToSection } from '@/src/utils/scrollToSection';
 
 export default function GlobalNavbar() {
   const { language, setLanguage, t: tr } = useLanguage();
@@ -74,19 +75,23 @@ export default function GlobalNavbar() {
     setIsPracticeDropdownOpen(false);
 
     if (isHomePage) {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+      if (!scrollToSection(sectionId)) {
+        setTimeout(() => scrollToSection(sectionId), 120);
       }
     } else {
-      sessionStorage.setItem('scroll_target', sectionId);
-      navigate('/');
+      try {
+        sessionStorage.setItem('scroll_target', sectionId);
+        navigate('/');
+      } catch {
+        navigate(`/#${sectionId}`);
+      }
     }
   };
 
   return (
     <>
       <header
+        data-global-navbar="true"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[#030508]/85 border-b border-[#D3AF37]/20 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_1px_15px_rgba(211,175,55,0.08)] ${
           isScrolled || !isHomePage ? 'py-2.5 sm:py-3' : 'py-3 sm:py-4'
         }`}
@@ -118,7 +123,13 @@ export default function GlobalNavbar() {
                 GLC LAW COMPANY
               </span>
               <span className="text-[10px] sm:text-[11px] text-[#D3AF37]/80 tracking-widest uppercase font-inter-tight font-medium mt-0.5 truncate">
-                {language === 'GEO' ? 'ადვოკატი გიორგი გუბელაძე' : 'Advocate Giorgi Gubeladze'}
+                {language === 'GEO'
+                  ? 'ადვოკატი გიორგი გუბელაძე'
+                  : language === 'RUS'
+                    ? 'Адвокат Георгий Губеладзе'
+                    : language === 'TUR'
+                      ? 'Avukat Giorgi Gubeladze'
+                      : 'Advocate Giorgi Gubeladze'}
               </span>
             </div>
           </Link>
@@ -141,14 +152,14 @@ export default function GlobalNavbar() {
               )}
             </Link>
 
-            {/* 2. About Link */}
-            <button
-              type="button"
-              onClick={(e) => handleAnchorNavigation('about', e)}
+            {/* 2. About Link -> Metrics section ("You deserve counsel that fights for you") */}
+            <a
+              href="/#metrics"
+              onClick={(e) => handleAnchorNavigation('metrics', e)}
               className="text-xs 2xl:text-sm font-medium tracking-wide text-gray-300 hover:text-white transition-colors duration-200 py-1.5 px-1 cursor-pointer"
             >
               {tr.nav.about}
-            </button>
+            </a>
 
             {/* 3. Practice Areas Interactive Dropdown Menu */}
             <div 
@@ -183,12 +194,20 @@ export default function GlobalNavbar() {
                       
                       {/* Dropdown Category Header */}
                       <div className="px-2.5 py-1 text-[11px] font-semibold text-[#D3AF37] uppercase tracking-wider flex items-center justify-between border-b border-white/5">
-                        <span>{language === 'GEO' ? 'სპეციალიზებული პრაქტიკა' : 'Practice Areas'}</span>
+                        <span>
+                          {language === 'GEO'
+                            ? 'სპეციალიზებული პრაქტიკა'
+                            : language === 'RUS'
+                              ? 'Специализация'
+                              : language === 'TUR'
+                                ? 'Uzmanlık Alanları'
+                                : 'Practice Areas'}
+                        </span>
                       </div>
 
                       {/* Option 0: All Services Overview on Homepage */}
-                      <button
-                        type="button"
+                      <a
+                        href="/#services"
                         onClick={(e) => handleAnchorNavigation('services', e)}
                         className="p-2.5 rounded-xl hover:bg-[#D3AF37]/10 hover:border-[#D3AF37]/30 border border-transparent transition-all flex items-center justify-between group/item text-left w-full cursor-pointer"
                       >
@@ -201,12 +220,18 @@ export default function GlobalNavbar() {
                               {language === 'GEO' ? 'სამართლის ყველა სფერო' : language === 'ENG' ? 'All Practice Areas Overview' : language === 'RUS' ? 'Все практики и услуги' : 'Tüm Hukuki Alanlar'}
                             </div>
                             <div className="text-[10px] text-gray-400">
-                              {language === 'GEO' ? 'სრული მომსახურების მიმოხილვა' : 'Full Services Overview'}
+                              {language === 'GEO'
+                                ? 'სრული მომსახურების მიმოხილვა'
+                                : language === 'RUS'
+                                  ? 'Полный обзор услуг'
+                                  : language === 'TUR'
+                                    ? 'Tüm hizmetlere genel bakış'
+                                    : 'Full Services Overview'}
                             </div>
                           </div>
                         </div>
                         <ChevronRight className="w-4 h-4 text-gray-500 group-hover/item:text-[#D3AF37] group-hover/item:translate-x-0.5 transition-all" />
-                      </button>
+                      </a>
 
                       <div className="w-full h-px bg-white/10 my-0.5" />
 
@@ -222,10 +247,22 @@ export default function GlobalNavbar() {
                           </div>
                           <div>
                             <div className="text-xs font-semibold text-white group-hover/item:text-[#D3AF37] transition-colors">
-                              {language === 'GEO' ? 'სისხლის სამართალი' : 'Criminal Defense'}
+                              {language === 'GEO'
+                                ? 'სისხლის სამართალი'
+                                : language === 'RUS'
+                                  ? 'Уголовное право'
+                                  : language === 'TUR'
+                                    ? 'Ceza Hukuku'
+                                    : 'Criminal Defense'}
                             </div>
                             <div className="text-[10px] text-gray-400">
-                              {language === 'GEO' ? '21+ წლიანი გამოცდილება' : 'Trial & Investigation Defense'}
+                              {language === 'GEO'
+                                ? '21+ წლიანი გამოცდილება'
+                                : language === 'RUS'
+                                  ? 'Защита на следствии и в суде'
+                                  : language === 'TUR'
+                                    ? 'Soruşturma ve Dava Savunması'
+                                    : 'Trial & Investigation Defense'}
                             </div>
                           </div>
                         </div>
@@ -244,10 +281,22 @@ export default function GlobalNavbar() {
                           </div>
                           <div>
                             <div className="text-xs font-semibold text-white group-hover/item:text-[#D3AF37] transition-colors">
-                              {language === 'GEO' ? 'საოჯახო & მემკვიდრეობა' : 'Family & Inheritance'}
+                              {language === 'GEO'
+                                ? 'საოჯახო & მემკვიდრეობა'
+                                : language === 'RUS'
+                                  ? 'Семейное право и наследство'
+                                  : language === 'TUR'
+                                    ? 'Aile ve Miras Hukuku'
+                                    : 'Family & Inheritance'}
                             </div>
                             <div className="text-[10px] text-gray-400">
-                              {language === 'GEO' ? 'ქონების გაყოფა და დავები' : 'Asset Division & Probate'}
+                              {language === 'GEO'
+                                ? 'ქონების გაყოფა და დავები'
+                                : language === 'RUS'
+                                  ? 'Раздел имущества и наследство'
+                                  : language === 'TUR'
+                                    ? 'Mal Paylaşımı ve Miras'
+                                    : 'Asset Division & Probate'}
                             </div>
                           </div>
                         </div>
@@ -266,10 +315,22 @@ export default function GlobalNavbar() {
                           </div>
                           <div>
                             <div className="text-xs font-semibold text-white group-hover/item:text-[#D3AF37] transition-colors">
-                              {language === 'GEO' ? 'უძრავი ქონება & კონტრაქტები' : 'Real Estate & Contracts'}
+                              {language === 'GEO'
+                                ? 'უძრავი ქონება & კონტრაქტები'
+                                : language === 'RUS'
+                                  ? 'Недвижимость и контракты'
+                                  : language === 'TUR'
+                                    ? 'Gayrimenkul ve Sözleşmeler'
+                                    : 'Real Estate & Contracts'}
                             </div>
                             <div className="text-[10px] text-gray-400">
-                              {language === 'GEO' ? 'Due Diligence & გარიგებები' : 'Title Audits & Closings'}
+                              {language === 'GEO'
+                                ? 'Due Diligence & გარიგებები'
+                                : language === 'RUS'
+                                  ? 'Аудит сделок и регистрация'
+                                  : language === 'TUR'
+                                    ? 'Tapu İncelemesi ve Tescil'
+                                    : 'Title Audits & Closings'}
                             </div>
                           </div>
                         </div>
@@ -288,10 +349,22 @@ export default function GlobalNavbar() {
                           </div>
                           <div>
                             <div className="text-xs font-semibold text-white group-hover/item:text-[#D3AF37] transition-colors">
-                              {language === 'GEO' ? 'ბიზნესი & კორპორაციული' : 'Business & Corporate Law'}
+                              {language === 'GEO'
+                                ? 'ბიზნესი & კორპორაციული'
+                                : language === 'RUS'
+                                  ? 'Бизнес и корпоративное право'
+                                  : language === 'TUR'
+                                    ? 'İş ve Şirketler Hukuku'
+                                    : 'Business & Corporate Law'}
                             </div>
                             <div className="text-[10px] text-gray-400">
-                              {language === 'GEO' ? 'M&A, კომპანიების რეგისტრაცია' : 'M&A, Incorporation & Disputes'}
+                              {language === 'GEO'
+                                ? 'M&A, კომპანიების რეგისტრაცია'
+                                : language === 'RUS'
+                                  ? 'M&A, регистрация и споры'
+                                  : language === 'TUR'
+                                    ? 'M&A, Şirket Kuruluşu ve Dava'
+                                    : 'M&A, Incorporation & Disputes'}
                             </div>
                           </div>
                         </div>
@@ -303,32 +376,14 @@ export default function GlobalNavbar() {
               </AnimatePresence>
             </div>
 
-            {/* 4. Notable Results Anchor Link */}
-            <button
-              type="button"
-              onClick={(e) => handleAnchorNavigation('cases', e)}
-              className="text-xs 2xl:text-sm font-medium tracking-wide text-gray-300 hover:text-white transition-colors duration-200 py-1.5 px-1 cursor-pointer"
-            >
-              {tr.nav.cases}
-            </button>
-
-            {/* 5. Testimonials Anchor Link */}
-            <button
-              type="button"
-              onClick={(e) => handleAnchorNavigation('testimonials', e)}
-              className="text-xs 2xl:text-sm font-medium tracking-wide text-gray-300 hover:text-white transition-colors duration-200 py-1.5 px-1 cursor-pointer"
-            >
-              {tr.nav.testimonials}
-            </button>
-
-            {/* 6. Our Team Anchor Link */}
-            <button
-              type="button"
+            {/* 4. Our Team Anchor Link -> Team section ("Meet the Legal Experts") */}
+            <a
+              href="/#team"
               onClick={(e) => handleAnchorNavigation('team', e)}
               className="text-xs 2xl:text-sm font-medium tracking-wide text-gray-300 hover:text-white transition-colors duration-200 py-1.5 px-1 cursor-pointer"
             >
               {tr.nav.team}
-            </button>
+            </a>
 
             {/* 7. Blogs & Latest Insights Link */}
             <Link
@@ -417,10 +472,11 @@ export default function GlobalNavbar() {
               <span>{tr.hero.bookConsultation}</span>
             </button>
 
-            {/* Mobile / Tablet Menu Button (xl:hidden) */}
+            {/* Menu Drawer Button (Available on all screen sizes so Cases & Testimonials stay accessible inside Menu) */}
             <button
+              type="button"
               onClick={() => setIsMenuOpen(true)}
-              className="xl:hidden p-2 rounded-xl border border-[#D3AF37]/30 bg-[#141416]/90 text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-all flex items-center justify-center shrink-0"
+              className="min-w-[44px] min-h-[44px] p-2 rounded-xl border border-[#D3AF37]/30 bg-[#141416]/90 text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-all flex items-center justify-center shrink-0 cursor-pointer"
               aria-label="Open Navigation Menu"
             >
               <Menu className="w-5 h-5 text-[#D3AF37]" />
@@ -450,7 +506,7 @@ export default function GlobalNavbar() {
               </div>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="w-10 h-10 rounded-full border border-[#D3AF37]/40 flex items-center justify-center text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-colors"
+                className="w-11 h-11 rounded-full border border-[#D3AF37]/40 flex items-center justify-center text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-colors cursor-pointer"
                 aria-label="Close Menu"
               >
                 <X className="w-5 h-5" />
@@ -472,15 +528,15 @@ export default function GlobalNavbar() {
                 <ChevronRight className="w-5 h-5 text-[#D3AF37]" />
               </Link>
 
-              {/* About Us */}
-              <button
-                type="button"
-                onClick={(e) => handleAnchorNavigation('about', e)}
-                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer"
+              {/* About Us -> Metrics section */}
+              <a
+                href="/#metrics"
+                onClick={(e) => handleAnchorNavigation('metrics', e)}
+                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer min-h-[44px]"
               >
                 <span>{tr.nav.about}</span>
                 <ChevronRight className="w-5 h-5 text-[#D3AF37]" />
-              </button>
+              </a>
 
               {/* Practice Areas Subsection */}
               <div className="py-2.5 flex flex-col gap-2 border-b border-white/5 bg-white/[0.02] p-3 rounded-xl border border-white/5">
@@ -488,78 +544,120 @@ export default function GlobalNavbar() {
                   <span className="text-xs uppercase tracking-widest text-[#D3AF37] font-bold">
                     {tr.nav.services}
                   </span>
-                  <button
-                    type="button"
+                  <a
+                    href="/#services"
                     onClick={(e) => handleAnchorNavigation('services', e)}
                     className="text-[11px] text-[#D3AF37] hover:underline cursor-pointer"
                   >
-                    {language === 'GEO' ? 'ყველა სფერო' : 'All Services'}
-                  </button>
+                    {language === 'GEO'
+                      ? 'ყველა სფერო'
+                      : language === 'RUS'
+                        ? 'Все услуги'
+                        : language === 'TUR'
+                          ? 'Tüm Alanlar'
+                          : 'All Services'}
+                  </a>
                 </div>
                 
                 <Link
                   to="/practice-areas/criminal-defense"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-1"
+                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-2 min-h-[44px]"
                 >
-                  <span>• {language === 'GEO' ? 'სისხლის სამართალი' : 'Criminal Defense'}</span>
+                  <span>
+                    -{' '}
+                    {language === 'GEO'
+                      ? 'სისხლის სამართალი'
+                      : language === 'RUS'
+                        ? 'Уголовное право'
+                        : language === 'TUR'
+                          ? 'Ceza Hukuku'
+                          : 'Criminal Defense'}
+                  </span>
                   <ChevronRight className="w-4 h-4 text-gray-500" />
                 </Link>
                 <Link
                   to="/practice-areas/family-law"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-1"
+                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-2 min-h-[44px]"
                 >
-                  <span>• {language === 'GEO' ? 'საოჯახო & მემკვიდრეობითი' : 'Family & Inheritance'}</span>
+                  <span>
+                    -{' '}
+                    {language === 'GEO'
+                      ? 'საოჯახო & მემკვიდრეობითი'
+                      : language === 'RUS'
+                        ? 'Семейное и наследственное право'
+                        : language === 'TUR'
+                          ? 'Aile ve Miras Hukuku'
+                          : 'Family & Inheritance'}
+                  </span>
                   <ChevronRight className="w-4 h-4 text-gray-500" />
                 </Link>
                 <Link
                   to="/practice-areas/real-estate-law"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-1"
+                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-2 min-h-[44px]"
                 >
-                  <span>• {language === 'GEO' ? 'უძრავი ქონება & კონტრაქტები' : 'Real Estate & Contracts'}</span>
+                  <span>
+                    -{' '}
+                    {language === 'GEO'
+                      ? 'უძრავი ქონება & კონტრაქტები'
+                      : language === 'RUS'
+                        ? 'Недвижимость и контракты'
+                        : language === 'TUR'
+                          ? 'Gayrimenkul ve Sözleşmeler'
+                          : 'Real Estate & Contracts'}
+                  </span>
                   <ChevronRight className="w-4 h-4 text-gray-500" />
                 </Link>
                 <Link
                   to="/practice-areas/corporate-law"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-1"
+                  className="text-sm sm:text-base text-gray-200 hover:text-[#D3AF37] transition-colors pl-2 flex items-center justify-between py-2 min-h-[44px]"
                 >
-                  <span>• {language === 'GEO' ? 'ბიზნესი & კორპორაციული' : 'Business & Corporate Law'}</span>
+                  <span>
+                    -{' '}
+                    {language === 'GEO'
+                      ? 'ბიზნესი & კორპორაციული'
+                      : language === 'RUS'
+                        ? 'Бизнес и корпоративное право'
+                        : language === 'TUR'
+                          ? 'İş ve Şirketler Hukuku'
+                          : 'Business & Corporate Law'}
+                  </span>
                   <ChevronRight className="w-4 h-4 text-gray-500" />
                 </Link>
               </div>
 
               {/* Notable Results */}
-              <button
-                type="button"
+              <a
+                href="/#cases"
                 onClick={(e) => handleAnchorNavigation('cases', e)}
-                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer"
+                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer min-h-[44px]"
               >
                 <span>{tr.nav.cases}</span>
                 <ChevronRight className="w-5 h-5 text-[#D3AF37]" />
-              </button>
+              </a>
 
               {/* Testimonials */}
-              <button
-                type="button"
+              <a
+                href="/#testimonials"
                 onClick={(e) => handleAnchorNavigation('testimonials', e)}
-                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer"
+                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer min-h-[44px]"
               >
                 <span>{tr.nav.testimonials}</span>
                 <ChevronRight className="w-5 h-5 text-[#D3AF37]" />
-              </button>
+              </a>
 
-              {/* Our Team */}
-              <button
-                type="button"
+              {/* Our Team -> Team section */}
+              <a
+                href="/#team"
                 onClick={(e) => handleAnchorNavigation('team', e)}
-                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer"
+                className="font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold text-white hover:text-[#D3AF37] transition-colors flex items-center justify-between py-2 border-b border-white/5 text-left w-full cursor-pointer min-h-[44px]"
               >
                 <span>{tr.nav.team}</span>
                 <ChevronRight className="w-5 h-5 text-[#D3AF37]" />
-              </button>
+              </a>
 
               {/* Blogs & Latest Insights */}
               <Link

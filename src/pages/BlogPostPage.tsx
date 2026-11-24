@@ -1,55 +1,310 @@
 'use client';
 
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  ArrowUpRight, 
-  Clock, 
-  Calendar, 
-  BookOpen, 
-  CheckCircle2, 
-  Share2, 
-  Phone,
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Clock,
+  Calendar,
+  BookOpen,
+  CheckCircle2,
   ChevronRight,
-  ShieldAlert
+  ChevronDown,
+  ChevronLeft,
+  HelpCircle,
+  Scale,
 } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
 import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
+import SeoHead, { SITE_URL } from '@/src/components/common/SeoHead';
+
+function stripMarkdownForJsonLd(text: string): string {
+  return text
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function renderInlineBold(text: string): React.ReactNode {
+  const boldParts = text.split(/(\*\*[^*]+\*\*)/g);
+  return boldParts.map((segment, idx) => {
+    const boldMatch = segment.match(/^\*\*([^*]+)\*\*$/);
+    if (boldMatch) {
+      return (
+        <strong key={idx} className="font-semibold text-white">
+          {boldMatch[1]}
+        </strong>
+      );
+    }
+    return <React.Fragment key={idx}>{segment}</React.Fragment>;
+  });
+}
+
+// Safely render inline markdown links ([label](https://...)) and bold (**text**) without raw HTML injection
+function renderRichInline(text: string): React.ReactNode {
+  const tokenRegex = /(\[[^\]]+\]\(https?:\/\/[^)]+\)|\*\*[^*]+\*\*)/g;
+  const parts = text.split(tokenRegex);
+
+  return parts.map((part, idx) => {
+    const linkMatch = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+    if (linkMatch) {
+      return (
+        <a
+          key={idx}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#D3AF37] underline decoration-[#D3AF37]/45 underline-offset-4 hover:text-[#FEF5CD] hover:decoration-[#FEF5CD] transition-colors font-medium"
+        >
+          {renderInlineBold(linkMatch[1])}
+        </a>
+      );
+    }
+
+    const boldMatch = part.match(/^\*\*([^*]+)\*\*$/);
+    if (boldMatch) {
+      return (
+        <strong key={idx} className="font-semibold text-white">
+          {boldMatch[1]}
+        </strong>
+      );
+    }
+
+    return <React.Fragment key={idx}>{part}</React.Fragment>;
+  });
+}
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  // Bottom horizontal articles slider state & pointer drag support
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const scrollStartLeftRef = useRef(0);
+  const dragDistanceRef = useRef(0);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    setOpenFaqIndex(null);
+  }, [slug]);
+
+  if (slug === 'understanding-rights-criminal-investigation') {
+    return <Navigate to="/blogs/drug-offences-in-georgia" replace />;
+  }
+
+  if (slug === 'what-to-do-when-served-lawsuit') {
+    return <Navigate to="/blogs/inheritance-and-wills-in-georgia" replace />;
+  }
+
+  if (
+    slug === '5-legal-steps-every-small-business-should-take' ||
+    slug === 'how-to-choose-a-law-firm' ||
+    slug === 'kak-vybrat-yuridicheskuyu-kompaniyu' ||
+    slug === 'hukuk-sirketi-nasil-secilir'
+  ) {
+    return <Navigate to="/blogs/rogor-shevarchioth-iuridiuli-kompania" replace />;
+  }
 
   const post = BLOG_POSTS_DETAIL.find((p) => p.slug === slug);
 
   if (!post) {
+    const notFoundTitle =
+      language === 'GEO'
+        ? 'სტატია ვერ მოიძებნა (404) | GLC Law Company'
+        : language === 'RUS'
+          ? 'Статья не найдена (404) | GLC Law Company'
+          : language === 'TUR'
+            ? 'Makale Bulunamadı (404) | GLC Law Company'
+            : 'Article Not Found (404) | GLC Law Company';
+    const notFoundHeading =
+      language === 'GEO'
+        ? 'სტატია ვერ მოიძებნა'
+        : language === 'RUS'
+          ? 'Статья не найдена'
+          : language === 'TUR'
+            ? 'Makale Bulunamadı'
+            : 'Article Not Found';
+    const notFoundDesc =
+      language === 'GEO'
+        ? 'მოთხოვნილი პუბლიკაცია არ არსებობს ან წაშლილია.'
+        : language === 'RUS'
+          ? 'Запрашиваемая публикация не существует или была удалена.'
+          : language === 'TUR'
+            ? 'Aradığınız yayın bulunamadı veya kaldırılmış olabilir.'
+            : 'The requested publication does not exist or has been removed.';
+    const allPostsLabel =
+      language === 'GEO'
+        ? 'ყველა პუბლიკაციის ნახვა'
+        : language === 'RUS'
+          ? 'Все публикации'
+          : language === 'TUR'
+            ? 'Tüm Yayınları Gör'
+            : 'View All Publications';
+
     return (
-      <div className="min-h-screen bg-[#0C0D0D] text-white flex flex-col items-center justify-center p-6 text-center">
-        <h1 className="font-['Antonio'] text-4xl mb-4 text-[#D3AF37]">სტატია ვერ მოიძებნა</h1>
-        <p className="text-gray-400 mb-8 max-w-md">მოთხოვნილი პუბლიკაცია არ არსებობს ან წაშლილია.</p>
-        <Link 
-          to="/blogs" 
-          className="saas-btn-gold px-6 py-3 rounded-xl font-['Antonio'] font-bold text-black uppercase tracking-wider"
+      <main className="min-h-screen bg-[#0C0D0D] text-white flex flex-col items-center justify-center p-6 text-center">
+        <SeoHead
+          title={notFoundTitle}
+          description={notFoundDesc}
+          canonicalPath={`/blogs/${slug || '404'}`}
+          noIndex
+        />
+        <h1 className="font-['Antonio'] text-4xl mb-4 text-[#D3AF37]">{notFoundHeading}</h1>
+        <p className="text-gray-400 mb-8 max-w-md">{notFoundDesc}</p>
+        <Link
+          to="/blogs"
+          className="saas-btn-gold px-6 py-3 rounded-xl font-['Antonio'] font-bold text-black uppercase tracking-wider min-h-[44px] inline-flex items-center"
         >
-          ყველა პუბლიკაციის ნახვა
+          {allPostsLabel}
         </Link>
-      </div>
+      </main>
     );
   }
 
+  const isGeo = language === 'GEO';
   const localizedContent = post.content[language] || post.content.GEO;
   const directConsultationUrl = `https://wa.me/995599277794?text=${encodeURIComponent(
     `მოგესალმებით, გავეცანი თქვენს სტატიას „${post.title[language] || post.title.GEO}“ და მსურს კონსულტაცია ამ საკითხზე.`
   )}`;
 
+  const postTitle = post.title[language] || post.title.GEO;
+  const resolvedSeoTitle = post.seoTitle?.[language] || `${postTitle} | GLC Law Company`;
+  const postExcerpt = post.excerpt[language] || post.excerpt.GEO;
+  const canonicalPath = `/blogs/${post.slug}`;
+  const postUrl = `${SITE_URL}${canonicalPath}`;
+  const resolvedOgImage =
+    post.ogImage ||
+    (post.image.startsWith('/.tempmediaStorage/') ? `/${post.image.split('/').pop()}` : post.image);
+
+  const otherPosts = BLOG_POSTS_DETAIL.filter((item) => item.slug !== post.slug);
+
+  const handleSliderStep = (direction: 'prev' | 'next') => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const step = Math.min(390, el.clientWidth * 0.85);
+    el.scrollBy({
+      left: direction === 'next' ? step : -step,
+      behavior: 'smooth',
+    });
+  };
+
+  const handleSliderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    isDraggingRef.current = true;
+    dragStartXRef.current = e.clientX;
+    scrollStartLeftRef.current = el.scrollLeft;
+    dragDistanceRef.current = 0;
+  };
+
+  const handleSliderPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current || !sliderRef.current) return;
+    const dx = e.clientX - dragStartXRef.current;
+    dragDistanceRef.current = Math.max(dragDistanceRef.current, Math.abs(dx));
+    sliderRef.current.scrollLeft = scrollStartLeftRef.current - dx;
+  };
+
+  const handleSliderPointerUp = () => {
+    isDraggingRef.current = false;
+  };
+
+  const moreArticlesHeading =
+    language === 'GEO'
+      ? 'სხვა პუბლიკაციები და სიახლეები'
+      : language === 'ENG'
+        ? 'More Publications & Insights'
+        : language === 'RUS'
+          ? 'Другие публикации и новости'
+          : 'Diğer Yayınlar ve Analizler';
+
+  const viewAllLabel =
+    language === 'GEO'
+      ? 'ყველა სტატია'
+      : language === 'ENG'
+        ? 'All Articles'
+        : language === 'RUS'
+          ? 'Все статьи'
+          : 'Tüm Yazılar';
+
+  const locale =
+    language === 'GEO' ? 'ka_GE' : language === 'RUS' ? 'ru_RU' : language === 'TUR' ? 'tr_TR' : 'en_US';
+
+  const articleSchemas: Array<Record<string, unknown>> = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: postTitle,
+      description: postExcerpt,
+      image: resolvedOgImage.startsWith('http') ? resolvedOgImage : `${SITE_URL}${resolvedOgImage}`,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': postUrl,
+      },
+      author: {
+        '@type': 'Attorney',
+        name: post.author.name,
+        url: `${SITE_URL}/`,
+      },
+      publisher: {
+        '@type': 'LegalService',
+        name: 'GLC Law Company',
+        url: `${SITE_URL}/`,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/HERO_GUBE.jpeg`,
+        },
+      },
+      articleSection: post.category,
+      inLanguage: language === 'GEO' ? 'ka' : language === 'RUS' ? 'ru' : language === 'TUR' ? 'tr' : 'en',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: 'Blogs', item: `${SITE_URL}/blogs` },
+        { '@type': 'ListItem', position: 3, name: postTitle, item: postUrl },
+      ],
+    },
+  ];
+
+  if (localizedContent.faq && localizedContent.faq.items.length > 0) {
+    articleSchemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: localizedContent.faq.items.map((item) => ({
+        '@type': 'Question',
+        name: stripMarkdownForJsonLd(item.question),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer.map(stripMarkdownForJsonLd).join(' '),
+        },
+      })),
+    });
+  }
+
   return (
     <div className="min-h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col selection:bg-[#D3AF37]/30 selection:text-white">
+      <SeoHead
+        title={resolvedSeoTitle}
+        description={postExcerpt}
+        canonicalPath={canonicalPath}
+        ogType="article"
+        ogImage={resolvedOgImage}
+        locale={locale}
+        schema={articleSchemas}
+      />
       {/* Cinematic Curtain Transition */}
       <CurtainIntro title="BLOGS & INSIGHTS" subtitle="GLC LAW COMPANY" />
 
@@ -57,10 +312,18 @@ export default function BlogPostPage() {
       <nav className="sticky top-0 z-50 w-full bg-[#0C0D0D]/90 backdrop-blur-md border-b border-white/[0.08] px-6 sm:px-12 py-3.5 flex items-center justify-between">
         <Link
           to="/blogs"
-          className="inline-flex items-center gap-2 text-white/80 hover:text-[#D3AF37] transition-colors text-sm font-medium font-inter-tight group"
+          className="inline-flex items-center gap-2 text-white/80 hover:text-[#D3AF37] transition-colors text-sm font-medium font-inter-tight group min-h-[44px]"
         >
           <ArrowLeft className="w-4 h-4 text-[#D3AF37] group-hover:-translate-x-1 transition-transform" />
-          <span>{language === 'GEO' ? 'ყველა პუბლიკაცია' : language === 'ENG' ? 'All Publications' : language === 'RUS' ? 'Все статьи' : 'Tüm Makaleler'}</span>
+          <span>
+            {language === 'GEO'
+              ? 'ყველა პუბლიკაცია'
+              : language === 'ENG'
+                ? 'All Publications'
+                : language === 'RUS'
+                  ? 'Все статьи'
+                  : 'Tüm Makaleler'}
+          </span>
         </Link>
 
         <span className="font-['Antonio'] font-bold text-sm tracking-widest text-[#D3AF37] uppercase hidden sm:inline-block">
@@ -75,9 +338,13 @@ export default function BlogPostPage() {
         <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8">
           {/* Breadcrumbs */}
           <div className="flex items-center gap-2 text-xs font-inter-tight text-white/40 uppercase tracking-widest mb-6">
-            <Link to="/" className="hover:text-white transition-colors">GLC</Link>
+            <Link to="/" className="hover:text-white transition-colors">
+              GLC
+            </Link>
             <ChevronRight className="w-3 h-3 text-[#D3AF37]" />
-            <Link to="/blogs" className="hover:text-white transition-colors">{language === 'GEO' ? 'ბლოგი' : 'Blog'}</Link>
+            <Link to="/blogs" className="hover:text-white transition-colors">
+              {isGeo ? 'ბლოგი' : language === 'RUS' ? 'Блог' : language === 'TUR' ? 'Blog' : 'Blog'}
+            </Link>
             <ChevronRight className="w-3 h-3 text-[#D3AF37]" />
             <span className="text-[#D3AF37] font-semibold">{post.category}</span>
           </div>
@@ -86,8 +353,14 @@ export default function BlogPostPage() {
             {post.category}
           </span>
 
-          <h1 className="font-['Antonio'] uppercase text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight leading-[1.1] mb-6">
-            <ScrollLetterReveal text={post.title[language] || post.title.GEO} delay={0.1} triggerMode="mount" stagger={0.015} />
+          <h1
+            className={`text-white mb-5 ${
+              isGeo
+                ? 'font-inter-tight font-semibold text-[23px] sm:text-[32px] lg:text-[38px] tracking-normal leading-[1.3]'
+                : "font-['Antonio'] uppercase text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6"
+            }`}
+          >
+            <ScrollLetterReveal text={postTitle} delay={0.95} triggerMode="mount" stagger={0.012} />
           </h1>
 
           <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm text-white/60 font-inter-tight pb-6 border-b border-white/[0.08]">
@@ -127,71 +400,268 @@ export default function BlogPostPage() {
             src={post.image}
             alt={post.alt}
             fill
+            width={1600}
+            height={900}
             sizes="(max-width: 1024px) 100vw, 896px"
             className="object-cover object-center"
             priority
+            decoding="async"
             referrerPolicy="no-referrer"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
 
       {/* Main Content Article Body */}
-      <main className="max-w-4xl mx-auto px-6 sm:px-8 pb-20 w-full font-inter-tight">
+      <main className="max-w-4xl mx-auto px-6 sm:px-8 pb-16 w-full font-inter-tight">
         {/* Intro */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-[#141515] border-l-4 border-[#D3AF37] mb-12 text-base sm:text-lg text-white/90 leading-relaxed font-normal">
-          {localizedContent.intro}
+        <div className="p-6 sm:p-8 rounded-2xl bg-[#141515] border-l-4 border-[#D3AF37] mb-12 text-base sm:text-lg text-white/90 leading-relaxed font-normal space-y-3.5">
+          {localizedContent.intro.split('\n\n').map((para, iIdx) => (
+            <p key={iIdx}>{renderRichInline(para)}</p>
+          ))}
         </div>
 
         {/* Content Sections */}
-        <div className="space-y-12">
+        <div className="space-y-10">
           {localizedContent.sections.map((section, idx) => (
-            <section key={idx} className="space-y-4">
-              <h2 className="font-['Antonio'] uppercase text-2xl sm:text-3xl text-white font-bold tracking-tight">
+            <section key={idx} className="space-y-3.5">
+              <h2
+                className={`text-white ${
+                  isGeo
+                    ? 'font-inter-tight font-semibold text-[18px] sm:text-[21px] tracking-normal leading-[1.35]'
+                    : "font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold tracking-tight"
+                }`}
+              >
                 {section.heading}
               </h2>
 
               {section.statuteRef && (
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#D3AF37]/10 border border-[#D3AF37]/25 text-[#D3AF37] text-xs font-mono">
-                  <BookOpen className="w-3.5 h-3.5" />
+                  <BookOpen className="w-3.5 h-3.5 shrink-0" />
                   <span>{section.statuteRef}</span>
                 </div>
               )}
 
-              <div className="space-y-3 pt-2">
+              <div className="space-y-3.5 pt-1">
                 {section.body.map((paragraph, pIdx) => (
-                  <p key={pIdx} className="text-base sm:text-lg text-white/70 leading-relaxed">
-                    {paragraph}
+                  <p key={pIdx} className="text-[15px] sm:text-base text-white/80 leading-relaxed">
+                    {renderRichInline(paragraph)}
                   </p>
                 ))}
               </div>
+
+              {section.listItems && section.listItems.length > 0 && (
+                <ul className="my-4 space-y-2.5 p-5 rounded-xl bg-[#121316] border border-[#D3AF37]/25">
+                  {section.listItems.map((item, lIdx) => (
+                    <li
+                      key={lIdx}
+                      className="flex items-start gap-3 text-[15px] sm:text-base text-white/90 leading-relaxed"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37] mt-2.5 shrink-0" />
+                      <span>{renderRichInline(item)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {section.bodyAfterList && section.bodyAfterList.length > 0 && (
+                <div className="space-y-3.5 pt-1">
+                  {section.bodyAfterList.map((paragraph, aIdx) => (
+                    <p key={aIdx} className="text-[15px] sm:text-base text-white/80 leading-relaxed">
+                      {renderRichInline(paragraph)}
+                    </p>
+                  ))}
+                </div>
+              )}
             </section>
           ))}
         </div>
 
-        {/* Key Takeaways Card */}
-        <div className="my-14 p-6 sm:p-8 rounded-2xl bg-[#111212] border border-[#D3AF37]/40 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
-          <div className="flex items-center gap-2 text-[#D3AF37] font-semibold text-xs uppercase tracking-widest mb-4">
-            <CheckCircle2 className="w-5 h-5 text-[#D3AF37]" />
-            <span>{language === 'GEO' ? 'მთავარი სამართლებრივი დასკვნები' : 'Key Legal Takeaways'}</span>
-          </div>
+        {/* Interactive Collapsible Q&A Accordion */}
+        {localizedContent.faq && localizedContent.faq.items.length > 0 && (
+          <section className="my-12 sm:my-14" aria-label={localizedContent.faq.title}>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#D3AF37]/12 border border-[#D3AF37]/35 flex items-center justify-center shrink-0">
+                  <HelpCircle className="w-4 h-4 text-[#D3AF37]" />
+                </div>
+                <h2
+                  className={`text-white ${
+                    isGeo
+                      ? 'font-inter-tight font-semibold text-[18px] sm:text-[22px] tracking-normal leading-[1.3]'
+                      : "font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold tracking-tight"
+                  }`}
+                >
+                  {localizedContent.faq.title}
+                </h2>
+              </div>
 
-          <ul className="space-y-3.5">
-            {localizedContent.keyTakeaways.map((point, idx) => (
-              <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-white/85">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37] mt-2 shrink-0" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+              <span className="text-[11px] font-inter-tight text-[#D3AF37]/80 uppercase tracking-widest px-3 py-1 rounded-full bg-[#D3AF37]/10 border border-[#D3AF37]/20">
+                {isGeo
+                  ? 'დააჭირეთ კითხვას პასუხის სანახავად'
+                  : language === 'RUS'
+                    ? 'Нажмите на вопрос, чтобы раскрыть ответ'
+                    : language === 'TUR'
+                      ? 'Cevabı görmek için soruya tıklayın'
+                      : 'Select a question to expand'}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {localizedContent.faq.items.map((item, idx) => {
+                const isOpen = openFaqIndex === idx;
+                const buttonId = `faq-trigger-${post.slug}-${idx}`;
+                const panelId = `faq-panel-${post.slug}-${idx}`;
+                const indexLabel = String(idx + 1).padStart(2, '0');
+
+                return (
+                  <div
+                    key={idx}
+                    className={`rounded-xl border transition-all duration-300 overflow-hidden ${
+                      isOpen
+                        ? 'bg-[#15161A] border-[#D3AF37]/60 shadow-[0_12px_32px_rgba(211,175,55,0.12)]'
+                        : 'bg-[#111215]/95 border-white/[0.09] hover:border-[#D3AF37]/40 hover:bg-[#141519]'
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      id={buttonId}
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                      className="w-full min-h-[58px] px-4 sm:px-6 py-4 flex items-center justify-between gap-4 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D3AF37]"
+                    >
+                      <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+                        <span
+                          className={`text-xs font-mono font-semibold px-2 py-0.5 rounded border shrink-0 transition-colors duration-300 ${
+                            isOpen
+                              ? 'bg-[#D3AF37] text-[#0C0D0D] border-[#D3AF37]'
+                              : 'bg-[#D3AF37]/10 text-[#D3AF37] border-[#D3AF37]/30'
+                          }`}
+                        >
+                          {indexLabel}
+                        </span>
+                        <span
+                          className={`font-semibold transition-colors duration-300 ${
+                            isGeo
+                              ? 'font-inter-tight text-[15px] sm:text-base leading-[1.4]'
+                              : 'font-inter-tight text-[15px] sm:text-[17px] leading-[1.35]'
+                          } ${isOpen ? 'text-[#FEF5CD]' : 'text-white/95'}`}
+                        >
+                          {item.question}
+                        </span>
+                      </div>
+
+                      <span
+                        className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 ${
+                          isOpen
+                            ? 'bg-[#D3AF37]/20 border-[#D3AF37]/60 text-[#D3AF37] rotate-180'
+                            : 'bg-white/[0.04] border-white/15 text-white/65'
+                        }`}
+                        aria-hidden="true"
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          id={panelId}
+                          role="region"
+                          aria-labelledby={buttonId}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 sm:px-6 pb-5 pt-1 pl-14 sm:pl-[4.25rem] border-t border-white/[0.06] space-y-3">
+                            {item.answer.map((ansParagraph, aIdx) => (
+                              <p
+                                key={aIdx}
+                                className="text-[14px] sm:text-[15px] text-white/75 leading-relaxed pt-2 first:pt-3"
+                              >
+                                {renderRichInline(ansParagraph)}
+                              </p>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* Closing Note Card (for editorial articles) */}
+        {localizedContent.closingNote && (
+          <div className="my-12 p-6 sm:p-8 rounded-2xl bg-[#121316] border border-[#D3AF37]/40 shadow-[0_12px_34px_rgba(0,0,0,0.55)]">
+            <div className="flex items-center gap-2.5 text-[#D3AF37] text-xs font-semibold uppercase tracking-widest mb-3">
+              <Scale className="w-4 h-4 text-[#D3AF37]" />
+              <span>
+                {localizedContent.closingTitle ||
+                  (isGeo
+                    ? 'იურიდიული დაცვა და კონსულტაცია'
+                    : language === 'RUS'
+                      ? 'Юридическая защита и консультация'
+                      : language === 'TUR'
+                        ? 'Hukuki Savunma ve Danışmanlık'
+                        : 'Defense & Legal Counsel')}
+              </span>
+            </div>
+            <div className="space-y-3 text-[15px] sm:text-base text-white/85 leading-relaxed">
+              {localizedContent.closingNote.split('\n\n').map((para, cIdx) => (
+                <p key={cIdx}>{renderRichInline(para)}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Key Takeaways Card (preserved for posts defining keyTakeaways) */}
+        {localizedContent.keyTakeaways && localizedContent.keyTakeaways.length > 0 && (
+          <div className="my-14 p-6 sm:p-8 rounded-2xl bg-[#111212] border border-[#D3AF37]/40 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
+            <div className="flex items-center gap-2 text-[#D3AF37] font-semibold text-xs uppercase tracking-widest mb-4">
+              <CheckCircle2 className="w-5 h-5 text-[#D3AF37]" />
+              <span>
+                {isGeo
+                  ? 'მთავარი სამართლებრივი დასკვნები'
+                  : language === 'RUS'
+                    ? 'Ключевые правовые выводы'
+                    : language === 'TUR'
+                      ? 'Temel Hukuki Çıkarımlar'
+                      : 'Key Legal Takeaways'}
+              </span>
+            </div>
+
+            <ul className="space-y-3.5">
+              {localizedContent.keyTakeaways.map((point, idx) => (
+                <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-white/85">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37] mt-2 shrink-0" />
+                  <span>{renderRichInline(point)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Statutory Summary / Notice */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-xs sm:text-sm text-white/50 leading-relaxed mb-14">
-          <span className="font-semibold text-white/80 block mb-1">
-            {language === 'GEO' ? 'საკანონმდებლო დათქმა:' : 'Legal Notice:'}
-          </span>
-          {localizedContent.statutorySummary}
-        </div>
+        {localizedContent.statutorySummary && (
+          <div className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-xs sm:text-sm text-white/50 leading-relaxed mb-14">
+            <span className="font-semibold text-white/80 block mb-1">
+              {isGeo
+                ? 'საკანონმდებლო დათქმა:'
+                : language === 'RUS'
+                  ? 'Правовая оговорка:'
+                  : language === 'TUR'
+                    ? 'Yasal Uyarı:'
+                    : 'Legal Notice:'}
+            </span>
+            {localizedContent.statutorySummary}
+          </div>
+        )}
 
         {/* Author Bio & Consultation Banner */}
         <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-[#161717] to-[#0E0F0F] border border-[#D3AF37]/50 shadow-[0_16px_40px_rgba(0,0,0,0.8)] flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
@@ -209,27 +679,194 @@ export default function BlogPostPage() {
             <span className="text-xs font-semibold uppercase tracking-widest text-[#D3AF37] font-inter-tight mb-1">
               {post.author.role[language] || post.author.role.GEO}
             </span>
-            <h3 className="font-['Antonio'] uppercase text-2xl text-white font-bold mb-2">
+            <h3
+              className={`text-white mb-2 ${
+                isGeo
+                  ? 'font-inter-tight font-semibold text-lg sm:text-xl tracking-normal'
+                  : "font-['Antonio'] uppercase text-2xl font-bold"
+              }`}
+            >
               {post.author.name}
             </h3>
             <p className="text-sm text-white/70 leading-relaxed mb-4">
-              {language === 'GEO'
+              {isGeo
                 ? '21+ წლიანი გამოცდილება რთულ სისხლისა და სამოქალაქო სამართლის საქმეებში. გაიარეთ კონსულტაცია თქვენს კონკრეტულ საქმეზე.'
-                : '21+ years of legal trial experience. Secure strategic counsel tailored to your specific matter.'}
+                : language === 'RUS'
+                  ? 'Более 21 года опыта по сложным уголовным и гражданским делам. Получите стратегическую консультацию по вашему вопросу.'
+                  : language === 'TUR'
+                    ? 'Karmaşık ceza ve medeni hukuk davalarında 21+ yıllık tecrübe. Dosyanıza özel hukuki danışmanlık alın.'
+                    : '21+ years of legal trial experience. Secure strategic counsel tailored to your specific matter.'}
             </p>
 
             <a
               href={directConsultationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="saas-btn-gold px-6 py-3 rounded-xl font-['Antonio'] font-bold text-base text-[#0C0D0D] uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer shadow-[0_4px_20px_rgba(211,175,55,0.25)]"
+              className={`saas-btn-gold px-6 py-3 rounded-xl text-[#0C0D0D] inline-flex items-center gap-2 cursor-pointer shadow-[0_4px_20px_rgba(211,175,55,0.25)] min-h-[44px] ${
+                isGeo
+                  ? 'font-inter-tight font-semibold text-sm'
+                  : "font-['Antonio'] font-bold text-base uppercase tracking-wider"
+              }`}
             >
-              <span>{language === 'GEO' ? 'კონსულტაციის მიღება' : 'Request Consultation'}</span>
+              <span>
+                {isGeo
+                  ? 'კონსულტაციის მიღება'
+                  : language === 'RUS'
+                    ? 'Получить консультацию'
+                    : language === 'TUR'
+                      ? 'Danışmanlık Al'
+                      : 'Request Consultation'}
+              </span>
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>
         </div>
       </main>
+
+      {/* Bottom Horizontal Articles Slider */}
+      {otherPosts.length > 0 && (
+        <section
+          aria-label={moreArticlesHeading}
+          className="w-full border-t border-white/[0.08] bg-[#090A0B] py-14 sm:py-18"
+        >
+          <div className="max-w-6xl mx-auto px-6 sm:px-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+              <div className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-[#D3AF37]" />
+                <h2
+                  className={`text-white ${
+                    isGeo
+                      ? 'font-inter-tight font-semibold text-lg sm:text-2xl tracking-normal'
+                      : "font-['Antonio'] uppercase text-2xl sm:text-3xl font-bold tracking-tight"
+                  }`}
+                >
+                  {moreArticlesHeading}
+                </h2>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleSliderStep('prev')}
+                    aria-label={
+                      isGeo
+                        ? 'წინა სტატიები'
+                        : language === 'RUS'
+                          ? 'Предыдущие статьи'
+                          : language === 'TUR'
+                            ? 'Önceki makaleler'
+                            : 'Previous articles'
+                    }
+                    className="w-11 h-11 rounded-full bg-[#151517] border border-white/15 hover:border-[#D3AF37] text-white/80 hover:text-[#D3AF37] flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSliderStep('next')}
+                    aria-label={
+                      isGeo
+                        ? 'შემდეგი სტატიები'
+                        : language === 'RUS'
+                          ? 'Следующие статьи'
+                          : language === 'TUR'
+                            ? 'Sonraki makaleler'
+                            : 'Next articles'
+                    }
+                    className="w-11 h-11 rounded-full bg-[#151517] border border-white/15 hover:border-[#D3AF37] text-white/80 hover:text-[#D3AF37] flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <Link
+                  to="/blogs"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-inter-tight font-medium text-[#D3AF37] hover:text-[#FEF5CD] transition-colors px-2 py-2 min-h-[44px]"
+                >
+                  <span>{viewAllLabel}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div
+              ref={sliderRef}
+              onPointerDown={handleSliderPointerDown}
+              onPointerMove={handleSliderPointerMove}
+              onPointerUp={handleSliderPointerUp}
+              onPointerLeave={handleSliderPointerUp}
+              onPointerCancel={handleSliderPointerUp}
+              className="flex flex-row flex-nowrap gap-5 sm:gap-6 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x"
+            >
+              {otherPosts.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/blogs/${item.slug}`}
+                  draggable={false}
+                  onClick={(e) => {
+                    if (dragDistanceRef.current >= 8) {
+                      e.preventDefault();
+                    }
+                  }}
+                  className="group snap-start flex flex-col w-[82vw] sm:w-[340px] md:w-[375px] shrink-0 cursor-pointer select-none rounded-[18px] bg-[#121315] border border-white/[0.08] hover:border-[#D2AF37]/55 hover:shadow-[0_14px_38px_rgba(211,175,55,0.14)] overflow-hidden transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D2AF37]"
+                >
+                  <article className="flex flex-col flex-1">
+                    <div className="relative w-full aspect-[16/9.5] overflow-hidden bg-[#151415]">
+                      <Image
+                        src={item.image}
+                        alt={item.alt}
+                        fill
+                        sizes="(max-width: 768px) 82vw, 375px"
+                        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05] pointer-events-none"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
+                      <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-md bg-black/75 backdrop-blur-md border border-[#D2AF37]/35 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#D2AF37] font-inter-tight pointer-events-none">
+                        {item.category}
+                      </span>
+                    </div>
+
+                    <div className="p-4 flex flex-col items-start flex-1 justify-between gap-2.5">
+                      <div className="w-full">
+                        <div className="flex items-center gap-2 text-white/55 text-[11px] sm:text-xs font-inter-tight font-normal tracking-wide">
+                          <time>{item.date[language] || item.date.GEO}</time>
+                          <span>-</span>
+                          <span className="inline-flex items-center gap-1 text-[#D2AF37]/90">
+                            <Clock className="w-3 h-3" />
+                            {item.readTime}
+                          </span>
+                        </div>
+
+                        <h3
+                          className={`text-white group-hover:text-[#D2AF37] transition-colors duration-300 mt-1.5 ${
+                            isGeo
+                              ? 'font-inter-tight font-semibold text-[15px] sm:text-[16px] leading-[1.35] tracking-normal'
+                              : "font-['Antonio'] uppercase tracking-tight text-lg sm:text-[20px] font-bold leading-[1.15]"
+                          }`}
+                        >
+                          {item.title[language] || item.title.GEO}
+                        </h3>
+
+                        <p className="font-inter-tight text-xs text-white/60 leading-snug mt-1.5 line-clamp-2">
+                          {item.excerpt[language] || item.excerpt.GEO}
+                        </p>
+                      </div>
+
+                      <div className="w-full pt-2.5 border-t border-white/[0.06] flex items-center justify-between">
+                        <span className="saas-btn-dark px-3.5 py-1.5 rounded-full text-white/90 group-hover:text-[#D2AF37] text-xs font-medium font-inter-tight inline-flex items-center gap-1.5 overflow-hidden">
+                          <span>{t.blogsSection.readAnalysis || (isGeo ? 'სრულად' : 'Read More')}</span>
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>

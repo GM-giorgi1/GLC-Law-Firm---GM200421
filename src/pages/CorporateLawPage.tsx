@@ -19,6 +19,8 @@ import GlobalNavbar from '@/src/components/common/GlobalNavbar';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
 import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
+import SeoHead, { SITE_URL } from '@/src/components/common/SeoHead';
+import Testimonials from '@/components/templates/lawyer-portfolio-landing-page-alex/Testimonials';
 import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/Contacts';
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 
@@ -293,6 +295,41 @@ export default function CorporateLawPage() {
 
   return (
     <main className="min-h-screen bg-[#030508] text-[#F2ECEC] selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]">
+      <SeoHead
+        title={
+          isGeo
+            ? 'ბიზნესი და კორპორაციული სამართალი | GLC Law Company'
+            : isRus
+              ? 'Корпоративное и бизнес-право | GLC Law Company'
+              : language === 'TUR'
+                ? 'İş ve Şirketler Hukuku | GLC Law Company'
+                : 'Business & Corporate Law | GLC Law Company'
+        }
+        description={heroSubLine2}
+        canonicalPath="/practice-areas/corporate-law"
+        ogType="website"
+        ogImage="/corporate.png"
+        locale={isGeo ? 'ka_GE' : isRus ? 'ru_RU' : language === 'TUR' ? 'tr_TR' : 'en_US'}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'GLC Law Company - Business & Corporate Law',
+            url: `${SITE_URL}/practice-areas/corporate-law`,
+            provider: { '@id': `${SITE_URL}/#organization` },
+            serviceType: 'Business & Corporate Law',
+            areaServed: 'Georgia',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+              { '@type': 'ListItem', position: 2, name: 'Business & Corporate Law', item: `${SITE_URL}/practice-areas/corporate-law` },
+            ],
+          },
+        ]}
+      />
       {/* Universal Curtain Opening Transition */}
       <CurtainIntro
         title="BUSINESS & CORPORATE LAW"
@@ -303,27 +340,6 @@ export default function CorporateLawPage() {
       {/* 1. Global Navbar */}
       <GlobalNavbar />
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Antonio:wght@600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap');
-          
-          .font-big-shoulders {
-            font-family: 'Big Shoulders Display', 'Antonio', sans-serif;
-            font-optical-sizing: auto;
-          }
-          .font-geist {
-            font-family: 'Inter Tight', -apple-system, sans-serif;
-          }
-          
-          .corporate-gold-gradient {
-            background: linear-gradient(180deg, #FEF5CD 0%, #E2C359 45%, #D2AE37 75%, #8C6A1C 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-          }
-        `
-      }} />
-
       {/* 2. HERO SECTION: Corporate Law Backdrop (Obsidian #030508) */}
       <header className="relative w-full min-h-[90vh] lg:min-h-screen bg-[#030508] border-b border-[#D3AF37]/15 overflow-hidden flex flex-col justify-center items-center pt-32 sm:pt-36 lg:pt-40 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-8 lg:px-12">
         {/* Corporate Background Image with Obsidian Overlay */}
@@ -332,6 +348,7 @@ export default function CorporateLawPage() {
             src={corporateHeroImg || '/corporate.png'}
             alt="GLC Corporate & Business Law"
             fill
+            sizes="100vw"
             priority
             className="object-cover object-center filter brightness-[0.96] contrast-[1.08] scale-100"
             unoptimized
@@ -356,7 +373,7 @@ export default function CorporateLawPage() {
           <motion.div
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.75, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#121214]/85 border border-[#D3AF37]/40 shadow-[0_4px_20px_rgba(211,175,55,0.12)] mb-6 sm:mb-8"
           >
             <ShieldCheck className="w-4 h-4 text-[#D3AF37]" />
@@ -370,7 +387,7 @@ export default function CorporateLawPage() {
             className="font-big-shoulders font-[900] uppercase text-[40px] sm:text-[58px] md:text-[72px] lg:text-[84px] leading-[0.96] tracking-tight mb-6 sm:mb-8 text-center max-w-4xl"
           >
             <span className="corporate-gold-gradient block drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-              <ScrollLetterReveal text={heroHeadlineText} delay={0.1} triggerMode="mount" stagger={0.02} />
+              <ScrollLetterReveal text={heroHeadlineText} delay={0.95} triggerMode="mount" stagger={0.02} />
             </span>
           </h1>
 
@@ -378,7 +395,7 @@ export default function CorporateLawPage() {
           <div className="w-full max-w-3xl flex flex-col items-center gap-3.5 sm:gap-4 mb-10 sm:mb-12 px-2">
             {/* Line 1: Strong authoritative statement */}
             <p className="font-geist text-base sm:text-lg md:text-xl font-medium text-[#FAF8F5] leading-relaxed text-center tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
-              <ScrollLetterReveal text={heroSubLine1} delay={0.3} triggerMode="mount" stagger={0.012} />
+              <ScrollLetterReveal text={heroSubLine1} delay={1.1} triggerMode="mount" stagger={0.012} />
             </p>
 
             {/* Subtle Divider Bar */}
@@ -386,7 +403,7 @@ export default function CorporateLawPage() {
 
             {/* Line 2: Comprehensive scope */}
             <p className="font-geist text-xs sm:text-sm md:text-base text-gray-300 font-normal leading-relaxed text-center max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
-              <ScrollLetterReveal text={heroSubLine2} delay={0.5} triggerMode="mount" stagger={0.01} />
+              <ScrollLetterReveal text={heroSubLine2} delay={1.25} triggerMode="mount" stagger={0.01} />
             </p>
           </div>
 
@@ -394,14 +411,14 @@ export default function CorporateLawPage() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.75, delay: 1.25, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
           >
             <button
               onClick={() => setIsContactOpen(true)}
               className="saas-btn-gold w-full sm:w-auto px-8 py-4 rounded-xl text-sm sm:text-base font-bold font-geist text-black uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_4px_25px_rgba(211,175,55,0.25)] cursor-pointer"
             >
-              <span>{isGeo ? 'კონსულტაციის დაჯავშნა' : isEng ? 'SCHEDULE CORPORATE AUDIT' : 'ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ'}</span>
+              <span>{isGeo ? 'კონსულტაციის დაჯავშნა' : isEng ? 'SCHEDULE CORPORATE AUDIT' : isRus ? 'ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ' : 'KURUMSAL DANIŞMANLIK AL'}</span>
               <ArrowUpRight className="w-4 h-4 text-black" />
             </button>
 
@@ -411,7 +428,7 @@ export default function CorporateLawPage() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm sm:text-base font-semibold font-geist text-[#FEF5CD] border border-[#D3AF37]/40 bg-[#121214]/80 hover:bg-[#1C1C1E] hover:border-[#D3AF37] transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg"
             >
-              <span>{isGeo ? 'WHATSAPP დაუყოვნებლივ' : 'WHATSAPP DIRECT'}</span>
+              <span>{isGeo ? 'WHATSAPP დაუყოვნებლივ' : isRus ? 'СВЯЗЬ В WHATSAPP' : language === 'TUR' ? 'WHATSAPP İLETİŞİM' : 'WHATSAPP DIRECT'}</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </a>
           </motion.div>
@@ -568,7 +585,10 @@ export default function CorporateLawPage() {
       </section>
 
 
-      {/* 5. EXECUTIVE CONSULTATION & CASE INQUIRY: Dark Slate-Navy (#090D16) */}
+      {/* 5. DEDICATED BUSINESS & CORPORATE CLIENT TESTIMONIALS */}
+      <Testimonials practiceKey="corporate" />
+
+      {/* 6. EXECUTIVE CONSULTATION & CASE INQUIRY: Dark Slate-Navy (#090D16) */}
       <Contacts bgTheme="slate-navy" />
 
       {/* 6. AUTHORITATIVE FOOTER: Deep Obsidian (#080909) */}

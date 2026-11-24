@@ -177,15 +177,8 @@ export default function Contacts({
     <section
       id="contact"
       ref={sectionRef}
-      className={`relative w-full text-[#FBFBFB] py-[90px] overflow-hidden ${sectionBg} ${className}`}
+      className={`relative w-full text-[#FBFBFB] py-[90px] overflow-hidden scroll-mt-20 ${sectionBg} ${className}`}
     >
-      {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
 
       {/* Ambient Warm Golden Glow in Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[500px] bg-[#D2AF37]/[0.035] rounded-full blur-[200px] pointer-events-none" />
@@ -207,12 +200,11 @@ export default function Contacts({
             {/* Top Photo Area: Full-fidelity portrait container without bottom cropping */}
             <div className={`relative w-full aspect-[4/3] sm:aspect-[16/11] lg:h-[480px] overflow-hidden ${leftColBg} rounded-t-3xl`}>
               <Image
-                src="/.tempmediaStorage/GUBE.jpeg"
+                src="/GUBE.jpeg"
                 alt="Advocate Giorgi Gubeladze in consultation"
                 fill
                 sizes="(max-width: 1024px) 100vw, 540px"
                 className="object-cover object-top filter brightness-[0.98] contrast-[1.05]"
-                priority
                 referrerPolicy="no-referrer"
               />
               

@@ -23,16 +23,12 @@ export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-
     const timer = setTimeout(() => {
       setIsLoading(false);
-      document.body.style.overflow = '';
-    }, 2100);
+    }, 1850);
 
     return () => {
       clearTimeout(timer);
-      document.body.style.overflow = '';
     };
   }, []);
 
@@ -41,8 +37,8 @@ export function LoadingScreen() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.045,
-        delayChildren: 0.1,
+        staggerChildren: 0.032,
+        delayChildren: 0.08,
       },
     },
   };
@@ -50,39 +46,36 @@ export function LoadingScreen() {
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 14,
-      scale: 0.92,
-      filter: 'blur(4px)',
+      y: 12,
     },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      filter: 'blur(0px)',
       transition: {
-        duration: 0.35,
+        duration: 0.38,
         ease: [0.16, 1, 0.3, 1],
       },
     },
   };
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isLoading && (
         <motion.div
           key="loader-container"
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            transition: { duration: 0.35, ease: 'easeInOut' },
+            transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
           }}
-          className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none"
+          aria-hidden="true"
+          className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none will-change-[opacity]"
         >
           {/* BEHIND THE CURTAINS: CRIMINAL HERO BACKDROP */}
           <div className="absolute inset-0 w-full h-full bg-[#030508]">
             <Image
               src={criminalHeroImg}
-              alt="GLC Law Courtroom Backdrop"
+              alt=""
               fill
               priority
               unoptimized
@@ -97,14 +90,14 @@ export function LoadingScreen() {
             initial={{ y: '0%' }}
             animate={{ y: '-100%' }}
             transition={{
-              duration: 1.05,
-              delay: 0.95,
+              duration: 0.98,
+              delay: 0.78,
               ease: [0.76, 0, 0.24, 1],
             }}
-            className="absolute top-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-end items-center pb-2 sm:pb-3 px-4 z-20 border-b border-[#D3AF37]/30"
+            className="absolute top-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/30 will-change-transform"
             style={{ backgroundColor: '#00070B' }}
           >
-            <motion.h1
+            <motion.div
               variants={letterContainerVariants}
               initial="hidden"
               animate="visible"
@@ -120,13 +113,13 @@ export function LoadingScreen() {
                 <motion.span
                   key={index}
                   variants={letterVariants}
-                  className="inline-block"
+                  className="inline-block will-change-[transform,opacity]"
                   style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
                 >
                   {char}
                 </motion.span>
               ))}
-            </motion.h1>
+            </motion.div>
           </motion.div>
 
           {/* BOTTOM CURTAIN */}
@@ -134,18 +127,18 @@ export function LoadingScreen() {
             initial={{ y: '0%' }}
             animate={{ y: '100%' }}
             transition={{
-              duration: 1.05,
-              delay: 0.95,
+              duration: 0.98,
+              delay: 0.78,
               ease: [0.76, 0, 0.24, 1],
             }}
-            className="absolute bottom-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/30"
+            className="absolute bottom-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/30 will-change-transform"
             style={{ backgroundColor: '#00070B' }}
           >
             <motion.p
-              initial={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.5, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="font-geist font-semibold text-[14px] sm:text-[16px] md:text-[18px] text-[#D3AF37] tracking-[0.3em] uppercase text-center"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.48, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              className="font-geist font-semibold text-[14px] sm:text-[16px] md:text-[18px] text-[#D3AF37] tracking-[0.3em] uppercase text-center will-change-[transform,opacity]"
               style={{
                 fontFamily: "'Inter Tight', 'Geist', sans-serif",
                 color: '#D3AF37',
@@ -195,27 +188,6 @@ export default function Header() {
     <>
       <LoadingScreen />
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Antonio:wght@600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap');
-          
-          .font-big-shoulders {
-            font-family: 'Big Shoulders Display', 'Antonio', sans-serif;
-            font-optical-sizing: auto;
-          }
-          .font-geist {
-            font-family: 'Inter Tight', -apple-system, sans-serif;
-          }
-          
-          .criminal-gold-gradient {
-            background: linear-gradient(180deg, #FEF5CD 0%, #E2C359 45%, #D2AE37 75%, #8C6A1C 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-          }
-        `
-      }} />
-
       <header
         className="relative w-full min-h-[90vh] lg:min-h-screen bg-[#030508] border-b border-[#D3AF37]/15 overflow-hidden flex flex-col justify-center items-center pt-32 sm:pt-36 lg:pt-40 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-8 lg:px-12 selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]"
       >
@@ -225,6 +197,7 @@ export default function Header() {
             src={criminalHeroImg || '/criminalhero.png'}
             alt="GLC Criminal Law Defense Advocacy"
             fill
+            sizes="100vw"
             priority
             className="object-cover object-center filter brightness-[0.96] contrast-[1.08] scale-100"
             unoptimized
@@ -250,9 +223,9 @@ export default function Header() {
           
           {/* Center Refined Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.6 }}
+            transition={{ duration: 0.65, delay: 0.95 }}
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#D3AF37]/40 bg-[#0E0E10]/85 backdrop-blur-md shadow-[0_0_15px_rgba(211,175,55,0.15)] mb-5 sm:mb-6"
           >
             <Shield className="w-3.5 h-3.5 text-[#D3AF37]" />
@@ -265,24 +238,24 @@ export default function Header() {
           <h1
             className="font-big-shoulders font-[900] uppercase text-[clamp(34px,5.8vw,78px)] tracking-tight leading-[1.04] sm:leading-[0.98] criminal-gold-gradient select-none text-center max-w-4xl mx-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_8px_rgba(211,175,55,0.35)]"
           >
-            <ScrollLetterReveal text={mainHeadlineText} delay={1.9} triggerMode="mount" stagger={0.018} />
+            <ScrollLetterReveal text={mainHeadlineText} delay={1.08} triggerMode="mount" stagger={0.015} />
           </h1>
 
           {/* Centered Editorial Subheading (Two distinct centered lines) */}
           <div className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2">
             <p className="font-geist font-semibold text-base sm:text-lg lg:text-xl text-[#FEF5CD] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={subheadlineLine1} delay={2.1} triggerMode="mount" stagger={0.01} />
+              <ScrollLetterReveal text={subheadlineLine1} delay={1.22} triggerMode="mount" stagger={0.009} />
             </p>
             <p className="font-geist font-medium text-sm sm:text-base text-gray-200/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={subheadlineLine2} delay={2.3} triggerMode="mount" stagger={0.008} />
+              <ScrollLetterReveal text={subheadlineLine2} delay={1.34} triggerMode="mount" stagger={0.007} />
             </p>
           </div>
 
           {/* Centered CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 2.25 }}
+            transition={{ duration: 0.65, delay: 1.4 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mt-7 sm:mt-8 w-full sm:w-auto"
           >
             {/* Primary Action: WhatsApp 24/7 Consultation */}

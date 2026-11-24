@@ -91,11 +91,11 @@ export interface TranslationSchema {
     requestReceived: string;
     requestReceivedDesc: string;
     options: {
-      corporate: string;
-      ma: string;
-      litigation: string;
-      ip: string;
-      regulatory: string;
+      criminal: string;
+      civil: string;
+      administrative: string;
+      business: string;
+      familyInheritance: string;
     };
   };
   // About Me
@@ -259,11 +259,11 @@ export const translations: Record<Language, TranslationSchema> = {
       requestReceived: 'REQUEST RECEIVED',
       requestReceivedDesc: 'Thank you. Our senior legal team will contact you within 2 business hours to finalize your consultation time.',
       options: {
-        corporate: 'Corporate & Business Law',
-        ma: 'Mergers & Acquisitions (M&A)',
-        litigation: 'Commercial Litigation',
-        ip: 'Intellectual Property Strategy',
-        regulatory: 'Regulatory & Compliance',
+        criminal: 'Criminal Law',
+        civil: 'Civil Law',
+        administrative: 'Administrative Law',
+        business: 'Business Law',
+        familyInheritance: 'Family & Inheritance Disputes',
       },
     },
     aboutMe: {
@@ -548,24 +548,24 @@ export const translations: Record<Language, TranslationSchema> = {
       posts: [
         {
           id: 1,
-          date: 'Sep 18, 2026',
-          title: "What to Do When You're Served with a Lawsuit",
-          image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          alt: 'Golden scales of justice on mahogany executive desk with law books',
+          date: 'September 2026',
+          title: 'Inheritance and Wills in Georgia: How to Claim Your Rightful Share',
+          image: '/family.png',
+          alt: 'Inheritance and wills legal representation in Georgia - GLC Law Company',
         },
         {
           id: 2,
-          date: 'Sep 12, 2026',
-          title: '5 Legal Steps Every Small Business Should Take',
-          image: '/.tempmediaStorage/lawwallpaper.jpg',
-          alt: 'Attorney in tailored suit signing legal documents with fountain pen and gavel',
+          date: 'August 2026',
+          title: 'How to Choose a Law Firm: A Complete Guide',
+          image: '/HERO_GUBE.jpeg',
+          alt: 'GLC Law Company office and legal counsel guide on choosing a law firm in Georgia',
         },
         {
           id: 3,
-          date: 'Sep 9, 2026',
-          title: 'Understanding Your Rights during a Criminal Investigation',
-          image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1200&auto=format&fit=crop',
-          alt: 'Bronze Lady Justice statue with balanced scales in dark law library',
+          date: 'July 2025',
+          title: 'Drug Offences in Georgia: What You Should Know About Georgian Law',
+          image: '/criminalhero.png',
+          alt: 'Criminal law legal defense analysis on drug offences legislation in Georgia',
         },
       ],
     },
@@ -660,11 +660,11 @@ export const translations: Record<Language, TranslationSchema> = {
       requestReceived: 'მოთხოვნა მიღებულია',
       requestReceivedDesc: 'გმადლობთ. ჩვენი იურიდიული გუნდი დაგიკავშირდებათ უახლოეს 2 სამუშაო საათში დროის დასაზუსტებლად.',
       options: {
-        corporate: 'კორპორაციული და ბიზნეს სამართალი',
-        ma: 'შერწყმა და შესყიდვები (M&A)',
-        litigation: 'კომერციული დავები',
-        ip: 'ინტელექტუალური საკუთრება',
-        regulatory: 'რეგულაციები და შესაბამისობა',
+        criminal: 'სისხლის სამართალი',
+        civil: 'სამოქალაქო სამართალი',
+        administrative: 'ადმინისტრაციული სამართალი',
+        business: 'ბიზნეს სამართალი',
+        familyInheritance: 'საოჯახო და მემკვიდრეობითი დავა',
       },
     },
     aboutMe: {
@@ -949,24 +949,24 @@ export const translations: Record<Language, TranslationSchema> = {
       posts: [
         {
           id: 1,
-          date: '18 სექ, 2026',
-          title: 'რა უნდა მოიმოქმედოთ, როდესაც სასამართლო სარჩელს ჩაგაბარებენ',
-          image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          alt: 'მართლმსაჯულების სასწორი იურიდიულ ლიტერატურასთან',
+          date: '2026 წლის სექტემბერი',
+          title: 'მემკვიდრეობის მიღება და ანდერძი: როგორ მივიღოთ კუთვნილი წილი?',
+          image: '/family.png',
+          alt: 'მემკვიდრეობის მიღება და ანდერძი საქართველოში - GLC Law Company',
         },
         {
           id: 2,
-          date: '12 სექ, 2026',
-          title: '5 აუცილებელი იურიდიული ნაბიჯი მცირე და საშუალო ბიზნესისთვის',
-          image: '/.tempmediaStorage/lawwallpaper.jpg',
-          alt: 'ადვოკატი ხელშეკრულების ხელმოწერისას',
+          date: '2026 წლის აგვისტო',
+          title: 'როგორ შევარჩიოთ იურიდიული კომპანია: სრული გზამკვლევი',
+          image: '/HERO_GUBE.jpeg',
+          alt: 'როგორ შევარჩიოთ იურიდიული კომპანია საქართველოში - GLC Law Company',
         },
         {
           id: 3,
-          date: '9 სექ, 2026',
-          title: 'თქვენი უფლებები გამოძიებისა და საგამოძიებო მოქმედებების დროს',
-          image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1200&auto=format&fit=crop',
-          alt: 'თემიდას ქანდაკება ბიბლიოთეკაში',
+          date: '2025 წლის ივლისი',
+          title: 'ნარკოდანაშაული საქართველოში: რა უნდა ვიცოდეთ ქართულ კანონმდებლობაზე',
+          image: '/criminalhero.png',
+          alt: 'ნარკოდანაშაული საქართველოში და სისხლისსამართლებრივი დაცვა - GLC Law Company',
         },
       ],
     },
@@ -1061,11 +1061,11 @@ export const translations: Record<Language, TranslationSchema> = {
       requestReceived: 'ЗАПРОС ПРИНЯТ',
       requestReceivedDesc: 'Спасибо. Наша юридическая команда свяжется с вами в течение 2 рабочих часов для подтверждения времени.',
       options: {
-        corporate: 'Корпоративное и коммерческое право',
-        ma: 'Слияния и поглощения (M&A)',
-        litigation: 'Судебные споры',
-        ip: 'Интеллектуальная собственность',
-        regulatory: 'Комплаенс и регулирование',
+        criminal: 'Уголовное право',
+        civil: 'Гражданское право',
+        administrative: 'Административное право',
+        business: 'Бизнес-право',
+        familyInheritance: 'Семейные и наследственные споры',
       },
     },
     aboutMe: {
@@ -1350,24 +1350,24 @@ export const translations: Record<Language, TranslationSchema> = {
       posts: [
         {
           id: 1,
-          date: '18 сен, 2026',
-          title: 'Что делать, если вам предъявили судебный иск',
-          image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          alt: 'Весы правосудия на дубовом столе с кодексами',
+          date: 'Сентябрь 2026 г.',
+          title: 'Наследство и завещание в Грузии: как получить причитающуюся долю',
+          image: '/family.png',
+          alt: 'Наследственное право и завещание в Грузии - GLC Law Company',
         },
         {
           id: 2,
-          date: '12 сен, 2026',
-          title: '5 главных правовых шагов для каждого бизнеса',
-          image: '/.tempmediaStorage/lawwallpaper.jpg',
-          alt: 'Адвокат подписывает юридические документы',
+          date: 'Август 2026 г.',
+          title: 'Как выбрать юридическую компанию: полное руководство',
+          image: '/HERO_GUBE.jpeg',
+          alt: 'Выбор юридической компании в Грузии - GLC Law Company',
         },
         {
           id: 3,
-          date: '9 сен, 2026',
-          title: 'Ваши права при следственных действиях и проверках',
-          image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1200&auto=format&fit=crop',
-          alt: 'Статуя Фемиды с весами в юридической библиотеке',
+          date: 'Июль 2025 г.',
+          title: 'Наркопреступления в Грузии: что нужно знать о грузинском законодательстве',
+          image: '/criminalhero.png',
+          alt: 'Уголовная защита по делам о наркопреступлениях в Грузии - GLC Law Company',
         },
       ],
     },
@@ -1462,11 +1462,11 @@ export const translations: Record<Language, TranslationSchema> = {
       requestReceived: 'TALEBİNİZ ALINDI',
       requestReceivedDesc: 'Teşekkür ederiz. Kıdemli hukuk ekibimiz 2 iş saati içinde randevunuzu kesinleştirmek için sizinle iletişime geçecektir.',
       options: {
-        corporate: 'Şirketler ve Ticaret Hukuku',
-        ma: 'Birleşme ve Devralmalar (M&A)',
-        litigation: 'Ticari Davalar',
-        ip: 'Fikri Mülkiyet Stratejisi',
-        regulatory: 'Uyum ve Mevzuat',
+        criminal: 'Ceza Hukuku',
+        civil: 'Medeni Hukuk',
+        administrative: 'İdare Hukuku',
+        business: 'İş ve Ticaret Hukuku',
+        familyInheritance: 'Aile ve Miras Uyuşmazlıkları',
       },
     },
     aboutMe: {
@@ -1751,24 +1751,24 @@ export const translations: Record<Language, TranslationSchema> = {
       posts: [
         {
           id: 1,
-          date: '18 Eyl, 2026',
-          title: 'Hakkınızda Dava Açıldığında Yapmanız Gerekenler',
-          image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-          alt: 'Hukuk kitapları ve adalet terazisi',
+          date: 'Eylül 2026',
+          title: "Gürcistan'da Miras ve Vasiyetname: Hakkınız Olan Payı Nasıl Alırsınız?",
+          image: '/family.png',
+          alt: "Gürcistan'da miras ve vasiyetname hukuku - GLC Law Company",
         },
         {
           id: 2,
-          date: '12 Eyl, 2026',
-          title: 'Her Küçük İşletmenin Atması Gereken 5 Hukuki Adım',
-          image: '/.tempmediaStorage/lawwallpaper.jpg',
-          alt: 'Avukat sözleşme imzalarken',
+          date: 'Ağustos 2026',
+          title: 'Hukuk Şirketi Nasıl Seçilir: Kapsamlı Rehber',
+          image: '/HERO_GUBE.jpeg',
+          alt: "Gürcistan'da hukuk şirketi seçme rehberi - GLC Law Company",
         },
         {
           id: 3,
-          date: '9 Eyl, 2026',
-          title: 'Ceza Soruşturması Sırasında Sahip Olduğunuz Haklar',
-          image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1200&auto=format&fit=crop',
-          alt: 'Adalet heykeli ve terazi',
+          date: 'Temmuz 2025',
+          title: "Gürcistan'da Uyuşturucu Suçları: Gürcü Hukuku Hakkında Bilmeniz Gerekenler",
+          image: '/criminalhero.png',
+          alt: "Gürcistan'da ceza hukuku savunması - GLC Law Company",
         },
       ],
     },

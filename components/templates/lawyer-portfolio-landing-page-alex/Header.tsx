@@ -19,6 +19,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { scrollToSection } from '@/src/utils/scrollToSection';
 
 // Browser subscriptions for smooth continuous scroll animation (SSR-safe via useSyncExternalStore)
 function subscribeResize(callback: () => void) {
@@ -269,7 +270,7 @@ export default function Header() {
     name: '',
     email: '',
     phone: '',
-    practiceArea: 'Corporate & Business Law',
+    practiceArea: 'criminal',
     date: '',
     time: '10:00 AM',
     notes: ''
@@ -289,11 +290,14 @@ export default function Header() {
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const selectedPracticeLabel =
+      tr.hero.options[bookingData.practiceArea as keyof typeof tr.hero.options] ||
+      bookingData.practiceArea;
     const messageBody = `New Legal Consultation Request from Website:
 • Name: ${bookingData.name}
 • Email: ${bookingData.email}
 • Phone: ${bookingData.phone || 'N/A'}
-• Service Needed: ${bookingData.practiceArea}
+• Service Needed: ${selectedPracticeLabel}
 • Preferred Date: ${bookingData.date || 'Flexible'} (${bookingData.time})
 • Message: ${bookingData.notes || 'N/A'}`;
 
@@ -312,7 +316,7 @@ export default function Header() {
         name: '',
         email: '',
         phone: '',
-        practiceArea: 'Corporate & Business Law',
+        practiceArea: 'criminal',
         date: '',
         time: '10:00 AM',
         notes: ''
@@ -322,21 +326,14 @@ export default function Header() {
 
   return (
     <>
-      {/* Self-contained Google Fonts & Styling for standalone copy-paste */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap');
-        .font-antonio { font-family: 'Antonio', sans-serif !important; }
-        .font-inter-tight { font-family: 'Inter Tight', sans-serif !important; }
-        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif !important; }
-      `}</style>
-
       <header className="relative w-full min-h-screen bg-[#0C0D0D] text-[#FAFAFB] flex flex-col justify-between overflow-hidden select-none pb-6 sm:pb-8 lg:pb-12">
       {/* Background Image Layer with Cinematic Dark Moody Lighting */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/.tempmediaStorage/HERO_GUBE.jpeg"
+          src="/HERO_GUBE.jpeg"
           alt="Giorgi Gubeladze - Senior Business Lawyer"
           fill
+          sizes="100vw"
           priority
           referrerPolicy="no-referrer"
           className="object-cover object-top lg:object-[center_20%] brightness-[0.88] contrast-[1.05]"
@@ -616,7 +613,7 @@ export default function Header() {
               <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
                 {[
                   { name: tr.nav.home, target: 'top' },
-                  { name: tr.nav.about, target: 'about' },
+                  { name: tr.nav.about, target: 'metrics' },
                   { name: tr.nav.services, target: 'services' },
                   { name: tr.nav.cases, target: 'cases' },
                   { name: tr.nav.testimonials, target: 'testimonials' },
@@ -635,10 +632,7 @@ export default function Header() {
                       if (item.target === 'top') {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       } else {
-                        const el = document.getElementById(item.target);
-                        if (el) {
-                          el.scrollIntoView({ behavior: 'smooth' });
-                        }
+                        scrollToSection(item.target);
                       }
                     }}
                     className="font-antonio font-bold text-3xl sm:text-5xl lg:text-6xl text-[#FAFAFB] hover:text-[#D3AF37] transition-colors flex items-center justify-between group py-1 border-b border-white/5 cursor-pointer"
@@ -819,11 +813,11 @@ export default function Header() {
                       onChange={(e) => setBookingData({ ...bookingData, practiceArea: e.target.value })}
                       className="w-full px-4 py-3 bg-[#171717] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#D3AF37] transition-colors"
                     >
-                      <option value="Corporate & Business Law">{tr.hero.options.corporate}</option>
-                      <option value="Mergers & Acquisitions">{tr.hero.options.ma}</option>
-                      <option value="Commercial Litigation">{tr.hero.options.litigation}</option>
-                      <option value="Intellectual Property">{tr.hero.options.ip}</option>
-                      <option value="Regulatory Compliance">{tr.hero.options.regulatory}</option>
+                      <option value="criminal">{tr.hero.options.criminal}</option>
+                      <option value="civil">{tr.hero.options.civil}</option>
+                      <option value="administrative">{tr.hero.options.administrative}</option>
+                      <option value="business">{tr.hero.options.business}</option>
+                      <option value="familyInheritance">{tr.hero.options.familyInheritance}</option>
                     </select>
                   </div>
 

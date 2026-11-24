@@ -11,29 +11,24 @@ interface CurtainIntroProps {
 }
 
 /**
- * Universal Cinematic Shutter Curtain Intro Screen
- * Features split top/bottom obsidian doors with subtle gold borders,
- * staggered letter typography, and smooth shutter reveal.
+ * Luxury Cinematic Shutter Curtain Reveal
+ * Graceful, readable, GPU-accelerated transform/opacity pace
+ * that never blocks user scrolling or adds duplicate <h1> elements.
  */
 export const CurtainIntro: React.FC<CurtainIntroProps> = ({
   title,
   subtitle = 'GLC LAW COMPANY',
   backdropImage,
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    // Lock scroll during initial curtain opening
-    document.body.style.overflow = 'hidden';
-
     const timer = setTimeout(() => {
-      setIsLoading(false);
-      document.body.style.overflow = '';
-    }, 2100);
+      setIsVisible(false);
+    }, 1850);
 
     return () => {
       clearTimeout(timer);
-      document.body.style.overflow = '';
     };
   }, []);
 
@@ -42,8 +37,8 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.045,
-        delayChildren: 0.1,
+        staggerChildren: 0.032,
+        delayChildren: 0.08,
       },
     },
   };
@@ -51,40 +46,36 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 14,
-      scale: 0.92,
-      filter: 'blur(4px)',
+      y: 12,
     },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      filter: 'blur(0px)',
       transition: {
-        duration: 0.35,
+        duration: 0.38,
         ease: [0.16, 1, 0.3, 1],
       },
     },
   };
 
   return (
-    <AnimatePresence mode="wait">
-      {isLoading && (
+    <AnimatePresence>
+      {isVisible && (
         <motion.div
           key="curtain-loader-container"
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            transition: { duration: 0.35, ease: 'easeInOut' },
+            transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
           }}
-          className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none"
+          aria-hidden="true"
+          className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none will-change-[opacity]"
         >
-          {/* OPTIONAL BACKDROP BEHIND CURTAINS */}
           {backdropImage && (
             <div className="absolute inset-0 w-full h-full bg-[#030508]">
               <Image
                 src={backdropImage}
-                alt="GLC Law Backdrop"
+                alt=""
                 fill
                 priority
                 unoptimized
@@ -95,19 +86,19 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
             </div>
           )}
 
-          {/* TOP CURTAIN (Slides Up) */}
+          {/* TOP CURTAIN */}
           <motion.div
             initial={{ y: '0%' }}
             animate={{ y: '-100%' }}
             transition={{
-              duration: 1.05,
-              delay: 0.95,
+              duration: 0.98,
+              delay: 0.78,
               ease: [0.76, 0, 0.24, 1],
             }}
-            className="absolute top-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-end items-center pb-2 sm:pb-3 px-4 z-20 border-b border-[#D3AF37]/35 shadow-[0_10px_30px_rgba(0,0,0,0.9)]"
+            className="absolute top-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/35 shadow-[0_10px_30px_rgba(0,0,0,0.9)] will-change-transform"
             style={{ backgroundColor: '#00070B' }}
           >
-            <motion.h1
+            <motion.div
               variants={letterContainerVariants}
               initial="hidden"
               animate="visible"
@@ -123,32 +114,32 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
                 <motion.span
                   key={index}
                   variants={letterVariants}
-                  className="inline-block"
+                  className="inline-block will-change-[transform,opacity]"
                   style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
                 >
                   {char}
                 </motion.span>
               ))}
-            </motion.h1>
+            </motion.div>
           </motion.div>
 
-          {/* BOTTOM CURTAIN (Slides Down) */}
+          {/* BOTTOM CURTAIN */}
           <motion.div
             initial={{ y: '0%' }}
             animate={{ y: '100%' }}
             transition={{
-              duration: 1.05,
-              delay: 0.95,
+              duration: 0.98,
+              delay: 0.78,
               ease: [0.76, 0, 0.24, 1],
             }}
-            className="absolute bottom-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/35 shadow-[0_-10px_30px_rgba(0,0,0,0.9)]"
+            className="absolute bottom-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/35 shadow-[0_-10px_30px_rgba(0,0,0,0.9)] will-change-transform"
             style={{ backgroundColor: '#00070B' }}
           >
             <motion.p
-              initial={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.5, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="font-geist font-semibold text-[13px] sm:text-[15px] md:text-[17px] text-[#D3AF37] tracking-[0.3em] uppercase text-center"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.48, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              className="font-geist font-semibold text-[13px] sm:text-[15px] md:text-[17px] text-[#D3AF37] tracking-[0.3em] uppercase text-center will-change-[transform,opacity]"
               style={{
                 fontFamily: "'Inter Tight', 'Geist', sans-serif",
                 color: '#D3AF37',
