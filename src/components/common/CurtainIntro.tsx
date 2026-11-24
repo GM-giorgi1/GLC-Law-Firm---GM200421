@@ -13,8 +13,6 @@ const getCurtainCopy = (pathname: string, language: string): CurtainCopy => {
 
   if (path.includes('criminal')) {
     if (language === 'GEO') return { title: 'სისხლის სამართალი', subtitle: firmName };
-    if (language === 'RUS') return { title: 'CRIMINAL LAW', subtitle: firmName };
-    if (language === 'TUR') return { title: 'CRIMINAL LAW', subtitle: firmName };
     return { title: 'CRIMINAL LAW', subtitle: firmName };
   }
 
@@ -31,65 +29,67 @@ const getCurtainCopy = (pathname: string, language: string): CurtainCopy => {
   }
 
   if (path.includes('blog')) {
-    return { title: 'LEGAL INSIGHTS', subtitle: firmName };
+    return { title: 'PUBLICATIONS', subtitle: firmName };
   }
 
-  return { title: 'GLC LAW FIRM', subtitle: firmName };
+  return { title: 'GLC LAW COMPANY', subtitle: firmName };
 };
 
 export const CurtainIntro: React.FC = () => {
   const { pathname } = useLocation();
   const { language } = useLanguage();
-  const [phase, setPhase] = useState<'idle' | 'entering' | 'revealing' | 'done'>('entering');
+  const [phase, setPhase] = useState<'closed' | 'opening' | 'done'>('closed');
 
   const copy = useMemo(() => getCurtainCopy(pathname, language), [pathname, language]);
 
   useEffect(() => {
-    setPhase('entering');
+    setPhase('closed');
 
-    const revealTimer = window.setTimeout(() => {
-      setPhase('revealing');
-    }, 680);
+    const openTimer = window.setTimeout(() => {
+      setPhase('opening');
+    }, 560);
 
     const doneTimer = window.setTimeout(() => {
       setPhase('done');
-    }, 1580);
+    }, 1340);
 
     return () => {
-      window.clearTimeout(revealTimer);
+      window.clearTimeout(openTimer);
       window.clearTimeout(doneTimer);
     };
   }, [pathname]);
 
   if (phase === 'done') return null;
 
-  const isRevealing = phase === 'revealing';
+  const isOpening = phase === 'opening';
 
   return (
     <div
       aria-hidden="true"
-      className={`fixed inset-0 z-40 pointer-events-none select-none flex items-center justify-center bg-[#030508] transition-opacity duration-700 ease-out ${
-        isRevealing ? 'opacity-0' : 'opacity-100'
-      }`}
+      className="fixed inset-0 z-40 pointer-events-none select-none overflow-hidden"
     >
+      {/* TOP CURTAIN */}
       <div
-        className={`flex flex-col items-center text-center px-6 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          isRevealing ? '-translate-y-4 scale-[0.98]' : 'translate-y-0 scale-100'
-        }`}
+        className="absolute top-0 left-0 w-full h-1/2 bg-[#0B0B0D] border-b border-[#D3AF37]/30 flex flex-col justify-end items-center pb-3 px-4 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-transform"
+        style={{
+          transform: isOpening ? 'translate3d(0, -100%, 0)' : 'translate3d(0, 0, 0)',
+        }}
       >
-        <span className="font-inter-tight text-sm sm:text-base md:text-lg tracking-[0.38em] uppercase font-medium bg-gradient-to-r from-[#FFF4CC] via-[#E2C359] to-[#CDA12B] bg-clip-text text-transparent">
+        <span className="font-inter-tight font-semibold uppercase text-[#F2ECEC] tracking-[0.18em] text-2xl sm:text-4xl md:text-5xl text-center leading-none">
           {copy.title}
         </span>
+      </div>
 
-        <span
-          className={`mt-3 h-[1px] bg-gradient-to-r from-transparent via-[#E2C359] to-transparent transition-all duration-700 ${
-            isRevealing ? 'w-8 opacity-40' : 'w-24 opacity-100'
-          }`}
-        />
-
-        <span className="mt-3 font-inter-tight text-[11px] sm:text-xs tracking-[0.32em] uppercase text-[#F2ECEC]/85">
+      {/* BOTTOM CURTAIN */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-1/2 bg-[#0B0B0D] border-t border-[#D3AF37]/30 flex flex-col justify-start items-center pt-3.5 px-4 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-transform"
+        style={{
+          transform: isOpening ? 'translate3d(0, 100%, 0)' : 'translate3d(0, 0, 0)',
+        }}
+      >
+        <p className="font-inter-tight font-semibold text-sm sm:text-base text-[#D3AF37] tracking-[0.3em] uppercase text-center">
           {copy.subtitle}
-        </span>
+        </p>
       </div>
     </div>
   );
