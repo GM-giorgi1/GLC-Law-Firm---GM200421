@@ -1,34 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/:path((?!assets/|favicon\\.ico$|robots\\.txt$|sitemap\\.xml$|.*\\..*$).*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.glclaw.ge"
-        }
-      ],
-      "destination": "https://glclaw.ge/:path",
-      "permanent": true
-    },
-    {
-      "source": "/blogs/what-to-do-when-served-lawsuit",
-      "destination": "/blogs/inheritance-and-wills-in-georgia",
-      "permanent": true
-    },
-    {
-      "source": "/blogs/5-legal-steps-every-small-business-should-take",
-      "destination": "/blogs/rogor-shevarchioth-iuridiuli-kompania",
-      "permanent": true
-    },
-    {
-      "source": "/blogs/understanding-rights-criminal-investigation",
-      "destination": "/blogs/drug-offences-in-georgia",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/((?!assets/|api/|.*\\..*).*)",
