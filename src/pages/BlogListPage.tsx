@@ -140,7 +140,7 @@ export default function BlogListPage() {
           >
             <ScrollLetterReveal 
               text={language === 'GEO' ? 'სამართლებრივი პუბლიკაციები' : language === 'ENG' ? 'Legal Insights & Articles' : language === 'RUS' ? 'Юридические публикации' : 'Hukuki Makaleler'} 
-              delay={0.95} 
+              delay={0.64} 
               triggerMode="mount" 
               stagger={0.016} 
             />
@@ -156,9 +156,10 @@ export default function BlogListPage() {
                       ? 'GLC Law Company avukatlarından pratik hukuki analizler, yargı kararları ve mevzuat rehberleri.'
                       : 'Practical analysis, judicial precedents, and statutory breakdowns from GLC Law Company attorneys.'
               } 
-              delay={1.12} 
+              delay={0.78} 
               triggerMode="mount" 
-              stagger={0.008} 
+              granularity="word"
+              stagger={0.028} 
             />
           </p>
 

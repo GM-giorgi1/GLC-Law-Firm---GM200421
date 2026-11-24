@@ -25,20 +25,22 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 1850);
+    }, 1280);
 
     return () => {
       clearTimeout(timer);
     };
   }, []);
 
+  const letterStagger = title.length > 0 ? Math.min(0.024, 0.34 / title.length) : 0.024;
+
   const letterContainerVariants: Variants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.032,
-        delayChildren: 0.08,
+        staggerChildren: letterStagger,
+        delayChildren: 0.04,
       },
     },
   };
@@ -46,13 +48,13 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 12,
+      y: 10,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.38,
+        duration: 0.34,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -66,7 +68,7 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+            transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
           }}
           aria-hidden="true"
           className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none will-change-[opacity]"
@@ -91,8 +93,8 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
             initial={{ y: '0%' }}
             animate={{ y: '-100%' }}
             transition={{
-              duration: 0.98,
-              delay: 0.78,
+              duration: 0.72,
+              delay: 0.56,
               ease: [0.76, 0, 0.24, 1],
             }}
             className="absolute top-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/35 shadow-[0_10px_30px_rgba(0,0,0,0.9)] will-change-transform"
@@ -115,7 +117,10 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
                   key={index}
                   variants={letterVariants}
                   className="inline-block will-change-[transform,opacity]"
-                  style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+                  style={{
+                    whiteSpace: char === ' ' ? 'pre' : 'normal',
+                    transform: 'translate3d(0,0,0)',
+                  }}
                 >
                   {char}
                 </motion.span>
@@ -128,8 +133,8 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
             initial={{ y: '0%' }}
             animate={{ y: '100%' }}
             transition={{
-              duration: 0.98,
-              delay: 0.78,
+              duration: 0.72,
+              delay: 0.56,
               ease: [0.76, 0, 0.24, 1],
             }}
             className="absolute bottom-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/35 shadow-[0_-10px_30px_rgba(0,0,0,0.9)] will-change-transform"
@@ -138,7 +143,7 @@ export const CurtainIntro: React.FC<CurtainIntroProps> = ({
             <motion.p
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.48, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.38, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="font-geist font-semibold text-[13px] sm:text-[15px] md:text-[17px] text-[#D3AF37] tracking-[0.3em] uppercase text-center will-change-[transform,opacity]"
               style={{
                 fontFamily: "'Inter Tight', 'Geist', sans-serif",

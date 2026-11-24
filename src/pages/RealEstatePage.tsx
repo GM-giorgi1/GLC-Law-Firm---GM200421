@@ -370,9 +370,9 @@ export default function RealEstatePage() {
         <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-2 my-auto">
           {/* Center Refined Top Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.85 }}
+            transition={{ duration: 0.52, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D3AF37]/40 bg-[#0E0E10]/90 backdrop-blur-md shadow-[0_0_15px_rgba(211,175,55,0.15)] mb-5 sm:mb-6"
           >
             <Building2 className="w-3.5 h-3.5 text-[#D3AF37]" />
@@ -385,24 +385,24 @@ export default function RealEstatePage() {
           <h1
             className="font-big-shoulders font-[900] uppercase text-[clamp(32px,5.5vw,76px)] tracking-tight leading-[1.04] sm:leading-[0.98] realestate-gold-gradient select-none text-center max-w-4xl mx-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_8px_rgba(211,175,55,0.35)]"
           >
-            <ScrollLetterReveal text={heroHeadlineText} delay={0.95} triggerMode="mount" stagger={0.02} />
+            <ScrollLetterReveal text={heroHeadlineText} delay={0.64} triggerMode="mount" stagger={0.018} />
           </h1>
 
           {/* Centered Editorial Subheading (Two distinct centered lines) */}
           <div className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2">
             <p className="font-geist font-semibold text-base sm:text-lg lg:text-xl text-[#FEF5CD] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={heroSubLine1} delay={1.1} triggerMode="mount" stagger={0.012} />
+              <ScrollLetterReveal text={heroSubLine1} delay={0.78} triggerMode="mount" granularity="word" stagger={0.03} />
             </p>
             <p className="font-geist font-medium text-sm sm:text-base text-gray-200/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={heroSubLine2} delay={1.25} triggerMode="mount" stagger={0.01} />
+              <ScrollLetterReveal text={heroSubLine2} delay={0.88} triggerMode="mount" granularity="word" stagger={0.025} />
             </p>
           </div>
 
           {/* Centered CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 1.25 }}
+            transition={{ duration: 0.55, delay: 0.96, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mt-8 sm:mt-9 w-full sm:w-auto"
           >
             {/* Primary Action: WhatsApp Consultation */}

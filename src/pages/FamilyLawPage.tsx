@@ -375,9 +375,9 @@ export default function FamilyLawPage() {
           
           {/* Top Pill Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.52, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#121214]/85 border border-[#D3AF37]/40 shadow-[0_4px_20px_rgba(211,175,55,0.12)] mb-6 sm:mb-8"
           >
             <ShieldCheck className="w-4 h-4 text-[#D3AF37]" />
@@ -391,7 +391,7 @@ export default function FamilyLawPage() {
             className="font-big-shoulders font-[900] uppercase text-[40px] sm:text-[58px] md:text-[72px] lg:text-[84px] leading-[0.96] tracking-tight mb-6 sm:mb-8 text-center max-w-4xl"
           >
             <span className="family-gold-gradient block drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-              <ScrollLetterReveal text={heroHeadlineText} delay={0.95} triggerMode="mount" stagger={0.02} />
+              <ScrollLetterReveal text={heroHeadlineText} delay={0.64} triggerMode="mount" stagger={0.018} />
             </span>
           </h1>
 
@@ -399,7 +399,7 @@ export default function FamilyLawPage() {
           <div className="w-full max-w-3xl flex flex-col items-center gap-3.5 sm:gap-4 mb-10 sm:mb-12 px-2">
             {/* Line 1: Strong authoritative statement */}
             <p className="font-geist text-base sm:text-lg md:text-xl font-medium text-[#FAF8F5] leading-relaxed text-center tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
-              <ScrollLetterReveal text={heroSubLine1} delay={1.1} triggerMode="mount" stagger={0.012} />
+              <ScrollLetterReveal text={heroSubLine1} delay={0.78} triggerMode="mount" granularity="word" stagger={0.03} />
             </p>
 
             {/* Subtle Divider Bar */}
@@ -407,7 +407,7 @@ export default function FamilyLawPage() {
 
             {/* Line 2: Comprehensive scope */}
             <p className="font-geist text-xs sm:text-sm md:text-base text-gray-300 font-normal leading-relaxed text-center max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
-              <ScrollLetterReveal text={heroSubLine2} delay={1.25} triggerMode="mount" stagger={0.01} />
+              <ScrollLetterReveal text={heroSubLine2} delay={0.88} triggerMode="mount" granularity="word" stagger={0.025} />
             </p>
           </div>
 
@@ -415,7 +415,7 @@ export default function FamilyLawPage() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 1.25, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.55, delay: 0.96, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
           >
             <button

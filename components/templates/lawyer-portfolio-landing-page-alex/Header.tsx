@@ -100,7 +100,7 @@ const brandLogos = [
 
 const duplicatedLogos = [...brandLogos, ...brandLogos, ...brandLogos, ...brandLogos];
 
-// Fluid cinematic letter-by-letter scroll-triggered or mount-triggered typewriter reveal
+// Fluid cinematic letter-by-letter or word-by-word GPU reveal
 function BlurWaveText({
   text,
   className = '',
@@ -108,6 +108,7 @@ function BlurWaveText({
   highlightWord = '',
   highlightClass = 'text-[#D3AF37]',
   triggerMode = 'scroll',
+  granularity = 'letter',
 }: {
   text: string;
   className?: string;
@@ -115,9 +116,32 @@ function BlurWaveText({
   highlightWord?: string;
   highlightClass?: string;
   triggerMode?: 'scroll' | 'mount';
+  granularity?: 'letter' | 'word';
 }) {
   const words = text ? text.split(' ') : [];
   const isMount = triggerMode === 'mount';
+  const itemCount =
+    granularity === 'word'
+      ? words.length
+      : text
+        ? text.replace(/\s+/g, '').length
+        : 0;
+  const maxStaggerWindow = isMount ? 0.52 : 0.46;
+  const baseStagger = granularity === 'word' ? 0.032 : 0.016;
+  const effectiveStagger =
+    itemCount > 0 ? Math.min(baseStagger, maxStaggerWindow / itemCount) : baseStagger;
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  };
 
   return (
     <motion.span
@@ -127,11 +151,11 @@ function BlurWaveText({
       whileInView={!isMount ? 'visible' : undefined}
       viewport={{ once: isMount, amount: 0.1, margin: '0px 0px -30px 0px' }}
       variants={{
-        hidden: { opacity: 0 },
+        hidden: { opacity: 1 },
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: 0.016,
+            staggerChildren: effectiveStagger,
             delayChildren: delay,
           },
         },
@@ -140,6 +164,21 @@ function BlurWaveText({
     >
       {words.map((word, wordIndex) => {
         const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
+        if (granularity === 'word') {
+          return (
+            <motion.span
+              key={`${word}-${wordIndex}`}
+              variants={itemVariants}
+              style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
+              className={`inline-block whitespace-nowrap mr-[0.26em] will-change-[transform,opacity] ${
+                isHighlighted ? highlightClass : ''
+              }`}
+            >
+              {word}
+            </motion.span>
+          );
+        }
+
         return (
           <span
             key={`${word}-${wordIndex}`}
@@ -148,18 +187,7 @@ function BlurWaveText({
             {word.split('').map((char, charIndex) => (
               <motion.span
                 key={`${char}-${charIndex}`}
-                variants={{
-                  hidden: { opacity: 0, y: 12, filter: 'blur(6px)' },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    transition: {
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  },
-                }}
+                variants={itemVariants}
                 style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
                 className={`inline-block will-change-[transform,opacity] ${
                   isHighlighted ? highlightClass : ''
@@ -366,20 +394,19 @@ export default function Header() {
         >
           
           {/* Left Text Block */}
-          <motion.div 
-            layout="position"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-start gap-5 sm:gap-6 md:gap-7 max-w-full lg:max-w-[620px]"
-          >
-            {/* Main Title */}
+          <div className="flex flex-col items-start gap-5 sm:gap-6 md:gap-7 max-w-full lg:max-w-[620px]">
+            {/* Main Title: Crisp letter-by-letter staggered reveal */}
             <h1 className="font-inter-tight font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[44px] xl:text-[50px] leading-[1.22] pb-1 tracking-tight text-[#FFFEFE]">
-              <BlurWaveText text={tr.hero.mainTitle} delay={0.15} triggerMode="mount" />
+              <BlurWaveText text={tr.hero.mainTitle} delay={0.08} triggerMode="mount" />
             </h1>
 
-            {/* Subheading Row */}
-            <div className="flex flex-row items-start gap-3.5 sm:gap-4 max-w-[560px]">
+            {/* Subheading Row: Staggered word-by-word reveal */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.48, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-row items-start gap-3.5 sm:gap-4 max-w-[560px]"
+            >
               {/* Pillar Icon Frame */}
               <div className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 mt-0.5 relative flex items-center justify-center">
                 <svg 
@@ -398,25 +425,24 @@ export default function Header() {
 
               {/* Subheading Text */}
               <p className="font-inter-tight font-normal text-xs sm:text-sm lg:text-[15px] leading-[1.6] text-[#FFFEFE]/85">
-                {tr.hero.subheading}
+                <BlurWaveText text={tr.hero.subheading} delay={0.28} triggerMode="mount" granularity="word" />
               </p>
-            </div>
+            </motion.div>
 
             {/* Primary Consultation Booking CTA Button - Structured with Flexbox with safe gap & relative positioning */}
             <div className="w-full sm:w-auto pt-2 pb-1 relative z-20">
               <motion.div 
-                layout="position"
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.6, 
-                  delay: 0.3, 
+                  duration: 0.55, 
+                  delay: 0.44, 
                   ease: [0.16, 1, 0.3, 1] 
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setIsBookingOpen(true)}
-                className="saas-btn-dark inline-flex items-center py-2.5 px-4 sm:py-3 sm:px-6 gap-3 rounded-xl sm:rounded-2xl cursor-pointer pointer-events-auto group select-none overflow-hidden"
+                className="saas-btn-dark inline-flex items-center py-2.5 px-4 sm:py-3 sm:px-6 gap-3 rounded-xl sm:rounded-2xl cursor-pointer pointer-events-auto group select-none overflow-hidden will-change-[transform,opacity]"
               >
                 {/* White Square Icon Box */}
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#D3AF37] transition-colors duration-300">
@@ -429,21 +455,21 @@ export default function Header() {
                 </span>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Card Block (Bar Association Member Badge) */}
           <motion.div 
-            initial={{ opacity: 0, x: 140 }}
+            initial={{ opacity: 0, x: 48 }}
             animate={{ 
               opacity: scrollY > 260 ? 0 : 1, 
-              x: scrollY > 260 ? 140 : 0 
+              x: scrollY > 260 ? 64 : 0 
             }}
             transition={{ 
-              duration: 1.0, 
-              delay: scrollY > 260 ? 0 : 0.25, 
+              duration: 0.7, 
+              delay: scrollY > 260 ? 0 : 0.32, 
               ease: [0.16, 1, 0.3, 1] 
             }}
-            className="hidden sm:flex w-[224px] min-h-[230px] p-5 bg-[#0C0D0D]/75 backdrop-blur-md border border-[#D3AF37]/80 rounded-[8px] flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.5)] group hover:border-[#D3AF37] transition-all duration-300"
+            className="hidden sm:flex w-[224px] min-h-[230px] p-5 bg-[#0C0D0D]/75 backdrop-blur-md border border-[#D3AF37]/80 rounded-[8px] flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.5)] group hover:border-[#D3AF37] transition-all duration-300 will-change-[transform,opacity]"
           >
             {/* Header / Gold Laurel & Scales Icon */}
             <div className="flex flex-col items-center text-center gap-2">
@@ -543,14 +569,17 @@ export default function Header() {
               maxWidth: t > 0.8 ? (isMobile ? '130px' : '220px') : '100%',
             }}
           >
-            <span 
-              className="font-antonio font-bold tracking-tighter text-[#D3AF37] uppercase leading-none block select-none whitespace-nowrap text-center transition-colors"
+            <motion.span 
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              className="font-antonio font-bold tracking-tighter text-[#D3AF37] uppercase leading-none block select-none whitespace-nowrap text-center transition-colors will-change-[transform,opacity]"
               style={{
                 fontSize: `${currentFontSize}px`,
               }}
             >
               GLC Law Company
-            </span>
+            </motion.span>
           </div>
         </div>
 

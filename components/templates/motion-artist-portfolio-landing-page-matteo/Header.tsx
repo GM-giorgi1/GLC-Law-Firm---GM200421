@@ -25,20 +25,22 @@ export function LoadingScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1850);
+    }, 1280);
 
     return () => {
       clearTimeout(timer);
     };
   }, []);
 
+  const letterStagger = LOADING_TITLE_TEXT.length > 0 ? Math.min(0.024, 0.34 / LOADING_TITLE_TEXT.length) : 0.024;
+
   const letterContainerVariants: Variants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.032,
-        delayChildren: 0.08,
+        staggerChildren: letterStagger,
+        delayChildren: 0.04,
       },
     },
   };
@@ -46,13 +48,13 @@ export function LoadingScreen() {
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 12,
+      y: 10,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.38,
+        duration: 0.34,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -66,7 +68,7 @@ export function LoadingScreen() {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+            transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
           }}
           aria-hidden="true"
           className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none will-change-[opacity]"
@@ -90,8 +92,8 @@ export function LoadingScreen() {
             initial={{ y: '0%' }}
             animate={{ y: '-100%' }}
             transition={{
-              duration: 0.98,
-              delay: 0.78,
+              duration: 0.72,
+              delay: 0.56,
               ease: [0.76, 0, 0.24, 1],
             }}
             className="absolute top-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/30 will-change-transform"
@@ -114,7 +116,10 @@ export function LoadingScreen() {
                   key={index}
                   variants={letterVariants}
                   className="inline-block will-change-[transform,opacity]"
-                  style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+                  style={{
+                    whiteSpace: char === ' ' ? 'pre' : 'normal',
+                    transform: 'translate3d(0,0,0)',
+                  }}
                 >
                   {char}
                 </motion.span>
@@ -127,8 +132,8 @@ export function LoadingScreen() {
             initial={{ y: '0%' }}
             animate={{ y: '100%' }}
             transition={{
-              duration: 0.98,
-              delay: 0.78,
+              duration: 0.72,
+              delay: 0.56,
               ease: [0.76, 0, 0.24, 1],
             }}
             className="absolute bottom-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/30 will-change-transform"
@@ -137,7 +142,7 @@ export function LoadingScreen() {
             <motion.p
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.48, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.38, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="font-geist font-semibold text-[14px] sm:text-[16px] md:text-[18px] text-[#D3AF37] tracking-[0.3em] uppercase text-center will-change-[transform,opacity]"
               style={{
                 fontFamily: "'Inter Tight', 'Geist', sans-serif",
@@ -225,7 +230,7 @@ export default function Header() {
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.95 }}
+            transition={{ duration: 0.52, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#D3AF37]/40 bg-[#0E0E10]/85 backdrop-blur-md shadow-[0_0_15px_rgba(211,175,55,0.15)] mb-5 sm:mb-6"
           >
             <Shield className="w-3.5 h-3.5 text-[#D3AF37]" />
@@ -238,16 +243,16 @@ export default function Header() {
           <h1
             className="font-big-shoulders font-[900] uppercase text-[clamp(34px,5.8vw,78px)] tracking-tight leading-[1.04] sm:leading-[0.98] criminal-gold-gradient select-none text-center max-w-4xl mx-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_8px_rgba(211,175,55,0.35)]"
           >
-            <ScrollLetterReveal text={mainHeadlineText} delay={1.08} triggerMode="mount" stagger={0.015} />
+            <ScrollLetterReveal text={mainHeadlineText} delay={0.64} triggerMode="mount" stagger={0.016} />
           </h1>
 
           {/* Centered Editorial Subheading (Two distinct centered lines) */}
           <div className="flex flex-col items-center justify-center gap-1.5 mt-5 sm:mt-6 text-center max-w-2xl mx-auto px-2">
             <p className="font-geist font-semibold text-base sm:text-lg lg:text-xl text-[#FEF5CD] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={subheadlineLine1} delay={1.22} triggerMode="mount" stagger={0.009} />
+              <ScrollLetterReveal text={subheadlineLine1} delay={0.78} triggerMode="mount" granularity="word" stagger={0.03} />
             </p>
             <p className="font-geist font-medium text-sm sm:text-base text-gray-200/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-              <ScrollLetterReveal text={subheadlineLine2} delay={1.34} triggerMode="mount" stagger={0.007} />
+              <ScrollLetterReveal text={subheadlineLine2} delay={0.88} triggerMode="mount" granularity="word" stagger={0.025} />
             </p>
           </div>
 
@@ -255,7 +260,7 @@ export default function Header() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 1.4 }}
+            transition={{ duration: 0.55, delay: 0.96, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mt-7 sm:mt-8 w-full sm:w-auto"
           >
             {/* Primary Action: WhatsApp 24/7 Consultation */}

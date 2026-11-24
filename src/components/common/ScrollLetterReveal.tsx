@@ -11,6 +11,7 @@ export interface ScrollLetterRevealProps {
   stagger?: number;
   once?: boolean;
   triggerMode?: 'scroll' | 'mount';
+  granularity?: 'letter' | 'word';
   highlightWord?: string;
   highlightClass?: string;
   colorClass?: string;
@@ -22,12 +23,10 @@ const letterVariant: Variants = {
   hidden: {
     opacity: 0,
     y: 12,
-    filter: 'blur(6px)',
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: {
       duration: 0.42,
       ease: [0.16, 1, 0.3, 1],
@@ -43,6 +42,7 @@ export default function ScrollLetterReveal({
   stagger = 0.016,
   once = false,
   triggerMode = 'scroll',
+  granularity = 'letter',
   highlightWord = '',
   highlightClass = 'text-[#D3AF37]',
   colorClass = '',
@@ -58,13 +58,22 @@ export default function ScrollLetterReveal({
   });
 
   const words = text ? text.split(' ') : [];
+  const itemCount =
+    granularity === 'word'
+      ? words.length
+      : text
+        ? text.replace(/\s+/g, '').length
+        : 0;
+  const maxStaggerWindow = isMount ? 0.55 : 0.48;
+  const effectiveStagger =
+    itemCount > 0 ? Math.min(stagger, maxStaggerWindow / itemCount) : stagger;
 
   const containerVariant: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: stagger,
+        staggerChildren: effectiveStagger,
         delayChildren: delay,
       },
     },
@@ -86,6 +95,24 @@ export default function ScrollLetterReveal({
         const isHighlighted =
           highlightWord &&
           word.toLowerCase().includes(highlightWord.toLowerCase());
+
+        if (granularity === 'word') {
+          return (
+            <motion.span
+              key={`${word}-${wordIndex}`}
+              variants={letterVariant}
+              style={{
+                WebkitBackfaceVisibility: 'hidden',
+                transform: 'translate3d(0,0,0)',
+              }}
+              className={`inline-block whitespace-nowrap mr-[0.26em] will-change-[transform,opacity] ${
+                gradientClass || ''
+              } ${isHighlighted ? highlightClass : colorClass}`}
+            >
+              {word}
+            </motion.span>
+          );
+        }
 
         return (
           <span
@@ -124,6 +151,7 @@ export function BlurWaveText({
   highlightWord = '',
   highlightClass = 'text-[#D3AF37]',
   triggerMode = 'scroll',
+  granularity = 'letter',
 }: {
   text: string;
   className?: string;
@@ -131,6 +159,7 @@ export function BlurWaveText({
   highlightWord?: string;
   highlightClass?: string;
   triggerMode?: 'scroll' | 'mount';
+  granularity?: 'letter' | 'word';
 }) {
   return (
     <ScrollLetterReveal
@@ -140,8 +169,9 @@ export function BlurWaveText({
       highlightWord={highlightWord}
       highlightClass={highlightClass}
       triggerMode={triggerMode}
+      granularity={granularity}
       once={false}
-      stagger={0.016}
+      stagger={granularity === 'word' ? 0.032 : 0.016}
     />
   );
 }

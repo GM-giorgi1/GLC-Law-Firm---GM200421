@@ -360,7 +360,7 @@ export default function BlogPostPage() {
                 : "font-['Antonio'] uppercase text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6"
             }`}
           >
-            <ScrollLetterReveal text={postTitle} delay={0.95} triggerMode="mount" stagger={0.012} />
+            <ScrollLetterReveal text={postTitle} delay={0.64} triggerMode="mount" stagger={0.014} />
           </h1>
 
           <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm text-white/60 font-inter-tight pb-6 border-b border-white/[0.08]">
