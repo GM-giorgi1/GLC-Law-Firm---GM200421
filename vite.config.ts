@@ -2,7 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
-import { defineConfig, Plugin } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 
 const SITE_URL = 'https://glclaw.ge';
 
@@ -15,9 +15,9 @@ function serveTempMediaPlugin(): Plugin {
           const cleanUrl = decodeURIComponent(req.url.split('?')[0]);
           const fileName = path.basename(cleanUrl);
           const candidatePaths = [
-            path.resolve(__dirname, 'public/.tempmediaStorage', fileName),
-            path.resolve(__dirname, '.tempmediaStorage', fileName),
-            path.resolve(__dirname, 'public', fileName),
+            path.resolve(import.meta.dirname, 'public/.tempmediaStorage', fileName),
+            path.resolve(import.meta.dirname, '.tempmediaStorage', fileName),
+            path.resolve(import.meta.dirname, 'public', fileName),
           ];
           for (const filePath of candidatePaths) {
             if (fs.existsSync(filePath)) {
@@ -183,7 +183,7 @@ function dynamicSitemapPlugin(): Plugin {
         { path: '/blogs', changefreq: 'weekly', priority: '0.8' },
       ];
 
-      const blogs = parseBlogsFromSource(__dirname);
+      const blogs = parseBlogsFromSource(import.meta.dirname);
       const urls = [
         ...baseRoutes,
         ...blogs.map((b) => ({
@@ -203,7 +203,7 @@ function dynamicSitemapPlugin(): Plugin {
         })
         .join('\n')}\n</urlset>\n`;
 
-      const distDir = path.resolve(__dirname, 'dist');
+      const distDir = path.resolve(import.meta.dirname, 'dist');
       if (fs.existsSync(distDir)) {
         fs.writeFileSync(path.join(distDir, 'sitemap.xml'), xml, 'utf-8');
       }
@@ -317,12 +317,12 @@ function staticPrerenderPlugin(): Plugin {
   return {
     name: 'static-prerender',
     writeBundle() {
-      const distDir = path.resolve(__dirname, 'dist');
+      const distDir = path.resolve(import.meta.dirname, 'dist');
       const indexHtmlPath = path.join(distDir, 'index.html');
       if (!fs.existsSync(indexHtmlPath)) return;
 
       const templateHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
-      const blogs = parseBlogsFromSource(__dirname);
+      const blogs = parseBlogsFromSource(import.meta.dirname);
 
       const routes: StaticRouteSpec[] = [
         {
@@ -574,9 +574,9 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss(), serveTempMediaPlugin(), dynamicSitemapPlugin(), staticPrerenderPlugin()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
-        'next/image': path.resolve(__dirname, 'src/shims/next-image.tsx'),
-        'next/link': path.resolve(__dirname, 'src/shims/next-link.tsx'),
+        '@': path.resolve(import.meta.dirname, '.'),
+        'next/image': path.resolve(import.meta.dirname, 'src/shims/next-image.tsx'),
+        'next/link': path.resolve(import.meta.dirname, 'src/shims/next-link.tsx'),
       },
     },
     build: {
