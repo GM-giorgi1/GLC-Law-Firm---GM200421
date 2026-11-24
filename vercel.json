@@ -3,14 +3,14 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/:path((?!assets/|favicon\\.ico$|robots\\.txt$|sitemap\\.xml$|.*\\..*$).*)",
       "has": [
         {
           "type": "host",
           "value": "www.glclaw.ge"
         }
       ],
-      "destination": "https://glclaw.ge/:path*",
+      "destination": "https://glclaw.ge/:path",
       "permanent": true
     },
     {
@@ -27,6 +27,12 @@
       "source": "/blogs/understanding-rights-criminal-investigation",
       "destination": "/blogs/drug-offences-in-georgia",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!assets/|api/|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -47,12 +53,14 @@
     {
       "source": "/assets/(.*)",
       "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
       "source": "/(.*\\.(?:png|jpe?g|webp|svg|ico|woff2))",
       "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }
       ]
     },
