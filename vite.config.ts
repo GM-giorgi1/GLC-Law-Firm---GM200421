@@ -308,7 +308,10 @@ function renderRouteHtml(templateHtml: string, spec: StaticRouteSpec): string {
     );
   }
 
-  html = html.replace('<div id="root"></div>', `<div id="root">${spec.ssrHtml}</div>`);
+  const rootShell = spec.noIndex
+    ? spec.ssrHtml
+    : `<div style="min-height:100vh;background-color:#0B0B0D;color:#FAFAFB" aria-busy="true"></div><noscript>${spec.ssrHtml}</noscript>`;
+  html = html.replace(/<div id="root"[^>]*><\/div>/, `<div id="root" style="min-height:100vh;background-color:#0B0B0D">${rootShell}</div>`);
 
   return html;
 }
@@ -551,7 +554,7 @@ function staticPrerenderPlugin(): Plugin {
           ogImage: '/HERO_GUBE.jpeg',
           noIndex: true,
           ssrHtml:
-            '<main style="background:#030508;color:#FAFAFB;padding:4rem 1.5rem;text-align:center;font-family:sans-serif"><h1>404 - გვერდი ვერ მოიძებნა</h1><p>მოთხოვნილი მისამართი არ არსებობს.</p><a href="/">მთავარ გვერდზე დაბრუნება</a></main>',
+            '<main style="min-height:100vh;background:#0B0B0D;color:#FAFAFB;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;font-family:\'Inter Tight\',\'Noto Sans Georgian\',sans-serif;box-sizing:border-box"><span style="font-size:0.75rem;letter-spacing:0.28em;text-transform:uppercase;color:#D3AF37;margin-bottom:0.75rem">HTTP 404</span><h1 style="margin:0 0 1rem;font-size:2rem;font-weight:700;color:#FFFFFF">404 - გვერდი ვერ მოიძებნა</h1><p style="margin:0;max-width:28rem;color:#9CA3AF;line-height:1.6">მოთხოვნილი მისამართი არ არსებობს ან გადატანილია.</p><a href="/" style="display:inline-flex;align-items:center;justify-content:center;margin-top:1.5rem;padding:0.875rem 1.5rem;border-radius:0.75rem;background:linear-gradient(180deg,#E8C965 0%,#D3AF37 55%,#BA9524 100%);color:#0B0B0D;font-weight:700;text-decoration:none">მთავარ გვერდზე დაბრუნება</a></main>',
         },
       ];
 
@@ -562,8 +565,11 @@ function staticPrerenderPlugin(): Plugin {
       }
 
       const homeSsr =
-        '<main style="background:#030508;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><h1>GLC Law Company | ადვოკატი გიორგი გუბელაძე - ბათუმი და თბილისი</h1><p>21+ წლიანი გამოცდილება სისხლის, სამოქალაქო, ადმინისტრაციულ, ბიზნეს და საოჯახო სამართალში.</p><nav><a href="/practice-areas/criminal-defense">სისხლის სამართალი</a> | <a href="/practice-areas/family-law">საოჯახო სამართალი</a> | <a href="/practice-areas/real-estate-law">უძრავი ქონება</a> | <a href="/practice-areas/corporate-law">კორპორაციული სამართალი</a> | <a href="/blogs">ბლოგი</a></nav></main>';
-      const updatedIndex = templateHtml.replace('<div id="root"></div>', `<div id="root">${homeSsr}</div>`);
+        '<main style="background:#0B0B0D;color:#FAFAFB;padding:3rem 1.5rem;font-family:\'Inter Tight\',\'Noto Sans Georgian\',sans-serif"><h1>GLC Law Company | ადვოკატი გიორგი გუბელაძე - ბათუმი და თბილისი</h1><p>21+ წლიანი გამოცდილება სისხლის, სამოქალაქო, ადმინისტრაციულ, ბიზნეს და საოჯახო სამართალში.</p><nav><a href="/practice-areas/criminal-defense">სისხლის სამართალი</a> | <a href="/practice-areas/family-law">საოჯახო სამართალი</a> | <a href="/practice-areas/real-estate-law">უძრავი ქონება</a> | <a href="/practice-areas/corporate-law">კორპორაციული სამართალი</a> | <a href="/blogs">ბლოგი</a></nav></main>';
+      const updatedIndex = templateHtml.replace(
+        /<div id="root"[^>]*><\/div>/,
+        `<div id="root" style="min-height:100vh;background-color:#0B0B0D"><div style="min-height:100vh;background-color:#0B0B0D;color:#FAFAFB" aria-busy="true"></div><noscript>${homeSsr}</noscript></div>`
+      );
       fs.writeFileSync(indexHtmlPath, updatedIndex, 'utf-8');
     },
   };

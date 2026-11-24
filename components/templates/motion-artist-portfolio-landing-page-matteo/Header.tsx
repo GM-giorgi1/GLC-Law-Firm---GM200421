@@ -72,7 +72,7 @@ export function LoadingScreen() {
           className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none will-change-[opacity]"
         >
           {/* BEHIND THE CURTAINS: CRIMINAL HERO BACKDROP */}
-          <div className="absolute inset-0 w-full h-full bg-[#030508]">
+          <div className="absolute inset-0 w-full h-full bg-[#0B0B0D]">
             <Image
               src={criminalHeroImg}
               alt=""
@@ -82,7 +82,7 @@ export function LoadingScreen() {
               sizes="100vw"
               className="object-cover object-center filter brightness-[0.48] contrast-[1.15]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#030508] via-[#030508]/65 to-[#030508]/75 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0D] via-[#0B0B0D]/65 to-[#0B0B0D]/75 pointer-events-none" />
           </div>
 
           {/* TOP CURTAIN */}
@@ -94,8 +94,8 @@ export function LoadingScreen() {
               delay: 0.78,
               ease: [0.76, 0, 0.24, 1],
             }}
-            className="absolute top-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/30 will-change-transform"
-            style={{ backgroundColor: '#00070B' }}
+            className="absolute top-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/30 will-change-transform"
+            style={{ backgroundColor: '#0B0B0D' }}
           >
             <motion.div
               variants={letterContainerVariants}
@@ -131,8 +131,8 @@ export function LoadingScreen() {
               delay: 0.78,
               ease: [0.76, 0, 0.24, 1],
             }}
-            className="absolute bottom-0 left-0 w-full h-1/2 bg-[#00070B] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/30 will-change-transform"
-            style={{ backgroundColor: '#00070B' }}
+            className="absolute bottom-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/30 will-change-transform"
+            style={{ backgroundColor: '#0B0B0D' }}
           >
             <motion.p
               initial={{ opacity: 0, y: -6 }}

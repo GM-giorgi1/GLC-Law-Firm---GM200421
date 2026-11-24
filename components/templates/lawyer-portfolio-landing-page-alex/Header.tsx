@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -234,7 +234,7 @@ export default function Header() {
   const middleContentRef = useRef<HTMLDivElement>(null);
   const [contentBottom, setContentBottom] = useState(480);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (middleContentRef.current) {
       const calculatedBottom = middleContentRef.current.offsetTop + middleContentRef.current.offsetHeight;
       setContentBottom(Math.max(420, calculatedBottom));

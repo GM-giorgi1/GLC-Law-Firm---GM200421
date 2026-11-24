@@ -46,7 +46,7 @@ export default function NotFoundPage() {
       : 'Return to Homepage';
 
   return (
-    <div className="min-h-screen bg-[#030508] text-[#FAFAFB] flex flex-col">
+    <div className="min-h-screen bg-[#0B0B0D] text-[#FAFAFB] flex flex-col">
       <SeoHead
         title={title}
         description={description}

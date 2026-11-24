@@ -83,8 +83,8 @@ export default function App() {
       <BrowserRouter>
         <LegacyHashRedirect />
         <ScrollToTop />
-        <div className="min-h-screen bg-[#0C0D0D]">
-          <Suspense fallback={<div className="min-h-screen bg-[#0C0D0D]" aria-busy="true" />}>
+        <div className="min-h-screen bg-[#0B0B0D] text-[#FAFAFB]">
+          <Suspense fallback={<div className="fixed inset-0 z-[99999] bg-[#0B0B0D]" aria-busy="true" />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/practice-areas/real-estate-law" element={<RealEstatePage />} />

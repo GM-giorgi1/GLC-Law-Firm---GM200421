@@ -1835,7 +1835,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       // localStorage may fail or be disabled
     }
-    return 'ENG';
+    return 'GEO';
   });
 
   const setLanguage = (lang: Language) => {

@@ -82,7 +82,7 @@ export default function HomePage() {
         schema={buildFirmAndAttorneySchema()}
       />
       <GlobalNavbar />
-      <main>
+      <main className="min-h-screen bg-[#0B0B0D] text-[#FAFAFB]">
         <Header />
         <Aboutme />
         <Services />
