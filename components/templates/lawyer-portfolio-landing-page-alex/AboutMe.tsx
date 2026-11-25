@@ -5,76 +5,8 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/ScrollLetterReveal';
 import { scrollToSection } from '@/src/utils/scrollToSection';
-
-function BlurWaveText({
-  text,
-  className = '',
-  delay = 0,
-  highlightWord = '',
-  highlightClass = 'text-[#D3AF37]',
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-  highlightWord?: string;
-  highlightClass?: string;
-}) {
-  const words = text ? text.split(' ') : [];
-  return (
-    <motion.span
-      key={text}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.1, margin: '0px 0px -30px 0px' }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.016,
-            delayChildren: delay,
-          },
-        },
-      }}
-      className={`inline-block ${className}`}
-    >
-      {words.map((word, wordIndex) => {
-        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
-        return (
-          <span
-            key={`${word}-${wordIndex}`}
-            className="inline-block whitespace-nowrap mr-[0.24em]"
-          >
-            {word.split('').map((char, charIndex) => (
-              <motion.span
-                key={`${char}-${charIndex}`}
-                variants={{
-                  hidden: { opacity: 0, y: 12, filter: 'blur(5px)' },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    transition: {
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  },
-                }}
-                style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-                className={`inline-block will-change-[transform,opacity] ${
-                  isHighlighted ? highlightClass : ''
-                }`}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        );
-      })}
-    </motion.span>
-  );
-}
 
 export default function AboutMe() {
   const { t } = useLanguage();
@@ -118,7 +50,7 @@ export default function AboutMe() {
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false }}
+              viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.7 }}
               className="inline-flex items-center gap-2 font-inter-tight text-xs sm:text-sm font-semibold tracking-wider uppercase select-none"
             >
@@ -149,18 +81,17 @@ export default function AboutMe() {
                 <motion.span
                   key={`${item.text}-${index}`}
                   variants={{
-                    hidden: { opacity: 0, y: 24, filter: 'blur(14px)' },
+                    hidden: { opacity: 0, y: 18 },
                     visible: {
                       opacity: 1,
                       y: 0,
-                      filter: 'blur(0px)',
                       transition: {
-                        duration: 1.05,
-                        ease: [0.25, 1, 0.5, 1],
+                        duration: 0.65,
+                        ease: [0.16, 1, 0.3, 1],
                       },
                     },
                   }}
-                  className={`inline-block whitespace-nowrap mr-[0.24em] select-none pb-0.5 will-change-[transform,opacity,filter] ${
+                  className={`inline-block whitespace-nowrap mr-[0.24em] select-none pb-0.5 will-change-[transform,opacity] ${
                     item.highlight ? 'text-[#D3AF37]' : 'text-white'
                   }`}
                 >
@@ -237,11 +168,11 @@ export default function AboutMe() {
 
               {/* Structured Bio Quote Paragraph 2 */}
               <motion.div
-                initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
-                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 1.1, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
-                className="p-4 sm:p-5 rounded-xl bg-[#141415]/80 border border-[#D3AF37]/25 mb-10 sm:mb-14 will-change-[transform,opacity,filter]"
+                transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="p-4 sm:p-5 rounded-xl bg-[#141415]/80 border border-[#D3AF37]/25 mb-10 sm:mb-14 will-change-[transform,opacity]"
               >
                 <p className="font-inter-tight font-semibold text-sm sm:text-base text-[#D3AF37] leading-relaxed">
                   <BlurWaveText text={t.aboutMe.quoteParagraph2} delay={0.12} highlightClass="text-[#FDE99A]" />

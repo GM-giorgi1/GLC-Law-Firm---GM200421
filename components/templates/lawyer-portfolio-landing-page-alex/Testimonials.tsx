@@ -622,7 +622,7 @@ export default function Testimonials({
         <div className="flex flex-col items-center text-center max-w-4xl lg:max-w-5xl mx-auto mb-12 sm:mb-16">
           {/* Top Small Tag/Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#121622]/90 border border-[#D3AF37]/40 shadow-[0_2px_12px_rgba(211,175,55,0.12)] mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37]" />
             <span className="font-['Inter_Tight',sans-serif] text-xs font-bold uppercase tracking-[0.25em] text-[#D3AF37]">
               {badgeLabel}
             </span>

@@ -40,7 +40,7 @@ export default function ScrollLetterReveal({
   as: Component = 'span',
   delay = 0,
   stagger = 0.016,
-  once = false,
+  once = true,
   triggerMode = 'scroll',
   granularity = 'letter',
   highlightWord = '',
@@ -170,7 +170,7 @@ export function BlurWaveText({
       highlightClass={highlightClass}
       triggerMode={triggerMode}
       granularity={granularity}
-      once={false}
+      once={true}
       stagger={granularity === 'word' ? 0.032 : 0.016}
     />
   );

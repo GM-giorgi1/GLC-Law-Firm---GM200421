@@ -223,6 +223,22 @@ interface StaticRouteSpec {
   ssrHtml: string;
 }
 
+function buildCriticalDarkHeroHtml({
+  eyebrow,
+  heading,
+  summary,
+  navLinksHtml,
+  bgColor = '#0B0B0D',
+}: {
+  eyebrow: string;
+  heading: string;
+  summary: string;
+  navLinksHtml: string;
+  bgColor?: string;
+}): string {
+  return `<main style="min-height:100vh;background:${bgColor};color:#FAFAFB;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem;text-align:center;font-family:'Inter Tight','Noto Sans Georgian',sans-serif;box-sizing:border-box"><span style="font-size:0.75rem;letter-spacing:0.28em;text-transform:uppercase;color:#D3AF37;margin-bottom:0.875rem;font-weight:600">${eyebrow}</span><h1 style="margin:0 0 1rem;max-width:52rem;font-size:clamp(1.6rem,3.6vw,2.75rem);line-height:1.2;font-weight:700;color:#FFFFFF">${heading}</h1><p style="margin:0;max-width:40rem;color:#D1D5DB;font-size:0.95rem;line-height:1.65">${summary}</p><nav aria-label="Primary Navigation" style="margin-top:2rem;display:flex;flex-wrap:wrap;justify-content:center;gap:0.75rem 1.5rem;font-size:0.875rem">${navLinksHtml}</nav></main>`;
+}
+
 function renderRouteHtml(templateHtml: string, spec: StaticRouteSpec): string {
   const canonicalUrl = spec.canonicalPath === '/' ? `${SITE_URL}/` : `${SITE_URL}${spec.canonicalPath}`;
   const ogImageUrl = spec.ogImage.startsWith('http')
@@ -308,10 +324,10 @@ function renderRouteHtml(templateHtml: string, spec: StaticRouteSpec): string {
     );
   }
 
-  const rootShell = spec.noIndex
-    ? spec.ssrHtml
-    : `<div style="min-height:100vh;background-color:#0B0B0D;color:#FAFAFB" aria-busy="true"></div><noscript>${spec.ssrHtml}</noscript>`;
-  html = html.replace(/<div id="root"[^>]*><\/div>/, `<div id="root" style="min-height:100vh;background-color:#0B0B0D">${rootShell}</div>`);
+  html = html.replace(
+    /<div id="root"[^>]*><\/div>/,
+    `<div id="root" style="min-height:100vh;background-color:#0B0B0D">${spec.ssrHtml}</div>`
+  );
 
   return html;
 }
@@ -355,8 +371,15 @@ function staticPrerenderPlugin(): Plugin {
               ],
             },
           ],
-          ssrHtml:
-            '<main style="background:#030508;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><h1>სისხლის სამართალი და დაცვა | GLC Law Company</h1><p>დაცვა გამოძიების ეტაპზე, აღკვეთის ღონისძიება, მტკიცებულებათა აუდიტი და სასამართლო წარმომადგენლობა ბათუმსა და თბილისში.</p><nav><a href="/">მთავარი</a> | <a href="/blogs">ბლოგი</a></nav></main>',
+          ssrHtml: buildCriticalDarkHeroHtml({
+            eyebrow: 'CRIMINAL LAW · GLC LAW COMPANY',
+            heading: 'სისხლის სამართალი და დაცვა | GLC Law Company',
+            summary:
+              'დაცვა გამოძიების ეტაპზე, აღკვეთის ღონისძიება, მტკიცებულებათა აუდიტი და სასამართლო წარმომადგენლობა ბათუმსა და თბილისში.',
+            bgColor: '#030508',
+            navLinksHtml:
+              '<a href="/" style="color:#D3AF37;text-decoration:none;font-weight:600">მთავარი</a><a href="/practice-areas/family-law" style="color:#E5E7EB;text-decoration:none">საოჯახო სამართალი</a><a href="/practice-areas/real-estate-law" style="color:#E5E7EB;text-decoration:none">უძრავი ქონება</a><a href="/practice-areas/corporate-law" style="color:#E5E7EB;text-decoration:none">კორპორაციული სამართალი</a><a href="/blogs" style="color:#E5E7EB;text-decoration:none">ბლოგი</a>',
+          }),
         },
         {
           outFile: 'practice-areas/family-law/index.html',
@@ -385,8 +408,15 @@ function staticPrerenderPlugin(): Plugin {
               ],
             },
           ],
-          ssrHtml:
-            '<main style="background:#030508;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><h1>საოჯახო და მემკვიდრეობითი სამართალი | GLC Law Company</h1><p>ოჯახური აქტივების დაცვა და სამართლებრივი მემკვიდრეობა - GLC Law Company.</p><nav><a href="/">მთავარი</a> | <a href="/blogs">ბლოგი</a></nav></main>',
+          ssrHtml: buildCriticalDarkHeroHtml({
+            eyebrow: 'FAMILY & INHERITANCE LAW · GLC LAW COMPANY',
+            heading: 'საოჯახო და მემკვიდრეობითი სამართალი | GLC Law Company',
+            summary:
+              'განქორწინება, ქონების გაყოფა, არასრულწლოვნის უფლებები და მემკვიდრეობითი დავები - ინდივიდუალური სამართლებრივი სტრატეგია.',
+            bgColor: '#030508',
+            navLinksHtml:
+              '<a href="/" style="color:#D3AF37;text-decoration:none;font-weight:600">მთავარი</a><a href="/practice-areas/criminal-defense" style="color:#E5E7EB;text-decoration:none">სისხლის სამართალი</a><a href="/practice-areas/real-estate-law" style="color:#E5E7EB;text-decoration:none">უძრავი ქონება</a><a href="/practice-areas/corporate-law" style="color:#E5E7EB;text-decoration:none">კორპორაციული სამართალი</a><a href="/blogs" style="color:#E5E7EB;text-decoration:none">ბლოგი</a>',
+          }),
         },
         {
           outFile: 'practice-areas/real-estate-law/index.html',
@@ -415,8 +445,15 @@ function staticPrerenderPlugin(): Plugin {
               ],
             },
           ],
-          ssrHtml:
-            '<main style="background:#030508;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><h1>უძრავი ქონება და სახელშეკრულებო სამართალი | GLC Law Company</h1><p>უსაფრთხო საინვესტიციო და უძრავი ქონების გარიგებების სამართლებრივი მხარდაჭერა.</p><nav><a href="/">მთავარი</a> | <a href="/blogs">ბლოგი</a></nav></main>',
+          ssrHtml: buildCriticalDarkHeroHtml({
+            eyebrow: 'REAL ESTATE & CONTRACT LAW · GLC LAW COMPANY',
+            heading: 'უძრავი ქონება და სახელშეკრულებო სამართალი | GLC Law Company',
+            summary:
+              'უძრავი ქონების სრული იურიდიული აუდიტი, რისკების ნიველირება და უსაფრთხო საინვესტიციო გარიგებები საქართველოში.',
+            bgColor: '#030508',
+            navLinksHtml:
+              '<a href="/" style="color:#D3AF37;text-decoration:none;font-weight:600">მთავარი</a><a href="/practice-areas/criminal-defense" style="color:#E5E7EB;text-decoration:none">სისხლის სამართალი</a><a href="/practice-areas/family-law" style="color:#E5E7EB;text-decoration:none">საოჯახო სამართალი</a><a href="/practice-areas/corporate-law" style="color:#E5E7EB;text-decoration:none">კორპორაციული სამართალი</a><a href="/blogs" style="color:#E5E7EB;text-decoration:none">ბლოგი</a>',
+          }),
         },
         {
           outFile: 'practice-areas/corporate-law/index.html',
@@ -445,8 +482,15 @@ function staticPrerenderPlugin(): Plugin {
               ],
             },
           ],
-          ssrHtml:
-            '<main style="background:#030508;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><h1>ბიზნესი და კორპორაციული სამართალი | GLC Law Company</h1><p>კორპორაციული უსაფრთხოება და ბიზნეს-ადვოკატირება ბათუმსა და თბილისში.</p><nav><a href="/">მთავარი</a> | <a href="/blogs">ბლოგი</a></nav></main>',
+          ssrHtml: buildCriticalDarkHeroHtml({
+            eyebrow: 'BUSINESS & CORPORATE LAW · GLC LAW COMPANY',
+            heading: 'ბიზნესი და კორპორაციული სამართალი | GLC Law Company',
+            summary:
+              'კომპანიების დაფუძნება, M&A ტრანზაქციები, რთული კომერციული ხელშეკრულებები და კორპორაციული დავების გადაწყვეტა.',
+            bgColor: '#030508',
+            navLinksHtml:
+              '<a href="/" style="color:#D3AF37;text-decoration:none;font-weight:600">მთავარი</a><a href="/practice-areas/criminal-defense" style="color:#E5E7EB;text-decoration:none">სისხლის სამართალი</a><a href="/practice-areas/family-law" style="color:#E5E7EB;text-decoration:none">საოჯახო სამართალი</a><a href="/practice-areas/real-estate-law" style="color:#E5E7EB;text-decoration:none">უძრავი ქონება</a><a href="/blogs" style="color:#E5E7EB;text-decoration:none">ბლოგი</a>',
+          }),
         },
         {
           outFile: 'blogs/index.html',
@@ -473,9 +517,19 @@ function staticPrerenderPlugin(): Plugin {
               ],
             },
           ],
-          ssrHtml: `<main style="background:#0C0D0D;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><h1>სამართლებრივი პუბლიკაციები და ბლოგი | GLC Law Company</h1><ul>${blogs
-            .map((b) => `<li><a href="/blogs/${b.slug}">${escapeHtmlAttr(b.title)}</a></li>`)
-            .join('')}</ul></main>`,
+          ssrHtml: buildCriticalDarkHeroHtml({
+            eyebrow: 'BLOGS & INSIGHTS · GLC LAW COMPANY',
+            heading: 'სამართლებრივი პუბლიკაციები და ბლოგი | GLC Law Company',
+            summary:
+              'პრაქტიკული ანალიტიკა, სასამართლო პრეცედენტები და საკანონმდებლო განმარტებები GLC Law Company-ის ადვოკატებისგან.',
+            bgColor: '#0C0D0D',
+            navLinksHtml: blogs
+              .map(
+                (b) =>
+                  `<a href="/blogs/${b.slug}" style="color:#D3AF37;text-decoration:none;font-weight:500">${escapeHtmlAttr(b.title)}</a>`
+              )
+              .join(''),
+          }),
         },
         ...blogs.map((b) => {
           const schemas: Array<Record<string, unknown>> = [
@@ -540,9 +594,14 @@ function staticPrerenderPlugin(): Plugin {
             ogType: 'article' as const,
             ogImage: b.image.startsWith('/.tempmediaStorage/') ? `/${path.basename(b.image)}` : b.image,
             schema: schemas,
-            ssrHtml: `<main style="background:#0C0D0D;color:#FAFAFB;padding:3rem 1.5rem;font-family:sans-serif"><article><h1>${escapeHtmlAttr(
-              b.title
-            )}</h1><p>${escapeHtmlAttr(b.excerpt)}</p><nav><a href="/blogs">ყველა პუბლიკაცია</a></nav></article></main>`,
+            ssrHtml: buildCriticalDarkHeroHtml({
+              eyebrow: `${escapeHtmlAttr(b.category)} · GLC LAW COMPANY`,
+              heading: escapeHtmlAttr(b.title),
+              summary: escapeHtmlAttr(b.excerpt),
+              bgColor: '#0C0D0D',
+              navLinksHtml:
+                '<a href="/blogs" style="color:#D3AF37;text-decoration:none;font-weight:600">ყველა პუბლიკაცია</a><a href="/" style="color:#E5E7EB;text-decoration:none">მთავარი</a>',
+            }),
           };
         }),
         {
@@ -564,11 +623,18 @@ function staticPrerenderPlugin(): Plugin {
         fs.writeFileSync(targetPath, renderRouteHtml(templateHtml, spec), 'utf-8');
       }
 
-      const homeSsr =
-        '<main style="background:#0B0B0D;color:#FAFAFB;padding:3rem 1.5rem;font-family:\'Inter Tight\',\'Noto Sans Georgian\',sans-serif"><h1>GLC Law Company | ადვოკატი გიორგი გუბელაძე - ბათუმი და თბილისი</h1><p>21+ წლიანი გამოცდილება სისხლის, სამოქალაქო, ადმინისტრაციულ, ბიზნეს და საოჯახო სამართალში.</p><nav><a href="/practice-areas/criminal-defense">სისხლის სამართალი</a> | <a href="/practice-areas/family-law">საოჯახო სამართალი</a> | <a href="/practice-areas/real-estate-law">უძრავი ქონება</a> | <a href="/practice-areas/corporate-law">კორპორაციული სამართალი</a> | <a href="/blogs">ბლოგი</a></nav></main>';
+      const homeSsr = buildCriticalDarkHeroHtml({
+        eyebrow: 'GLC LAW COMPANY · ADVOCATE GIORGI GUBELADZE',
+        heading: 'GLC Law Company | ადვოკატი გიორგი გუბელაძე - ბათუმი და თბილისი',
+        summary:
+          '21+ წლიანი გამოცდილება სისხლის, სამოქალაქო, ადმინისტრაციულ, ბიზნეს და საოჯახო სამართალში.',
+        bgColor: '#0B0B0D',
+        navLinksHtml:
+          '<a href="/practice-areas/criminal-defense" style="color:#D3AF37;text-decoration:none;font-weight:600">სისხლის სამართალი</a><a href="/practice-areas/family-law" style="color:#E5E7EB;text-decoration:none">საოჯახო სამართალი</a><a href="/practice-areas/real-estate-law" style="color:#E5E7EB;text-decoration:none">უძრავი ქონება</a><a href="/practice-areas/corporate-law" style="color:#E5E7EB;text-decoration:none">კორპორაციული სამართალი</a><a href="/blogs" style="color:#E5E7EB;text-decoration:none">ბლოგი</a>',
+      });
       const updatedIndex = templateHtml.replace(
         /<div id="root"[^>]*><\/div>/,
-        `<div id="root" style="min-height:100vh;background-color:#0B0B0D"><div style="min-height:100vh;background-color:#0B0B0D;color:#FAFAFB" aria-busy="true"></div><noscript>${homeSsr}</noscript></div>`
+        `<div id="root" style="min-height:100vh;background-color:#0B0B0D">${homeSsr}</div>`
       );
       fs.writeFileSync(indexHtmlPath, updatedIndex, 'utf-8');
     },

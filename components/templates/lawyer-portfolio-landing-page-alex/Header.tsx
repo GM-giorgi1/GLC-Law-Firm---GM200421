@@ -19,6 +19,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/ScrollLetterReveal';
 import { scrollToSection } from '@/src/utils/scrollToSection';
 
 // Browser subscriptions for smooth continuous scroll animation (SSR-safe via useSyncExternalStore)
@@ -99,109 +100,6 @@ const brandLogos = [
 ];
 
 const duplicatedLogos = [...brandLogos, ...brandLogos, ...brandLogos, ...brandLogos];
-
-// Fluid cinematic letter-by-letter or word-by-word GPU reveal
-function BlurWaveText({
-  text,
-  className = '',
-  delay = 0.05,
-  highlightWord = '',
-  highlightClass = 'text-[#D3AF37]',
-  triggerMode = 'scroll',
-  granularity = 'letter',
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-  highlightWord?: string;
-  highlightClass?: string;
-  triggerMode?: 'scroll' | 'mount';
-  granularity?: 'letter' | 'word';
-}) {
-  const words = text ? text.split(' ') : [];
-  const isMount = triggerMode === 'mount';
-  const itemCount =
-    granularity === 'word'
-      ? words.length
-      : text
-        ? text.replace(/\s+/g, '').length
-        : 0;
-  const maxStaggerWindow = isMount ? 0.52 : 0.46;
-  const baseStagger = granularity === 'word' ? 0.032 : 0.016;
-  const effectiveStagger =
-    itemCount > 0 ? Math.min(baseStagger, maxStaggerWindow / itemCount) : baseStagger;
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 12 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    },
-  };
-
-  return (
-    <motion.span
-      key={text}
-      initial="hidden"
-      animate={isMount ? 'visible' : undefined}
-      whileInView={!isMount ? 'visible' : undefined}
-      viewport={{ once: isMount, amount: 0.1, margin: '0px 0px -30px 0px' }}
-      variants={{
-        hidden: { opacity: 1 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: effectiveStagger,
-            delayChildren: delay,
-          },
-        },
-      }}
-      className={`inline-block ${className}`}
-    >
-      {words.map((word, wordIndex) => {
-        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
-        if (granularity === 'word') {
-          return (
-            <motion.span
-              key={`${word}-${wordIndex}`}
-              variants={itemVariants}
-              style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-              className={`inline-block whitespace-nowrap mr-[0.26em] will-change-[transform,opacity] ${
-                isHighlighted ? highlightClass : ''
-              }`}
-            >
-              {word}
-            </motion.span>
-          );
-        }
-
-        return (
-          <span
-            key={`${word}-${wordIndex}`}
-            className="inline-block whitespace-nowrap mr-[0.24em]"
-          >
-            {word.split('').map((char, charIndex) => (
-              <motion.span
-                key={`${char}-${charIndex}`}
-                variants={itemVariants}
-                style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-                className={`inline-block will-change-[transform,opacity] ${
-                  isHighlighted ? highlightClass : ''
-                }`}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        );
-      })}
-    </motion.span>
-  );
-}
 
 export default function Header() {
   const { language, setLanguage, t: tr } = useLanguage();
@@ -594,7 +492,7 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-50 bg-[#0C0D0D]/95 backdrop-blur-xl flex flex-col justify-between p-6 sm:p-12 lg:p-16 overflow-y-auto"
+            className="fixed inset-0 z-[110] bg-[#0C0D0D]/95 backdrop-blur-xl flex flex-col justify-between p-6 sm:p-12 lg:p-16 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] overflow-y-auto overscroll-contain"
           >
             {/* Top Bar */}
             <div className="w-full max-w-[1420px] mx-auto flex justify-between items-center gap-4">
@@ -740,37 +638,45 @@ export default function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+            onClick={() => setIsBookingOpen(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="hero-booking-modal-title"
+            className="fixed inset-0 z-[120] bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-2.5 sm:p-6 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] overflow-hidden"
           >
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
+              initial={{ scale: 0.94, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="relative w-full max-w-xl bg-[#0C0D0D] border border-[#D3AF37]/50 rounded-2xl p-6 sm:p-8 text-[#FAFAFB] shadow-[0_25px_60px_rgba(0,0,0,0.9)] my-8"
+              exit={{ scale: 0.94, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-xl bg-[#0C0D0D] border border-[#D3AF37]/50 rounded-2xl text-[#FAFAFB] shadow-[0_25px_60px_rgba(0,0,0,0.95)] max-h-[90dvh] flex flex-col overflow-hidden"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setIsBookingOpen(false)}
-                className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Close Booking Modal"
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              {/* Modal Header */}
-              <div className="mb-6">
-                <div className="flex items-center gap-2 text-[#D3AF37] font-antonio font-bold text-sm tracking-wider uppercase mb-1">
-                  <Award className="w-4 h-4" />
-                  <span>{tr.hero.confidentialSession}</span>
+              {/* Pinned Modal Header with always-visible Close Button */}
+              <div className="shrink-0 flex items-start justify-between gap-3 px-5 pt-5 pb-4 sm:px-8 sm:pt-7 sm:pb-5 border-b border-white/10 bg-[#0C0D0D]">
+                <div className="min-w-0 flex-1 pr-1">
+                  <div className="flex items-center gap-2 text-[#D3AF37] font-antonio font-bold text-xs sm:text-sm tracking-wider uppercase mb-1">
+                    <Award className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{tr.hero.confidentialSession}</span>
+                  </div>
+                  <h2 id="hero-booking-modal-title" className="font-antonio font-bold text-2xl sm:text-4xl text-white leading-snug">
+                    {tr.hero.bookConsultation}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-gray-400 font-inter-tight mt-1 leading-relaxed">
+                    {tr.hero.modalSubtitle}
+                  </p>
                 </div>
-                <h2 className="font-antonio font-bold text-3xl sm:text-4xl text-white">
-                  {tr.hero.bookConsultation}
-                </h2>
-                <p className="text-sm text-gray-400 font-inter-tight mt-1">
-                  {tr.hero.modalSubtitle}
-                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsBookingOpen(false)}
+                  className="shrink-0 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-200 hover:text-white bg-[#17171A] hover:bg-white/15 border border-white/15 hover:border-[#D3AF37]/60 rounded-full transition-colors cursor-pointer"
+                  aria-label="Close Booking Modal"
+                >
+                  <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
               </div>
 
+              {/* Scrollable Form / Success Body */}
+              <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-8 sm:py-6">
               {/* Form or Success State */}
               {isBookedSuccess ? (
                 <motion.div 
@@ -904,6 +810,7 @@ export default function Header() {
                   </button>
                 </form>
               )}
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -955,11 +862,11 @@ export default function Header() {
           
           {/* 1. Sub-line / Area Callout: Relatively smaller and refined */}
           <motion.div
-            initial={{ opacity: 0, y: 24, filter: 'blur(14px)' }}
-            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 1.1, ease: [0.25, 1, 0.5, 1] }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D3AF37]/10 border border-[#D3AF37]/30 text-[#D3AF37] text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase font-inter-tight mb-4 sm:mb-5 shadow-xs select-none will-change-[transform,opacity,filter]"
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D3AF37]/10 border border-[#D3AF37]/30 text-[#D3AF37] text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase font-inter-tight mb-4 sm:mb-5 shadow-xs select-none will-change-[transform,opacity]"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#D3AF37]" />
             <span>{tr.hero.section2Subline || 'სამოქალაქო და ადმინისტრაციული დავები'}</span>

@@ -92,11 +92,11 @@ export default function GlobalNavbar() {
     <>
       <header
         data-global-navbar="true"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[#030508]/85 border-b border-[#D3AF37]/20 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_1px_15px_rgba(211,175,55,0.08)] ${
+        className={`fixed top-0 left-0 right-0 w-full z-[80] transition-all duration-300 backdrop-blur-xl bg-[#030508]/85 border-b border-[#D3AF37]/20 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_1px_15px_rgba(211,175,55,0.08)] ${
           isScrolled || !isHomePage ? 'py-2.5 sm:py-3' : 'py-3 sm:py-4'
         }`}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex items-center justify-between gap-3 sm:gap-4">
+        <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 md:px-8 lg:px-10 flex items-center justify-between gap-2 sm:gap-4">
           
           {/* ================= 1. LEFT: Brand Logo & Title ================= */}
           <Link
@@ -104,7 +104,7 @@ export default function GlobalNavbar() {
             onClick={() => {
               if (isHomePage) window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center gap-3 shrink-0 select-none cursor-pointer group min-w-0"
+            className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 xl:flex-initial select-none cursor-pointer group"
             aria-label="GLC Law Company Home"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 relative flex items-center justify-center rounded-xl bg-gradient-to-br from-[#1C1C1E] to-[#0B0B0C] border border-[#D3AF37]/50 shadow-[0_0_15px_rgba(211,175,55,0.15)] group-hover:border-[#D3AF37] group-hover:shadow-[0_0_20px_rgba(211,175,55,0.3)] transition-all shrink-0">
@@ -118,11 +118,11 @@ export default function GlobalNavbar() {
                 className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
               />
             </div>
-            <div className="flex flex-col truncate">
-              <span className="font-['Antonio'] font-bold text-base sm:text-lg lg:text-xl tracking-wider uppercase text-white group-hover:text-[#D3AF37] transition-colors leading-none truncate">
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="font-['Antonio'] font-bold text-sm sm:text-lg lg:text-xl tracking-wider uppercase text-white group-hover:text-[#D3AF37] transition-colors leading-none truncate">
                 GLC LAW COMPANY
               </span>
-              <span className="text-[10px] sm:text-[11px] text-[#D3AF37]/80 tracking-widest uppercase font-inter-tight font-medium mt-0.5 truncate">
+              <span className="text-[9.5px] sm:text-[11px] text-[#D3AF37]/80 tracking-wider sm:tracking-widest uppercase font-inter-tight font-medium mt-0.5 truncate">
                 {language === 'GEO'
                   ? 'ადვოკატი გიორგი გუბელაძე'
                   : language === 'RUS'
@@ -135,7 +135,7 @@ export default function GlobalNavbar() {
           </Link>
 
           {/* ================= 2. CENTER: Main Navigation Links (Desktop) ================= */}
-          <nav className="hidden xl:flex items-center gap-3.5 2xl:gap-5 shrink-0">
+          <nav className="hidden xl:flex items-center gap-3 2xl:gap-5 shrink-0 whitespace-nowrap">
             {/* 1. Home Link */}
             <Link
               to="/"
@@ -463,10 +463,11 @@ export default function GlobalNavbar() {
               </AnimatePresence>
             </div>
 
-            {/* Quick Consultation CTA Button (Desktop / Laptop: sm+) */}
+            {/* Quick Consultation CTA Button (Tablet / Desktop: md+) */}
             <button
+              type="button"
               onClick={() => setIsBookingOpen(true)}
-              className="saas-btn-gold hidden sm:inline-flex items-center gap-2 py-2 px-3 sm:px-4 rounded-xl cursor-pointer text-xs lg:text-sm font-semibold tracking-wide text-black shadow-md whitespace-nowrap shrink-0 transition-transform hover:scale-[1.02] active:scale-95"
+              className="saas-btn-gold hidden md:inline-flex items-center gap-2 py-2 px-3 lg:px-4 rounded-xl cursor-pointer text-xs lg:text-sm font-semibold tracking-wide text-black shadow-md whitespace-nowrap shrink-0 transition-transform hover:scale-[1.02] active:scale-95"
             >
               <Calendar className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-black shrink-0" />
               <span>{tr.hero.bookConsultation}</span>
@@ -476,7 +477,7 @@ export default function GlobalNavbar() {
             <button
               type="button"
               onClick={() => setIsMenuOpen(true)}
-              className="min-w-[44px] min-h-[44px] p-2 rounded-xl border border-[#D3AF37]/30 bg-[#141416]/90 text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-all flex items-center justify-center shrink-0 cursor-pointer"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] p-2 rounded-xl border border-[#D3AF37]/35 bg-[#141416]/95 text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-all inline-flex items-center justify-center shrink-0 cursor-pointer relative z-10"
               aria-label="Open Navigation Menu"
             >
               <Menu className="w-5 h-5 text-[#D3AF37]" />
@@ -494,19 +495,20 @@ export default function GlobalNavbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-50 bg-[#0A0A0B]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 overflow-y-auto"
+            className="fixed inset-0 z-[110] bg-[#0A0A0B]/98 backdrop-blur-2xl flex flex-col justify-between p-5 sm:p-10 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))] overflow-y-auto overscroll-contain"
           >
             {/* Drawer Header */}
-            <div className="flex items-center justify-between pb-5 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <ShieldCheck className="w-7 h-7 text-[#D3AF37]" />
-                <span className="font-['Antonio'] font-bold text-xl tracking-wider text-[#D3AF37]">
+            <div className="flex items-center justify-between gap-3 pb-4 border-b border-white/10 sticky top-0 bg-[#0A0A0B]/95 backdrop-blur-md z-10 pt-1">
+              <div className="flex items-center gap-3 min-w-0">
+                <ShieldCheck className="w-7 h-7 text-[#D3AF37] shrink-0" />
+                <span className="font-['Antonio'] font-bold text-xl tracking-wider text-[#D3AF37] truncate">
                   GLC LAW COMPANY
                 </span>
               </div>
               <button
+                type="button"
                 onClick={() => setIsMenuOpen(false)}
-                className="w-11 h-11 rounded-full border border-[#D3AF37]/40 flex items-center justify-center text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-colors cursor-pointer"
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-[#D3AF37]/40 bg-[#141416] flex items-center justify-center text-white hover:text-[#D3AF37] hover:border-[#D3AF37] transition-colors cursor-pointer shrink-0"
                 aria-label="Close Menu"
               >
                 <X className="w-5 h-5" />

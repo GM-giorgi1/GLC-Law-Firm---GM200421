@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Award, CheckCircle2, Phone, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
+import { X, CheckCircle2, Phone, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 
 interface ConsultationModalProps {
@@ -70,6 +70,20 @@ export default function ConsultationModal({
     onClose();
   };
 
+  const handleResetRef = React.useRef(handleReset);
+  handleResetRef.current = handleReset;
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleResetRef.current();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -77,45 +91,56 @@ export default function ConsultationModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+          onClick={handleReset}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="consultation-modal-heading"
+          className="fixed inset-0 z-[120] bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-2.5 sm:p-6 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] overflow-hidden"
         >
           <motion.div
-            initial={{ scale: 0.92, y: 20 }}
+            initial={{ scale: 0.94, y: 20 }}
             animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.92, y: 20 }}
+            exit={{ scale: 0.94, y: 20 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-xl bg-[#0E0E10] border border-[#D3AF37]/50 rounded-2xl p-6 sm:p-8 text-[#FAFAFB] shadow-[0_25px_70px_rgba(0,0,0,0.95)] my-8 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-xl bg-[#0E0E10] border border-[#D3AF37]/50 rounded-2xl text-[#FAFAFB] shadow-[0_25px_70px_rgba(0,0,0,0.95)] max-h-[90dvh] flex flex-col overflow-hidden"
           >
-            {/* Close Button */}
-            <button
-              onClick={handleReset}
-              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-              aria-label="Close Modal"
-            >
-              <X className="w-5 h-5 sm:w-6 sm:h-6" />
-            </button>
-
-            {/* Header */}
-            <div className="mb-6">
-              <div className="flex items-center gap-2 text-[#D3AF37] font-['Antonio'] font-bold text-xs sm:text-sm tracking-wider uppercase mb-1.5">
-                <ShieldCheck className="w-4 h-4" />
-                <span>{tr.hero.confidentialSession}</span>
+            {/* Pinned Header with always-visible Close Button */}
+            <div className="shrink-0 flex items-start justify-between gap-3 px-5 pt-5 pb-4 sm:px-8 sm:pt-7 sm:pb-5 border-b border-white/10 bg-[#0E0E10]">
+              <div className="min-w-0 flex-1 pr-1">
+                <div className="flex items-center gap-2 text-[#D3AF37] font-['Antonio'] font-bold text-xs sm:text-sm tracking-wider uppercase mb-1">
+                  <ShieldCheck className="w-4 h-4 shrink-0" />
+                  <span className="truncate">{tr.hero.confidentialSession}</span>
+                </div>
+                <h2
+                  id="consultation-modal-heading"
+                  className="font-['Antonio'] font-bold text-xl sm:text-3xl text-white uppercase tracking-tight leading-snug"
+                >
+                  {tr.hero.bookConsultation}
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-300 font-inter-tight mt-1 leading-relaxed">
+                  {tr.hero.modalSubtitle}
+                </p>
               </div>
-              <h2 className="font-['Antonio'] font-bold text-2xl sm:text-3xl text-white uppercase tracking-tight">
-                {tr.hero.bookConsultation}
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-300 font-inter-tight mt-1 leading-relaxed">
-                {tr.hero.modalSubtitle}
-              </p>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="shrink-0 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-200 hover:text-white bg-[#1A1A1F] hover:bg-white/15 border border-white/15 hover:border-[#D3AF37]/60 rounded-full transition-colors cursor-pointer"
+                aria-label="Close Modal"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
             </div>
 
-            {/* Success State */}
-            {isSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="py-10 flex flex-col items-center text-center gap-4"
-              >
+            {/* Scrollable Body */}
+            <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-8 sm:py-6">
+              {/* Success State */}
+              {isSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-6 sm:py-10 flex flex-col items-center text-center gap-4"
+                >
                 <div className="w-16 h-16 rounded-full bg-[#D3AF37]/20 border-2 border-[#D3AF37] text-[#D3AF37] flex items-center justify-center">
                   <CheckCircle2 className="w-9 h-9" />
                 </div>
@@ -288,7 +313,8 @@ export default function ConsultationModal({
                   </a>
                 </div>
               </form>
-            )}
+              )}
+            </div>
           </motion.div>
         </motion.div>
       )}

@@ -1,162 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence, type Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowUpRight, Shield } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
 import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
+import CurtainIntro from '@/src/components/common/CurtainIntro';
 import criminalHeroImg from '@/src/assets/criminalhero.png';
-
-/**
- * ============================================================================
- * FULL-SCREEN CINEMATIC SHUTTER LOADING SCREEN COMPONENT
- * Primary Bold Headline: "CRIMINAL LAW"
- * Refined Subtitle: "GLC LAW COMPANY"
- * ============================================================================
- */
-const LOADING_TITLE_TEXT = 'CRIMINAL LAW';
-const LOADING_SUBTITLE_TEXT = 'GLC LAW COMPANY';
-
-export function LoadingScreen() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1280);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  const letterStagger = LOADING_TITLE_TEXT.length > 0 ? Math.min(0.024, 0.34 / LOADING_TITLE_TEXT.length) : 0.024;
-
-  const letterContainerVariants: Variants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: letterStagger,
-        delayChildren: 0.04,
-      },
-    },
-  };
-
-  const letterVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 10,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.34,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  };
-
-  return (
-    <AnimatePresence>
-      {isLoading && (
-        <motion.div
-          key="loader-container"
-          initial={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-          }}
-          aria-hidden="true"
-          className="fixed inset-0 z-[99999] w-full h-full overflow-hidden pointer-events-none select-none will-change-[opacity]"
-        >
-          {/* BEHIND THE CURTAINS: CRIMINAL HERO BACKDROP */}
-          <div className="absolute inset-0 w-full h-full bg-[#0B0B0D]">
-            <Image
-              src={criminalHeroImg}
-              alt=""
-              fill
-              priority
-              unoptimized
-              sizes="100vw"
-              className="object-cover object-center filter brightness-[0.48] contrast-[1.15]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0D] via-[#0B0B0D]/65 to-[#0B0B0D]/75 pointer-events-none" />
-          </div>
-
-          {/* TOP CURTAIN */}
-          <motion.div
-            initial={{ y: '0%' }}
-            animate={{ y: '-100%' }}
-            transition={{
-              duration: 0.72,
-              delay: 0.56,
-              ease: [0.76, 0, 0.24, 1],
-            }}
-            className="absolute top-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-end items-center pb-2.5 sm:pb-3.5 px-4 z-20 border-b border-[#D3AF37]/30 will-change-transform"
-            style={{ backgroundColor: '#0B0B0D' }}
-          >
-            <motion.div
-              variants={letterContainerVariants}
-              initial="hidden"
-              animate="visible"
-              className="font-big-shoulders font-[900] uppercase text-[#F2ECEC] tracking-tight leading-none text-[34px] sm:text-[48px] md:text-[60px] lg:text-[72px] text-center flex items-center justify-center flex-wrap"
-              style={{
-                fontFamily: "'Big Shoulders Display', 'Antonio', sans-serif",
-                fontWeight: 900,
-                lineHeight: '100%',
-                color: '#F2ECEC',
-              }}
-            >
-              {LOADING_TITLE_TEXT.split('').map((char, index) => (
-                <motion.span
-                  key={index}
-                  variants={letterVariants}
-                  className="inline-block will-change-[transform,opacity]"
-                  style={{
-                    whiteSpace: char === ' ' ? 'pre' : 'normal',
-                    transform: 'translate3d(0,0,0)',
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* BOTTOM CURTAIN */}
-          <motion.div
-            initial={{ y: '0%' }}
-            animate={{ y: '100%' }}
-            transition={{
-              duration: 0.72,
-              delay: 0.56,
-              ease: [0.76, 0, 0.24, 1],
-            }}
-            className="absolute bottom-0 left-0 w-full h-[calc(50%+2px)] bg-[#0B0B0D] flex flex-col justify-start items-center pt-3 sm:pt-4 px-4 z-20 border-t border-[#D3AF37]/30 will-change-transform"
-            style={{ backgroundColor: '#0B0B0D' }}
-          >
-            <motion.p
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.38, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="font-geist font-semibold text-[14px] sm:text-[16px] md:text-[18px] text-[#D3AF37] tracking-[0.3em] uppercase text-center will-change-[transform,opacity]"
-              style={{
-                fontFamily: "'Inter Tight', 'Geist', sans-serif",
-                color: '#D3AF37',
-              }}
-            >
-              {LOADING_SUBTITLE_TEXT}
-            </motion.p>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
 
 export default function Header() {
   const { language } = useLanguage();
@@ -191,7 +43,7 @@ export default function Header() {
 
   return (
     <>
-      <LoadingScreen />
+      <CurtainIntro title="CRIMINAL LAW" subtitle="GLC LAW COMPANY" mode="route" />
 
       <header
         className="relative w-full min-h-[90vh] lg:min-h-screen bg-[#030508] border-b border-[#D3AF37]/15 overflow-hidden flex flex-col justify-center items-center pt-32 sm:pt-36 lg:pt-40 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-8 lg:px-12 selection:bg-[#D3AF37]/30 selection:text-[#FEF5CD]"
@@ -235,7 +87,13 @@ export default function Header() {
           >
             <Shield className="w-3.5 h-3.5 text-[#D3AF37]" />
             <span className="font-geist font-bold text-xs uppercase tracking-[0.22em] text-[#D3AF37]">
-              {language === 'GEO' ? 'სრული სისხლისსამართლებრივი დაცვა' : 'Institutional Criminal Defense'}
+              {language === 'GEO'
+                ? 'სრული სისხლისსამართლებრივი დაცვა'
+                : language === 'RUS'
+                  ? 'ПОЛНАЯ УГОЛОВНО-ПРАВОВАЯ ЗАЩИТА'
+                  : language === 'TUR'
+                    ? 'TAM KAPSAMLI CEZA SAVUNMASI'
+                    : 'Institutional Criminal Defense'}
             </span>
           </motion.div>
 
@@ -272,7 +130,15 @@ export default function Header() {
               whileTap={{ scale: 0.98 }}
               className="w-full sm:w-auto overflow-hidden inline-flex items-center justify-center pl-6 pr-3 py-3 gap-3 bg-gradient-to-r from-[#FEF5CD] via-[#D2AE37] to-[#BA9524] text-[#00070B] rounded-xl cursor-pointer shadow-[0_8px_30px_rgba(211,175,55,0.4)] font-big-shoulders font-[900] text-lg sm:text-xl uppercase tracking-wider"
             >
-              <span>{language === 'GEO' ? 'გადაუდებელი კონსულტაცია' : 'Emergency Consultation'}</span>
+              <span>
+                {language === 'GEO'
+                  ? 'გადაუდებელი კონსულტაცია'
+                  : language === 'RUS'
+                    ? 'Срочная консультация'
+                    : language === 'TUR'
+                      ? 'Acil Danışmanlık'
+                      : 'Emergency Consultation'}
+              </span>
               <div className="w-8 h-8 bg-[#00070B] rounded-lg flex items-center justify-center shrink-0">
                 <ArrowUpRight className="w-4 h-4 text-[#D3AF37] stroke-[2.5]" />
               </div>
@@ -285,7 +151,15 @@ export default function Header() {
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#0E0E10]/90 border border-[#D3AF37]/50 hover:border-[#D3AF37] hover:bg-[#D3AF37]/10 text-white text-sm font-semibold tracking-wide transition-all cursor-pointer font-geist shadow-md"
             >
               <Shield className="w-4 h-4 text-[#D3AF37]" />
-              <span>{language === 'GEO' ? 'საქმის რეგისტრაცია' : 'Case Registration'}</span>
+              <span>
+                {language === 'GEO'
+                  ? 'საქმის რეგისტრაცია'
+                  : language === 'RUS'
+                    ? 'Регистрация дела'
+                    : language === 'TUR'
+                      ? 'Dava Kaydı'
+                      : 'Case Registration'}
+              </span>
             </button>
           </motion.div>
         </div>

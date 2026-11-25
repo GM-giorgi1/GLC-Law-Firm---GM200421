@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/ScrollLetterReveal';
 
 // Single Rolling Digit Component
 // Left digits roll TOP-TO-BOTTOM, right digits roll BOTTOM-TO-TOP.
@@ -81,84 +82,14 @@ function RollingDigit({
   );
 }
 
-// Letter-level smooth typewriter wave reveal
-function BlurWaveText({
-  text,
-  className = '',
-  delay = 0,
-  highlightWord = '',
-  highlightClass = 'text-[#D2AF37]',
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-  highlightWord?: string;
-  highlightClass?: string;
-}) {
-  const words = text ? text.split(' ') : [];
-  return (
-    <motion.span
-      key={text}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.1, margin: '0px 0px -30px 0px' }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.016,
-            delayChildren: delay,
-          },
-        },
-      }}
-      className={`inline-block ${className}`}
-    >
-      {words.map((word, wordIndex) => {
-        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
-        return (
-          <span
-            key={`${word}-${wordIndex}`}
-            className="inline-block whitespace-nowrap mr-[0.25em]"
-          >
-            {word.split('').map((char, charIndex) => (
-              <motion.span
-                key={`${char}-${charIndex}`}
-                variants={{
-                  hidden: { opacity: 0, y: 12, filter: 'blur(5px)' },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    transition: {
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  },
-                }}
-                style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-                className={`inline-block will-change-[transform,opacity] ${
-                  isHighlighted ? highlightClass : ''
-                }`}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        );
-      })}
-    </motion.span>
-  );
-}
-
 export default function Metrics() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Triggers whenever user scrolls into or out of the section
+  // Trigger once when scrolling into view so content stays visible for users and crawlers
   const isInView = useInView(sectionRef, {
-    amount: 0.15,
-    once: false,
+    amount: 0.12,
+    once: true,
   });
 
   return (

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import GlobalNavbar from '@/src/components/common/GlobalNavbar';
+import CurtainIntro from '@/src/components/common/CurtainIntro';
 import Header from '@/components/templates/lawyer-portfolio-landing-page-alex/Header';
 import Aboutme from '@/components/templates/lawyer-portfolio-landing-page-alex/AboutMe';
 import Services from '@/components/templates/lawyer-portfolio-landing-page-alex/Services';
@@ -81,8 +82,9 @@ export default function HomePage() {
         locale={locale}
         schema={buildFirmAndAttorneySchema()}
       />
+      <CurtainIntro title="GLC LAW COMPANY" subtitle="ADVOCATE GIORGI GUBELADZE" mode="initial" />
       <GlobalNavbar />
-      <main className="min-h-screen bg-[#0B0B0D] text-[#FAFAFB]">
+      <main className="min-h-screen bg-[#0B0B0D] text-[#FAFAFB] overflow-x-clip">
         <Header />
         <Aboutme />
         <Services />

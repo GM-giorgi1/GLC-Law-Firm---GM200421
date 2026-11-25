@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Phone, Mail, ArrowRight, CheckCircle2, ChevronDown, Check } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/ScrollLetterReveal';
 
 const SERVICES_LIST = [
   'Criminal Law',
@@ -17,76 +18,6 @@ const SERVICES_LIST = [
   'Other Legal Services',
 ];
 
-// Letter-level smooth typewriter wave reveal with blur-fade effect
-function BlurWaveText({
-  text,
-  className = '',
-  delay = 0,
-  highlightWord = '',
-  highlightClass = 'text-[#D2AF37]',
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-  highlightWord?: string;
-  highlightClass?: string;
-}) {
-  const words = text ? text.split(' ') : [];
-  return (
-    <motion.span
-      key={text}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.1, margin: '0px 0px -30px 0px' }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.016,
-            delayChildren: delay,
-          },
-        },
-      }}
-      className={`inline-block ${className}`}
-    >
-      {words.map((word, wordIndex) => {
-        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
-        return (
-          <span
-            key={`${word}-${wordIndex}`}
-            className="inline-block whitespace-nowrap mr-[0.25em]"
-          >
-            {word.split('').map((char, charIndex) => (
-              <motion.span
-                key={`${char}-${charIndex}`}
-                variants={{
-                  hidden: { opacity: 0, y: 12, filter: 'blur(5px)' },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    transition: {
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  },
-                }}
-                style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-                className={`inline-block will-change-[transform,opacity] ${
-                  isHighlighted ? highlightClass : ''
-                }`}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        );
-      })}
-    </motion.span>
-  );
-}
-
 export default function Contacts({
   className = '',
   bgTheme = 'default',
@@ -96,7 +27,7 @@ export default function Contacts({
 } = {}) {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.1, once: false });
+  const isInView = useInView(sectionRef, { amount: 0.08, once: true });
 
   // Form state
   const [formData, setFormData] = useState({
@@ -189,10 +120,10 @@ export default function Contacts({
         <motion.div
           animate={
             isInView
-              ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-              : { opacity: 0, y: 35, filter: 'blur(14px)' }
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 24 }
           }
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch"
         >
           {/* ================= LEFT COLUMN: CONSULTATION PHOTO & CONTACT INFO ================= */}
@@ -262,7 +193,7 @@ export default function Contacts({
             
             {/* Guarantee Response Badge */}
             <div className="flex items-center justify-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#E5BE4A] shadow-[0_0_8px_#E5BE4A] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#E5BE4A] shadow-[0_0_8px_#E5BE4A]" />
               <p className="text-xs sm:text-sm text-gray-300">
                 {t.contactsSection.responseGuarantee}{' '}
                 <span className="text-[#E5BE4A] font-semibold">{t.contactsSection.businessDayHighlight}</span>

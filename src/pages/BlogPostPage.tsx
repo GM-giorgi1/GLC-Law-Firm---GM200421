@@ -306,7 +306,7 @@ export default function BlogPostPage() {
         schema={articleSchemas}
       />
       {/* Cinematic Curtain Transition */}
-      <CurtainIntro title="BLOGS & INSIGHTS" subtitle="GLC LAW COMPANY" />
+      <CurtainIntro title="BLOGS & INSIGHTS" subtitle="GLC LAW COMPANY" mode="route" />
 
       {/* Top Floating Mini Navbar */}
       <nav className="sticky top-0 z-50 w-full bg-[#0C0D0D]/90 backdrop-blur-md border-b border-white/[0.08] px-6 sm:px-12 py-3.5 flex items-center justify-between">

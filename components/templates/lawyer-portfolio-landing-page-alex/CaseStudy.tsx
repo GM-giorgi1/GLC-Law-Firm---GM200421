@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform, MotionStyle } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/ScrollLetterReveal';
 
 interface CaseStudyItem {
   id: string;
@@ -68,67 +69,6 @@ const caseStudies: CaseStudyItem[] = [
     aspectClass: 'aspect-[16/10]',
   },
 ];
-
-// Letter-level smooth typewriter wave reveal
-function BlurWaveText({
-  text,
-  className = '',
-  delay = 0,
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-}) {
-  const words = text ? text.split(' ') : [];
-  return (
-    <motion.span
-      key={text}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.1, margin: '0px 0px -30px 0px' }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.016,
-            delayChildren: delay,
-          },
-        },
-      }}
-      className={`inline-block ${className}`}
-    >
-      {words.map((word, wordIndex) => (
-        <span
-          key={`${word}-${wordIndex}`}
-          className="inline-block whitespace-nowrap mr-[0.25em]"
-        >
-          {word.split('').map((char, charIndex) => (
-            <motion.span
-              key={`${char}-${charIndex}`}
-              variants={{
-                hidden: { opacity: 0, y: 12, filter: 'blur(5px)' },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  filter: 'blur(0px)',
-                  transition: {
-                    duration: 0.4,
-                    ease: [0.16, 1, 0.3, 1],
-                  },
-                },
-              }}
-              style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-              className="inline-block will-change-[transform,opacity]"
-            >
-              {char}
-            </motion.span>
-          ))}
-        </span>
-      ))}
-    </motion.span>
-  );
-}
 
 interface CardProps {
   item: CaseStudyItem;

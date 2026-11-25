@@ -6,77 +6,8 @@ import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { CornerDownRight, ArrowRight, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { useLanguage } from '@/src/context/LanguageContext';
+import { BlurWaveText } from '@/src/components/common/ScrollLetterReveal';
 import { BLOG_POSTS_DETAIL } from '@/src/data/blogsData';
-
-// Letter-level smooth typewriter wave reveal with blur-fade effect
-function BlurWaveText({
-  text,
-  className = '',
-  delay = 0,
-  highlightWord = '',
-  highlightClass = 'text-[#D2AF37]',
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-  highlightWord?: string;
-  highlightClass?: string;
-}) {
-  const words = text ? text.split(' ') : [];
-  return (
-    <motion.span
-      key={text}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.1, margin: '0px 0px -30px 0px' }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.016,
-            delayChildren: delay,
-          },
-        },
-      }}
-      className={`inline-block ${className}`}
-    >
-      {words.map((word, wordIndex) => {
-        const isHighlighted = highlightWord && word.toLowerCase().includes(highlightWord.toLowerCase());
-        return (
-          <span
-            key={`${word}-${wordIndex}`}
-            className="inline-block whitespace-nowrap mr-[0.25em]"
-          >
-            {word.split('').map((char, charIndex) => (
-              <motion.span
-                key={`${char}-${charIndex}`}
-                variants={{
-                  hidden: { opacity: 0, y: 12, filter: 'blur(5px)' },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    transition: {
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  },
-                }}
-                style={{ WebkitBackfaceVisibility: 'hidden', transform: 'translate3d(0,0,0)' }}
-                className={`inline-block will-change-[transform,opacity] ${
-                  isHighlighted ? highlightClass : ''
-                }`}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        );
-      })}
-    </motion.span>
-  );
-}
 
 export default function Blogs() {
   const { language, t } = useLanguage();
@@ -85,8 +16,8 @@ export default function Blogs() {
   const singleSetRef = useRef<HTMLDivElement>(null);
 
   const isInView = useInView(sectionRef, {
-    amount: 0.15,
-    once: false,
+    amount: 0.12,
+    once: true,
   });
 
   // Dynamically derive posts from BLOG_POSTS_DETAIL so the horizontal carousel
@@ -320,13 +251,13 @@ export default function Blogs() {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20, filter: 'blur(8px)' }}
+              initial={{ opacity: 0, x: 16 }}
               animate={
                 isInView
-                  ? { opacity: 1, x: 0, filter: 'blur(0px)' }
-                  : { opacity: 0, x: 20, filter: 'blur(8px)' }
+                  ? { opacity: 1, x: 0 }
+                  : { opacity: 0, x: 16 }
               }
-              transition={{ duration: 0.85, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
             >
               <Link
                 to="/blogs"

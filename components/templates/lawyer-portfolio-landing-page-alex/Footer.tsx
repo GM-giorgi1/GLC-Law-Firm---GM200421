@@ -42,7 +42,7 @@ export default function Footer() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const heroContainerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.15, once: false });
+  const isInView = useInView(sectionRef, { amount: 0.1, once: true });
 
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
@@ -102,8 +102,8 @@ export default function Footer() {
         ref={heroContainerRef}
         animate={
           isInView
-            ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-            : { opacity: 0, y: 25, filter: 'blur(10px)' }
+            ? { opacity: 1, y: 0 }
+            : { opacity: 0, y: 24 }
         }
         transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         onMouseEnter={() => setIsHovered(true)}
