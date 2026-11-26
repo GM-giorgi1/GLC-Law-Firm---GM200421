@@ -45,12 +45,14 @@ interface ParsedBlogMeta {
   title: string;
   excerpt: string;
   image: string;
+  publishedDate?: string;
+  schemaType: 'BlogPosting' | 'NewsArticle';
   faqs: ParsedBlogFaq[];
 }
 
 function stripMarkdownPlain(text: string): string {
   return text
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
+    .replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)]+)\)/g, '$1')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
@@ -110,6 +112,8 @@ function parseBlogsFromSource(rootDir: string): ParsedBlogMeta[] {
     const slug = matches[i][1];
 
     const categoryMatch = block.match(/category:\s*['"]([^'"]+)['"]/);
+    const publishedDateMatch = block.match(/publishedDate:\s*['"]([^'"]+)['"]/);
+    const schemaTypeMatch = block.match(/schemaType:\s*['"](BlogPosting|NewsArticle)['"]/);
     const geoTitleMatch = block.match(/title:\s*\{[\s\S]*?GEO:\s*['"]([^'"]+)['"]/);
     const geoExcerptMatch = block.match(/excerpt:\s*\{[\s\S]*?GEO:\s*['"]([^'"]+)['"]/);
     const ogImageMatch = block.match(/ogImage:\s*['"]([^'"]+)['"]/);
@@ -144,6 +148,8 @@ function parseBlogsFromSource(rootDir: string): ParsedBlogMeta[] {
         geoExcerptMatch?.[1] ||
         'პრაქტიკული სამართლებრივი ანალიზი და საკანონმდებლო განმარტებები GLC Law Company-ისგან.',
       image: imageMatch?.[1] || '/GM7.webp',
+      publishedDate: publishedDateMatch?.[1],
+      schemaType: (schemaTypeMatch?.[1] as 'BlogPosting' | 'NewsArticle' | undefined) || 'BlogPosting',
       faqs,
     });
   }
@@ -535,10 +541,11 @@ function staticPrerenderPlugin(): Plugin {
           const schemas: Array<Record<string, unknown>> = [
             {
               '@context': 'https://schema.org',
-              '@type': 'BlogPosting',
+              '@type': b.schemaType,
               headline: b.title,
               description: b.excerpt,
               image: b.image.startsWith('http') ? b.image : `${SITE_URL}/${path.basename(b.image)}`,
+              ...(b.publishedDate ? { datePublished: b.publishedDate, dateModified: b.publishedDate } : {}),
               mainEntityOfPage: {
                 '@type': 'WebPage',
                 '@id': `${SITE_URL}/blogs/${b.slug}`,

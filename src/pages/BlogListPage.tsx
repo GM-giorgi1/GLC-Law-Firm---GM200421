@@ -196,6 +196,7 @@ export default function BlogListPage() {
                 <div className="relative w-full aspect-[16/9.5] overflow-hidden bg-[#181819]">
                   <Image
                     src={post.image}
+                    fallbackSrc={post.fallbackImage || '/criminalhero.png'}
                     alt={post.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"

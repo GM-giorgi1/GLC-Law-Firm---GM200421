@@ -5,10 +5,11 @@ export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   priority?: boolean;
   quality?: number | string;
   unoptimized?: boolean;
+  fallbackSrc?: string;
 }
 
 const Image = React.forwardRef<HTMLImageElement, ImageProps>(function Image(
-  { fill, priority, quality, unoptimized, style, className = '', src, onError, decoding, ...props },
+  { fill, priority, quality, unoptimized, fallbackSrc, style, className = '', src, onError, decoding, ...props },
   ref
 ) {
   const [currentSrc, setCurrentSrc] = React.useState(src);
@@ -52,8 +53,12 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(function Image(
               return;
             }
           }
-          if (currentSrc !== 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop') {
-            setCurrentSrc('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop');
+          if (fallbackSrc && currentSrc !== fallbackSrc) {
+            setCurrentSrc(fallbackSrc);
+            return;
+          }
+          if (currentSrc !== '/HERO_GUBE.jpeg') {
+            setCurrentSrc('/HERO_GUBE.jpeg');
           }
         }
         onError?.(e);

@@ -59,6 +59,9 @@ export interface BlogPostDetail {
   };
   image: string;
   ogImage?: string;
+  fallbackImage?: string;
+  publishedDate?: string;
+  schemaType?: 'BlogPosting' | 'NewsArticle';
   alt: string;
   author: {
     name: string;
@@ -1081,6 +1084,270 @@ export const BLOG_POSTS_DETAIL: BlogPostDetail[] = [
         },
         closingNote:
           "**GLC Law Company** avukatları ceza davalarına Batum'dan bakıyor. En önemlisi, gözaltının ilk dakikalarından itibaren yanınızda bir avukat olmasıdır. Danışmak için +995 599 27 77 74 numarasını arayın. Avukat tutamıyorsanız [Hukuki Yardım Servisi](https://www.legalaid.ge) sayfasına başvurabilirsiniz. Bu yazı genel bilgi niteliğindedir, hukuki tavsiye yerine geçmez.",
+      },
+    },
+  },
+  {
+    id: 4,
+    slug: 'grave-bodily-harm-charge-defendant-released',
+    category: 'სისხლის სამართალი',
+    readTime: '4 წთ საკითხავი',
+    publishedDate: '2026-11-26',
+    schemaType: 'NewsArticle',
+    date: {
+      GEO: '2026 წლის ნოემბერი',
+      ENG: 'November 2026',
+      RUS: 'Ноябрь 2026 г.',
+      TUR: 'Kasım 2026',
+    },
+    title: {
+      GEO: 'ჯანმრთელობის განზრახ მძიმე დაზიანებაზე ბრალდებული ოთხთვიანი პატიმრობის შემდეგ სასამართლო დარბაზიდან გათავისუფლდა',
+      ENG: 'Defendant Charged With Intentional Grave Bodily Harm Walks Out of Court After Four Months in Detention',
+      RUS: 'Обвиняемого в умышленном тяжком вреде здоровью освободили из зала суда после четырёх месяцев под стражей',
+      TUR: 'Kasten Ağır Yaralama ile Suçlanan Sanık, Dört Aylık Tutukluluğun Ardından Duruşma Salonundan Serbest Bırakıldı',
+    },
+    seoTitle: {
+      GEO: 'ჯანმრთელობის მძიმე დაზიანება: ბრალდებული გათავისუფლდა | GLC Law Company',
+      ENG: 'Grave Bodily Harm Charge: Defendant Released From Court | GLC Law Company',
+      RUS: 'Тяжкий вред здоровью: обвиняемый освобождён из зала суда | GLC Law Company',
+      TUR: 'Kasten Ağır Yaralama: Sanık Duruşma Salonundan Serbest Bırakıldı | GLC Law Company',
+    },
+    excerpt: {
+      GEO: 'ოთხთვიანი პატიმრობის შემდეგ ჯანმრთელობის განზრახ მძიმე დაზიანებაზე ბრალდებული პირი დარბაზიდან გათავისუფლდა. რა გადაწყვიტა საქმის შედეგი და რას უნდა მიექცეს ყურადღება ბრალდებისას.',
+      ENG: 'After four months in pretrial detention, a defendant charged with intentional grave bodily harm was released from the courtroom. See what decided the case outcome.',
+      RUS: 'После четырёх месяцев под стражей обвиняемый в умышленном тяжком вреде здоровью был освобождён из зала суда. Что определило исход дела и на что обратить внимание защите.',
+      TUR: 'Dört aylık tutukluluğun ardından kasten ağır yaralama ile suçlanan sanık duruşma salonundan serbest bırakıldı. Davanın sonucunu belirleyen unsurlar ve savunma süreci.',
+    },
+    image: '/CRIM.jpg',
+    ogImage: '/CRIM.jpg',
+    fallbackImage: '/criminalhero.png',
+    alt: 'Courtroom defense and release after four months in detention - GLC Law Company Criminal Defense',
+    author: {
+      name: 'გიორგი გუბელაძე',
+      role: {
+        GEO: 'უფროსი პარტნიორი, ადვოკატი',
+        ENG: 'Senior Partner, Attorney at Law',
+        RUS: 'Старший партнер, Адвокат',
+        TUR: 'Kıdemli Ortak, Avukat',
+      },
+      avatar: '/GUBE1.jpeg',
+    },
+    content: {
+      GEO: {
+        intro:
+          'ჯანმრთელობის განზრახ მძიმე დაზიანების მუხლით ბრალდებული პირი, რომელსაც ბრალდების დადგენილების მიხედვით **ოთხიდან შვიდ წლამდე თავისუფლების აღკვეთა ემუქრებოდა,** ოთხთვიანი პატიმრობის შემდეგ GLC Law Company-ის დახმარებით **სასამართლო დარბაზიდან გათავისუფლდა.**\n\nადვოკატ გიორგი გუბელაძის ცნობით, გადაწყვეტილების გამოცხადებისას დარბაზში ტაში გაისმა, ბრალდებულს კი სასამართლოსთან ოჯახი და ახლობლები ელოდნენ.',
+        sections: [
+          {
+            heading: 'რა იყო ბრალდება და რა ემუქრებოდა პირს',
+            statuteRef: 'საქართველოს სისხლის სამართლის კოდექსი, მუხლი 117',
+            body: [
+              'ბრალდება [სისხლის სამართლის კოდექსის](https://matsne.gov.ge/ka/document/view/16426) იმ მუხლს ემყარებოდა, რომელიც **ჯანმრთელობის განზრახ მძიმე დაზიანებას სჯის,** და დადგენილების თანახმად სასჯელის ზომა ოთხიდან შვიდ წლამდე თავისუფლების აღკვეთას შეადგენდა, ხოლო ბრალდებული მთელი ეს დრო, ოთხი თვის განმავლობაში, პატიმრობაში იმყოფებოდა.',
+            ],
+          },
+          {
+            heading: 'რამ განსაზღვრა საქმის შედეგი',
+            statuteRef: 'მტკიცებულებათა შეფასება და ფაქტობრივი წინაპირობა',
+            body: [
+              'ადვოკატის შეფასებით, საქმეში გადამწყვეტი აღმოჩნდა მომხდარის წინაპირობა, ანუ ის, რაც დაზიანებას წინ უსწრებდა, და დაცვის მხარე ამ გარემოებებს თანმიმდევრულად მტკიცებულებებით ადასტურებდა მაშინაც, როცა დარბაზი ბრალდებულის მიმართ თავიდან უარყოფითად იყო განწყობილი. ჩვენი წამყვანი ადვოკატის თქმით, ეს იყო საქმე, სადაც კანონი და მორალი ერთმანეთს დაეჯახა და ბოლოს სამართლიანობამ გაიმარჯვა.',
+              'გაეცანით ასევე ჩვენს [სისხლის სამართლის დაცვის პრაქტიკას](/practice-areas/criminal-defense) და წაიკითხეთ ჩვენი პრაქტიკული გზამკვლევი [ნარკოდანაშაულის საქმეებზე საქართველოში](/blogs/drug-offences-in-georgia).',
+            ],
+          },
+        ],
+        faq: {
+          title: 'ხშირად დასმული კითხვები',
+          items: [
+            {
+              question: 'რას ნიშნავს ჯანმრთელობის განზრახ მძიმე დაზიანება?',
+              answer: [
+                'ეს სისხლის სამართლის კოდექსით გათვალისწინებული დანაშაულია, სადაც კვალიფიკაციას დაზიანების სიმძიმის და განზრახვის არსებობა განსაზღვრავს, ამიტომ პრაქტიკაში გადამწყვეტია სასამართლო-სამედიცინო ექსპერტიზის დასკვნა და საქმის კონკრეტული გარემოებები.',
+              ],
+            },
+            {
+              question: 'რატომ აქვს მნიშვნელობა მომხდარის წინაპირობას?',
+              answer: [
+                'ერთი და იგივე ქმედება სხვადასხვაგვარად შეიძლება შეფასდეს იმის მიხედვით, რა მოხდა მანამდე, მაგალითად, როცა პირი თავდასხმისგან იცავდა თავს, ამიტომ სასამართლო ქმედებას მთლიანი კონტექსტის გათვალისწინებით აფასებს.',
+              ],
+            },
+            {
+              question: 'როგორ აგროვებს ადვოკატი მტკიცებულებებს?',
+              answer: [
+                'დაცვის მხარე ეძებს მოწმეებს, ვიდეოჩანაწერებს, სამედიცინო დოკუმენტაციას და სხვა მასალას, რომელიც ბრალდების ვერსიას უპირისპირდება, და რაც უფრო ადრე ჩაერთვება ადვოკატი, მით უფრო დიდია შანსი, რომ მტკიცებულება არ დაიკარგოს.',
+              ],
+            },
+            {
+              question: 'შეიძლება თუ არა პატიმრობიდან პირის გამოყვანა?',
+              answer: [
+                'პატიმრობა აღკვეთის ყველაზე მკაცრი ღონისძიებაა და მისი კანონიერება სასამართლოში შეიძლება გასაჩივრდეს ან მოთხოვნილ იქნეს შედარებით მსუბუქი აღკვეთის ღონისძიების გამოყენება პატიმრობის ნაცვლად. ზუსტ პროცედურასა და ვადებს [სისხლის სამართლის საპროცესო კოდექსი](https://matsne.gov.ge/ka/document/view/90034) ადგენს.',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          '**GLC Law Company** ბათუმში დაფუძნებული წამყვანი იურიდიული კომპანიაა, რომელსაც [სისხლის სამართლის მიმართულებით](/practice-areas/criminal-defense) ათწლეულების გამოცდილება გააჩნია.\n\nთუ თქვენ ან თქვენს ახლობელს ბრალი წაგიყენეს, დაგვირეკეთ ცხელ ხაზზე: +995 599 27 77 94, ან იხილეთ ჩვენი წინა სტატია [ნარკოდანაშაულზე საქართველოში](/blogs/drug-offences-in-georgia).',
+        statutorySummary:
+          'წინამდებარე მასალა ატარებს ზოგად საინფორმაციო ხასიათს და არ წარმოადგენს ინდივიდუალურ იურიდიულ კონსულტაციას. თითოეული სისხლის სამართლის საქმე უნიკალურია და წარსული შედეგი არ განსაზღვრავს მომავალი საქმის შედეგს. სტატიაში მხარეთა ვინაობა და პერსონალური დეტალები დაფარულია.',
+      },
+      ENG: {
+        intro:
+          'A defendant charged with intentional grave bodily harm, who faced four to seven years in prison under the indictment, was released from the courtroom after four months in pretrial detention with the legal defense of **GLC Law Company**.\n\nAccording to defence lawyer Giorgi Gubeladze, applause broke out in the hall when the decision was announced, and the defendant’s family and relatives were waiting outside the court.',
+        sections: [
+          {
+            heading: 'What the charge was and what was at stake',
+            statuteRef: 'Criminal Code of Georgia, Article 117',
+            body: [
+              'The charge rested on the article of the [Criminal Code](https://matsne.gov.ge/en/document/view/16426) that punishes intentional grave bodily harm, and under the indictment the sentence ranged from four to seven years of imprisonment, while the defendant had spent all of those four months in custody.',
+            ],
+          },
+          {
+            heading: 'What decided the outcome',
+            statuteRef: 'Evidentiary Context & Defense Strategy',
+            body: [
+              'In the lawyer’s assessment, the decisive factor was what had happened before the injury, and the defence consistently backed those circumstances with evidence even though the courtroom was initially hostile toward the defendant. As the lawyer puts it, this was a case where law and morality collide, and in the end justice prevailed.',
+              'Explore our [Criminal Law & Defense Advocacy](/practice-areas/criminal-defense) practice or read our guide on [Drug Offences in Georgia](/blogs/drug-offences-in-georgia).',
+            ],
+          },
+        ],
+        faq: {
+          title: 'Questions and answers',
+          items: [
+            {
+              question: 'What does intentional grave bodily harm mean?',
+              answer: [
+                'It is an offence under the Criminal Code where the classification depends on the seriousness of the injury and on whether intent was present, which is why the forensic medical expert’s conclusion and the circumstances of the case weigh so heavily in practice.',
+              ],
+            },
+            {
+              question: 'Why does the background of the incident matter?',
+              answer: [
+                'The same act can be assessed differently depending on what came before it, for example when a person was defending himself against an attack, so the court looks at the whole context.',
+              ],
+            },
+            {
+              question: 'How does a defence lawyer gather evidence?',
+              answer: [
+                'The defence looks for witnesses, video recordings, medical records and other material that challenges the prosecution’s version, and the earlier a lawyer gets involved, the better the chance that evidence is not lost.',
+              ],
+            },
+            {
+              question: 'Can pretrial detention be challenged?',
+              answer: [
+                'Detention is the strictest preventive measure and its lawfulness can be challenged in court, with the exact procedure and time limits set by the [Criminal Procedure Code](https://matsne.gov.ge/en/document/view/90034), while the right to liberty is also protected by [Article 5 of the European Convention on Human Rights](https://www.echr.coe.int/documents/d/echr/convention_eng).',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          '**GLC Law Company** handles [criminal defense cases](/practice-areas/criminal-defense) from Batumi and Tbilisi. If you or someone close to you has been charged, call +995 599 27 77 94, or contact the [Legal Aid Service](https://www.legalaid.ge). You can also review our previous criminal law analysis on [drug offences in Georgia](/blogs/drug-offences-in-georgia).',
+        statutorySummary:
+          'This text is informational and is not individual legal advice; every case is different and a past result does not determine a future one. Party identities and case details remain confidential.',
+      },
+      RUS: {
+        intro:
+          'Обвиняемого в умышленном причинении тяжкого вреда здоровью, которому по постановлению о привлечении в качестве обвиняемого грозило от четырёх до семи лет лишения свободы, освободили из зала суда после четырёх месяцев содержания под стражей при защите **GLC Law Company**.\n\nПо словам адвоката Гиорги Губеладзе, при оглашении решения в зале раздались аплодисменты, а у здания суда обвиняемого ждали семья и родственники.',
+        sections: [
+          {
+            heading: 'В чём обвиняли и что грозило',
+            statuteRef: 'Уголовный кодекс Грузии, статья 117',
+            body: [
+              'Обвинение основывалось на статье [Уголовного кодекса](https://matsne.gov.ge/en/document/view/16426), предусматривающей наказание за умышленное причинение тяжкого вреда здоровью, и по постановлению мера наказания составляла от четырёх до семи лет лишения свободы, при этом все эти четыре месяца обвиняемый провёл под стражей.',
+            ],
+          },
+          {
+            heading: 'Что определило исход дела',
+            statuteRef: 'Оценка доказательств и предыстория дела',
+            body: [
+              'По оценке адвоката, решающую роль сыграла предыстория случившегося, то есть то, что предшествовало повреждению, и сторона защиты последовательно подтверждала эти обстоятельства доказательствами, хотя поначалу зал был настроен по отношению к обвиняемому негативно. По словам адвоката, это было дело, в котором закон и мораль сталкиваются, и в конце концов победила справедливость.',
+              'Подробнее о нашей практике по [уголовному праву и защите в суде](/practice-areas/criminal-defense), а также в предыдущей публикации о [наркопреступлениях в Грузии](/blogs/drug-offences-in-georgia).',
+            ],
+          },
+        ],
+        faq: {
+          title: 'Вопросы и ответы',
+          items: [
+            {
+              question: 'Что означает умышленное причинение тяжкого вреда здоровью?',
+              answer: [
+                'Это преступление по Уголовному кодексу, квалификация которого зависит от тяжести повреждения и от наличия умысла, поэтому на практике так важны заключение судебно-медицинской экспертизы и обстоятельства дела.',
+              ],
+            },
+            {
+              question: 'Почему важна предыстория события?',
+              answer: [
+                'Одно и то же деяние может оцениваться по-разному в зависимости от того, что ему предшествовало, например когда человек защищался от нападения, поэтому суд рассматривает весь контекст.',
+              ],
+            },
+            {
+              question: 'Как защитник собирает доказательства?',
+              answer: [
+                'Защита ищет свидетелей, видеозаписи, медицинские документы и другие материалы, опровергающие версию обвинения, и чем раньше подключается адвокат, тем выше шанс, что доказательства не будут утрачены.',
+              ],
+            },
+            {
+              question: 'Можно ли обжаловать заключение под стражу?',
+              answer: [
+                'Заключение под стражу является самой строгой мерой пресечения, и его законность можно оспорить в суде, при этом точный порядок и сроки определяет [Уголовно-процессуальный кодекс](https://matsne.gov.ge/en/document/view/90034), а право на свободу защищает и [статья 5 Европейской конвенции по правам человека](https://www.echr.coe.int/documents/d/echr/convention_eng).',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          'Юридическая компания **GLC Law Company** ведёт [уголовные дела](/practice-areas/criminal-defense) из Батуми и Тбилиси. Если обвинение предъявлено вам или вашему близкому, звоните: +995 599 27 77 94, или обратитесь в [Службу юридической помощи](https://www.legalaid.ge). Также ознакомьтесь с нашей статьёй о [наркопреступлениях в Грузии](/blogs/drug-offences-in-georgia).',
+        statutorySummary:
+          'Текст носит информационный характер и не заменяет индивидуальную юридическую консультацию, результат каждого дела уникален, а прошлый результат не определяет будущий. Имена сторон и детали дела не разглашаются.',
+      },
+      TUR: {
+        intro:
+          'İddianameye göre dört ila yedi yıl hapis cezasıyla karşı karşıya olan ve kasten ağır yaralama suçlamasıyla yargılanan sanık, **GLC Law Company** savunmasıyla dört aylık tutukluluğun ardından duruşma salonundan serbest bırakıldı.\n\nAvukat Giorgi Gubeladze’nin aktardığına göre karar açıklanırken salonda alkış koptu, mahkeme önünde ise sanığın ailesi ve yakınları onu bekliyordu.',
+        sections: [
+          {
+            heading: 'Suçlama neydi ve ne risk altındaydı',
+            statuteRef: 'Gürcistan Ceza Kanunu, 117. Madde',
+            body: [
+              'Suçlama, kasten ağır yaralamayı cezalandıran [Ceza Kanunu](https://matsne.gov.ge/en/document/view/16426) maddesine dayanıyordu ve iddianameye göre ceza dört ile yedi yıl hapis arasındaydı, sanık ise bu dört ayın tamamını tutuklu geçirdi.',
+            ],
+          },
+          {
+            heading: 'Sonucu ne belirledi',
+            statuteRef: 'Delillerin Değerlendirilmesi ve Olayın Arka Planı',
+            body: [
+              'Avukatın değerlendirmesine göre davada belirleyici olan, yaralanmadan önce yaşananlardı ve savunma, salon başlangıçta sanığa karşı olumsuz bir tutum sergilese de bu koşulları delillerle tutarlı biçimde ortaya koydu. Avukata göre bu, hukukla ahlakın çarpıştığı bir davaydı ve sonunda adalet galip geldi.',
+              '[Ceza Hukuku ve Dava Savunması](/practice-areas/criminal-defense) sayfamızı ve [Gürcistan’da Uyuşturucu Suçları](/blogs/drug-offences-in-georgia) başlıklı önceki makalemizi de inceleyebilirsiniz.',
+            ],
+          },
+        ],
+        faq: {
+          title: 'Sıkça sorulan sorular',
+          items: [
+            {
+              question: 'Kasten ağır yaralama ne anlama gelir?',
+              answer: [
+                'Ceza Kanunu’nda düzenlenen bu suçta nitelendirmeyi yaralanmanın ağırlığı ile kastın bulunup bulunmadığı belirler, bu yüzden uygulamada adli tıp raporu ve olayın koşulları büyük önem taşır.',
+              ],
+            },
+            {
+              question: 'Olayın arka planı neden önemlidir?',
+              answer: [
+                'Aynı fiil, öncesinde yaşananlara göre farklı değerlendirilebilir, örneğin bir kişi saldırıdan kendini koruyorsa, bu nedenle mahkeme olayı bütün bağlamıyla ele alır.',
+              ],
+            },
+            {
+              question: 'Savunma avukatı delilleri nasıl toplar?',
+              answer: [
+                'Savunma; tanıkları, kamera kayıtlarını, tıbbi belgeleri ve iddia makamının anlatımına karşı çıkan diğer malzemeyi arar, avukat ne kadar erken devreye girerse delillerin kaybolma ihtimali o kadar azalır.',
+              ],
+            },
+            {
+              question: 'Tutukluluğa itiraz edilebilir mi?',
+              answer: [
+                'Tutuklama en ağır koruma tedbiridir ve hukuka uygunluğu mahkemede tartışılabilir, kesin usul ve süreleri [Ceza Muhakemesi Kanunu](https://matsne.gov.ge/en/document/view/90034) belirler, özgürlük hakkını ise [Avrupa İnsan Hakları Sözleşmesi’nin 5. maddesi](https://www.echr.coe.int/documents/d/echr/convention_eng) da korur.',
+              ],
+            },
+          ],
+        },
+        closingNote:
+          '**GLC Law Company** [ceza davalarına](/practice-areas/criminal-defense) Batum ve Tiflis’ten bakıyor. Siz ya da yakınınız hakkında suçlama yöneltildiyse +995 599 27 77 94 numarasını arayın veya [Hukuki Yardım Servisi](https://www.legalaid.ge)’ne başvurun. Ayrıca [Gürcistan’da uyuşturucu suçları](/blogs/drug-offences-in-georgia) rehberimize göz atabilirsiniz.',
+        statutorySummary:
+          'Bu yazı bilgilendirme amaçlıdır ve bireysel hukuki tavsiye yerine geçmez, her davanın sonucu farklıdır ve geçmiş sonuç gelecekteki sonucu belirlemez. Tarafların kimlikleri ve dava detayları gizli tutulmuştur.',
       },
     },
   },

@@ -27,7 +27,7 @@ import SeoHead, { SITE_URL } from '@/src/components/common/SeoHead';
 
 function stripMarkdownForJsonLd(text: string): string {
   return text
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
+    .replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)]+)\)/g, '$1')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
@@ -48,18 +48,30 @@ function renderInlineBold(text: string): React.ReactNode {
   });
 }
 
-// Safely render inline markdown links ([label](https://...)) and bold (**text**) without raw HTML injection
+// Safely render inline markdown links ([label](https://... or /path)) and bold (**text**) without raw HTML injection
 function renderRichInline(text: string): React.ReactNode {
-  const tokenRegex = /(\[[^\]]+\]\(https?:\/\/[^)]+\)|\*\*[^*]+\*\*)/g;
+  const tokenRegex = /(\[[^\]]+\]\((?:https?:\/\/|\/)[^)]+\)|\*\*[^*]+\*\*)/g;
   const parts = text.split(tokenRegex);
 
   return parts.map((part, idx) => {
-    const linkMatch = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+    const linkMatch = part.match(/^\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)]+)\)$/);
     if (linkMatch) {
+      const href = linkMatch[2];
+      if (href.startsWith('/')) {
+        return (
+          <Link
+            key={idx}
+            to={href}
+            className="text-[#D3AF37] underline decoration-[#D3AF37]/45 underline-offset-4 hover:text-[#FEF5CD] hover:decoration-[#FEF5CD] transition-colors font-medium"
+          >
+            {renderInlineBold(linkMatch[1])}
+          </Link>
+        );
+      }
       return (
         <a
           key={idx}
-          href={linkMatch[2]}
+          href={href}
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#D3AF37] underline decoration-[#D3AF37]/45 underline-offset-4 hover:text-[#FEF5CD] hover:decoration-[#FEF5CD] transition-colors font-medium"
@@ -114,6 +126,15 @@ export default function BlogPostPage() {
     slug === 'hukuk-sirketi-nasil-secilir'
   ) {
     return <Navigate to="/blogs/rogor-shevarchioth-iuridiuli-kompania" replace />;
+  }
+
+  if (
+    slug === 'janmrtelobis-mdzime-dazianeba-braldebuli-gatavisufldaa' ||
+    slug === 'janmrtelobis-mdzime-dazianeba-braldebuli-gatavisuflda' ||
+    slug === 'tyazhkiy-vred-zdorovyu-obvinyaemyy-osvobozhden' ||
+    slug === 'agir-yaralama-sanik-serbest'
+  ) {
+    return <Navigate to="/blogs/grave-bodily-harm-charge-defendant-released" replace />;
   }
 
   const post = BLOG_POSTS_DETAIL.find((p) => p.slug === slug);
@@ -243,10 +264,11 @@ export default function BlogPostPage() {
   const articleSchemas: Array<Record<string, unknown>> = [
     {
       '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
+      '@type': post.schemaType || 'BlogPosting',
       headline: postTitle,
       description: postExcerpt,
       image: resolvedOgImage.startsWith('http') ? resolvedOgImage : `${SITE_URL}${resolvedOgImage}`,
+      ...(post.publishedDate ? { datePublished: post.publishedDate, dateModified: post.publishedDate } : {}),
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': postUrl,
@@ -398,6 +420,7 @@ export default function BlogPostPage() {
         <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-[#D3AF37]/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] bg-[#141415]">
           <Image
             src={post.image}
+            fallbackSrc={post.fallbackImage || '/criminalhero.png'}
             alt={post.alt}
             fill
             width={1600}
@@ -815,6 +838,7 @@ export default function BlogPostPage() {
                     <div className="relative w-full aspect-[16/9.5] overflow-hidden bg-[#151415]">
                       <Image
                         src={item.image}
+                        fallbackSrc={item.fallbackImage || '/criminalhero.png'}
                         alt={item.alt}
                         fill
                         sizes="(max-width: 768px) 82vw, 375px"

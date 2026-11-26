@@ -33,6 +33,7 @@ export default function Blogs() {
         title: post.title[language] || post.title.GEO,
         excerpt: post.excerpt[language] || post.excerpt.GEO,
         image: post.image,
+        fallbackImage: post.fallbackImage,
         alt: post.alt,
       })),
     [language]
@@ -140,6 +141,7 @@ export default function Blogs() {
         <div className="relative w-full aspect-[16/9.5] overflow-hidden bg-[#151415]">
           <Image
             src={post.image}
+            fallbackSrc={post.fallbackImage || '/criminalhero.png'}
             alt={post.alt}
             fill
             sizes="(max-width: 768px) 82vw, 405px"
