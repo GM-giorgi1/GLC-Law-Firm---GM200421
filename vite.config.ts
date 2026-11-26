@@ -326,7 +326,7 @@ function renderRouteHtml(templateHtml: string, spec: StaticRouteSpec): string {
   } else if (spec.schema) {
     html = html.replace(
       /<script id="glc-seo-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>/,
-      `<script id="glc-seo-jsonld" type="application/ld+json">${JSON.stringify(spec.schema)}</script>`
+      `<script id="glc-seo-jsonld" type="application/ld+json">${JSON.stringify(spec.schema).replace(/</g, '\\u003c')}</script>`
     );
   }
 
