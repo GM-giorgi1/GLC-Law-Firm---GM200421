@@ -23,15 +23,15 @@ import { PracticePillarsBento, PracticeProtocolGrid } from '@/src/components/pra
 import SeoHead, { SITE_URL } from '@/src/components/common/SeoHead';
 
 // Family Law Assets
-import familyHeroImg from '@/src/assets/family.png';
-import family1Img from '@/src/assets/family1.png';
-import family2Img from '@/src/assets/family2.png';
-import family3Img from '@/src/assets/family3.png';
-import family4Img from '@/src/assets/family4.png';
-import family5Img from '@/src/assets/family5.png';
-import family6Img from '@/src/assets/family6.png';
-import family7Img from '@/src/assets/family7.png';
-import family8Img from '@/src/assets/family8.png';
+import familyHeroImg from '@/src/assets/family.webp';
+import family1Img from '@/src/assets/family1.webp';
+import family2Img from '@/src/assets/family2.webp';
+import family3Img from '@/src/assets/family3.webp';
+import family4Img from '@/src/assets/family4.webp';
+import family5Img from '@/src/assets/family5.webp';
+import family6Img from '@/src/assets/family6.webp';
+import family7Img from '@/src/assets/family7.webp';
+import family8Img from '@/src/assets/family8.webp';
 
 export default function FamilyLawPage() {
   const { language } = useLanguage();

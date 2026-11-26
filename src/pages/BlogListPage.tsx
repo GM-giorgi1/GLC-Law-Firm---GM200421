@@ -185,7 +185,7 @@ export default function BlogListPage() {
       {/* Articles Grid */}
       <section className="w-full py-12 sm:py-16 max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-          {filteredPosts.map((post) => (
+          {filteredPosts.map((post, idx) => (
             <Link
               key={post.id}
               to={`/blogs/${post.slug}`}
@@ -199,6 +199,8 @@ export default function BlogListPage() {
                     fallbackSrc={post.fallbackImage || '/criminalhero.png'}
                     alt={post.alt}
                     fill
+                    priority={idx === 0}
+                    loading={idx < 3 ? 'eager' : 'lazy'}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                     referrerPolicy="no-referrer"
@@ -238,11 +240,13 @@ export default function BlogListPage() {
 
                   <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between">
                     <div className="flex items-center gap-2 min-w-0">
-                      <div className="relative w-6 h-6 rounded-full overflow-hidden border border-[#D3AF37] shrink-0">
+                      <div className="relative w-6 h-6 rounded-full overflow-hidden border border-[#D3AF37] shrink-0 bg-[#181819]">
                         <Image
                           src={post.author.avatar}
                           alt={post.author.name}
                           fill
+                          loading="eager"
+                          sizes="24px"
                           className="object-cover"
                           referrerPolicy="no-referrer"
                         />

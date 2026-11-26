@@ -8,7 +8,7 @@ import { useLanguage } from '@/src/context/LanguageContext';
 import ConsultationModal from '@/src/components/common/ConsultationModal';
 import ScrollLetterReveal from '@/src/components/common/ScrollLetterReveal';
 import CurtainIntro from '@/src/components/common/CurtainIntro';
-import criminalHeroImg from '@/src/assets/criminalhero.png';
+import criminalHeroImg from '@/src/assets/criminalhero.webp';
 
 export default function Header() {
   const { language } = useLanguage();

@@ -129,7 +129,7 @@ export function PracticePillarsBento({
                 className="group relative flex flex-col justify-between p-7 sm:p-9 lg:p-10 rounded-2xl overflow-hidden border border-[#D3AF37]/25 hover:border-[#D3AF37]/50 shadow-[0_4px_16px_rgba(0,0,0,0.6),0_12px_28px_rgba(0,0,0,0.5),0_24px_50px_rgba(0,0,0,0.4),0_0_0_1px_rgba(211,175,55,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.7),0_20px_40px_rgba(0,0,0,0.6),0_32px_64px_rgba(0,0,0,0.5),0_0_28px_rgba(211,175,55,0.22)] transition-all duration-300 min-h-[360px]"
               >
                 {/* Background Image Layer */}
-                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl">
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl bg-[#0B101B]">
                   <Image
                     src={pillar.image}
                     alt={pillar.title}
@@ -251,7 +251,7 @@ export function PracticeProtocolGrid({
                 }`}
               >
                 {/* Background Image Layer */}
-                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#0B101B]">
                   <Image
                     src={step.image}
                     alt={step.title}

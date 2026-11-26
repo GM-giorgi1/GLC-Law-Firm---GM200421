@@ -8,10 +8,10 @@ import {
 } from '@/src/components/practice/PracticeSections';
 
 // Background Assets for 4 Procedural Protocol Cards
-import card1Img from '@/src/assets/CARD1.png';
-import card2Img from '@/src/assets/CARD2.png';
-import card3Img from '@/src/assets/CARD3.png';
-import card4Img from '@/src/assets/CARD4.png';
+import card1Img from '@/src/assets/CARD1.webp';
+import card2Img from '@/src/assets/CARD2.webp';
+import card3Img from '@/src/assets/CARD3.webp';
+import card4Img from '@/src/assets/CARD4.webp';
 
 export default function Process() {
   const { language } = useLanguage();

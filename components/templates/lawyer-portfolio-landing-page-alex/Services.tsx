@@ -379,6 +379,7 @@ export default function Services() {
                                     src={img.url}
                                     alt={img.caption}
                                     fill
+                                    loading="eager"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                     referrerPolicy="no-referrer"
                                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-[0.19,1,0.22,1] brightness-[0.92]"

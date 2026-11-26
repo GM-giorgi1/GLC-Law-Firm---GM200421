@@ -23,17 +23,17 @@ import Contacts from '@/components/templates/lawyer-portfolio-landing-page-alex/
 import Footer from '@/components/templates/lawyer-portfolio-landing-page-alex/Footer';
 
 // Corporate Law Assets
-import corporateHeroImg from '@/src/assets/corporate.png';
-import temple0Img from '@/src/assets/TEMPLE0.png';
-import temple1Img from '@/src/assets/TEMPLE1.png';
-import temple2Img from '@/src/assets/TEMPLE2.png';
-import temple3Img from '@/src/assets/TEMPLE3.png';
+import corporateHeroImg from '@/src/assets/corporate.webp';
+import temple0Img from '@/src/assets/TEMPLE0.webp';
+import temple1Img from '@/src/assets/TEMPLE1.webp';
+import temple2Img from '@/src/assets/TEMPLE2.webp';
+import temple3Img from '@/src/assets/TEMPLE3.webp';
 
 // Protocol Card Assets
-import card1Img from '@/src/assets/CARD1.png';
-import card2Img from '@/src/assets/CARD2.png';
-import card3Img from '@/src/assets/CARD3.png';
-import card4Img from '@/src/assets/CARD4.png';
+import card1Img from '@/src/assets/CARD1.webp';
+import card2Img from '@/src/assets/CARD2.webp';
+import card3Img from '@/src/assets/CARD3.webp';
+import card4Img from '@/src/assets/CARD4.webp';
 
 export default function CorporateLawPage() {
   const { language } = useLanguage();

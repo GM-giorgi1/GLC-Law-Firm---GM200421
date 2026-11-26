@@ -387,11 +387,13 @@ export default function BlogPostPage() {
 
           <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm text-white/60 font-inter-tight pb-6 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
-              <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#D3AF37]">
+              <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#D3AF37] bg-[#141415]">
                 <Image
                   src={post.author.avatar}
                   alt={post.author.name}
                   fill
+                  loading="eager"
+                  sizes="36px"
                   className="object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -841,6 +843,7 @@ export default function BlogPostPage() {
                         fallbackSrc={item.fallbackImage || '/criminalhero.png'}
                         alt={item.alt}
                         fill
+                        loading="eager"
                         sizes="(max-width: 768px) 82vw, 375px"
                         className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05] pointer-events-none"
                         referrerPolicy="no-referrer"

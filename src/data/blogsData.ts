@@ -1,6 +1,6 @@
-import sisImg from '@/src/assets/images/SIS.jpg';
-import glcImg from '@/src/assets/images/GLC.jpg';
-import anderImg from '@/src/assets/images/ANDER.jpg';
+import sisImg from '@/src/assets/images/SIS.webp';
+import glcImg from '@/src/assets/images/GLC.webp';
+import anderImg from '@/src/assets/images/ANDER.webp';
 
 export interface BlogFaqItem {
   question: string;

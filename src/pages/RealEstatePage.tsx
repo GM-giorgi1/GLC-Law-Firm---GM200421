@@ -23,17 +23,17 @@ import { PracticePillarsBento, PracticeProtocolGrid } from '@/src/components/pra
 import SeoHead, { SITE_URL } from '@/src/components/common/SeoHead';
 
 // Real Estate Assets
-import realEstateHeroImg from '@/src/assets/realestate0.png';
-import temple1Img from '@/src/assets/TEMPLE1.png';
-import temple2Img from '@/src/assets/TEMPLE2.png';
-import temple3Img from '@/src/assets/TEMPLE3.png';
-import temple0Img from '@/src/assets/TEMPLE0.png';
+import realEstateHeroImg from '@/src/assets/realestate0.webp';
+import temple1Img from '@/src/assets/TEMPLE1.webp';
+import temple2Img from '@/src/assets/TEMPLE2.webp';
+import temple3Img from '@/src/assets/TEMPLE3.webp';
+import temple0Img from '@/src/assets/TEMPLE0.webp';
 
 // 4 Protocol Cards Assets
-import card1Img from '@/src/assets/CARD1.png';
-import card2Img from '@/src/assets/CARD2.png';
-import card3Img from '@/src/assets/CARD3.png';
-import card4Img from '@/src/assets/CARD4.png';
+import card1Img from '@/src/assets/CARD1.webp';
+import card2Img from '@/src/assets/CARD2.webp';
+import card3Img from '@/src/assets/CARD3.webp';
+import card4Img from '@/src/assets/CARD4.webp';
 
 export default function RealEstatePage() {
   const { language } = useLanguage();

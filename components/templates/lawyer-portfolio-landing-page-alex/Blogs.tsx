@@ -144,6 +144,7 @@ export default function Blogs() {
             fallbackSrc={post.fallbackImage || '/criminalhero.png'}
             alt={post.alt}
             fill
+            loading="eager"
             sizes="(max-width: 768px) 82vw, 405px"
             className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05] pointer-events-none"
             referrerPolicy="no-referrer"

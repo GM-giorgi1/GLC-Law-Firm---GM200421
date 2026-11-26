@@ -9,10 +9,10 @@ import {
 } from '@/src/components/practice/PracticeSections';
 
 // Background Image Assets for 4 Strategic Pillars
-import investigationImg from '@/src/assets/investigation.png';
-import evidenceImg from '@/src/assets/evidence.png';
-import detentionImg from '@/src/assets/detention.png';
-import courtroomImg from '@/src/assets/courtroom.png';
+import investigationImg from '@/src/assets/investigation.webp';
+import evidenceImg from '@/src/assets/evidence.webp';
+import detentionImg from '@/src/assets/detention.webp';
+import courtroomImg from '@/src/assets/courtroom.webp';
 
 export default function DefensePillarsBento() {
   const { language } = useLanguage();
